@@ -1,0 +1,10 @@
+The main computer that stores the files that can be sent to computers that are networked together is...?||Clip art||Mother board||Peripheral||answer=File server
+Addressing mode used in instruction: add r1, r2, r3 is?||answer=Register||Indirect||Base||Immediate
+In generic microprocessor instruction time is…?||answer=Exactly same as machine cycle time||Shorter than machine cycle time ||Larger than machine cycle time||Ten times machine cycle time
+Hardware devices that are not part of the main computer system and are often added later to the system?||answer=Peripheral||Clip art ||Highlight||Execute
+Using a(n) _____ protocol, the sender and the receiver are synchronized by a signal called a clock||answer=synchronous||asynchronous||analogue||block
+The bandwidth of a(n) _____ signal is usually measured in bits per second.||video||answer=digital||satellite||analog
+A communications _____ is a physical path or frequency for a signal transmission||band||answer=channel||protocol||bridge
+Which of the following terms represents the transmission capacity of a communications channel?||Indexing||Frequency||answer=Bandwidth||Resolution
+How many parts of Memory Hierarchy?||5||4||2||answer=3
+In Memory Hierarchy, at the Outboard storage which of the following are included:||Cache||Main memory||Magnetic tape||answer=Magnetic disk
