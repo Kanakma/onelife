@@ -5,7 +5,7 @@ import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
 
 class AdminEditDepartmentModal extends React.Component {
-  
+
   constructor(props){
     super(props);
     this.state={
@@ -107,7 +107,9 @@ class AdminEditDepartmentModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
+      padding: 50,
+      paddingLeft: '20%',
+      overflow: 'auto'
     };
 
     // The modal "window"
@@ -115,9 +117,8 @@ class AdminEditDepartmentModal extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 1000,
-      minHeight: 700,
-      margin: '0 auto',
-      marginTop:'35px',
+      minHeight: 600,
+      margin: '35px auto',
       padding: 30
     };
     return (

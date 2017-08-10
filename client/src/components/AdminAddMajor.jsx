@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Auth from '../modules/Auth'
- 
+
 class AdminAddMajor extends React.Component {
 
   constructor(props) {
@@ -111,10 +111,11 @@ class AdminAddMajor extends React.Component {
       {
         this.state.departments ? (
           <div className="container clearfix">
-            <div className="col-md-10 col-md-offset-2 bg-title">
+            <div className="bg-title">
               <h4>Добавить специальность</h4>
             </div>
-            <div className="col-md-9 my-content add-content" style={{background: 'white'}}>
+            <div className="my-content ">
+            <div className = "table-responsive">
             <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание специальности</h5>
             {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
             {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
@@ -168,10 +169,11 @@ class AdminAddMajor extends React.Component {
               </div>
             </form>
             </div>
+            </div>
           </div>
           ) : (
             <div className="container clearfix">
-              <div className="col-md-10 col-md-offset-2 bg-title">
+              <div className="bg-title">
                 <h4>Нет департаментов. Сначала добавьте департаменты</h4>
               </div>
             </div>

@@ -2,9 +2,9 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
 
- 
+
 class AdminEditMajorModal extends React.Component {
- 
+
   constructor(props){
     super(props);
     this.state = {
@@ -74,7 +74,7 @@ class AdminEditMajorModal extends React.Component {
     if(!this.props.show) {
       return null;
     }
-    
+
     // The gray background
     const backdropStyle = {
       position: 'fixed',
@@ -83,7 +83,9 @@ class AdminEditMajorModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
+      padding: 50,
+      marginLeft: 200,
+      overflow: 'auto'
     };
 
     // The modal "window"
@@ -91,9 +93,8 @@ class AdminEditMajorModal extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 1000,
-      minHeight: 700,
-      margin: '0 auto',
-      marginTop:'35px',
+      minHeight: 300,
+      margin: '35px auto',
       padding: 30
     };
 

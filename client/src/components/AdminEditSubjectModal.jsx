@@ -4,7 +4,7 @@ import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
 class AdminEditSubjectModal extends React.Component {
-  
+
   constructor(props){
     super(props);
     this.state={
