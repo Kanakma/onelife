@@ -28,10 +28,10 @@ class AdminStudents extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="col-md-10 col-md-offset-2 bg-title">
+      <div className=" bg-title">
         <h4>Все студенты</h4>
       </div>
-      <div className="col-md-9 my-content" style={{background: 'white'}}>
+      <div className=" my-content" >
       <div className="table-responsive">
           <table id="myTable" className="table table-striped">
               <thead>

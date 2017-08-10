@@ -58,7 +58,7 @@ class AdminTeachers extends React.Component {
       });
     }
   }
- 
+
 
   toggleModal(teacher) {
       this.setState({
@@ -75,7 +75,7 @@ class AdminTeachers extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="col-md-10 col-md-offset-2 bg-title" style={{paddingRight: '3%'}}>
+      <div className="bg-title" style={{paddingRight: '3%'}}>
         <div className="row">
           <div className="col-md-9">
             <h4>Все преподаватели</h4>
@@ -87,8 +87,8 @@ class AdminTeachers extends React.Component {
           </div>
         </div>
       </div>
-      <div className="col-md-9 my-content" hidden={this.state.checkFilter}>
-      <div className="row" style={{marginTop: '-15px'}}>
+      <div className="my-content" hidden={this.state.checkFilter}>
+      <div className="row" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
         {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
@@ -96,7 +96,7 @@ class AdminTeachers extends React.Component {
                   <div className="white-box">
                       <div className="row">
                           <div className="col-md-4 col-sm-4 text-center">
-                              <a href="professor-profile.html"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive"/></a>
+                              <a href="professor-profile.html"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></a>
                           </div>
                           <div className="col-md-8 col-sm-8">
                               <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
@@ -123,7 +123,7 @@ class AdminTeachers extends React.Component {
         }
       </div>
       </div>
-      <div className="col-md-9 my-content" style={{background: 'white'}} hidden={!this.state.checkFilter}>
+      <div className="my-content"  hidden={!this.state.checkFilter}>
       <div className="table-responsive">
 
           <table id="myTable" className="table table-striped">

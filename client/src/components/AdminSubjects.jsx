@@ -75,7 +75,8 @@ class AdminSubjects extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="col-md-10 col-md-offset-2 bg-title" style={{paddingRight: '3%'}}>
+      <div className="bg-title" style={{paddingRight: '3%'}}>
+
         <div className="row">
           <div className="col-md-9">
             <h4>Все предметы</h4>
@@ -87,12 +88,12 @@ class AdminSubjects extends React.Component {
           </div>
         </div>
       </div>
-      <div className="col-md-9 my-content" hidden={this.state.checkFilter}>
-        <div className="row" style={{marginTop: '-15px'}} >
+      <div className=" my-content" hidden={this.state.checkFilter}>
+        <div className="row"  >
         { this.state.subjects ? (
             this.state.subjects.map((subject, s) =>
               <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
-                  <img className="img-responsive" alt="user" src={require("../../../public/subject-img/"+subject.img)} />
+                  <img className="img-responsive subject-img" alt="user" src={require("../../../public/subject-img/"+subject.img)} />
                   <div className="white-box">
                       <h4>{subject.subject_name}</h4>
                       <div className="text-muted m-b-20"><span className="m-r-10"><i className="fa fa-clock-o"></i> {subject.course_number} курс</span>
@@ -123,7 +124,7 @@ class AdminSubjects extends React.Component {
         }
         </div>
       </div>
-      <div className="col-md-9 my-content" style={{background: 'white'}} hidden={!this.state.checkFilter}>
+      <div className="my-content"  hidden={!this.state.checkFilter}>
       <div className="table-responsive">
           <table id="myTable" className="table table-striped">
               <thead>

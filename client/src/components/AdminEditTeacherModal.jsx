@@ -4,7 +4,7 @@ import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
 class AdminEditTeacherModal extends React.Component {
-  
+
   constructor(props){
     super(props);
     this.state={
@@ -151,7 +151,9 @@ class AdminEditTeacherModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
+      padding: 50,
+      marginLeft: 200,
+      overflow: 'auto'
     };
 
     // The modal "window"
@@ -160,8 +162,7 @@ class AdminEditTeacherModal extends React.Component {
       borderRadius: 5,
       maxWidth: 1000,
       minHeight: 700,
-      margin: '0 auto',
-      marginTop:'35px',
+      margin: '35px auto',
       padding: 30
     };
     return (

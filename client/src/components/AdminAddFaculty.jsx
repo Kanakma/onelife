@@ -28,7 +28,7 @@ class AdminAddFaculty extends React.Component {
     this.addFaculty = this.addFaculty.bind(this);
     this.clearContent = this.clearContent.bind(this);
   }
- 
+
   componentDidMount() {
     axios.get('/api/getteachers',  {
         responseType: 'json',
@@ -144,10 +144,11 @@ class AdminAddFaculty extends React.Component {
     var departments = this.state.departments;
     return (
       <div className="container clearfix">
-      <div className="col-md-10 col-md-offset-2 bg-title">
+      <div className="bg-title">
         <h4>Добавить факультет</h4>
       </div>
-      <div className="col-md-9 my-content add-content" style={{background: 'white'}}>
+      <div className=" my-content" >
+      <div className= "table-responsive">
       <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание факультета</h5>
       {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
       {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
@@ -209,6 +210,7 @@ class AdminAddFaculty extends React.Component {
           <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
         </div>
       </form>
+      </div>
       </div>
       </div>);
   }
