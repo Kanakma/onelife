@@ -18,7 +18,7 @@ class AdminFaculties extends React.Component {
       this.toggleModal = this.toggleModal.bind(this);
       this.toggleModalClose = this.toggleModalClose.bind(this);
     }
-
+    
     componentDidMount() {
       axios.get('/api/getfaculties',  {
         responseType: 'json',
@@ -32,7 +32,7 @@ class AdminFaculties extends React.Component {
           });
         });
     }
-
+    
     toggleModal(faculty) {
         this.setState({
           isOpen: !this.state.isOpen,
@@ -51,10 +51,10 @@ class AdminFaculties extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className=" bg-title">
+      <div className="col-md-10 col-md-offset-2 bg-title">
         <h4>Все факультеты</h4>
       </div>
-      <div className="my-content">
+      <div className="col-md-9 my-content" style={{background: 'white'}}>
       <div className="table-responsive">
         <table id="myTable" className="table table-striped">
           <thead>
@@ -77,7 +77,7 @@ class AdminFaculties extends React.Component {
           </thead>
             {
               this.state.faculties ? (
-
+              
                 this.state.faculties.map((faculty, f) =>
 
                     <tbody key={f}>
@@ -131,5 +131,5 @@ class AdminFaculties extends React.Component {
       </div>);
   }
 }
-
+ 
 export default AdminFaculties;

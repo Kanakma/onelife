@@ -1,8 +1,6 @@
 import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
-import InputElement from 'react-input-mask';
-
 
 
 class AdminEditFacultyModal extends React.Component {
@@ -85,9 +83,7 @@ class AdminEditFacultyModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50,
-      marginLeft: 200,
-      overflow: 'auto'
+      padding: 50
     };
 
     // The modal "window"
@@ -95,8 +91,9 @@ class AdminEditFacultyModal extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 1000,
-      minHeight: 500,
-      margin: '35px auto',
+      minHeight: 700,
+      margin: '0 auto',
+      marginTop:'35px',
       padding: 30
     };
 
@@ -110,7 +107,7 @@ class AdminEditFacultyModal extends React.Component {
             <form action="/faculties" onSubmit={this.editFacultyFunc}>
               <div className="form-group">
                 <label>Код факультета</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.faculty.faculty_code}
+                <input type="text" className="form-control" placeholder={this.props.faculty.faculty_code}
                 name="faculty_code"
                 onChange={this.changeFaculty}
                 value={this.state.editedFaculty.faculty_code} />
@@ -118,7 +115,7 @@ class AdminEditFacultyModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Название факультета</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.faculty.faculty_name}
+                <input type="text" className="form-control" placeholder={this.props.faculty.faculty_name}
                 name="faculty_name"
                 onChange={this.changeFaculty}
                 value={this.state.editedFaculty.faculty_name} />
@@ -126,7 +123,7 @@ class AdminEditFacultyModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Декан факультета</label>
-                <select className="form-control mydatepicker" name="faculty_dean" value={this.state.editedFaculty.faculty_dean} onChange={this.changeFaculty}>
+                <select className="form-control" name="faculty_dean" value={this.state.editedFaculty.faculty_dean} onChange={this.changeFaculty}>
                   <option value=''>Выберите декана факультета</option>
                   {this.state.teachers.map((teacher, t) =>
                       <option key={t} value={teacher.teacher_id}>{teacher.name} {teacher.lastname}</option>
@@ -136,7 +133,7 @@ class AdminEditFacultyModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Телефон</label>
-                <InputElement mask="+7 (999) 999-99-99" className="form-control mydatepicker" placeholder={this.props.faculty.faculty_phone}
+                <input type="text" className="form-control" placeholder={this.props.faculty.faculty_phone}
                 name="faculty_phone"
                 onChange={this.changeFaculty}
                 value={this.state.editedFaculty.faculty_phone} />
@@ -144,7 +141,7 @@ class AdminEditFacultyModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>E-mail</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.faculty.faculty_email}
+                <input type="text" className="form-control" placeholder={this.props.faculty.faculty_email}
                 name="faculty_email"
                 onChange={this.changeFaculty}
                 value={this.state.editedFaculty.faculty_email} />

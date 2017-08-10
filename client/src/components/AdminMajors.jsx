@@ -3,12 +3,12 @@ import axios from 'axios';
 import Auth from '../modules/Auth';
 import AdminEditMajorModal from './AdminEditMajorModal.jsx';
 
-
+ 
 class AdminMajors extends React.Component {
 
   constructor(props) {
     super(props);
-
+ 
     this.state = {
       majors: [],
       isOpen:false,
@@ -48,10 +48,10 @@ class AdminMajors extends React.Component {
 
     return (
       <div className="container clearfix">
-      <div className="bg-title">
+      <div className="col-md-10 col-md-offset-2 bg-title">
         <h4>Все специальности</h4>
       </div>
-      <div className="my-content" >
+      <div className="col-md-9 my-content" style={{background: 'white'}}>
       <div className="table-responsive">
           <table id="myTable" className="table table-striped">
               <thead>

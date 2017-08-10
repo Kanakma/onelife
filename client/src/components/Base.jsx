@@ -81,81 +81,75 @@ class Base extends React.Component {
             </div>
           </nav>
           <div className="row">
-          <div className=" well-white">
-          <div className="navbar side-navbar">
+          <div className="col-md-2 well-white">
+          <nav className="navbar side-navbar">
             <div className="navbar-header">
               <ul className="nav nav-stacked">
-                  <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Главная</span></Link></li>
+                  <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
                   <li><Link to="#" className="waves-effect" name="faculty" onClick={this.changeHide}>
-                      <i className="fa fa-university fa-lg icons" aria-hidden="true"> </i><span className="hide-menu">Факультеты
-                      <span hidden={this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>
-                      <span hidden={!this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>
-                      </span>
+                      <i className="fa fa-university fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Факультеты
+                      <span hidden={this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '83px'}} ></i></span>
+                      <span hidden={!this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '78px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkFaculty}>
-                        <li><Link to="/faculties" className="waves-effect" style={{paddingLeft: '45px'}}>Все факультеты</Link></li>
-                        <li><Link to="/addfaculties" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить факультет</Link></li>
+                        <li><Link to="/faculties" className="waves-effect" style={{marginLeft: '35px'}}>Все факультеты</Link></li>
+                        <li><Link to="/addfaculties" className="waves-effect" style={{marginLeft: '35px'}}>Добавить факультет</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="department" onClick={this.changeHide}>
-                      <i className="fa fa-building fa-lg icons" aria-hidden="true"></i><span className="hide-menu">Кафедры
-                      <span hidden={this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '80px'}} ></i></span>
-                      <span hidden={!this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '80px'}} ></i></span>
-                      </span>
+                      <i className="fa fa-building fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Кафедры
+                      <span hidden={this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '104px'}} ></i></span>
+                      <span hidden={!this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '98px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkDepartment}>
-                        <li><Link to="/departments" className="waves-effect" style={{paddingLeft: '45px'}}>Все кафедры</Link></li>
-                        <li><Link to="/adddepartments" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить кафедру</Link></li>
+                        <li><Link to="/departments" className="waves-effect" style={{marginLeft: '35px'}}>Все кафедры</Link></li>
+                        <li><Link to="/adddepartments" className="waves-effect" style={{marginLeft: '35px'}}>Добавить кафедру</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="major" onClick={this.changeHide}>
-                      <i className="fa fa-mortar-board fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Специальности
-                      <span hidden={this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '35px'}} ></i></span>
-                      <span hidden={!this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '35px'}} ></i></span>
-                      </span>
+                      <i className="fa fa-mortar-board fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Специальности
+                      <span hidden={this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '55px'}} ></i></span>
+                      <span hidden={!this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '50px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkMajor}>
-                        <li><Link to="/majors" className="waves-effect" style={{paddingLeft: '45px'}}>Все специальности</Link></li>
-                        <li><Link to="/addmajors" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить специальность</Link></li>
+                        <li><Link to="/majors" className="waves-effect" style={{marginLeft: '35px'}}>Все специальности</Link></li>
+                        <li><Link to="/addmajors" className="waves-effect" style={{marginLeft: '35px'}}>Добавить специальность</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="subject" onClick={this.changeHide}>
-                      <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Предметы
-                      <span hidden={this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      <span hidden={!this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      </span>
+                      <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Предметы
+                      <span hidden={this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '96px'}} ></i></span>
+                      <span hidden={!this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '91px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkSubject}>
-                        <li><Link to="/subjects" className="waves-effect" style={{paddingLeft: '45px'}}>Все предметы</Link></li>
-                        <li><Link to="/addsubjects" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить предмет</Link></li>
+                        <li><Link to="/subjects" className="waves-effect" style={{marginLeft: '35px'}}>Все предметы</Link></li>
+                        <li><Link to="/addsubjects" className="waves-effect" style={{marginLeft: '35px'}}>Добавить предмет</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="teacher" onClick={this.changeHide}>
-                      <i className="fa fa-user-o fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Преподаватели
-                      <span hidden={this.state.checkTeacher} id="teacher" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      <span hidden={!this.state.checkTeacher} id="teacher" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      </span>
+                      <i className="fa fa-user-o fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Преподаватели
+                      <span hidden={this.state.checkTeacher} id="teacher" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '64px'}} ></i></span>
+                      <span hidden={!this.state.checkTeacher} id="teacher" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '58px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkTeacher}>
-                        <li><Link to="/teachers" className="waves-effect" style={{paddingLeft: '45px'}}>Все преподаватели</Link></li>
-                        <li><Link to="/addteachers" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить преподавателя</Link></li>
+                        <li><Link to="/teachers" className="waves-effect" style={{marginLeft: '35px'}}>Все преподаватели</Link></li>
+                        <li><Link to="/addteachers" className="waves-effect" style={{marginLeft: '35px'}}>Добавить преподавателя</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
-                      <i className="fa fa-users fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Студенты
-                      <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      </span>
+                      <i className="fa fa-users fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Студенты
+                      <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '97px'}} ></i></span>
+                      <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '92px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkStudent}>
-                        <li><Link to="/students" className="waves-effect" style={{paddingLeft: '45px'}}>Все студенты</Link></li>
-                        <li><Link to="/addstudents" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить студента</Link></li>
+                        <li><Link to="/students" className="waves-effect" style={{marginLeft: '35px'}}>Все студенты</Link></li>
+                        <li><Link to="/addstudents" className="waves-effect" style={{marginLeft: '35px'}}>Добавить студента</Link></li>
                       </ul>
                   </li>
                   <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
               </ul>
             </div>
-          </div>
+          </nav>
           </div>
           </div>
         </div>
@@ -184,11 +178,11 @@ class Base extends React.Component {
                           <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '85px'}} ></i></span>
                           </Link>
                           <ul className="nav" hidden={!this.state.checkStudent}>
-                            <li><Link to="/tests" className="waves-effect" style={{marginLeft: '45px'}}>Все тесты</Link></li>
-                            <li><Link to="/addtest" className="waves-effect" style={{marginLeft: '45px'}}>Добавить тест</Link></li>
+                            <li><Link to="/tests" className="waves-effect" style={{marginLeft: '35px'}}>Все тесты</Link></li>
+                            <li><Link to="/addtest" className="waves-effect" style={{marginLeft: '35px'}}>Добавить тест</Link></li>
                           </ul>
                       </li>
-                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i><span className="hide-menu">Выход</span></Link></li>
+                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
                   </ul>
                 </div>
               </nav>
@@ -222,7 +216,7 @@ class Base extends React.Component {
                         <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тесты
                         </Link>
                     </li>
-                    <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
+                    <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
                 </ul>
               </div>
             </nav>

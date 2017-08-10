@@ -28,7 +28,7 @@ class AdminAddFaculty extends React.Component {
     this.addFaculty = this.addFaculty.bind(this);
     this.clearContent = this.clearContent.bind(this);
   }
-
+ 
   componentDidMount() {
     axios.get('/api/getteachers',  {
         responseType: 'json',
@@ -144,74 +144,72 @@ class AdminAddFaculty extends React.Component {
     var departments = this.state.departments;
     return (
       <div className="container clearfix">
-        <div className="bg-title">
-          <h4>Добавить факультет</h4>
+      <div className="col-md-10 col-md-offset-2 bg-title">
+        <h4>Добавить факультет</h4>
+      </div>
+      <div className="col-md-9 my-content add-content" style={{background: 'white'}}>
+      <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание факультета</h5>
+      {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
+      {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
+      <form action="/" onSubmit={this.addFaculty}>
+        <div className="form-group">
+          <label>Название факультета</label>
+          <input type="text" className="form-control" placeholder="Название факультета"
+          name="faculty_name"
+          onChange={this.changeFaculty}
+          value={this.state.faculty.faculty_name} />
+          <span className="bar"></span>
         </div>
-        <div className=" my-content">
-          <div className="table-responsive">
-            <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание факультета</h5>
-            {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
-            {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
-            <form action="/" onSubmit={this.addFaculty}>
-              <div className="form-group">
-                <label>Название факультета</label>
-                <input type="text" className="form-control mydatepicker" placeholder="Название факультета"
-                    name="faculty_name"
-                    onChange={this.changeFaculty}
-                    value={this.state.faculty.faculty_name} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>Код факультета</label>
-                <input type="text" className="form-control mydatepicker" placeholder="Код факультета"
-                name="faculty_code"
-                onChange={this.changeFaculty}
-                value={this.state.faculty.faculty_code} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>E-mail</label>
-                <input type="email" className="form-control mydatepicker" placeholder="Введите E-mail факультета"
-                name="faculty_email"
-                onChange={this.changeFaculty}
-                value={this.state.faculty.faculty_email} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>Телефон</label>
-                <InputElement mask="+7 (999) 999-99-99" className="form-control mydatepicker" placeholder="Введите номер телефона"
-                name="faculty_phone"
-                onChange={this.changeFaculty}
-                value={this.state.faculty.faculty_phone} />
-                <span className="bar"></span>
-              </div>
-              {teachers ?(
-                <div className="form-group">
-                  <label>Декан</label>
-                  <select className="form-control mydatepicker" name="faculty_dean" value={this.state.faculty.faculty_dean} onChange={this.changeFaculty}>
-                    <option value=''>Выберите декана факультета</option>
-                    {teachers.map((teacher, t) =>
-                      <option key={t} value={teacher.teacher_id}>{teacher.name} {teacher.lastname}</option>
-                    )}
-                  </select>
-                  <span className="bar"></span>
-                </div>
-              ) : (
-                <div className="form-group">
-                  <label>Декан</label>
-                  <select className="form-control mydatepicker" name="faculty_dean" value={this.state.faculty.faculty_dean} onChange={this.changeFaculty}>
-                    <option value=''>Добавьте преподавателей</option>
-                  </select>
-                  <span className="bar"></span>
-                </div>
-                )}
-                <div>
-                  <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
-                  <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
-                </div>
-              </form>
-            </div>
+        <div className="form-group">
+          <label>Код факультета</label>
+          <input type="text" className="form-control" placeholder="Код факультета"
+          name="faculty_code"
+          onChange={this.changeFaculty}
+          value={this.state.faculty.faculty_code} />
+          <span className="bar"></span>
+        </div>
+        <div className="form-group">
+          <label>E-mail</label>
+          <input type="email" className="form-control" placeholder="Введите E-mail факультета"
+          name="faculty_email"
+          onChange={this.changeFaculty}
+          value={this.state.faculty.faculty_email} />
+          <span className="bar"></span>
+        </div>
+        <div className="form-group">
+          <label>Телефон</label>
+          <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder="Введите номер телефона"
+          name="faculty_phone"
+          onChange={this.changeFaculty}
+          value={this.state.faculty.faculty_phone} />
+          <span className="bar"></span>
+        </div>
+        {teachers ?(
+          <div className="form-group">
+            <label>Декан</label>
+            <select className="form-control" name="faculty_dean" value={this.state.faculty.faculty_dean} onChange={this.changeFaculty}>
+              <option value=''>Выберите декана факультета</option>
+              {teachers.map((teacher, t) =>
+                  <option key={t} value={teacher.teacher_id}>{teacher.name} {teacher.lastname}</option>
+              )}
+            </select>
+            <span className="bar"></span>
           </div>
+          ) : (
+          <div className="form-group">
+            <label>Декан</label>
+            <select className="form-control" name="faculty_dean" value={this.state.faculty.faculty_dean} onChange={this.changeFaculty}>
+              <option value=''>Добавьте преподавателей</option>
+            </select>
+            <span className="bar"></span>
+          </div>
+          )}
+        <div>
+          <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
+          <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
+        </div>
+      </form>
+      </div>
       </div>);
   }
 }

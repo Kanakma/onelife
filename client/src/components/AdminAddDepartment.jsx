@@ -4,10 +4,10 @@ import Auth from '../modules/Auth'
 import InputElement from 'react-input-mask';
 
 class AdminAddDepartment extends React.Component {
-
+ 
   constructor(props) {
     super(props);
-
+ 
     this.state = {
       message: '',
       errors: {},
@@ -166,60 +166,61 @@ class AdminAddDepartment extends React.Component {
         {
           this.state.faculties ? (
           <div className="container clearfix">
-            <div className="bg-title">
+            <div className="col-md-10 col-md-offset-2 bg-title">
               <h4>Добавить кафедру</h4>
             </div>
-            <div className="my-content" >
-              <div className="table-responsive">
-                <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание кафедры</h5>
-                {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
-                {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
-                <form action="/" onSubmit={this.addDepartment}>
-                  <div className="form-group">
-                    <label>Название кафедры</label>
-                    <input type="text" className="form-control mydatepicker" placeholder="Введите название кафедры"
-                    name="department_name"
-                    onChange={this.changeDepartment}
-                    value={this.state.department.department_name} />
-                    <span className="bar"></span>
-                  </div>
-                  <div className="form-group">
-                    <label>Код кафедры</label>
-                    <input type="text" className="form-control mydatepicker" placeholder="Введите код кафедры"
-                    name="department_code"
-                    onChange={this.changeDepartment}
-                    value={this.state.department.department_code} />
-                    <span className="bar"></span>
-                  </div>
-                  <div className="form-group">
-                    <label>Факультет</label>
-                    <select className="form-control mydatepicker" name="department_faculty" value={this.state.department.department_faculty} onChange={this.changeDepartment}>
-                      <option value=''>Выберите факультет</option>
-                      {this.state.faculties.map((faculty, f) =>
-                        <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
-                      )}
-                    </select>
-                    <span className="bar"></span>
-                  </div>
-                  <div className="form-group">
-                    <label>E-mail</label>
-                    <input type="email" className="form-control mydatepicker" placeholder="Введите E-mail"
-                    name="department_email"
-                    onChange={this.changeDepartment}
-                    value={this.state.department.department_email} />
-                    <span className="bar"></span>
-                  </div>
-                  <div className="form-group">
-                    <label>Телефон</label>
-                    <InputElement  mask="+7 (999) 999-99-99" className="form-control mydatepicker" placeholder="Введите номер телефона"
-                    name="department_phone"
-                    onChange={this.changeDepartment}
-                    value={this.state.department.department_phone} />
-                    <span className="bar"></span>
-                  </div>
+            <div className="col-md-9 my-content add-content" style={{background: 'white'}}>
+            <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание кафедры</h5>
+            {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
+            {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
+            <form action="/" onSubmit={this.addDepartment}>
+              <div className="form-group">
+                <label>Название кафедры</label>
+                <input type="text" className="form-control" placeholder="Введите название кафедры"
+                name="department_name"
+                onChange={this.changeDepartment}
+                value={this.state.department.department_name} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                <label>Код кафедры</label>
+                <input type="text" className="form-control" placeholder="Введите код кафедры"
+                name="department_code"
+                onChange={this.changeDepartment}
+                value={this.state.department.department_code} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                <label>Факультет</label>
+                <select className="form-control" name="department_faculty" value={this.state.department.department_faculty} onChange={this.changeDepartment}>
+                  <option value=''>Выберите факультет</option>
+                  {this.state.faculties.map((faculty, f) =>
+                    <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
+                  )}
+                </select>
+                <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                <label>E-mail</label>
+                <input type="email" className="form-control" placeholder="Введите E-mail"
+                name="department_email"
+                onChange={this.changeDepartment}
+                value={this.state.department.department_email} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                <label>Телефон</label>
+                <InputElement  mask="+7 (999) 999-99-99" className="form-control" placeholder="Введите номер телефона"
+                name="department_phone"
+                onChange={this.changeDepartment}
+                value={this.state.department.department_phone} />
+                <span className="bar"></span>
+              </div>
+              {
+                this.state.teachers ? (
                   <div className="form-group">
                     <label>Заведующий кафедрой</label>
-                    <select className="form-control mydatepicker" name="department_director" value={this.state.department.department_director} onChange={this.changeDepartment}>
+                    <select className="form-control" name="department_director" value={this.state.department.department_director} onChange={this.changeDepartment}>
                       <option value=''>Выберите заведующего кафедры</option>
                       {this.state.teachers.map((teacher, t) =>
                           <option key={t} value={teacher.teacher_id}>{teacher.name} {teacher.lastname}</option>
@@ -227,20 +228,29 @@ class AdminAddDepartment extends React.Component {
                     </select>
                     <span className="bar"></span>
                   </div>
-                  <div>
-                    <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
-                    <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
+                  ):(
+                  <div className="form-group">
+                    <label>Заведующий кафедрой</label>
+                    <select className="form-control" name="department_director" value={this.state.department.department_director} onChange={this.changeDepartment}>
+                      <option value=''>Добавьте преподавателей</option>
+                    </select>
+                    <span className="bar"></span>
                   </div>
-                </form>
+                )
+              }
+              <div>
+                <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
+                <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
               </div>
+            </form>
             </div>
           </div>
           ) : (
-          <div className="container clearfix">
-            <div className="col-md-10 col-md-offset-2 bg-title">
-              <h4>Нет факультетов. Сначала добавьте факультеты</h4>
+            <div className="container clearfix">
+              <div className="col-md-10 col-md-offset-2 bg-title">
+                <h4>Нет факультетов. Сначала добавьте факультеты</h4>
+              </div>
             </div>
-          </div>
           )
         }
         </div>

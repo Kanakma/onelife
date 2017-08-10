@@ -7,7 +7,7 @@ const DepartmentSchema = new mongoose.Schema({
   department_email: String,
   department_phone: String,
   majors: Array,
-  department_faculty:String
+  department_faculty:{type: mongoose.Schema.Types.ObjectId, ref: 'Faculty'}
 });
 
 

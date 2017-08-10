@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Auth from '../modules/Auth'
 import AdminEditDepartmentModal from './AdminEditDepartmentModal.jsx'
-
+ 
 class AdminDepartments extends React.Component {
 
     constructor(props) {
@@ -46,7 +46,7 @@ class AdminDepartments extends React.Component {
       <div className="col-md-10 col-md-offset-2 bg-title">
         <h4>Все кафедры</h4>
       </div>
-      <div className="my-content">
+      <div className="col-md-9 my-content" style={{background: 'white'}}>
       <div className="table-responsive">
           <table id="myTable" className="table table-striped">
               <thead>
@@ -67,8 +67,8 @@ class AdminDepartments extends React.Component {
                           <center>Опции</center>
                       </th>
                   </tr>
-              </thead>
-
+              </thead> 
+              
               {
                 this.state.departments ? (
                     this.state.departments.map((department, d) =>
