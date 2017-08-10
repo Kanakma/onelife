@@ -24,7 +24,6 @@ import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import Auth from './modules/Auth';
-import TeacherProfile from './components/TeacherProfile.jsx';
 
 
 
@@ -55,7 +54,6 @@ ReactDom.render((
       <Route path="/addstudents" component={AdminAddStudent}/>
       <Route path="/departments" component={AdminDepartments}/>
       <Route path="/adddepartments" component={AdminAddDepartment}/>
-      <Route path="/teacherprofile" component={TeacherProfile}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

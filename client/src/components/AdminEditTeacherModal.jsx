@@ -2,10 +2,9 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
-import InputElement from 'react-input-mask';
 
 class AdminEditTeacherModal extends React.Component {
-
+  
   constructor(props){
     super(props);
     this.state={
@@ -152,9 +151,7 @@ class AdminEditTeacherModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50,
-      marginLeft: 200,
-      overflow: 'auto'
+      padding: 50
     };
 
     // The modal "window"
@@ -163,7 +160,8 @@ class AdminEditTeacherModal extends React.Component {
       borderRadius: 5,
       maxWidth: 1000,
       minHeight: 700,
-      margin: '35px auto',
+      margin: '0 auto',
+      marginTop:'35px',
       padding: 30
     };
     return (
@@ -176,7 +174,7 @@ class AdminEditTeacherModal extends React.Component {
             <form action="/teachers" onSubmit={this.editTeacherFunc}>
               <div className="form-group">
                 <label>Имя</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.teacher.name}
+                <input type="text" className="form-control" placeholder={this.props.teacher.name}
                 name="name"
                 onChange={this.changeTeacher}
                 value={this.state.editedTeacher.name} />
@@ -184,7 +182,7 @@ class AdminEditTeacherModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Фамилия</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.teacher.lastname}
+                <input type="text" className="form-control" placeholder={this.props.teacher.lastname}
                 name="lastname"
                 onChange={this.changeTeacher}
                 value={this.state.editedTeacher.lastname} />
@@ -192,7 +190,7 @@ class AdminEditTeacherModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>ИИН</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.teacher.passport_id}
+                <input type="text" className="form-control" placeholder={this.props.teacher.passport_id}
                 name="passport_id"
                 onChange={this.changeTeacher}
                 value={this.state.editedTeacher.passport_id}/>
@@ -215,7 +213,7 @@ class AdminEditTeacherModal extends React.Component {
               <div className="form-group row">
                 <div className="col-md-6">
                   <label>Пол</label>
-                  <select className="form-control mydatepicker" name="gender" value={this.state.editedTeacher.gender} onChange={this.changeTeacher}>
+                  <select className="form-control" name="gender" value={this.state.editedTeacher.gender} onChange={this.changeTeacher}>
                     <option value="">Выберите пол</option>
                     <option value="Мужчина">Мужчина</option>
                     <option value="Женщина">Женщина</option>
@@ -224,7 +222,7 @@ class AdminEditTeacherModal extends React.Component {
                 </div>
                 <div className="col-md-6">
                   <label>Степень</label>
-                  <select className="form-control mydatepicker" name="degree" value={this.state.editedTeacher.degree} onChange={this.changeTeacher}>
+                  <select className="form-control" name="degree" value={this.state.editedTeacher.degree} onChange={this.changeTeacher}>
                     <option value="">Выберите степень</option>
                     <option value="Ассистент">Ассистент</option>
                     <option value="Лаборант">Лаборант</option>
@@ -237,7 +235,7 @@ class AdminEditTeacherModal extends React.Component {
               </div>
               {this.state.faculties ? (
                 <div className="form-group">
-                  <select className="form-control mydatepicker" name="faculty_id" value={this.state.editedTeacher.faculty_id} onChange={this.changeTeacher}>
+                  <select className="form-control" name="faculty_id" value={this.state.editedTeacher.faculty_id} onChange={this.changeTeacher}>
                     <option value=''>Выберите факультет</option>
                     {this.state.faculties.map((faculty, f) =>
                       <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
@@ -247,7 +245,7 @@ class AdminEditTeacherModal extends React.Component {
                 </div>
                 ) : (
                 <div className="form-group">
-                  <select className="form-control mydatepicker" name="faculty_id" value={this.state.editedTeacher.faculty_id} onChange={this.changeTeacher}>
+                  <select className="form-control" name="faculty_id" value={this.state.editedTeacher.faculty_id} onChange={this.changeTeacher}>
                     <option value=''>Факультеты не добавлены</option>
                   </select>
                   <span className="bar"></span>
@@ -263,7 +261,7 @@ class AdminEditTeacherModal extends React.Component {
             </div>
               <div className="form-group">
                 <label>Телефон</label>
-                <InputElement  mask="+7 (999) 999-99-99" className="form-control" placeholder={this.props.teacher.phone}
+                <input type="tel" className="form-control" placeholder={this.props.teacher.phone}
                       name="phone"
                       onChange={this.changeTeacher}
                       value={this.state.editedTeacher.phone} />

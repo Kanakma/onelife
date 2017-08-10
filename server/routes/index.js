@@ -261,6 +261,8 @@ router.post('/addsubjectimg', (req, res) => {
 
 router.post('/addteacher', (req, res) => {
 	var t = JSON.parse(req.body.teacher);
+	var tU = JSON.parse(req.body.account);
+	console.log(t, tU)
 	User.findOne({passport_id: t.passport_id}, (err, user) => {
 		if(err) { console.log(err) }
 		else if (user){
@@ -273,7 +275,7 @@ router.post('/addteacher', (req, res) => {
 				else {
 					var userData = {
 						username: 20000+teachers.length,
-						password: bcrypt.hashSync('12345678', 10),
+						password: bcrypt.hashSync(tU.password, 10),
 						passport_id: t.passport_id,
 						name: t.name,
 						lastname: t.lastname,
@@ -282,15 +284,17 @@ router.post('/addteacher', (req, res) => {
 						gender: t.gender
 					}
 					const newUser = new User(userData);
-				  newUser.save((err, user) => {
+				  newUser.save((err, savedUser) => {
 				    if (err) { console.log(err); }
 						else {
 							var teacherData = {
-								user_id: user._id,
+								user_id: savedUser._id,
 								university_code: '195',
 								faculty_id: t.faculty_id,
 								entry_year: req.body.entry_year.trim(),
-								degree: t.degree
+								degree: t.degree,
+								email:tU.email,
+								phone:tU.phone
 							}
 							const newTeacher = new Teacher(teacherData);
 						  newTeacher.save((err, teacher) => {
@@ -310,7 +314,6 @@ router.post('/addteacher', (req, res) => {
 });
 
 router.post('/addteacherimg', (req, res) => {
-	console.error('++++++++++++++++++++')
 		let form = new multiparty.Form();
 		var teacher_id = req.query.teacher_id;
 	form.parse(req, (err, fields, files) => {
@@ -327,7 +330,9 @@ router.post('/addteacherimg', (req, res) => {
 							Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id + '-' + fileName}}, { new: true }, (err) => {
 								if(err) { console.log(err) }
 	              else {
-	              	console.log("++++++++++++++++++++++++++++HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+	              	res.status(200).send({
+										message: 'Пользователь добавлен!'
+									})
 								}
 							})
 						}
@@ -392,7 +397,6 @@ router.post('/editteacherimg', (req, res) => {
 							Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id + '-' + fileName}}, { new: true }, (err) => {
 								if(err) { console.log(err) }
 	              else {
-	              	console.log("++++++++++++++++++++++++++++HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 								}
 							})
 						}
@@ -410,7 +414,6 @@ router.post('/deleteteacher', (req, res) =>{
 			})
 		}
 	})
-
 })
 router.post('/addstudent', (req, res) => {
 	User.findOne({passport_id: req.body.passport_id.trim()}, (err, user) => {
@@ -423,43 +426,54 @@ router.post('/addstudent', (req, res) => {
 			Student.find((err, students) => {
 				if(err) { console.log(err) }
 				else {
-					var userData = {
-						username: 100001+students.length,
-						password: bcrypt.hashSync('12345678', 10),
-						passport_id: req.body.passport_id.trim(),
-						name: req.body.name.trim(),
-						lastname: req.body.lastname.trim(),
-						birthday: req.body.birthday.trim(),
-						status: 'student'
-					}
-					const newUser = new User(userData);
-				  newUser.save((err, user) => {
-				    if (err) { return done(err); }
-						else {
-							var studentData = {
-								user_id: user._id,
-								university_code: '195',
-								faculty_id: req.body.faculty_id.trim(),
-								major_id: req.body.major_id.trim(),
-								admission_year: req.body.admission_year.trim(),
-								graduation_year: req.body.graduation_year.trim()
-							}
-							const newStudent = new Student(studentData);
-						  newStudent.save((err) => {
-								if (err) { return done(err); }
-								else {
-									res.send({
-										message: 'Студент добавлен в список'
-									})
+					Major.findOne({_id:req.body.major_id}, function(err, major){
+						if(err) console.log(err);
+						if(major){
+							Department.findOne({_id:major.major_department}, function(err, department){
+								if(err) console.log(err);
+								if(department){
+									var userData = {
+										username: 100001+students.length,
+										password: bcrypt.hashSync(req.body.password, 10),
+										passport_id: req.body.passport_id.trim(),
+										name: req.body.name.trim(),
+										lastname: req.body.lastname.trim(),
+										birthday: req.body.birthday.trim(),
+										status: 'student'
+									}
+									const newUser = new User(userData);
+								  newUser.save((err, savedUser) => {
+								    if (err) { console.log(err); }
+										else {
+											var studentData = {
+												user_id: savedUser._id,
+												university_code: '195',
+												faculty_id: department.department_faculty,
+												department_id: major.major_department,
+												major_id: req.body.major_id.trim(),
+												admission_year: req.body.admission_year.trim(),
+												graduation_year: req.body.graduation_year.trim()
+											}
+											const newStudent = new Student(studentData);
+										  newStudent.save((err) => {
+												if (err) { return done(err); }
+												else {
+													res.send({
+														message: 'Студент добавлен в список'
+													})
+												}
+											})
+										}
+								  });
 								}
 							})
 						}
-				  });
+					})
 				}
 			})
 		}
 	})
-})
+}) 
 //This route will load all majors
 router.get('/getmajors', (req, res) => {
 	getMajors()
@@ -511,7 +525,7 @@ var constructMjr = function(major){
 				}
 				callBack(null, allMjrs)
 			})
-		}
+		} 
 		else{
 			myMajor = {
 						major_id:major._id,
@@ -526,7 +540,6 @@ var constructMjr = function(major){
 		}
 	}
 }
-
 //This route will load all faculties
 router.get('/getfaculties', (req, res) => {
 	getFaculties()
@@ -596,7 +609,7 @@ var constructFclty = function(faculty){
 					departments: faculty.departments
 				}
 			allFclts.push(myFaculty)
-
+			
 			callBack(null, allFclts)
 		}
 	}
@@ -666,6 +679,23 @@ var constructDeps = function(department){
 		})
 	}
 }
+router.get('/getfacultiesmajors', (req, res) => {
+	Faculty.find((err, faculties) => {
+		if(err) {console.log(err) }
+		else {
+			Major.find((err, majors) => {
+				if(err) {console.log(err) }
+				else {
+
+					res.send({
+						faculties: faculties,
+						majors: majors
+					})
+				}
+			})
+		}
+	})
+});
 router.post('/editdepartment', (req, res) =>{
 	var editedDep = JSON.parse(req.body.department);
 	console.log(req.body)
@@ -1179,9 +1209,9 @@ var constructTeach = function(teacher){
 			email:'',
 			phone:'',
 			social:'',
-			gender:'',
+			gender:'', 
 			img:'',
-			degree: ''
+			degree:''
 		}
 		User.findOne({_id:teacher.user_id}, function(err, user){
 			if(err) console.log(err);
@@ -1205,7 +1235,7 @@ var constructTeach = function(teacher){
 								social: teacher.social,
 								gender: user.gender,
 								img: teacher.img,
-								degree: teacher.degree
+								degree:teacher.degree
 							}
 							allTchrs.push(myTeacher);
 							callBack(null, allTchrs);
@@ -1227,7 +1257,8 @@ var constructTeach = function(teacher){
 								phone: teacher.phone,
 								social: teacher.social,
 								gender: user.gender,
-								img: teacher.img
+								img: teacher.img,
+								degree:teacher.degree
 							}
 							allTchrs.push(myTeacher);
 							callBack(null, allTchrs);

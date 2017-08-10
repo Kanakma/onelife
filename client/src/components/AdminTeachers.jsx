@@ -58,7 +58,7 @@ class AdminTeachers extends React.Component {
       });
     }
   }
-
+ 
 
   toggleModal(teacher) {
       this.setState({
@@ -75,7 +75,7 @@ class AdminTeachers extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
+      <div className="col-md-10 col-md-offset-2 bg-title" style={{paddingRight: '3%'}}>
         <div className="row">
           <div className="col-md-9">
             <h4>Все преподаватели</h4>
@@ -87,38 +87,43 @@ class AdminTeachers extends React.Component {
           </div>
         </div>
       </div>
-      <div className="my-content" hidden={this.state.checkFilter}>
-      <div className="row" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
-        {
-          this.state.teachers.map((teacher, index) =>{
-            return (
-              <div key={index} className="col-md-4 col-sm-4" style = {{padding: '0 7.5px'}}>
-                <div className="white-box">
-                    <div className="row">
-                        <div className="col-md-4 col-sm-4 text-center">
-                            <a href="professor-profile.html"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></a>
-                        </div>
-                        <div className="col-md-8 col-sm-8">
-                            <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
-                            <address>
-                              Факультет: {teacher.faculty_name}<br/><br/>
-                              <abbr title="Email">E:</abbr> {teacher.email}
-                              <br/>
-                              <abbr title="Phone">P:</abbr> {teacher.phone}
-                            </address>
-                            <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                <i style={{color: '#8c8c8c'}} className="fa fa-pencil"></i>
-                            </button>
-                        </div>
-                    </div>
+      <div className="col-md-9 my-content" hidden={this.state.checkFilter}>
+      <div className="row" style={{marginTop: '-15px'}}>
+        {this.state.teachers ? (
+            this.state.teachers.map((teacher, index) =>{
+              return (
+                <div key={index} className="col-md-4 col-sm-4" style={{padding: '0px 7.5px'}}>
+                  <div className="white-box">
+                      <div className="row">
+                          <div className="col-md-4 col-sm-4 text-center">
+                              <a href="professor-profile.html"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive"/></a>
+                          </div>
+                          <div className="col-md-8 col-sm-8">
+                              <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
+                              <address>
+                                Факультет: {teacher.faculty_name}<br/><br/>
+                                <abbr title="Email">E:</abbr> {teacher.email}
+                                <br/>
+                                <abbr title="Phone">P:</abbr> {teacher.phone}
+                              </address>
+                              <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
                 </div>
+              )
+            })
+          ):(
+              <div>
+                Нет преподавателей. Добавьте преподавателей.
               </div>
-            )
-          })
+          )
         }
       </div>
       </div>
-      <div className="my-content" hidden={!this.state.checkFilter}>
+      <div className="col-md-9 my-content" style={{background: 'white'}} hidden={!this.state.checkFilter}>
       <div className="table-responsive">
 
           <table id="myTable" className="table table-striped">
@@ -131,36 +136,47 @@ class AdminTeachers extends React.Component {
                       <th>Телефон</th>
                       <th>E-mail</th>
                       {(this.state.status == "admin") ?(
-                        <th><center>Опции</center></th>
+                        <th><center>Опиции</center></th>
                       ):(
                         <th></th>
                       )}
                   </tr>
               </thead>
               <tbody>
-
               {
-                this.state.teachers.map((teacher, t) =>{
-                return(
-                <tr key={t}>
-                    <td>{t+1}</td>
-                    <td>{teacher.name} {teacher.lastname}</td>
-                    <td>{teacher.degree}</td>
-                    <td>{teacher.faculty_id}</td>
-                    <td>{teacher.phone}</td>
-                    <td>{teacher.email}</td>
-                    {(this.state.status == "admin") ?(
-                      <td className="text-center ">
-                        <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
-                          <i className="fa fa-pencil" style={{color: '#717171'}}></i>
-                        </button>
-                      </td>
-                    ):(
-                      <td></td>
-                    )}
-                </tr>
+                this.state.teachers ? (
+                  this.state.teachers.map((teacher, t) =>{
+                    return(
+                    <tr key={t}>
+                        <td>{t+1}</td>
+                        <td>{teacher.name} {teacher.lastname}</td>
+                        <td>{teacher.degree}</td>
+                        <td>{teacher.faculty_name}</td>
+                        <td>{teacher.phone}</td>
+                        <td>{teacher.email}</td>
+                        {(this.state.status == "admin") ?(
+                          <td className="text-center ">
+                            <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
+                              <i className="fa fa-pencil" style={{color: '#717171'}}></i>
+                            </button>
+                          </td>
+                        ):(
+                          <td></td>
+                        )}
+                    </tr>
                     )
                 })
+                  ):(
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                  )
               }
               </tbody>
 

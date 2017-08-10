@@ -2,9 +2,9 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
 
-
+ 
 class AdminEditMajorModal extends React.Component {
-
+ 
   constructor(props){
     super(props);
     this.state = {
@@ -74,7 +74,7 @@ class AdminEditMajorModal extends React.Component {
     if(!this.props.show) {
       return null;
     }
-
+    
     // The gray background
     const backdropStyle = {
       position: 'fixed',
@@ -83,9 +83,7 @@ class AdminEditMajorModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50,
-      marginLeft: 200,
-      overflow: 'auto'
+      padding: 50
     };
 
     // The modal "window"
@@ -93,8 +91,9 @@ class AdminEditMajorModal extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 1000,
-      minHeight: 300,
-      margin: '35px auto',
+      minHeight: 700,
+      margin: '0 auto',
+      marginTop:'35px',
       padding: 30
     };
 
@@ -109,7 +108,7 @@ class AdminEditMajorModal extends React.Component {
             <form action="/majors" onSubmit={this.editMajorFunc}>
               <div className="form-group">
                 <label>Название специальности</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.major.major_name}
+                <input type="text" className="form-control" placeholder={this.props.major.major_name}
                 name="major_name"
                 onChange={this.changeMajor}
                 value={this.state.editedMajor.major_name} />
@@ -117,7 +116,7 @@ class AdminEditMajorModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Код специальности</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.major.major_code}
+                <input type="text" className="form-control" placeholder={this.props.major.major_code}
                 name="major_code"
                 onChange={this.changeMajor}
                 value={this.state.editedMajor.major_code} />
@@ -125,7 +124,7 @@ class AdminEditMajorModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Кафедра</label>
-                  <select className="form-control mydatepicker" name="major_department" value={this.state.editedMajor.major_department} onChange={this.changeMajor}>
+                  <select className="form-control" name="major_department" value={this.state.editedMajor.major_department} onChange={this.changeMajor}>
                     <option value=''>Выберите кафедру</option>
                     {this.state.departments.map((department, f) =>
                       <option key={f} value={department._id}>{department.department_name}</option>
@@ -135,7 +134,7 @@ class AdminEditMajorModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Наименование групп специальностей</label>
-                <select className="form-control mydatepicker" name="major_group" value={this.state.editedMajor.major_group} onChange={this.changeMajor}>
+                <select className="form-control" name="major_group" value={this.state.editedMajor.major_group} onChange={this.changeMajor}>
                   <option value="">Наименование групп специальностей</option>
                   <option value="Образование">Образование</option>
                   <option value="Гуманитарные науки">Гуманитарные науки</option>

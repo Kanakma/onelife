@@ -4,7 +4,7 @@ import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
 class AdminEditSubjectModal extends React.Component {
-
+  
   constructor(props){
     super(props);
     this.state={
@@ -120,9 +120,7 @@ class AdminEditSubjectModal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50,
-      marginLeft: 200,
-      overflow: 'auto'
+      padding: 50
     };
 
     // The modal "window"
@@ -131,7 +129,8 @@ class AdminEditSubjectModal extends React.Component {
       borderRadius: 5,
       maxWidth: 1000,
       minHeight: 700,
-      margin: '35px auto',
+      margin: '0 auto',
+      marginTop:'35px',
       padding: 30
     };
 
@@ -145,19 +144,19 @@ class AdminEditSubjectModal extends React.Component {
             <form action="/teachers" onSubmit={this.editSubjectFunc}>
               <div className="form-group">
                 <label>Код предмета</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.subject.subject_code}
+                <input type="text" className="form-control" placeholder={this.props.subject.subject_code}
                      name="subject_code" value={this.state.editedSubject.subject_code} onChange={this.changeSubject} />
                 <span className="bar"></span>
               </div>
               <div className="form-group">
                 <label>Название предмета</label>
-                <input type="text" className="form-control mydatepicker" placeholder={this.props.subject.subject_name}
+                <input type="text" className="form-control" placeholder={this.props.subject.subject_name}
                      name="subject_name" value={this.state.editedSubject.subject_name} onChange={this.changeSubject} />
                 <span className="bar"></span>
               </div>
               <div className="form-group row">
                 <div className="col-md-6">
-                  <select className="form-control mydatepicker" name="major_group" value={this.state.major_group} onChange={this.changeMajorGroup}>
+                  <select className="form-control" name="major_group" value={this.state.major_group} onChange={this.changeMajorGroup}>
                     <option value="">Наименование групп специальностей</option>
                     <option value="Образование">Образование</option>
                     <option value="Гуманитарные науки">Гуманитарные науки</option>
@@ -174,7 +173,7 @@ class AdminEditSubjectModal extends React.Component {
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-6">
-                  <select className="form-control mydatepicker" name="major_id" value={this.state.editedSubject.major_id} onChange={this.changeSubject} disabled={!this.state.checkMajor}>
+                  <select className="form-control" name="major_id" value={this.state.editedSubject.major_id} onChange={this.changeSubject} disabled={!this.state.checkMajor}>
                     <option value=''>Выберите специальность</option>
                     {this.state.majors.map((major, m) =>
                       <option key={m} value={major._id}>{major.major_name}</option>
@@ -186,25 +185,25 @@ class AdminEditSubjectModal extends React.Component {
               <div className="form-group row">
                 <div className="col-md-3">
                   <label>Период (месяц)</label>
-                  <input type="number" className="form-control mydatepicker" placeholder={this.props.subject.period}
+                  <input type="number" className="form-control" placeholder={this.props.subject.period}
                          name="period" value={this.state.editedSubject.period} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-3">
                   <label>Курс</label>
-                  <input type="number" className="form-control mydatepicker" placeholder={this.props.subject.course_number}
+                  <input type="number" className="form-control" placeholder={this.props.subject.course_number}
                          name="course_number" value={this.state.editedSubject.course_number} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-3">
                   <label>Кредиты</label>
-                  <input type="number" className="form-control mydatepicker" placeholder={this.props.subject.credit_number}
+                  <input type="number" className="form-control" placeholder={this.props.subject.credit_number}
                          name="credit_number" value={this.state.editedSubject.credit_number} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-3">
                   <label>Количество студентов</label>
-                  <input type="number" className="form-control mydatepicker" placeholder={this.props.subject.max_students}
+                  <input type="number" className="form-control" placeholder={this.props.subject.max_students}
                          name="max_students" value={this.state.editedSubject.max_students} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
@@ -212,7 +211,7 @@ class AdminEditSubjectModal extends React.Component {
               <div className="form-group">
                 <label>Изображение</label>
                   <div className="fileinput input-group fileinput-new" data-provides="fileinput">
-                      <div className="form-control mydatepicker" data-trigger="fileinput">
+                      <div className="form-control" data-trigger="fileinput">
                       {this.state.filename.length > 0 ?(
                         <div>
                         <i className="glyphicon glyphicon-file fileinput-exists"></i>
@@ -235,7 +234,7 @@ class AdminEditSubjectModal extends React.Component {
                 </div>
                 <div className="form-group">
                   <textarea type="text"
-                               className="form-control mydatepicker"
+                               className="form-control"
                                value={this.state.editedSubject.description}
                                name="description"
                                onChange={this.changeSubject}
