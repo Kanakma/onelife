@@ -15172,7 +15172,11 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '/', className: 'waves-effect' },
                         _react2.default.createElement('i', { className: 'fa fa-home fa-lg icons', 'aria-hidden': 'true' }),
-                        '\u0413\u043B\u0430\u0432\u043D\u0430\u044F'
+                        _react2.default.createElement(
+                          'span',
+                          { className: 'hide-menu' },
+                          '\u0413\u043B\u0430\u0432\u043D\u0430\u044F'
+                        )
                       )
                     ),
                     _react2.default.createElement(
@@ -15186,16 +15190,20 @@ var Base = function (_React$Component) {
                           { className: 'fa fa-university fa-lg icons', 'aria-hidden': 'true' },
                           ' '
                         ),
-                        '\u0424\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442\u044B',
                         _react2.default.createElement(
                           'span',
-                          { hidden: this.state.checkFaculty, id: 'faculty', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '60px' } })
-                        ),
-                        _react2.default.createElement(
-                          'span',
-                          { hidden: !this.state.checkFaculty, id: 'faculty', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '60px' } })
+                          { className: 'hide-menu' },
+                          '\u0424\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442\u044B',
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: this.state.checkFaculty, id: 'faculty', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '60px' } })
+                          ),
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: !this.state.checkFaculty, id: 'faculty', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '60px' } })
+                          )
                         )
                       ),
                       _react2.default.createElement(
@@ -15228,16 +15236,20 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '#', className: 'waves-effect', name: 'department', onClick: this.changeHide },
                         _react2.default.createElement('i', { className: 'fa fa-building fa-lg icons', 'aria-hidden': 'true' }),
-                        '\u041A\u0430\u0444\u0435\u0434\u0440\u044B',
                         _react2.default.createElement(
                           'span',
-                          { hidden: this.state.checkDepartment, id: 'department', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '80px' } })
-                        ),
-                        _react2.default.createElement(
-                          'span',
-                          { hidden: !this.state.checkDepartment, id: 'department', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '80px' } })
+                          { className: 'hide-menu' },
+                          '\u041A\u0430\u0444\u0435\u0434\u0440\u044B',
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: this.state.checkDepartment, id: 'department', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '80px' } })
+                          ),
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: !this.state.checkDepartment, id: 'department', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '80px' } })
+                          )
                         )
                       ),
                       _react2.default.createElement(
@@ -15270,16 +15282,20 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '#', className: 'waves-effect', name: 'major', onClick: this.changeHide },
                         _react2.default.createElement('i', { className: 'fa fa-mortar-board fa-lg icons', 'aria-hidden': 'true' }),
-                        '\u0421\u043F\u0435\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438',
                         _react2.default.createElement(
                           'span',
-                          { hidden: this.state.checkMajor, id: 'major', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '35px' } })
-                        ),
-                        _react2.default.createElement(
-                          'span',
-                          { hidden: !this.state.checkMajor, id: 'major', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '35px' } })
+                          { className: 'hide-menu' },
+                          '\u0421\u043F\u0435\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438',
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: this.state.checkMajor, id: 'major', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '35px' } })
+                          ),
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: !this.state.checkMajor, id: 'major', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '35px' } })
+                          )
                         )
                       ),
                       _react2.default.createElement(
@@ -15312,16 +15328,20 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '#', className: 'waves-effect', name: 'subject', onClick: this.changeHide },
                         _react2.default.createElement('i', { className: 'fa fa-book fa-lg icons', 'aria-hidden': 'true' }),
-                        '\u041F\u0440\u0435\u0434\u043C\u0435\u0442\u044B',
                         _react2.default.createElement(
                           'span',
-                          { hidden: this.state.checkSubject, id: 'subject', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
-                        ),
-                        _react2.default.createElement(
-                          'span',
-                          { hidden: !this.state.checkSubject, id: 'subject', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
+                          { className: 'hide-menu' },
+                          '\u041F\u0440\u0435\u0434\u043C\u0435\u0442\u044B',
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: this.state.checkSubject, id: 'subject', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
+                          ),
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: !this.state.checkSubject, id: 'subject', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
+                          )
                         )
                       ),
                       _react2.default.createElement(
@@ -15354,16 +15374,20 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '#', className: 'waves-effect', name: 'teacher', onClick: this.changeHide },
                         _react2.default.createElement('i', { className: 'fa fa-user-o fa-lg icons', 'aria-hidden': 'true' }),
-                        '\u041F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u0438',
                         _react2.default.createElement(
                           'span',
-                          { hidden: this.state.checkTeacher, id: 'teacher', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '40px' } })
-                        ),
-                        _react2.default.createElement(
-                          'span',
-                          { hidden: !this.state.checkTeacher, id: 'teacher', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '40px' } })
+                          { className: 'hide-menu' },
+                          '\u041F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u0438',
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: this.state.checkTeacher, id: 'teacher', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '40px' } })
+                          ),
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: !this.state.checkTeacher, id: 'teacher', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '40px' } })
+                          )
                         )
                       ),
                       _react2.default.createElement(
@@ -15396,16 +15420,20 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '#', className: 'waves-effect', name: 'student', onClick: this.changeHide },
                         _react2.default.createElement('i', { className: 'fa fa-users fa-lg icons', 'aria-hidden': 'true' }),
-                        '\u0421\u0442\u0443\u0434\u0435\u043D\u0442\u044B',
                         _react2.default.createElement(
                           'span',
-                          { hidden: this.state.checkStudent, id: 'student', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
-                        ),
-                        _react2.default.createElement(
-                          'span',
-                          { hidden: !this.state.checkStudent, id: 'student', onClick: this.changeHide },
-                          _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
+                          { className: 'hide-menu' },
+                          '\u0421\u0442\u0443\u0434\u0435\u043D\u0442\u044B',
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: this.state.checkStudent, id: 'student', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-right fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
+                          ),
+                          _react2.default.createElement(
+                            'span',
+                            { hidden: !this.state.checkStudent, id: 'student', onClick: this.changeHide },
+                            _react2.default.createElement('i', { className: 'fa fa-angle-down fa-lg pointer', 'aria-hidden': 'true', style: { marginLeft: '75px' } })
+                          )
                         )
                       ),
                       _react2.default.createElement(
@@ -15559,7 +15587,11 @@ var Base = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: '/logout', className: 'waves-effect' },
                         _react2.default.createElement('i', { className: 'fa fa-sign-out fa-lg', 'aria-hidden': 'true', style: { marginRight: '10px' } }),
-                        '\u0412\u044B\u0445\u043E\u0434'
+                        _react2.default.createElement(
+                          'span',
+                          { className: 'hide-menu' },
+                          '\u0412\u044B\u0445\u043E\u0434'
+                        )
                       )
                     )
                   )
@@ -33263,7 +33295,8 @@ var map = {
 	"./5980683123df0816b5a851c2-Воробей.jpg": 570,
 	"./5981a9eed82c95124227cb26-download.jpg": 571,
 	"./5981a9eed82c95124227cb26-Воробей.jpg": 572,
-	"./598826874a47592455c5f59c-user1.jpg": 573
+	"./598826874a47592455c5f59c-user1.jpg": 573,
+	"./598bfd2febd0cc21bf79ebf7-user1.jpg": 576
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -35394,9 +35427,7 @@ var AdminAddTeacher = function (_React$Component) {
 
     _this.state = {
       message: '',
-      accMessage: '',
       errors: {},
-      accErrors: '',
       teacher: {
         name: '',
         lastname: '',
@@ -35414,7 +35445,6 @@ var AdminAddTeacher = function (_React$Component) {
         password: '',
         checkpassword: ''
       },
-      checkAcc: false,
       social: {
         facebook: '',
         twitter: '',
@@ -35432,8 +35462,6 @@ var AdminAddTeacher = function (_React$Component) {
     _this.entry_yearChange = _this.entry_yearChange.bind(_this);
     _this.clearContent = _this.clearContent.bind(_this);
     _this.changeImg = _this.changeImg.bind(_this);
-    _this.changeAccount = _this.changeAccount.bind(_this);
-    _this.checkAccount = _this.checkAccount.bind(_this);
     return _this;
   }
 
@@ -35459,10 +35487,13 @@ var AdminAddTeacher = function (_React$Component) {
       var field = event.target.name;
       var teacher = this.state.teacher;
       teacher[field] = event.target.value;
+      var account = this.state.account;
+      account[field] = event.target.value;
       this.setState({
         teacher: teacher,
         checkContent: true,
         message: '',
+        account: account,
         errors: {}
       });
       this.checkContent();
@@ -35473,9 +35504,12 @@ var AdminAddTeacher = function (_React$Component) {
       var _this3 = this;
 
       event.preventDefault();
+      var email = encodeURIComponent(this.state.account.email);
+      var phone = encodeURIComponent(this.state.account.phone);
+      var password = encodeURIComponent(this.state.account.password);
       var birthday = encodeURIComponent(this.state.birthday);
       var entry_year = encodeURIComponent(this.state.entry_year);
-      var formData = 'teacher=' + JSON.stringify(this.state.teacher) + '&birthday=' + birthday + '&entry_year=' + entry_year;
+      var formData = 'teacher=' + JSON.stringify(this.state.teacher) + '&birthday=' + birthday + '&entry_year=' + entry_year + '&name=' + name + '&email=' + email + '&phone=' + phone + '&password=' + password;
       _axios2.default.post('/api/addteacher', formData, {
         responseType: 'json',
         headers: {
@@ -35539,6 +35573,12 @@ var AdminAddTeacher = function (_React$Component) {
           gender: '',
           degree: ''
         },
+        account: {
+          email: '',
+          phone: '',
+          password: '',
+          checkpassword: ''
+        },
         file: '',
         filename: '',
         birthday: '',
@@ -35569,55 +35609,25 @@ var AdminAddTeacher = function (_React$Component) {
     key: 'checkContent',
     value: function checkContent() {
       if (this.state.teacher.passport_id.length > 0 && this.state.teacher.name.length > 0 && this.state.teacher.lastname.length > 0 && this.state.birthday.length > 0 && this.state.entry_year.length > 0 && this.state.filename.length > 0 && this.state.teacher.gender.length > 0 && this.state.teacher.degree.length > 0) {
+
         this.setState({
           checkContent: true
         });
-      } else {
-        this.setState({
-          checkContent: false
-        });
       }
-    }
-  }, {
-    key: 'checkAccount',
-    value: function checkAccount() {
-      if (this.state.account.email.length > 0 && this.state.account.phone.length > 0 && this.state.account.password.length > 0 && this.state.account.checkpassword.length > 0 && this.state.account.password === this.state.account.checkpassword) {
-        this.setState({
-          checkAcc: true
-        });
-      } else {
-        this.setState({
-          checkAcc: false
-        });
-      }
-    }
-  }, {
-    key: 'changeAccount',
-    value: function changeAccount(event) {
-      var field = event.target.name;
-      var account = this.state.account;
-      account[field] = event.target.value;
-      this.setState({
-        account: account,
-        checkAcc: true,
-        accMessage: '',
-        errors: {}
-      });
-      this.checkAccount();
-    }
-  }, {
-    key: 'addAccount',
-    value: function addAccount() {
-      event.preventDefault();
-      var email = encodeURIComponent(this.state.account.email);
-      var phone = encodeURIComponent(this.state.account.phone);
-      var password = encodeURIComponent(this.state.account.password);
-      var formData = 'name=' + name + '&email=' + email + '&phone=' + phone + '&password=' + password;
-      _axios2.default.post('/api/adduser', formData, {
-        responseType: 'json',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded' }
-      });
+      // else if((this.state.account.checkpassword.length >0) && (this.state.account.password != this.state.account.checkpassword)){
+      //   document.getElementById('wrongpass').style.display = "block"
+      //   this.setState({
+      //     checkContent: false
+      //   })
+      // }
+      // else if(this.state.account.password === this.state.account.checkpassword){
+      //   document.getElementById('wrongpass').style.display = "none"
+      // }
+      else {
+          this.setState({
+            checkContent: false
+          });
+        }
     }
   }, {
     key: 'render',
@@ -35628,7 +35638,7 @@ var AdminAddTeacher = function (_React$Component) {
         { className: 'container clearfix' },
         _react2.default.createElement(
           'div',
-          { className: 'col-md-10 col-md-offset-2 bg-title' },
+          { className: 'bg-title' },
           _react2.default.createElement(
             'h4',
             null,
@@ -35637,280 +35647,76 @@ var AdminAddTeacher = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'col-md-9 my-content add-content', style: { background: 'white' } },
-          _react2.default.createElement(
-            'h5',
-            { style: { marginBottom: '3%' }, className: 'text-uppercase' },
-            '\u041E\u0441\u043D\u043E\u0432\u043D\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F'
-          ),
-          this.state.message && _react2.default.createElement(
-            'h5',
-            { style: { fontSize: '14px', color: 'green' } },
-            this.state.message
-          ),
-          this.state.errors.summary && _react2.default.createElement(
-            'h5',
-            { style: { fontSize: '14px', color: 'red' } },
-            this.state.errors.summary
-          ),
-          _react2.default.createElement(
-            'form',
-            { action: '/', onSubmit: this.addTeacher },
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement(
-                'label',
-                null,
-                '\u0418\u043C\u044F \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
-              ),
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043C\u044F \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F',
-                name: 'name',
-                onChange: this.changeTeacher,
-                value: this.state.teacher.name }),
-              _react2.default.createElement('span', { className: 'bar' })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement(
-                'label',
-                null,
-                '\u0424\u0430\u043C\u0438\u043B\u0438\u044F \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
-              ),
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0444\u0430\u043C\u0438\u043B\u0438\u044E \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F',
-                name: 'lastname',
-                onChange: this.changeTeacher,
-                value: this.state.teacher.lastname }),
-              _react2.default.createElement('span', { className: 'bar' })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement(
-                'label',
-                null,
-                '\u0418\u0418\u041D'
-              ),
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0418\u0418\u041D',
-                name: 'passport_id',
-                onChange: this.changeTeacher,
-                value: this.state.teacher.passport_id }),
-              _react2.default.createElement('span', { className: 'bar' })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-md-6' },
-                _react2.default.createElement(
-                  'select',
-                  { className: 'form-control', name: 'gender', value: this.state.teacher.gender, onChange: this.changeTeacher },
-                  _react2.default.createElement(
-                    'option',
-                    { value: '' },
-                    '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043F\u043E\u043B'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u041C\u0443\u0436\u0447\u0438\u043D\u0430' },
-                    '\u041C\u0443\u0436\u0447\u0438\u043D\u0430'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u0416\u0435\u043D\u0449\u0438\u043D\u0430' },
-                    '\u0416\u0435\u043D\u0449\u0438\u043D\u0430'
-                  )
-                ),
-                _react2.default.createElement('span', { className: 'bar' })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-md-6' },
-                _react2.default.createElement(
-                  'select',
-                  { className: 'form-control', name: 'degree', value: this.state.teacher.degree, onChange: this.changeTeacher },
-                  _react2.default.createElement(
-                    'option',
-                    { value: '' },
-                    '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0442\u0435\u043F\u0435\u043D\u044C'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442' },
-                    '\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442' },
-                    '\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u0414\u043E\u043A\u0442\u043E\u0440' },
-                    '\u0414\u043E\u043A\u0442\u043E\u0440'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u041F\u0440\u043E\u0444\u0435\u0441\u0441\u043E\u0440' },
-                    '\u041F\u0440\u043E\u0444\u0435\u0441\u0441\u043E\u0440'
-                  ),
-                  _react2.default.createElement(
-                    'option',
-                    { value: '\u0410\u043A\u0430\u0434\u0435\u043C\u0438\u043A' },
-                    '\u0410\u043A\u0430\u0434\u0435\u043C\u0438\u043A'
-                  )
-                ),
-                _react2.default.createElement('span', { className: 'bar' })
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-md-6' },
-                _react2.default.createElement(
-                  'label',
-                  null,
-                  '\u0414\u0435\u043D\u044C \u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F'
-                ),
-                _react2.default.createElement(_reactBootstrapDatePicker2.default, { value: this.state.birthday, onChange: this.birthdayChange, className: 'form-control mydatepicker' })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-md-6' },
-                _react2.default.createElement(
-                  'label',
-                  null,
-                  '\u0414\u0435\u043D\u044C \u043D\u0430\u0447\u0430\u043B\u0430 \u0440\u0430\u0431\u043E\u0442\u044B'
-                ),
-                _react2.default.createElement(_reactBootstrapDatePicker2.default, { value: this.state.entry_year, onChange: this.entry_yearChange, className: 'form-control mydatepicker' })
-              )
-            ),
-            this.state.faculties ? _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement(
-                'select',
-                { className: 'form-control', name: 'faculty_id', value: this.state.teacher.faculty_id, onChange: this.changeTeacher },
-                _react2.default.createElement(
-                  'option',
-                  { value: '' },
-                  '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442'
-                ),
-                this.state.faculties.map(function (faculty, f) {
-                  return _react2.default.createElement(
-                    'option',
-                    { key: f, value: faculty._id },
-                    faculty.faculty_name
-                  );
-                })
-              ),
-              _react2.default.createElement('span', { className: 'bar' })
-            ) : _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement(
-                'select',
-                { className: 'form-control', name: 'faculty_id', value: this.state.teacher.faculty_id, onChange: this.changeTeacher },
-                _react2.default.createElement(
-                  'option',
-                  { value: '' },
-                  '\u0424\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442\u044B \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u044B'
-                )
-              ),
-              _react2.default.createElement('span', { className: 'bar' })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement(
-                'label',
-                null,
-                '\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'fileinput input-group fileinput-new', 'data-provides': 'fileinput' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'form-control', 'data-trigger': 'fileinput' },
-                  this.state.filename.length > 0 ? _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-file fileinput-exists' }),
-                    _react2.default.createElement(
-                      'span',
-                      { className: 'fileinput-filename' },
-                      this.state.filename
-                    )
-                  ) : _react2.default.createElement('span', null)
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { className: 'input-group-addon btn btn-default btn-file' },
-                  this.state.filename.length > 0 ? _react2.default.createElement(
-                    'span',
-                    { className: 'fileinput-exists' },
-                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
-                  ) : _react2.default.createElement(
-                    'span',
-                    { className: 'fileinput-new' },
-                    '\u0412\u044B\u0431\u0440\u0430\u0442\u044C'
-                  ),
-                  _react2.default.createElement('input', { type: 'hidden', value: '', name: '...' }),
-                  _react2.default.createElement('input', { type: 'file', name: '', onChange: this.changeImg })
-                )
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              null,
-              _react2.default.createElement(
-                'button',
-                { type: 'submit', className: 'btn btn-info waves-effect waves-light m-r-10', disabled: !this.state.checkContent, style: { paddingLeft: '5%', paddingRight: '5%' } },
-                '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C'
-              ),
-              _react2.default.createElement(
-                'button',
-                { type: 'button', onClick: this.clearContent, className: 'btn btn-inverse waves-effect waves-light m-r-10', style: { paddingLeft: '5%', paddingRight: '5%' } },
-                '\u041E\u0442\u043C\u0435\u043D\u0430'
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'form',
-          null,
+          { className: ' my-content' },
           _react2.default.createElement(
             'div',
-            { className: 'row', style: { marginLeft: '19.8%', marginBottom: '3%' } },
+            { className: 'table-responsive' },
             _react2.default.createElement(
-              'div',
-              { className: 'col-md-12', style: { width: '97.5%' } },
+              'h5',
+              { style: { marginBottom: '3%' }, className: 'text-uppercase' },
+              '\u041E\u0441\u043D\u043E\u0432\u043D\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F'
+            ),
+            this.state.message && _react2.default.createElement(
+              'h5',
+              { style: { fontSize: '14px', color: 'green' } },
+              this.state.message
+            ),
+            this.state.errors.summary && _react2.default.createElement(
+              'h5',
+              { style: { fontSize: '14px', color: 'red' } },
+              this.state.errors.summary
+            ),
+            _react2.default.createElement(
+              'form',
+              { action: '/', onSubmit: this.addTeacher },
               _react2.default.createElement(
                 'div',
-                { className: 'col-md-6 add-content', style: { width: '48.5%', background: 'white' } },
+                { className: 'form-group' },
                 _react2.default.createElement(
-                  'h5',
-                  { style: { marginBottom: '5%' }, className: 'text-uppercase' },
-                  '\u0418\u041D\u0424\u041E\u0420\u041C\u0410\u0426\u0418\u042F \u041E\u0411 \u0410\u041A\u041A\u0410\u0423\u041D\u0422\u0415'
+                  'label',
+                  null,
+                  '\u0418\u043C\u044F \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
                 ),
-                this.state.accMessage && _react2.default.createElement(
-                  'h5',
-                  { style: { fontSize: '14px', color: 'green' } },
-                  this.state.accMessage
+                _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043C\u044F \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F',
+                  name: 'name',
+                  onChange: this.changeTeacher,
+                  value: this.state.teacher.name }),
+                _react2.default.createElement('span', { className: 'bar' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  '\u0424\u0430\u043C\u0438\u043B\u0438\u044F \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
                 ),
-                this.state.accErrors && _react2.default.createElement(
-                  'h5',
-                  { style: { fontSize: '14px', color: 'red' } },
-                  this.state.accErrors
+                _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0444\u0430\u043C\u0438\u043B\u0438\u044E \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F',
+                  name: 'lastname',
+                  onChange: this.changeTeacher,
+                  value: this.state.teacher.lastname }),
+                _react2.default.createElement('span', { className: 'bar' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  '\u0418\u0418\u041D'
                 ),
+                _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0418\u0418\u041D',
+                  name: 'passport_id',
+                  onChange: this.changeTeacher,
+                  value: this.state.teacher.passport_id }),
+                _react2.default.createElement('span', { className: 'bar' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group row' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'form-group' },
+                  { className: 'col-md-6' },
                   _react2.default.createElement(
                     'label',
                     null,
@@ -35918,13 +35724,13 @@ var AdminAddTeacher = function (_React$Component) {
                   ),
                   _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 E-mail',
                     name: 'email',
-                    onChange: this.changeAccount,
+                    onChange: this.changeTeacher,
                     value: this.state.account.email }),
                   _react2.default.createElement('span', { className: 'bar' })
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'form-group' },
+                  { className: 'col-md-6' },
                   _react2.default.createElement(
                     'label',
                     null,
@@ -35932,13 +35738,185 @@ var AdminAddTeacher = function (_React$Component) {
                   ),
                   _react2.default.createElement(_reactInputMask2.default, { mask: '+7 (999) 999-99-99', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u043E\u043C\u0435\u0440 \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u0430',
                     name: 'phone',
-                    onChange: this.changeAccount,
+                    onChange: this.changeTeacher,
                     value: this.state.account.phone }),
+                  _react2.default.createElement('span', { className: 'bar' }),
+                  _react2.default.createElement('span', { className: 'bar' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group row' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-md-6' },
+                  _react2.default.createElement(
+                    'select',
+                    { className: 'form-control', name: 'gender', value: this.state.teacher.gender, onChange: this.changeTeacher },
+                    _react2.default.createElement(
+                      'option',
+                      { value: '' },
+                      '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043F\u043E\u043B'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u041C\u0443\u0436\u0447\u0438\u043D\u0430' },
+                      '\u041C\u0443\u0436\u0447\u0438\u043D\u0430'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u0416\u0435\u043D\u0449\u0438\u043D\u0430' },
+                      '\u0416\u0435\u043D\u0449\u0438\u043D\u0430'
+                    )
+                  ),
                   _react2.default.createElement('span', { className: 'bar' })
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'form-group' },
+                  { className: 'col-md-6' },
+                  _react2.default.createElement(
+                    'select',
+                    { className: 'form-control', name: 'degree', value: this.state.teacher.degree, onChange: this.changeTeacher },
+                    _react2.default.createElement(
+                      'option',
+                      { value: '' },
+                      '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0442\u0435\u043F\u0435\u043D\u044C'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442' },
+                      '\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442' },
+                      '\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u0414\u043E\u043A\u0442\u043E\u0440' },
+                      '\u0414\u043E\u043A\u0442\u043E\u0440'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u041F\u0440\u043E\u0444\u0435\u0441\u0441\u043E\u0440' },
+                      '\u041F\u0440\u043E\u0444\u0435\u0441\u0441\u043E\u0440'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { value: '\u0410\u043A\u0430\u0434\u0435\u043C\u0438\u043A' },
+                      '\u0410\u043A\u0430\u0434\u0435\u043C\u0438\u043A'
+                    )
+                  ),
+                  _react2.default.createElement('span', { className: 'bar' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group row' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-md-6' },
+                  _react2.default.createElement(
+                    'label',
+                    null,
+                    '\u0414\u0435\u043D\u044C \u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F'
+                  ),
+                  _react2.default.createElement(_reactBootstrapDatePicker2.default, { value: this.state.birthday, onChange: this.birthdayChange, className: 'form-control mydatepicker' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-md-6' },
+                  _react2.default.createElement(
+                    'label',
+                    null,
+                    '\u0414\u0435\u043D\u044C \u043D\u0430\u0447\u0430\u043B\u0430 \u0440\u0430\u0431\u043E\u0442\u044B'
+                  ),
+                  _react2.default.createElement(_reactBootstrapDatePicker2.default, { value: this.state.entry_year, onChange: this.entry_yearChange, className: 'form-control mydatepicker' })
+                )
+              ),
+              this.state.faculties ? _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'select',
+                  { className: 'form-control', name: 'faculty_id', value: this.state.teacher.faculty_id, onChange: this.changeTeacher },
+                  _react2.default.createElement(
+                    'option',
+                    { value: '' },
+                    '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442'
+                  ),
+                  this.state.faculties.map(function (faculty, f) {
+                    return _react2.default.createElement(
+                      'option',
+                      { key: f, value: faculty._id },
+                      faculty.faculty_name
+                    );
+                  })
+                ),
+                _react2.default.createElement('span', { className: 'bar' })
+              ) : _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'select',
+                  { className: 'form-control', name: 'faculty_id', value: this.state.teacher.faculty_id, onChange: this.changeTeacher },
+                  _react2.default.createElement(
+                    'option',
+                    { value: '' },
+                    '\u0424\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442\u044B \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u044B'
+                  )
+                ),
+                _react2.default.createElement('span', { className: 'bar' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  '\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fileinput input-group fileinput-new', 'data-provides': 'fileinput' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-control', 'data-trigger': 'fileinput' },
+                    this.state.filename.length > 0 ? _react2.default.createElement(
+                      'div',
+                      null,
+                      _react2.default.createElement('i', { className: 'glyphicon glyphicon-file fileinput-exists' }),
+                      _react2.default.createElement(
+                        'span',
+                        { className: 'fileinput-filename' },
+                        this.state.filename
+                      )
+                    ) : _react2.default.createElement('span', null)
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'input-group-addon btn btn-default btn-file' },
+                    this.state.filename.length > 0 ? _react2.default.createElement(
+                      'span',
+                      { className: 'fileinput-exists' },
+                      '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
+                    ) : _react2.default.createElement(
+                      'span',
+                      { className: 'fileinput-new' },
+                      '\u0412\u044B\u0431\u0440\u0430\u0442\u044C'
+                    ),
+                    _react2.default.createElement('input', { type: 'hidden', value: '', name: '...' }),
+                    _react2.default.createElement('input', { type: 'file', name: '', onChange: this.changeImg })
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group row' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-md-6' },
                   _react2.default.createElement(
                     'label',
                     null,
@@ -35946,13 +35924,13 @@ var AdminAddTeacher = function (_React$Component) {
                   ),
                   _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C',
                     name: 'password',
-                    onChange: this.changeAccount,
+                    onChange: this.changeTeacher,
                     value: this.state.account.password }),
                   _react2.default.createElement('span', { className: 'bar' })
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'form-group' },
+                  { className: 'col-md-6' },
                   _react2.default.createElement(
                     'label',
                     null,
@@ -35960,23 +35938,33 @@ var AdminAddTeacher = function (_React$Component) {
                   ),
                   _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: '\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C',
                     name: 'checkpassword',
-                    onChange: this.changeAccount,
+                    onChange: this.changeTeacher,
                     value: this.state.account.checkpassword }),
+                  _react2.default.createElement('span', { className: 'bar' }),
                   _react2.default.createElement('span', { className: 'bar' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group text-center', id: 'wrongpass', style: { display: 'none' } },
+                _react2.default.createElement(
+                  'p',
+                  { style: { color: 'red' } },
+                  '\u041F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                  'button',
+                  { type: 'submit', className: 'btn btn-info waves-effect waves-light m-r-10', disabled: !this.state.checkContent, style: { paddingLeft: '5%', paddingRight: '5%' } },
+                  '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C'
                 ),
                 _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'button',
-                    { type: 'submit', className: 'btn btn-info waves-effect waves-light m-r-10', disabled: !this.state.checkAcc, style: { paddingLeft: '5%', paddingRight: '5%' } },
-                    '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C'
-                  ),
-                  _react2.default.createElement(
-                    'button',
-                    { type: 'button', onClick: this.clearContent, className: 'btn btn-inverse waves-effect waves-light m-r-10', style: { paddingLeft: '5%', paddingRight: '5%' } },
-                    '\u041E\u0442\u043C\u0435\u043D\u0430'
-                  )
+                  'button',
+                  { type: 'button', onClick: this.clearContent, className: 'btn btn-inverse waves-effect waves-light m-r-10', style: { paddingLeft: '5%', paddingRight: '5%' } },
+                  '\u041E\u0442\u043C\u0435\u043D\u0430'
                 )
               )
             )
@@ -37777,7 +37765,7 @@ var AdminTeachers = function (_React$Component) {
                     _react2.default.createElement(
                       'center',
                       null,
-                      '\u041E\u043F\u0438\u0446\u0438\u0438'
+                      '\u041E\u043F\u0446\u0438\u0438'
                     )
                   ) : _react2.default.createElement('th', null)
                 )
@@ -40867,7 +40855,7 @@ var AdminEditDepartmentModal = function (_React$Component) {
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)',
         padding: 50,
-        marginLeft: 200,
+        paddingLeft: '20%',
         overflow: 'auto'
       };
 
@@ -61332,6 +61320,12 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 576 */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/jpeg;base64,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"
 
 /***/ })
 /******/ ]);

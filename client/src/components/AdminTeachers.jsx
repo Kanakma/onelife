@@ -131,7 +131,7 @@ class AdminTeachers extends React.Component {
                       <th>Телефон</th>
                       <th>E-mail</th>
                       {(this.state.status == "admin") ?(
-                        <th><center>Опиции</center></th>
+                        <th><center>Опции</center></th>
                       ):(
                         <th></th>
                       )}
