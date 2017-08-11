@@ -22,7 +22,6 @@ class AdminAddTeacher extends React.Component {
         gender: '',
         degree: ''
       },
-      accTeacher_id:'',
       file: '',
       filename: '',
       account: {
@@ -87,9 +86,6 @@ class AdminAddTeacher extends React.Component {
         'Content-type': 'application/x-www-form-urlencoded'}
     })
       .then(res => {
-        this.setState({
-          accTeacher_id:res.data.teacher._id
-        })
         var teacher_id = res.data.teacher._id;
         return new Promise((resolve, reject) => {
           let imageFormData = new FormData();
