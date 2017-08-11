@@ -2,6 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
+import InputElement from 'react-input-mask';
 
 class AdminEditTeacherModal extends React.Component {
 
@@ -18,7 +19,9 @@ class AdminEditTeacherModal extends React.Component {
         email:'',
         phone:'',
         faculty_id:'',
-        gender:''
+        gender:'',
+        password: '',
+        checkpassword: ''
       },
       birthday:'',
       entry_year:'',
@@ -262,7 +265,7 @@ class AdminEditTeacherModal extends React.Component {
             </div>
               <div className="form-group">
                 <label>Телефон</label>
-                <input type="tel" className="form-control" placeholder={this.props.teacher.phone}
+                <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder={this.props.teacher.phone}
                       name="phone"
                       onChange={this.changeTeacher}
                       value={this.state.editedTeacher.phone} />
