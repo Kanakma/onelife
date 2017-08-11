@@ -79,7 +79,7 @@ class AdminTeachers extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" style={{paddingRight: '3%'}}>
+      <div className="bg-title" >
         <div className="row">
           <div className="col-md-9">
             <h4>Все преподаватели</h4>
@@ -96,8 +96,8 @@ class AdminTeachers extends React.Component {
         {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
-                <div key={index} className="col-md-4 col-sm-4" style={{padding: '0px 7.5px'}}>
-                  <div className="white-box">
+                <div key={index} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
+                  <div className="white-box teacherInfo">
                       <div className="row">
                           <div className="col-md-4 col-sm-4 text-center">
                               <Link to="/teacherprofile" onClick={this.openTeacher} id={this.props.id} ><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
