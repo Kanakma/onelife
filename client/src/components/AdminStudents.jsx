@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import moment from 'moment';
+import Proptypes from 'prop-types';
+moment.locale('ru');
 
 class AdminStudents extends React.Component {
 
@@ -58,7 +62,7 @@ class AdminStudents extends React.Component {
                     <td>{student.admission_year}</td>
                     <td className="text-center">
                         <div className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}}>
-                            <a href="edit-department.html" style={{color: '#a6abb3', cursor: 'pointer'}}><i className="fa fa-pencil"></i></a>
+                            <Link to="/" style={{color: '#a6abb3', cursor: 'pointer'}}><i className="fa fa-pencil"></i></Link>
                         </div>
                     </td>
                 </tr>

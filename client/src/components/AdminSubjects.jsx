@@ -105,7 +105,7 @@ class AdminSubjects extends React.Component {
                       <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
                       {(this.state.status == "admin") ?(
                         <div>
-                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Подробнее</button>
+                          <Link to="/infosubject" id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Подробнее</Link>
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
                               <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                           </button>
