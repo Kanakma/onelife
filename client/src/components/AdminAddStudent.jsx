@@ -24,12 +24,15 @@ class AdminAddStudent extends React.Component {
         },
         birthday: '',
         majors: [],
-        checkContent: false
+        checkContent: false,
+        file: '',
+        filename: ''
       };
       this.changeStudent = this.changeStudent.bind(this);
       this.addStudent = this.addStudent.bind(this);
       this.birthdayChange = this.birthdayChange.bind(this);
       this.clearContent = this.clearContent.bind(this);
+        this.changeImg = this.changeImg.bind(this);
     }
     componentDidMount() {
       axios.get('/api/getmajors',  {
@@ -93,6 +96,8 @@ class AdminAddStudent extends React.Component {
                 admission_year: '',
                 graduation_year: ''
               },
+              file: '',
+              filename: '',
               birthday: '',
               checkContent: false
             });
@@ -122,6 +127,21 @@ class AdminAddStudent extends React.Component {
       }
 
     }
+    changeImg(e){
+      e.preventDefault();
+
+      let reader = new FileReader();
+      let file = e.target.files[0];
+
+      reader.onloadend = () => {
+          this.setState({
+            file: file,
+            filename: file.name
+          });
+          this.checkContent();
+      }
+      reader.readAsDataURL(file)
+    }
     clearContent(){
       this.setState({
         student: {
@@ -135,7 +155,9 @@ class AdminAddStudent extends React.Component {
           checkpassword:''
         },
         birthday: '',
-        checkContent: false
+        checkContent: false,
+        file: '',
+        filename: ''
       })
     }
   render() {
@@ -205,6 +227,30 @@ class AdminAddStudent extends React.Component {
               )}
             </select>
             <span className="bar"></span>
+          </div>
+        </div>
+        <div className="form-group">
+        <label>Изображение студента</label>
+          <div className="fileinput input-group fileinput-new" data-provides="fileinput">
+              <div className="form-control" data-trigger="fileinput">
+              {this.state.filename.length > 0 ?(
+                <div>
+                <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                <span className="fileinput-filename">{this.state.filename}</span>
+                </div>
+                ):(
+                <span></span>
+                    )}
+              </div>
+              <span className="input-group-addon btn btn-default btn-file">
+                {this.state.filename.length > 0 ?(
+                <span className="fileinput-exists">Изменить</span>
+              ):(
+                <span className="fileinput-new">Выбрать</span>
+              )}
+                <input type="hidden" value="" name="..."/>
+                <input type="file" name="" onChange={this.changeImg}/>
+              </span>
           </div>
         </div>
         <div className="form-group">
