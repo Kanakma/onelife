@@ -5,6 +5,7 @@ import AdminEditTeacherModal from './AdminEditTeacherModal.jsx';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import Proptypes from 'prop-types';
 moment.locale('ru');
 
 class AdminTeachers extends React.Component {
@@ -72,6 +73,9 @@ class AdminTeachers extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  openSubject(event){
+    this.context.router.history.push('/teacherprofile', {teacherId: event.target.id})
+  }
   render() {
     return (
       <div className="container clearfix">
@@ -96,12 +100,14 @@ class AdminTeachers extends React.Component {
                   <div className="white-box">
                       <div className="row">
                           <div className="col-md-4 col-sm-4 text-center">
-                              <Link to="/teaherprofile"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
+                              <Link to="/teacherprofile" onClick={this.openTeacher} id={this.props.id} ><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
                           </div>
                           <div className="col-md-8 col-sm-8">
                               <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
                               <address>
-                                Факультет: {teacher.faculty_name}<br/><br/>
+                                Факультет: {teacher.faculty_name}<br/>
+                                Пользователь: {teacher.username}
+                                <br/>
                                 <abbr title="Email">E:</abbr> {teacher.email}
                                 <br/>
                                 <abbr title="Phone">P:</abbr> {teacher.phone}
@@ -193,3 +199,6 @@ class AdminTeachers extends React.Component {
 }
 
 export default AdminTeachers;
+AdminTeachers.contextTypes={
+  router: Proptypes.object.isRequired
+};
