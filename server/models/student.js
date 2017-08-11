@@ -6,6 +6,7 @@ const StudentSchema = new mongoose.Schema({
     ref: 'User',
     unique: true
   },
+  img: String,
   university_code: String,
   faculty_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Faculty'},
   department_id:{ type:mongoose.Schema.Types.ObjectId, ref:'Department'},
