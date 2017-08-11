@@ -166,11 +166,22 @@ class AdminAddTeacher extends React.Component {
   checkContent(){
     if((this.state.teacher.passport_id.length > 0) && (this.state.teacher.name.length > 0) && (this.state.teacher.lastname.length > 0)
         && (this.state.birthday.length > 0) && (this.state.entry_year.length > 0) && (this.state.filename.length > 0) && (this.state.teacher.gender.length > 0)
-        && (this.state.teacher.degree.length > 0) && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0) && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0) && (this.state.account.password === this.state.account.checkpassword)){
-          this.setState({
-            checkContent: true
-          })
-        } else {
+        && (this.state.teacher.degree.length > 0) && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0) && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0) ){
+          if(this.state.account.password === this.state.account.checkpassword){
+            document.getElementById('wrongpass').style.display = "none"
+            this.setState({
+              checkContent: true
+            })
+          }
+          else if(this.state.account.password != this.state.account.checkpassword){
+              document.getElementById('wrongpass').style.display = "block"
+              this.setState({
+                checkContent: false
+              })
+
+          }
+
+        }else {
           this.setState({
             checkContent: false
           })
@@ -331,6 +342,9 @@ class AdminAddTeacher extends React.Component {
                       onChange={this.changeAccount}
                       value={this.state.account.checkpassword} />
                 <span className="bar"></span>
+              </div>
+              <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+                <p style={{color: 'red'}}>Пароли не совпадают</p>
               </div>
           <div>
             <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
