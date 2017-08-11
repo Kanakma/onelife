@@ -456,10 +456,10 @@ router.post('/addstudent', (req, res) => {
 											}
 											const newStudent = new Student(studentData);
 										  newStudent.save((err) => {
-												if (err) { return done(err); }
+												if (err) { console.log(err) }
 												else {
 													res.send({
-														message: 'Студент добавлен в список'
+														newStudent:newStudent,
 													})
 												}
 											})
@@ -473,7 +473,36 @@ router.post('/addstudent', (req, res) => {
 			})
 		}
 	})
-}) 
+})
+//This route will add the student img
+router.post('/addstudentimg', (req, res) => {
+		let form = new multiparty.Form();
+		var student_id = req.query.student_id;
+	form.parse(req, (err, fields, files) => {
+	  var tempPath = files.imageFile[0].path;
+		var fileName = files.imageFile[0].originalFilename;
+		let copyToPath = "public/student-img/" + student_id + '-' + fileName;
+		fs.readFile(tempPath, (err, data) => {
+			// make copy of image to new location
+			fs.writeFile(copyToPath, data, (err) => {
+				// delete temp image
+				fs.unlink(tempPath, () => {
+						if(err) {return res.status(401).end();}
+						else {
+							Student.findOneAndUpdate({_id: student_id}, { $set: {img: student_id + '-' + fileName}}, { new: true }, (err) => {
+								if(err) { console.log(err) }
+	              else {
+	              	res.status(200).send({
+										message: 'Пользователь добавлен!'
+									})
+								}
+							})
+						}
+				});
+			});
+		});
+	})
+})
 //This route will load all majors
 router.get('/getmajors', (req, res) => {
 	getMajors()

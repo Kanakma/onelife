@@ -32,7 +32,7 @@ class AdminAddStudent extends React.Component {
       this.addStudent = this.addStudent.bind(this);
       this.birthdayChange = this.birthdayChange.bind(this);
       this.clearContent = this.clearContent.bind(this);
-        this.changeImg = this.changeImg.bind(this);
+      this.changeImg = this.changeImg.bind(this);
     }
     componentDidMount() {
       axios.get('/api/getmajors',  {
@@ -85,32 +85,34 @@ class AdminAddStudent extends React.Component {
           'Content-type': 'application/x-www-form-urlencoded'}
       })
         .then(res => {
-            this.setState({
-              message: res.data.message,
-              errors: {},
-              student: {
-                name: '',
-                lastname: '',
-                major_id: '',
-                passport_id: '',
-                admission_year: '',
-                graduation_year: ''
-              },
-              file: '',
-              filename: '',
-              birthday: '',
-              checkContent: false
+              return new Promise((resolve, reject) => {
+                let imageFormData = new FormData();
+                const student_id = res.data.newStudent._id;
+                imageFormData.append('imageFile', this.state.file);
+                axios.post('/api/addstudentimg?student_id='+student_id, imageFormData, {
+                  responseType: 'json',
+                  headers: {
+                  'Content-type': 'application/x-www-form-urlencoded'
+                  }
+                })
+                  .then(response => {
+                      this.setState({
+                        message: response.data.message,
+                        errors: {}
+                      });
+                      this.clearContent();
+                  });
+                });
+          })
+            .catch(err => {
+              if (err.response) {
+                const errors = err.response ? err.response : {};
+                errors.summary = err.response.data.message;
+                this.setState({
+                  errors
+                });
+              }
             });
-        })
-          .catch(err => {
-            if (err.response) {
-              const errors = err.response ? err.response : {};
-              errors.summary = err.response.data.message;
-              this.setState({
-                errors
-              });
-            }
-          });
     }
     birthdayChange(value){
       if((this.state.student.passport_id.length > 0) && (this.state.student.name.length > 0) && (this.state.student.lastname.length > 0)
@@ -138,7 +140,7 @@ class AdminAddStudent extends React.Component {
             file: file,
             filename: file.name
           });
-          this.checkContent();
+          console.log(this.state.file)
       }
       reader.readAsDataURL(file)
     }
