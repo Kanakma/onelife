@@ -96,7 +96,7 @@ class AdminTeachers extends React.Component {
                   <div className="white-box">
                       <div className="row">
                           <div className="col-md-4 col-sm-4 text-center">
-                              <a href="professor-profile.html"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></a>
+                              <Link to="/teaherprofile"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
                           </div>
                           <div className="col-md-8 col-sm-8">
                               <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>

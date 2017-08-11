@@ -2,6 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
+import InputElement from 'react-input-mask';
 
 class AdminEditTeacherModal extends React.Component {
 
@@ -18,14 +19,17 @@ class AdminEditTeacherModal extends React.Component {
         email:'',
         phone:'',
         faculty_id:'',
-        gender:''
+        gender:'',
+        password: '',
+        checkpassword: ''
       },
       birthday:'',
       entry_year:'',
       file: '',
       filename:'',
       // social:this.props.teacher.social,
-      faculties:[]
+      faculties:[],
+      checkPass: true
     }
     this.editTeacherFunc=this.editTeacherFunc.bind(this);
     this.changeTeacher=this.changeTeacher.bind(this);
@@ -77,6 +81,7 @@ class AdminEditTeacherModal extends React.Component {
     });
   }
 
+
   deleteTeacher(){
     const formData = `teacher_id=${JSON.stringify(this.props.teacher.teacher_id)}`;
     axios.post('/api/deleteteacher', formData, {
@@ -106,6 +111,19 @@ class AdminEditTeacherModal extends React.Component {
     const field = event.target.name;
     const editedTeacher = this.state.editedTeacher;
     editedTeacher[field] = event.target.value;
+    if((this.state.editedTeacher.password>0)&&(this.state.editedTeacher.checkpassword>0)&&(this.state.editedTeacher.password!=this.state.editedTeacher.checkpassword)){
+      this.setState({
+        checkPass: false
+      })
+      document.getElementById('wrongpass').style.display = "block"
+
+    }
+    else if(this.state.editedTeacher.password===this.state.editedTeacher.checkpassword)  {
+      this.setState({
+        checkPass: true
+      })
+      document.getElementById('wrongpass').style.display = "none"
+    }
     this.setState({
       editedTeacher
     })
@@ -262,7 +280,7 @@ class AdminEditTeacherModal extends React.Component {
             </div>
               <div className="form-group">
                 <label>Телефон</label>
-                <input type="tel" className="form-control" placeholder={this.props.teacher.phone}
+                <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder={this.props.teacher.phone}
                       name="phone"
                       onChange={this.changeTeacher}
                       value={this.state.editedTeacher.phone} />
@@ -292,7 +310,27 @@ class AdminEditTeacherModal extends React.Component {
                   </span>
               </div>
             </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
+            <div className="form-group">
+              <label>Пароль</label>
+              <input type="password" className="form-control" placeholder="Введите пароль"
+                    name="password"
+                    onChange={this.changeTeacher}
+                    value={this.state.editedTeacher.password}
+                     />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group">
+              <label>Подтверждение пароля</label>
+              <input type="password" className="form-control" placeholder="Повторите пароль"
+                    name="checkpassword"
+                    onChange={this.changeTeacher}
+                    value={this.state.editedTeacher.checkpassword} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+              <p style={{color: 'red'}}>Пароли не совпадают</p>
+            </div>
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass}>
                 Сохранить изменения
               </button>
               <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteTeacher}>

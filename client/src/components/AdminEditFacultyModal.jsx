@@ -1,6 +1,7 @@
 import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
+import InputElement from 'react-input-mask';
 
 
 class AdminEditFacultyModal extends React.Component {
@@ -134,7 +135,7 @@ class AdminEditFacultyModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Телефон</label>
-                <input type="text" className="form-control" placeholder={this.props.faculty.faculty_phone}
+                <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder={this.props.faculty.faculty_phone}
                 name="faculty_phone"
                 onChange={this.changeFaculty}
                 value={this.state.editedFaculty.faculty_phone} />

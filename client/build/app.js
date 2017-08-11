@@ -37152,8 +37152,8 @@ var AdminTeachers = function (_React$Component) {
                       'div',
                       { className: 'col-md-4 col-sm-4 text-center' },
                       _react2.default.createElement(
-                        'a',
-                        { href: 'professor-profile.html' },
+                        _reactRouterDom.Link,
+                        { to: '/teaherprofile' },
                         _react2.default.createElement('img', { src: __webpack_require__(590)("./" + teacher.img), alt: 'user', className: 'img-circle img-responsive teacher-img' })
                       )
                     ),
@@ -39739,6 +39739,10 @@ var _AdminDepartments = __webpack_require__(302);
 
 var _AdminDepartments2 = _interopRequireDefault(_AdminDepartments);
 
+var _TeacherProfile = __webpack_require__(593);
+
+var _TeacherProfile2 = _interopRequireDefault(_TeacherProfile);
+
 var _Auth = __webpack_require__(6);
 
 var _Auth2 = _interopRequireDefault(_Auth);
@@ -39771,6 +39775,7 @@ _reactDom2.default.render(_react2.default.createElement(
     _react2.default.createElement(_reactRouterDom.Route, { path: '/addstudents', component: _AdminAddStudent2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { path: '/departments', component: _AdminDepartments2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { path: '/adddepartments', component: _AdminAddDepartment2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { path: '/teacherprofile', component: _TeacherProfile2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { path: '/logout', render: function render() {
         _Auth2.default.deauthenticateUser();return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
       } })
@@ -40838,7 +40843,9 @@ var AdminEditSubjectModal = function (_React$Component) {
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)',
-        padding: 50
+        padding: 50,
+        marginLeft: 200,
+        overflow: 'auto'
       };
 
       // The modal "window"
@@ -40846,9 +40853,8 @@ var AdminEditSubjectModal = function (_React$Component) {
         backgroundColor: '#fff',
         borderRadius: 5,
         maxWidth: 1000,
-        minHeight: 700,
-        margin: '0 auto',
-        marginTop: '35px',
+        minHeight: 300,
+        margin: '35px auto',
         padding: 30
       };
 
@@ -60899,6 +60905,609 @@ module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAUDBAQ
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "1acc32290ba538fdfaaa2df43f2f23a3.jpg";
+
+/***/ }),
+/* 593 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(12);
+
+var _Auth = __webpack_require__(6);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+var _AdminEditTeacherModal = __webpack_require__(336);
+
+var _AdminEditTeacherModal2 = _interopRequireDefault(_AdminEditTeacherModal);
+
+var _axios = __webpack_require__(8);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _jwtDecode = __webpack_require__(34);
+
+var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
+
+var _moment = __webpack_require__(0);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _TeacherProfileNav = __webpack_require__(594);
+
+var _TeacherProfileNav2 = _interopRequireDefault(_TeacherProfileNav);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+_moment2.default.locale('ru');
+
+var TeacherProfile = function (_React$Component) {
+  _inherits(TeacherProfile, _React$Component);
+
+  function TeacherProfile(props) {
+    _classCallCheck(this, TeacherProfile);
+
+    var _this = _possibleConstructorReturn(this, (TeacherProfile.__proto__ || Object.getPrototypeOf(TeacherProfile)).call(this, props));
+
+    _this.state = {
+      teachers: [],
+      teacher: {},
+      isOpen: false,
+      status: '',
+      checkFilter: false
+    };
+    _this.changeFilter = _this.changeFilter.bind(_this);
+    _this.toggleModal = _this.toggleModal.bind(_this);
+    _this.toggleModalClose = _this.toggleModalClose.bind(_this);
+    return _this;
+  }
+
+  _createClass(TeacherProfile, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _axios2.default.get('/api/getteachers', {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      }).then(function (res) {
+        _this2.setState({
+          teachers: res.data.allTchrs
+        });
+      });
+    }
+  }, {
+    key: 'changeFilter',
+    value: function changeFilter(event) {
+      if (event.target.id == 'list') {
+        this.setState({
+          checkFilter: true
+        });
+      } else {
+        this.setState({
+          checkFilter: false
+        });
+      }
+    }
+  }, {
+    key: 'getStatus',
+    value: function getStatus() {
+      if (_Auth2.default.isUserAuthenticated()) {
+        var token = _Auth2.default.getToken();
+        var decoded = (0, _jwtDecode2.default)(token);
+        this.setState({
+          status: decoded.userstatus
+        });
+      }
+    }
+  }, {
+    key: 'toggleModal',
+    value: function toggleModal(teacher) {
+      this.setState({
+        isOpen: !this.state.isOpen,
+        teacher: teacher
+      });
+    }
+  }, {
+    key: 'toggleModalClose',
+    value: function toggleModalClose() {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      console.log(this.state.teachers);
+      return _react2.default.createElement(
+        'div',
+        { className: 'container clearfix' },
+        _react2.default.createElement(
+          'div',
+          { className: 'bg-title' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-9' },
+              _react2.default.createElement(
+                'h4',
+                null,
+                '\u041F\u0440\u043E\u0444\u0438\u043B\u044C \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'my-content', hidden: this.state.checkFilter },
+          _react2.default.createElement(
+            'div',
+            { className: 'row', style: { marginRight: '-7.5px', marginLeft: '-7.5px' } },
+            this.state.teachers.map(function (teacher, index) {
+              return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                  'div',
+                  { key: index, className: 'col-md-4 col-sm-4 col-xs-12' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'white-box' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'user-bg' },
+                      _react2.default.createElement(
+                        'a',
+                        { href: 'professor-profile.html' },
+                        _react2.default.createElement('img', { src: __webpack_require__(590)("./" + teacher.img), alt: 'user', className: 'img-responsive teacher-profile-img' })
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'user-btm-box' },
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'row text-center m-t-10' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'col-md-6' },
+                          _react2.default.createElement(
+                            'strong',
+                            null,
+                            '\u0418\u043C\u044F'
+                          ),
+                          _react2.default.createElement(
+                            'p',
+                            null,
+                            teacher.name,
+                            ' ',
+                            teacher.lastname
+                          )
+                        ),
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'col-md-6' },
+                          _react2.default.createElement(
+                            'strong',
+                            null,
+                            '\u0421\u0442\u0435\u043F\u0435\u043D\u044C'
+                          ),
+                          _react2.default.createElement(
+                            'p',
+                            null,
+                            teacher.degree
+                          )
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'row text-center m-t-10' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'col-md-6' },
+                          _react2.default.createElement(
+                            'strong',
+                            null,
+                            'E-mail'
+                          ),
+                          _react2.default.createElement(
+                            'p',
+                            null,
+                            teacher.email
+                          )
+                        ),
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'col-md-6' },
+                          _react2.default.createElement(
+                            'strong',
+                            null,
+                            '\u0422\u0435\u043B\u0435\u0444\u043E\u043D'
+                          ),
+                          _react2.default.createElement(
+                            'p',
+                            null,
+                            teacher.phone
+                          )
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'row text-center m-t-10' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'col-md-12' },
+                          _react2.default.createElement(
+                            'strong',
+                            null,
+                            '\u041A\u0430\u0444\u0435\u0434\u0440\u0430'
+                          ),
+                          _react2.default.createElement(
+                            'p',
+                            null,
+                            teacher.department
+                          )
+                        )
+                      ),
+                      _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' }),
+                      _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' }),
+                      _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'row' },
+                      _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' }),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-8 col-sm-8' },
+                        _react2.default.createElement(
+                          'button',
+                          { onClick: _this3.toggleModal.bind(_this3, teacher), className: 'btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo', style: { background: 'none' } },
+                          _react2.default.createElement('i', { style: { color: '#8c8c8c' }, className: 'fa fa-pencil' })
+                        )
+                      )
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-md-8 col-xs-12' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'white-box' },
+                    _react2.default.createElement(_TeacherProfileNav2.default, null)
+                  )
+                )
+              );
+            })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'my-content', hidden: !this.state.checkFilter },
+          _react2.default.createElement(
+            'div',
+            { className: 'table-responsive' },
+            _react2.default.createElement(
+              'table',
+              { id: 'myTable', className: 'table table-striped' },
+              _react2.default.createElement(
+                'thead',
+                null,
+                _react2.default.createElement(
+                  'tr',
+                  null,
+                  _react2.default.createElement(
+                    'th',
+                    null,
+                    '\u2116'
+                  ),
+                  _react2.default.createElement(
+                    'th',
+                    null,
+                    '\u0418\u043C\u044F'
+                  ),
+                  _react2.default.createElement(
+                    'th',
+                    null,
+                    '\u0421\u0442\u0435\u043F\u0435\u043D\u044C'
+                  ),
+                  _react2.default.createElement(
+                    'th',
+                    null,
+                    '\u0424\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442'
+                  ),
+                  _react2.default.createElement(
+                    'th',
+                    null,
+                    '\u0422\u0435\u043B\u0435\u0444\u043E\u043D'
+                  ),
+                  _react2.default.createElement(
+                    'th',
+                    null,
+                    'E-mail'
+                  ),
+                  this.state.status == "admin" ? _react2.default.createElement(
+                    'th',
+                    null,
+                    _react2.default.createElement(
+                      'center',
+                      null,
+                      '\u041E\u043F\u0438\u0446\u0438\u0438'
+                    )
+                  ) : _react2.default.createElement('th', null)
+                )
+              ),
+              _react2.default.createElement(
+                'tbody',
+                null,
+                this.state.teachers.map(function (teacher, t) {
+                  return _react2.default.createElement(
+                    'tr',
+                    { key: t },
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      t + 1
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      teacher.name,
+                      ' ',
+                      teacher.lastname
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      teacher.degree
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      teacher.faculty_id
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      teacher.phone
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      teacher.email
+                    ),
+                    _this3.state.status == "admin" ? _react2.default.createElement(
+                      'td',
+                      { className: 'text-center ' },
+                      _react2.default.createElement(
+                        'button',
+                        { onClick: _this3.toggleModal.bind(_this3, teacher), className: 'btn btn-default btn-circle edit-btn-moreinfo', style: { background: 'none' } },
+                        _react2.default.createElement('i', { className: 'fa fa-pencil', style: { color: '#717171' } })
+                      )
+                    ) : _react2.default.createElement('td', null)
+                  );
+                })
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(_AdminEditTeacherModal2.default, {
+          show: this.state.isOpen,
+          onClose: this.toggleModalClose,
+          teacher: this.state.teacher
+        })
+      );
+    }
+  }]);
+
+  return TeacherProfile;
+}(_react2.default.Component);
+
+exports.default = TeacherProfile;
+
+/***/ }),
+/* 594 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(28);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jwtDecode = __webpack_require__(34);
+
+var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
+
+var _reactRouterDom = __webpack_require__(12);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TeacherProfileNav = function TeacherProfileNav() {
+  return _react2.default.createElement(
+    _reactRouterDom.BrowserRouter,
+    null,
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'ul',
+        { className: 'nav nav-tabs tabs customtab teacher-nav' },
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/biography' },
+            'Biography'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/activity' },
+            'Activity'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/editinfo' },
+            'Edit information'
+          )
+        )
+      ),
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/biography', component: Biography }),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/activity', component: Activity }),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/editinfo', component: EditInfo })
+    )
+  );
+};
+
+var Biography = function Biography() {
+  return _react2.default.createElement(
+    'div',
+    { className: 'tab-content' },
+    _react2.default.createElement(
+      'div',
+      { className: 'row' },
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3 col-xs-6 b-r' },
+        _react2.default.createElement(
+          'strong',
+          null,
+          '\u0424\u0418\u041E'
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('p', { className: 'text-muted' })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3 col-xs-6 b-r' },
+        _react2.default.createElement(
+          'strong',
+          null,
+          '\u0422\u0435\u043B\u0435\u0444\u043E\u043D'
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('p', { className: 'text-muted' })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3 col-xs-6 b-r' },
+        _react2.default.createElement(
+          'strong',
+          null,
+          'E-mail'
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('p', { className: 'text-muted' })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3 col-xs-6 ' },
+        _react2.default.createElement(
+          'strong',
+          null,
+          '\u041C\u0435\u0441\u0442\u043E \u0440\u0430\u0431\u043E\u0442\u044B'
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('p', { className: 'text-muted' })
+      )
+    ),
+    _react2.default.createElement('hr', null),
+    _react2.default.createElement('p', { style: { marginTop: '30px' }, className: '' }),
+    _react2.default.createElement(
+      'h4',
+      { style: { marginTop: '30px' } },
+      '\u041D\u0430\u0432\u044B\u043A\u0438'
+    ),
+    _react2.default.createElement('hr', null),
+    _react2.default.createElement(
+      'h4',
+      { style: { marginTop: '30px' } },
+      '\u041E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435'
+    ),
+    _react2.default.createElement('hr', null),
+    _react2.default.createElement(
+      'h4',
+      { style: { marginTop: '30px' } },
+      '\u041E\u043F\u044B\u0442'
+    ),
+    _react2.default.createElement('hr', null),
+    _react2.default.createElement(
+      'h4',
+      { style: { marginTop: '30px' } },
+      '\u041A\u0443\u0440\u0441\u044B'
+    ),
+    _react2.default.createElement('hr', null)
+  );
+};
+
+var Activity = function Activity() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h2',
+      null,
+      'Activity'
+    )
+  );
+};
+
+var EditInfo = function EditInfo() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h2',
+      null,
+      'Edit Information'
+    )
+  );
+};
+
+exports.default = TeacherProfileNav;
 
 /***/ })
 /******/ ]);
