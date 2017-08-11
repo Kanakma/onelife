@@ -122,14 +122,15 @@ class TeacherAddTest extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="col-md-10 col-md-offset-2 bg-title">
+      <div className=" bg-title">
         <h4>Добавить тест</h4>
         <br/>
         <p>Перед правильным ответом напишите <strong>answer=</strong></p>
         <p>Тест должен содержать минимум 10 вопросов</p>
       </div>
 
-      <div className="col-md-9 my-content add-content" style={{background: 'white'}}>
+      <div className="my-content ">
+      <div className="table-responsive">
       {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
         <div className="form-group">
           <select className="form-control" name="subject_id" value={this.state.subject_id} onChange={this.changeSubject}>
@@ -207,6 +208,7 @@ class TeacherAddTest extends React.Component {
             </div>
           )}
         </div>
+      </div>
       </div>
       </div>);
   }
