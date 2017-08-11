@@ -172,23 +172,23 @@ class Base extends React.Component {
               </div>
             </nav>
               <div className="row">
-              <div className="col-md-2 well-white">
+              <div className="well-white">
               <nav className="navbar side-navbar">
                 <div className="navbar-header">
                   <ul className="nav nav-stacked">
-                      <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
-                      <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Все предметы</Link></li>
+                      <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+                      <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
                       <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
-                          <i className="fa fa-file-text-o fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тест
-                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '90px'}} ></i></span>
-                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '85px'}} ></i></span>
+                          <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Тест
+                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
                           </Link>
                           <ul className="nav" hidden={!this.state.checkStudent}>
-                            <li><Link to="/tests" className="waves-effect" style={{marginLeft: '45px'}}>Все тесты</Link></li>
-                            <li><Link to="/addtest" className="waves-effect" style={{marginLeft: '45px'}}>Добавить тест</Link></li>
+                            <li><Link to="/tests" className="waves-effect" style={{paddingLeft: "45px"}} >Все тесты</Link></li>
+                            <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
                       </li>
-                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i><span className="hide-menu">Выход</span></Link></li>
+                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Выход</span></Link></li>
                   </ul>
                 </div>
               </nav>
