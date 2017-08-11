@@ -18,7 +18,8 @@ class TeacherProfile extends React.Component {
       teacher:{},
       isOpen:false,
       status: '',
-      checkFilter: false
+      checkFilter: false,
+      teacherId: this.props.location.state.teacherId,
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
