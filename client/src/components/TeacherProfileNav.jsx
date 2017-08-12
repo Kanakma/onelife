@@ -7,9 +7,9 @@ const TeacherProfileNav = () => (
   <Router>
     <div>
       <ul className="nav nav-tabs tabs customtab teacher-nav">
-        <li><Link to="/biography">Biography</Link></li>
-        <li><Link to="/activity">Activity</Link></li>
-        <li><Link to="/editinfo">Edit information</Link></li>
+        <li><Link to="/biography">Биография</Link></li>
+        <li><Link to="/activity">Активность</Link></li>
+        <li><Link to="/editinfo">Редактировать информацию</Link></li>
       </ul>
       <Route exact path="/biography" component={Biography}/>
       <Route path="/activity" component={Activity}/>
@@ -57,13 +57,13 @@ const Biography = () => (
 
 const Activity = () => (
   <div>
-    <h2>Activity</h2>
+    <h2>Активность</h2>
   </div>
 )
 
 const EditInfo = () => (
   <div>
-    <h2>Edit Information</h2>
+    <h2>Редактировать информацию</h2>
   </div>
 )
 

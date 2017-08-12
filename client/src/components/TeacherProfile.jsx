@@ -6,6 +6,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import TeacherProfileNav from './TeacherProfileNav.jsx';
+
 moment.locale('ru');
 
 class TeacherProfile extends React.Component {
@@ -18,8 +19,7 @@ class TeacherProfile extends React.Component {
       teacher:{},
       isOpen:false,
       status: '',
-      checkFilter: false,
-      teacherId: this.props.location.state.teacherId,
+      checkFilter: false
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -90,7 +90,7 @@ class TeacherProfile extends React.Component {
         {
           this.state.teachers.map((teacher, index) =>{
             return (
-            <div>
+            <div className="row">
               <div key={index} className="col-md-4 col-sm-4 col-xs-12">
                 <div className="white-box">
                   <div className="user-bg">
