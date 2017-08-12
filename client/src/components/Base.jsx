@@ -188,6 +188,16 @@ class Base extends React.Component {
                             <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
                       </li>
+                       <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
+                          <i className="fa fa-list-alt fa-lg icons" aria-hidden="true" ></i>Посещаемость
+                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                          </Link>
+                          <ul className="nav" hidden={!this.state.checkStudent}>
+                            <li><Link to="/tests" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
+                            <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить посещаемость</Link></li>
+                          </ul>
+                      </li>
                       <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Выход</span></Link></li>
                   </ul>
                 </div>

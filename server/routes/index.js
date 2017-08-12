@@ -9,6 +9,7 @@ var Subject = require('../models/subject')
 var Quiz = require('../models/quiz')
 var QuizPoint = require('../models/quiz_point')
 var Department = require('../models/department')
+var Attendance = require('../models/attendance')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 let multiparty = require('multiparty');
@@ -1357,7 +1358,9 @@ router.get('/getstudents', (req, res) => {
 		}
 	})
 });
-
+router.get('/getattendance', (req,res)=> {
+	console.log('attendance')
+})
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {
 		if(err) {console.log(err) }
