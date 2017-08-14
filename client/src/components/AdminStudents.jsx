@@ -16,10 +16,12 @@ class AdminStudents extends React.Component {
     this.state = {
       students: [],
       isOpen:false,
-      student:{}
+      student:{},
+      checkFilter: false
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.changeFilter = this.changeFilter.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getstudents',  {
@@ -45,13 +47,79 @@ class AdminStudents extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  changeFilter(event){
+    if(event.target.id == 'list'){
+      this.setState({
+        checkFilter: true
+      })
+    } else {
+      this.setState({
+        checkFilter: false
+      })
+    }
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className=" bg-title">
-        <h4>Все студенты</h4>
+      <div className="bg-title" >
+        <div className="row">
+          <div className="col-md-9">
+            <h4>Все студенты</h4>
+          </div>
+          <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
+            <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
+            <i className="fa fa-th-large fa-lg" aria-hidden="true" id="block" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
+            <i className="fa fa-filter fa-lg" aria-hidden="true" style={{color: '#00c292'}}></i>
+          </div>
+        </div>
       </div>
-      <div className=" my-content" >
+      <div className="my-content" hidden={this.state.checkFilter}>
+      <div className="row" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
+        {this.state.students ? (
+            this.state.students.map((student, s) =>{
+              return (
+                <div key={s} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
+                  <div className="white-box teacherInfo">
+                      <div className="row">
+                      {
+                        student.img!='default.jpg' ? (
+                          <div className="col-md-4 col-sm-4 text-center">
+                              <Link to="/teacherprofile"  ><img src={require("../../../public/student-img/"+student.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
+                          </div>
+                          ):(
+                          <div className="col-md-4 col-sm-4 text-center">
+                              <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/></Link>
+                          </div>
+                          )
+                      }
+                          <div className="col-md-8 col-sm-8">
+                              <h3 className="box-title m-b-0">{student.name} {student.lastname}</h3>
+                              <address>
+                                Факультет: {student.faculty_name}<br/>
+                                Пользователь: {student.username}
+                                <br/>
+                                <abbr title="Email">E:</abbr> {student.email}
+                                <br/>
+                                <abbr title="Phone">P:</abbr> {student.phone}
+                              </address>
+                              <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              )
+            })
+          ):(
+              <div>
+                Нет преподавателей. Добавьте преподавателей.
+              </div>
+          )
+        }
+      </div>
+      </div>
+      <div className=" my-content" hidden={!this.state.checkFilter} >
       <div className="table-responsive">
           <table id="myTable" className="table table-striped">
               <thead>

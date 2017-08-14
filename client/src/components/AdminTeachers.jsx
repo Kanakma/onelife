@@ -119,7 +119,7 @@ class AdminTeachers extends React.Component {
                                 <abbr title="Phone">P:</abbr> {teacher.phone}
                               </address>
                               <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil"></i>
+                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
                               </button>
                           </div>
                       </div>

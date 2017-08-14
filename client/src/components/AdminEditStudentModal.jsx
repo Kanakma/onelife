@@ -21,7 +21,8 @@ class AdminEditStudentModal extends React.Component {
       },
       birthday:'',
       file: '',
-      filename: ''
+      filename: '',
+      checkPass: false
     }
       this.changeStudent = this.changeStudent.bind(this);
       this.birthdayChange = this.birthdayChange.bind(this);
@@ -29,6 +30,7 @@ class AdminEditStudentModal extends React.Component {
       this.deleteStudent = this.deleteStudent.bind(this);
       this.editStudentFunc = this.editStudentFunc.bind(this);
       this.addImg = this.addImg.bind(this);
+      this.clearContent = this.clearContent.bind(this);
   };
     componentDidMount() {
       axios.get('/api/getmajors',  {
@@ -89,6 +91,25 @@ class AdminEditStudentModal extends React.Component {
       const field = event.target.name;
       const student = this.state.student;
       student[field] = event.target.value;
+      if((this.state.student.password.length>0) || (this.state.student.checkpassword.length>0)){
+        if(this.state.student.password!=this.state.student.checkpassword){
+          document.getElementById('wrongpass').style.display = "block"
+          this.setState({
+            checkPass: false
+          })
+        } else if(this.state.student.password === this.state.student.checkpassword){
+          this.setState({
+            checkPass: true
+          })
+          document.getElementById('wrongpass').style.display = "none"
+        }
+      }
+      else {
+        document.getElementById('wrongpass').style.display = "none"
+        this.setState({
+          checkPass: true
+        })
+      }
       this.setState({
           student: student
         })
@@ -120,6 +141,24 @@ class AdminEditStudentModal extends React.Component {
         this.setState({
           birthday: value,
         });
+      }
+      clearContent(){
+        this.setState({
+          student: {
+            name: '',
+            lastname: '',
+            major_id: '',
+            passport_id: '',
+            admission_year: '',
+            graduation_year: '',
+            password:'',
+            checkpassword:''
+          },
+          birthday: '',
+          checkContent: false,
+          file: '',
+          filename: ''
+        })
       }
 
   render(){
@@ -192,12 +231,12 @@ class AdminEditStudentModal extends React.Component {
             </select>
             <span className="bar"></span>
           </div>
-        </div> 
+        </div>
         <div className="form-group">
             <label>День рождения</label>
-            <DatePicker value={this.state.birthday} 
-            onChange={this.birthdayChange} 
-            className="form-control mydatepicker" 
+            <DatePicker value={this.state.birthday}
+            onChange={this.birthdayChange}
+            className="form-control mydatepicker"
             placeholder={this.props.student.birthday}
             />
         </div>
@@ -226,8 +265,8 @@ class AdminEditStudentModal extends React.Component {
         <div className="form-group row">
           <div className="col-md-6">
             <label>Специальность</label>
-            <select className="form-control" name="major_id" 
-                    value={this.state.student.major_id} 
+            <select className="form-control" name="major_id"
+                    value={this.state.student.major_id}
                     onChange={this.changeStudent}>
               <option value=''>Выберите специальность</option>
               {this.state.majors.map((major, m) =>
@@ -277,7 +316,10 @@ class AdminEditStudentModal extends React.Component {
                 value={this.state.student.checkpassword} />
           <span className="bar"></span>
         </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
+        <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+          <p style={{color: 'red'}}>Пароли не совпадают</p>
+        </div>
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass} onClick={this.clearContent} >
                 Сохранить изменения
               </button>
               <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteStudent}>

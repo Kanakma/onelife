@@ -155,11 +155,11 @@ class AdminSubjects extends React.Component {
                         <td><center>{subject.course_number}</center></td>
                         <td><center>{subject.remained}</center></td>
                         <td>
-                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Подробнее</button>
+                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                         </td>
                         {(this.state.status == "admin") ?(
                           <td className="text-center ">
-                          <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 edit-btn-moreinfo" style={{background: 'none'}} >
+                          <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
                             <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                           </button>
                           </td>

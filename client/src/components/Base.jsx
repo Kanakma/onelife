@@ -85,12 +85,11 @@ class Base extends React.Component {
           <div className="navbar side-navbar">
             <div className="navbar-header">
               <ul className="nav nav-stacked">
-                  <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Главная</span></Link></li>
+                  <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
                   <li><Link to="#" className="waves-effect" name="faculty" onClick={this.changeHide}>
-                      <i className="fa fa-university fa-lg icons" aria-hidden="true"> </i><span className="hide-menu">Факультеты
+                      <i className="fa fa-university fa-lg icons" aria-hidden="true"> </i>Факультеты
                       <span hidden={this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>
                       <span hidden={!this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>
-                      </span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkFaculty}>
                         <li><Link to="/faculties" className="waves-effect" style={{paddingLeft: '45px'}}>Все факультеты</Link></li>
@@ -98,10 +97,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="department" onClick={this.changeHide}>
-                      <i className="fa fa-building fa-lg icons" aria-hidden="true"></i><span className="hide-menu">Кафедры
+                      <i className="fa fa-building fa-lg icons" aria-hidden="true"></i>Кафедры
                       <span hidden={this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '80px'}} ></i></span>
                       <span hidden={!this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '80px'}} ></i></span>
-                      </span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkDepartment}>
                         <li><Link to="/departments" className="waves-effect" style={{paddingLeft: '45px'}}>Все кафедры</Link></li>
@@ -109,10 +107,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="major" onClick={this.changeHide}>
-                      <i className="fa fa-mortar-board fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Специальности
+                      <i className="fa fa-mortar-board fa-lg icons" aria-hidden="true" ></i>Специальности
                       <span hidden={this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '35px'}} ></i></span>
                       <span hidden={!this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '35px'}} ></i></span>
-                      </span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkMajor}>
                         <li><Link to="/majors" className="waves-effect" style={{paddingLeft: '45px'}}>Все специальности</Link></li>
@@ -120,10 +117,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="subject" onClick={this.changeHide}>
-                      <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Предметы
+                      <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Предметы
                       <span hidden={this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
                       <span hidden={!this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      </span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkSubject}>
                         <li><Link to="/subjects" className="waves-effect" style={{paddingLeft: '45px'}}>Все предметы</Link></li>
@@ -131,10 +127,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="teacher" onClick={this.changeHide}>
-                      <i className="fa fa-user-o fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Преподаватели
+                      <i className="fa fa-user-o fa-lg icons" aria-hidden="true" ></i>Преподаватели
                       <span hidden={this.state.checkTeacher} id="teacher" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       <span hidden={!this.state.checkTeacher} id="teacher" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      </span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkTeacher}>
                         <li><Link to="/teachers" className="waves-effect" style={{paddingLeft: '45px'}}>Все преподаватели</Link></li>
@@ -142,10 +137,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
-                      <i className="fa fa-users fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Студенты
+                      <i className="fa fa-users fa-lg icons" aria-hidden="true" ></i>Студенты
                       <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
                       <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      </span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkStudent}>
                         <li><Link to="/students" className="waves-effect" style={{paddingLeft: '45px'}}>Все студенты</Link></li>
@@ -188,7 +182,7 @@ class Base extends React.Component {
                             <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
                       </li>
-                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">Выход</span></Link></li>
+                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                   </ul>
                 </div>
               </nav>
