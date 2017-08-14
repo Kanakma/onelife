@@ -11,7 +11,10 @@ const SubjectSchema = new mongoose.Schema({
   max_students: Number,
   students: Array,
   description: String,
-  img: String
+  img: {
+    type:String,
+    default:'default.jpg'
+  }
 });
 
 

@@ -97,9 +97,17 @@ class AdminTeachers extends React.Component {
                 <div key={index} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
                   <div className="white-box teacherInfo">
                       <div className="row">
+                      {
+                        teacher.img!='default.jpg' ? (
                           <div className="col-md-4 col-sm-4 text-center">
                               <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
                           </div>
+                          ):(
+                          <div className="col-md-4 col-sm-4 text-center">
+                              <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/></Link>
+                          </div>
+                          )
+                      }
                           <div className="col-md-8 col-sm-8">
                               <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
                               <address>

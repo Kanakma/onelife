@@ -233,7 +233,6 @@ router.post('/addsubjectimg', (req, res) => {
 	let form = new multiparty.Form();
 	var subject_id = req.query.subject_id;
 	form.parse(req, (err, fields, files) => {
-		console.log(files.imageFile.originalFilename)
 	  var tempPath = files.imageFile[0].path;
 		var fileName = files.imageFile[0].originalFilename;
 		let copyToPath = "public/subject-img/" + subject_id +'-'+ fileName;
@@ -262,7 +261,6 @@ router.post('/addsubjectimg', (req, res) => {
 router.post('/addteacher', (req, res) => {
 	var t = JSON.parse(req.body.teacher);
 	var tU = JSON.parse(req.body.account);
-	console.log(t, tU)
 	User.findOne({passport_id: t.passport_id}, (err, user) => {
 		if(err) { console.log(err) }
 		else if (user){
@@ -284,8 +282,8 @@ router.post('/addteacher', (req, res) => {
 						gender: t.gender
 					}
 					const newUser = new User(userData);
-				  newUser.save((err, savedUser) => {
-				    if (err) { console.log(err); }
+				  	newUser.save((err, savedUser) => {
+					    if (err) { console.log(err); }
 						else {
 							var teacherData = {
 								user_id: savedUser._id,
@@ -297,7 +295,7 @@ router.post('/addteacher', (req, res) => {
 								phone:tU.phone
 							}
 							const newTeacher = new Teacher(teacherData);
-						  newTeacher.save((err, teacher) => {
+						  	newTeacher.save((err, teacher) => {
 								if (err) { return done(err); }
 								else {
 									res.send({
@@ -306,7 +304,7 @@ router.post('/addteacher', (req, res) => {
 								}
 							})
 						}
-				  });
+				  	});
 				}
 			})
 		}
@@ -317,25 +315,26 @@ router.post('/addteacherimg', (req, res) => {
 		let form = new multiparty.Form();
 		var teacher_id = req.query.teacher_id;
 	form.parse(req, (err, fields, files) => {
-	  var tempPath = files.imageFile[0].path;
+		console.log(files)
+	  	var tempPath = files.imageFile[0].path;
 		var fileName = files.imageFile[0].originalFilename;
-		let copyToPath = "public/teacher-img/" + teacher_id + '-' + fileName;
+		let copyToPath = "public/teacher-img/" + teacher_id +'-'+ fileName;
 		fs.readFile(tempPath, (err, data) => {
 			// make copy of image to new location
 			fs.writeFile(copyToPath, data, (err) => {
 				// delete temp image
 				fs.unlink(tempPath, () => {
-						if(err) {return res.status(401).end();}
-						else {
-							Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id + '-' + fileName}}, { new: true }, (err) => {
-								if(err) { console.log(err) }
-	              else {
-	              	res.status(200).send({
-										message: 'Пользователь добавлен!'
-									})
-								}
-							})
-						}
+					if(err) {return res.status(401).end();}
+					else {
+						Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id +'-'+ fileName}}, { new: true }, (err) => {
+							if(err) { console.log(err) }
+              				else {
+              					res.status(200).send({
+									message: 'Пользователь добавлен!'
+								})
+							}
+						})
+					}
 				});
 			});
 		});
@@ -377,33 +376,7 @@ router.post('/editteacher', (req, res) =>{
 		}
 	})
 })
-router.post('/editteacherimg', (req, res) => {
-		let form = new multiparty.Form();
-		var teacher_id = req.query.teacher_id;
-	form.parse(req, (err, fields, files) => {
 
-	  var tempPath = files.imageFile[0].path;
-		var fileName = files.imageFile[0].originalFilename;
-		let copyToPath = "public/teacher-img/" + teacher_id + '-' + fileName;
-		fs.readFile(tempPath, (err, data) => {
-			// make copy of image to new location
-			fs.writeFile(copyToPath, data, { flag : 'w' }, (err) => {
-				// delete temp image
-						if(err) {
-							console.log(err);
-							return res.status(401).end();
-						}
-						else {
-							Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id + '-' + fileName}}, { new: true }, (err) => {
-								if(err) { console.log(err) }
-	              else {
-								}
-							})
-						}
-			});
-		});
-	})
-})
 router.post('/deleteteacher', (req, res) =>{
 	var newData = JSON.parse(req.body.teacher_id);
 	Teacher.findOneAndRemove({_id:newData}, function(err, result){
@@ -415,6 +388,7 @@ router.post('/deleteteacher', (req, res) =>{
 		}
 	})
 })
+
 router.post('/addstudent', (req, res) => {
 	User.findOne({passport_id: req.body.passport_id.trim()}, (err, user) => {
 		if(err) { console.log(err) }
@@ -437,6 +411,7 @@ router.post('/addstudent', (req, res) => {
 										password: bcrypt.hashSync(req.body.password, 10),
 										passport_id: req.body.passport_id.trim(),
 										name: req.body.name.trim(),
+										gender:req.body.gender.trim(),
 										lastname: req.body.lastname.trim(),
 										birthday: req.body.birthday.trim(),
 										status: 'student'
@@ -455,7 +430,7 @@ router.post('/addstudent', (req, res) => {
 												graduation_year: req.body.graduation_year.trim()
 											}
 											const newStudent = new Student(studentData);
-										  newStudent.save((err) => {
+										  	newStudent.save((err) => {
 												if (err) { console.log(err) }
 												else {
 													res.send({
@@ -474,6 +449,7 @@ router.post('/addstudent', (req, res) => {
 		}
 	})
 })
+
 //This route will add the student img
 router.post('/addstudentimg', (req, res) => {
 		let form = new multiparty.Form();
@@ -487,20 +463,118 @@ router.post('/addstudentimg', (req, res) => {
 			fs.writeFile(copyToPath, data, (err) => {
 				// delete temp image
 				fs.unlink(tempPath, () => {
-						if(err) {return res.status(401).end();}
-						else {
-							Student.findOneAndUpdate({_id: student_id}, { $set: {img: student_id + '-' + fileName}}, { new: true }, (err) => {
-								if(err) { console.log(err) }
-	              else {
-	              	res.status(200).send({
-										message: 'Пользователь добавлен!'
-									})
-								}
-							})
-						}
+					if(err) {return res.status(401).end();}
+					else {
+						Student.findOneAndUpdate({_id: student_id}, { $set: {img: student_id + '-' + fileName}}, { new: true }, (err) => {
+							if(err) { console.log(err) }
+				            else {
+				            	res.status(200).send({
+									message: 'Пользователь добавлен!'
+								})
+							}
+						})
+					}
 				});
 			});
 		});
+	})
+})
+//this route will delete all student info
+router.post('/deletestudent', (req, res) =>{
+	Student.findOneAndRemove({_id:req.body.student_id}, function(err, result){
+		if(err)console.log(err);
+		if(result){
+			User.findOneAndRemove({_id:result.user_id}, function(err, removed){
+				if(err) console.log(err);
+				if(removed){
+					console.log(removed)
+				}
+			})
+		}
+	})
+})
+//this route will edit the student info
+router.post('/editstudent', (req, res) =>{
+	const editedStudent = JSON.parse(req.body.editedStudent);
+	Student.findOne({_id:req.body.student_id}, function(err, student){
+		if(err) console.log(err);
+		if(student){
+			if(editedStudent.major_id){
+				Major.findOne({_id:editedStudent.major_id}, function(err, major){
+					if(err) console.log(err);
+					if(major){
+						Department.findOne({_id:major.major_department}, function(err, department){
+							if(err) console.log(err);
+							if(department){
+								Faculty.findOne({_id:department.department_faculty},function(err, faculty){
+									if(err) console.log(err);
+									if(faculty){
+										student.faculty_id = faculty._id;
+										student.department_id = department._id;
+										student.major_id = (editedStudent.major_id!='')?editedStudent.major_id:student.major_id;
+										student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+										student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+										student.save(function(err, savedStudent){
+											if(err) console.log(err);
+											if(savedStudent){
+												User.findOne({_id:savedStudent.user_id}, function(err, user){
+													if(err) console.log(err);
+													if(user){
+														user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+														user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+														user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+														user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+														user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+														user.save(function(err, savedUser){
+															if(err) console.log(err);
+															if(savedUser){
+																res.status(200).send({sms:'Yes!!!!!!!'})
+															}
+														})
+													}
+												})
+											}
+										})			
+									}
+								})
+							}
+						})
+					}
+				})
+			} else{
+				Student.findOne({_id:req.body.student_id}, function(err, student){
+					if(err) console.log(err);
+					if(student){
+						student.faculty_id = student.faculty_id;
+						student.department_id = student.department_id;
+						student.major_id = student.major_id;
+						student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+						student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+						student.save(function(err, savedStudent){
+							if(err) console.log(err);
+							if(savedStudent){
+								User.findOne({_id:savedStudent.user_id}, function(err, user){
+									if(err) console.log(err);
+									if(user){
+										user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+										user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+										user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+										user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+										user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+										user.save(function(err, savedUser){
+											if(err) console.log(err);
+											if(savedUser){
+												res.status(200).send({sms:'Yes!!!!!!!'})
+											}
+										})
+									}
+								})
+							}
+						})
+					}
+				})
+			}
+		}
 	})
 })
 //This route will load all majors
@@ -1302,14 +1376,18 @@ router.get('/getstudents', (req, res) => {
 		else {
 			var myStudents = [];
 			var myStudent = {
+					student_id:'',
 					username: '',
 					name: '',
 					lastname: '',
 					passport_id: '',
 					faculty_id: '',
+					faculty_name:'',
 					major_id: '',
+					major_name:'',
 					admission_year: '',
-					graduation_year: ''
+					graduation_year: '',
+					birthday:''
 			}
 			User.find((err, users) => {
 				if(err) {console.log(err) }
@@ -1328,14 +1406,20 @@ router.get('/getstudents', (req, res) => {
 														majors.forEach(function(major){
 															if(student.major_id.toString() == major._id.toString()){
 																myStudent = {
+																		img:student.img,
+																		student_id:student._id,
 																		username: user.username,
+																		user_id:student.user_id,
 																		name: user.name,
 																		lastname: user.lastname,
 																		passport_id: user.passport_id,
-																		faculty_id: faculty.faculty_code,
-																		major_id: major.major_code,
+																		faculty_id: faculty._id,
+																		faculty_name: faculty.faculty_name,
+																		major_id: major._id,
+																		major_name: major.major_name,
 																		admission_year: student.admission_year,
-																		graduation_year: student.graduation_year
+																		graduation_year: student.graduation_year,
+																		birthday:user.birthday
 																}
 																myStudents.push(myStudent);
 															}

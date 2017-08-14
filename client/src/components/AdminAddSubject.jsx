@@ -178,15 +178,21 @@ class AdminAddSubject extends React.Component {
     let reader = new FileReader();
     let file = e.target.files[0];
 
-    reader.onloadend = () => {
+    if(file.size>1000000){
+      this.setState({
+        file: '',
+        filename: ''
+      })
+      alert("Размер файла не должен превышать 1 Мб!")
+    } else{
+      reader.onloadend = () => {
         this.setState({
           file: file,
           filename: file.name
         });
-        this.checkContent()
+      }
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file)
-
   }
   checkContent(){
     if((this.state.subject.description.length > 0) && (this.state.subject.subject_code.length > 0) && (this.state.subject.subject_name.length > 0) && (this.state.subject.teacher_id.length > 0) && (this.state.subject.major_id.length > 0)

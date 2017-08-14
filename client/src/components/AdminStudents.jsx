@@ -4,6 +4,7 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import AdminEditStudentModal from './AdminEditStudentModal.jsx'
 import Proptypes from 'prop-types';
 moment.locale('ru');
 
@@ -13,8 +14,12 @@ class AdminStudents extends React.Component {
     super(props);
 
     this.state = {
-      students: []
+      students: [],
+      isOpen:false,
+      student:{}
     };
+    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModalClose = this.toggleModalClose.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getstudents',  {
@@ -27,6 +32,17 @@ class AdminStudents extends React.Component {
         this.setState({
           students: res.data.students
         });
+      });
+  }
+  toggleModal(student){
+      this.setState({
+        isOpen: !this.state.isOpen,
+        student:student
+    });
+  }
+  toggleModalClose() {
+      this.setState({
+        isOpen: !this.state.isOpen
       });
   }
   render() {
@@ -57,13 +73,13 @@ class AdminStudents extends React.Component {
                     <td>{s+1}</td>
                     <td>{student.username}</td>
                     <td>{student.name} {student.lastname}</td>
-                    <td>{student.major_id}</td>
-                    <td>{student.faculty_id}</td>
+                    <td>{student.major_name}</td>
+                    <td>{student.faculty_name}</td>
                     <td>{student.admission_year}</td>
                     <td className="text-center">
-                        <div className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}}>
-                            <Link to="/" style={{color: '#a6abb3', cursor: 'pointer'}}><i className="fa fa-pencil"></i></Link>
-                        </div>
+                        <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}}>
+                           <i className="fa fa-pencil"></i>
+                        </button>
                     </td>
                 </tr>
               )}
@@ -71,6 +87,11 @@ class AdminStudents extends React.Component {
           </table>
         </div>
         </div>
+        <AdminEditStudentModal
+          show={this.state.isOpen}
+          onClose={this.toggleModalClose}
+          student={this.state.student}
+        />
       </div>);
   }
 }
