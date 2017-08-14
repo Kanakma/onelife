@@ -54,21 +54,35 @@ class AdminAddStudent extends React.Component {
       const student = this.state.student;
       student[field] = event.target.value;
       if((this.state.student.passport_id.length > 0) && (this.state.student.name.length > 0) && (this.state.student.lastname.length > 0)
-            && (this.state.student.major_id.length > 0) && (this.state.birthday.length > 0) && (this.state.student.admission_year > 0) && (this.state.student.graduation_year > 0) && (this.state.student.password.length > 0) && (this.state.student.checkpassword.length > 0) && (this.state.student.password === this.state.student.checkpassword)){
-        this.setState({
-          student: student,
-          checkContent: true,
-          message: '',
-          errors: {}
-        })
-      } else {
-        this.setState({
-          student: student,
-          checkContent: false,
-          message: '',
-          errors: {}
-        })
-      }
+            && (this.state.student.major_id.length > 0) && (this.state.birthday.length > 0) && (this.state.student.admission_year > 0) && (this.state.student.graduation_year > 0) && (this.state.student.password.length > 0)
+            && (this.state.student.checkpassword.length > 0)){
+              if(this.state.student.password === this.state.student.checkpassword){
+                  document.getElementById('wrongpass').style.display = "none"
+                  this.setState({
+                    student: student,
+                    checkContent: true,
+                    message: '',
+                    errors: {}
+                  })
+              }
+              else if(this.state.student.password != this.state.student.checkpassword){
+                  document.getElementById('wrongpass').style.display = "block"
+                  this.setState({
+                    student: student,
+                    checkContent: false,
+                    message: '',
+                    errors: {}
+                  })
+              }
+
+          } else {
+            this.setState({
+              student: student,
+              checkContent: false,
+              message: '',
+              errors: {}
+            })
+          }
     }
     addStudent(event){
       event.preventDefault();
@@ -218,7 +232,7 @@ class AdminAddStudent extends React.Component {
             </select>
             <span className="bar"></span>
           </div>
-        </div>  
+        </div>
         <div className="form-group">
             <label>День рождения</label>
             <DatePicker value={this.state.birthday} onChange={this.birthdayChange} className="form-control mydatepicker" />
@@ -291,6 +305,9 @@ class AdminAddStudent extends React.Component {
                 onChange={this.changeStudent}
                 value={this.state.student.checkpassword} />
           <span className="bar"></span>
+        </div>
+        <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+          <p style={{color: 'red'}}>Пароли не совпадают</p>
         </div>
         <div>
           <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>

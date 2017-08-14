@@ -137,6 +137,12 @@ class AdminAddTeacher extends React.Component {
         gender: '',
         degree: ''
       },
+      account: {
+        email: '',
+        phone: '',
+        password:'',
+        checkpassword:''
+      },
       file: '',
       filename: '',
       birthday: '',
