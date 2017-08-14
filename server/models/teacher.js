@@ -9,7 +9,10 @@ const TeacherSchema = new mongoose.Schema({
   university_code: String,
   faculty_id: String,
   entry_year: Date,
-  img: String,
+  img: {
+    type:String,
+    default:'default.jpg'
+  },
   degree: String,
   email: {
     type:String,

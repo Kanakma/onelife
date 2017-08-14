@@ -25,7 +25,7 @@ class AdminEditTeacherModal extends React.Component {
       },
       birthday:'',
       entry_year:'',
-      file: '',
+      file: {},
       filename:'',
       // social:this.props.teacher.social,
       faculties:[],
@@ -98,7 +98,7 @@ class AdminEditTeacherModal extends React.Component {
     return new Promise((resolve, reject) => {
       let imageFormData = new FormData();
       imageFormData.append('imageFile', this.state.file);
-      axios.post('/api/editteacherimg?teacher_id='+teacher_id, imageFormData, {
+      axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
         responseType: 'json',
         headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -134,14 +134,21 @@ class AdminEditTeacherModal extends React.Component {
 
     let reader = new FileReader();
     let file = e.target.files[0];
-
-    reader.onloadend = () => {
+    if(file.size>1000000){
+      this.setState({
+        file: '',
+        filename: ''
+      })
+      alert("Размер файла не должен превышать 1 Мб!")
+    } else{
+      reader.onloadend = () => {
         this.setState({
           file: file,
           filename: file.name
         });
+      }
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file);
   }
 
   birthdayChange(value){
