@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import jwtDecode from 'jwt-decode';
-import { Redirect, BrowserRouter, Route, Link } from 'react-router-dom';
+import { Redirect, BrowserRouter, Route, Link, History } from 'react-router-dom';
 import LoginPage from './components/LoginPage.jsx';
 import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';

@@ -12,7 +12,7 @@ class StudentSubject extends React.Component {
     this.state = {
       subjectId:  this.props.location.state.subject,
       subject: {},
-      myImg: 'c2.jpg',
+      myImg: '59907daeab55a310c391a057-1.jpg',
       already: false,
       message: '',
       status: ''

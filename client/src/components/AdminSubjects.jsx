@@ -47,7 +47,7 @@ class AdminSubjects extends React.Component {
     }
   }
   openSubject(event){
-    //console.log(this.context.router)
+    console.log(this.context)
     this.context.router.history.push('/choosesubjects', {subject: event.target.id})
   }
   changeFilter(event){
@@ -155,7 +155,7 @@ class AdminSubjects extends React.Component {
                         <td><center>{subject.course_number}</center></td>
                         <td><center>{subject.remained}</center></td>
                         <td>
-                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Подробнее</button>
+                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Регистрация</button>
                         </td>
                         {(this.state.status == "admin") ?(
                           <td className="text-center ">
@@ -191,5 +191,7 @@ class AdminSubjects extends React.Component {
       </div>);
   }
 }
-
+AdminSubjects.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 export default AdminSubjects;
