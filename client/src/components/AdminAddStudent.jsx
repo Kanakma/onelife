@@ -17,10 +17,12 @@ class AdminAddStudent extends React.Component {
           lastname: '',
           major_id: '',
           passport_id: '',
+          gender:'',
           admission_year: '',
           graduation_year: '',
           password:'',
-          checkpassword:''
+          checkpassword:'',
+          gender:''
         },
         birthday: '',
         majors: [],
@@ -52,21 +54,35 @@ class AdminAddStudent extends React.Component {
       const student = this.state.student;
       student[field] = event.target.value;
       if((this.state.student.passport_id.length > 0) && (this.state.student.name.length > 0) && (this.state.student.lastname.length > 0)
-            && (this.state.student.major_id.length > 0) && (this.state.birthday.length > 0) && (this.state.student.admission_year > 0) && (this.state.student.graduation_year > 0) && (this.state.student.password.length > 0) && (this.state.student.checkpassword.length > 0) && (this.state.student.password === this.state.student.checkpassword)){
-        this.setState({
-          student: student,
-          checkContent: true,
-          message: '',
-          errors: {}
-        })
-      } else {
-        this.setState({
-          student: student,
-          checkContent: false,
-          message: '',
-          errors: {}
-        })
-      }
+            && (this.state.student.major_id.length > 0) && (this.state.birthday.length > 0) && (this.state.student.admission_year > 0) && (this.state.student.graduation_year > 0) && (this.state.student.password.length > 0)
+            && (this.state.student.checkpassword.length > 0)){
+              if(this.state.student.password === this.state.student.checkpassword){
+                  document.getElementById('wrongpass').style.display = "none"
+                  this.setState({
+                    student: student,
+                    checkContent: true,
+                    message: '',
+                    errors: {}
+                  })
+              }
+              else if(this.state.student.password != this.state.student.checkpassword){
+                  document.getElementById('wrongpass').style.display = "block"
+                  this.setState({
+                    student: student,
+                    checkContent: false,
+                    message: '',
+                    errors: {}
+                  })
+              }
+
+          } else {
+            this.setState({
+              student: student,
+              checkContent: false,
+              message: '',
+              errors: {}
+            })
+          }
     }
     addStudent(event){
       event.preventDefault();
@@ -75,10 +91,11 @@ class AdminAddStudent extends React.Component {
       const major_id = encodeURIComponent(this.state.student.major_id);
       const birthday = encodeURIComponent(this.state.birthday);
       const admission_year = encodeURIComponent(this.state.student.admission_year);
+      const gender = encodeURIComponent(this.state.student.gender);
       const graduation_year = encodeURIComponent(this.state.student.graduation_year);
       const passport_id = encodeURIComponent(this.state.student.passport_id);
       const password = encodeURIComponent(this.state.student.password);
-      const formData = `passport_id=${passport_id}&name=${name}&lastname=${lastname}&major_id=${major_id}&birthday=${birthday}&admission_year=${admission_year}&graduation_year=${graduation_year}&password=${password}`;
+      const formData = `passport_id=${passport_id}&name=${name}&lastname=${lastname}&major_id=${major_id}&birthday=${birthday}&admission_year=${admission_year}&graduation_year=${graduation_year}&password=${password}&gender=${gender}`;
       axios.post('/api/addstudent', formData, {
         responseType: 'json',
         headers: {
@@ -135,14 +152,21 @@ class AdminAddStudent extends React.Component {
       let reader = new FileReader();
       let file = e.target.files[0];
 
-      reader.onloadend = () => {
+      if(file.size>1000000){
+        this.setState({
+          file: '',
+          filename: ''
+        })
+        alert("Размер файла не должен превышать 1 Мб!")
+      } else{
+        reader.onloadend = () => {
           this.setState({
             file: file,
             filename: file.name
           });
-          console.log(this.state.file)
+        }
+        reader.readAsDataURL(file);
       }
-      reader.readAsDataURL(file)
     }
     clearContent(){
       this.setState({
@@ -197,6 +221,17 @@ class AdminAddStudent extends React.Component {
                 onChange={this.changeStudent}
                 value={this.state.student.passport_id} />
           <span className="bar"></span>
+        </div>
+        <div className="form-group row">
+          <div className="col-md-6">
+            <label>Пол</label>
+            <select className="form-control" name="gender" value={this.state.student.gender} onChange={this.changeStudent}>
+              <option value="">Выберите пол</option>
+              <option value="Мужчина">Мужчина</option>
+              <option value="Женщина">Женщина</option>
+            </select>
+            <span className="bar"></span>
+          </div>
         </div>
         <div className="form-group">
             <label>День рождения</label>
@@ -270,6 +305,9 @@ class AdminAddStudent extends React.Component {
                 onChange={this.changeStudent}
                 value={this.state.student.checkpassword} />
           <span className="bar"></span>
+        </div>
+        <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+          <p style={{color: 'red'}}>Пароли не совпадают</p>
         </div>
         <div>
           <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>

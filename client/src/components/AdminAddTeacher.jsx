@@ -137,6 +137,12 @@ class AdminAddTeacher extends React.Component {
         gender: '',
         degree: ''
       },
+      account: {
+        email: '',
+        phone: '',
+        password:'',
+        checkpassword:''
+      },
       file: '',
       filename: '',
       birthday: '',
@@ -149,15 +155,21 @@ class AdminAddTeacher extends React.Component {
 
     let reader = new FileReader();
     let file = e.target.files[0];
-
-    reader.onloadend = () => {
+    if(file.size>1000000){
+      this.setState({
+        file: '',
+        filename: ''
+      })
+      alert("Размер файла не должен превышать 1 Мб!")
+    } else{
+      reader.onloadend = () => {
         this.setState({
           file: file,
           filename: file.name
         });
-        this.checkContent();
+      }
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file)
   }
   checkContent(){
     if((this.state.teacher.passport_id.length > 0) && (this.state.teacher.name.length > 0) && (this.state.teacher.lastname.length > 0)
