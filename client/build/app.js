@@ -16103,6 +16103,7 @@ var AdminEditTeacherModal = function (_React$Component) {
     _this.deleteTeacher = _this.deleteTeacher.bind(_this);
     _this.changeImg = _this.changeImg.bind(_this);
     _this.addImg = _this.addImg.bind(_this);
+    _this.clearContent = _this.clearContent.bind(_this);
     // this.changeTeacherSocial=this.changeTeacherSocial.bind(this);
     return _this;
   }
@@ -16185,16 +16186,23 @@ var AdminEditTeacherModal = function (_React$Component) {
       var field = event.target.name;
       var editedTeacher = this.state.editedTeacher;
       editedTeacher[field] = event.target.value;
-      if (this.state.editedTeacher.password > 0 && this.state.editedTeacher.checkpassword > 0 && this.state.editedTeacher.password != this.state.editedTeacher.checkpassword) {
-        this.setState({
-          checkPass: false
-        });
-        document.getElementById('wrongpass').style.display = "block";
-      } else if (this.state.editedTeacher.password === this.state.editedTeacher.checkpassword) {
+      if (this.state.editedTeacher.password.length > 0 || this.state.editedTeacher.checkpassword.length > 0) {
+        if (this.state.editedTeacher.password != this.state.editedTeacher.checkpassword) {
+          this.setState({
+            checkPass: false
+          });
+          document.getElementById('wrongpass').style.display = "block";
+        } else if (this.state.editedTeacher.password === this.state.editedTeacher.checkpassword) {
+          this.setState({
+            checkPass: true
+          });
+          document.getElementById('wrongpass').style.display = "none";
+        }
+      } else {
+        document.getElementById('wrongpass').style.display = "none";
         this.setState({
           checkPass: true
         });
-        document.getElementById('wrongpass').style.display = "none";
       }
       this.setState({
         editedTeacher: editedTeacher
@@ -16237,6 +16245,31 @@ var AdminEditTeacherModal = function (_React$Component) {
     value: function entry_yearChange(value) {
       this.setState({
         entry_year: value
+      });
+    }
+  }, {
+    key: 'clearContent',
+    value: function clearContent() {
+      this.setState({
+        teacher: {
+          name: '',
+          lastname: '',
+          faculty_id: '',
+          passport_id: '',
+          gender: '',
+          degree: ''
+        },
+        account: {
+          email: '',
+          phone: '',
+          password: '',
+          checkpassword: ''
+        },
+        file: '',
+        filename: '',
+        birthday: '',
+        entry_year: '',
+        checkContent: false
       });
     }
   }, {
@@ -42344,7 +42377,8 @@ var AdminEditStudentModal = function (_React$Component) {
       },
       birthday: '',
       file: '',
-      filename: ''
+      filename: '',
+      checkPass: false
     };
     _this.changeStudent = _this.changeStudent.bind(_this);
     _this.birthdayChange = _this.birthdayChange.bind(_this);
@@ -42352,6 +42386,7 @@ var AdminEditStudentModal = function (_React$Component) {
     _this.deleteStudent = _this.deleteStudent.bind(_this);
     _this.editStudentFunc = _this.editStudentFunc.bind(_this);
     _this.addImg = _this.addImg.bind(_this);
+    _this.clearContent = _this.clearContent.bind(_this);
     return _this;
   }
 
@@ -42424,6 +42459,24 @@ var AdminEditStudentModal = function (_React$Component) {
       var field = event.target.name;
       var student = this.state.student;
       student[field] = event.target.value;
+      if (this.state.student.password.length > 0 || this.state.student.checkpassword.length > 0) {
+        if (this.state.student.password != this.state.student.checkpassword) {
+          document.getElementById('wrongpass').style.display = "block";
+          this.setState({
+            checkPass: false
+          });
+        } else if (this.state.student.password === this.state.student.checkpassword) {
+          this.setState({
+            checkPass: true
+          });
+          document.getElementById('wrongpass').style.display = "none";
+        }
+      } else {
+        document.getElementById('wrongpass').style.display = "none";
+        this.setState({
+          checkPass: true
+        });
+      }
       this.setState({
         student: student
       });
@@ -42458,6 +42511,26 @@ var AdminEditStudentModal = function (_React$Component) {
     value: function birthdayChange(value) {
       this.setState({
         birthday: value
+      });
+    }
+  }, {
+    key: 'clearContent',
+    value: function clearContent() {
+      this.setState({
+        student: {
+          name: '',
+          lastname: '',
+          major_id: '',
+          passport_id: '',
+          admission_year: '',
+          graduation_year: '',
+          password: '',
+          checkpassword: ''
+        },
+        birthday: '',
+        checkContent: false,
+        file: '',
+        filename: ''
       });
     }
   }, {
@@ -42733,8 +42806,17 @@ var AdminEditStudentModal = function (_React$Component) {
                 _react2.default.createElement('span', { className: 'bar' })
               ),
               _react2.default.createElement(
+                'div',
+                { className: 'form-group text-center', id: 'wrongpass', style: { display: 'none' } },
+                _react2.default.createElement(
+                  'p',
+                  { style: { color: 'red' } },
+                  '\u041F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
+                )
+              ),
+              _react2.default.createElement(
                 'button',
-                { type: 'submit', className: 'btn btn-info waves-effect waves-light m-r-10' },
+                { type: 'submit', className: 'btn btn-info waves-effect waves-light m-r-10', disabled: !this.state.checkPass, onClick: this.clearContent },
                 '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F'
               ),
               _react2.default.createElement(

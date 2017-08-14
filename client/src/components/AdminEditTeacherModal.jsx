@@ -39,6 +39,7 @@ class AdminEditTeacherModal extends React.Component {
     this.deleteTeacher=this.deleteTeacher.bind(this);
     this.changeImg = this.changeImg.bind(this);
     this.addImg = this.addImg.bind(this);
+    this.clearContent = this.clearContent.bind(this);
     // this.changeTeacherSocial=this.changeTeacherSocial.bind(this);
   };
 
@@ -111,18 +112,25 @@ class AdminEditTeacherModal extends React.Component {
     const field = event.target.name;
     const editedTeacher = this.state.editedTeacher;
     editedTeacher[field] = event.target.value;
-    if((this.state.editedTeacher.password>0)&&(this.state.editedTeacher.checkpassword>0)&&(this.state.editedTeacher.password!=this.state.editedTeacher.checkpassword)){
-      this.setState({
-        checkPass: false
-      })
-      document.getElementById('wrongpass').style.display = "block"
-
+    if((this.state.editedTeacher.password.length>0) || (this.state.editedTeacher.checkpassword.length>0)){
+      if((this.state.editedTeacher.password!=this.state.editedTeacher.checkpassword)){
+        this.setState({
+          checkPass: false
+        })
+        document.getElementById('wrongpass').style.display = "block"
+      }
+      else if(this.state.editedTeacher.password===this.state.editedTeacher.checkpassword){
+        this.setState({
+          checkPass: true
+        })
+        document.getElementById('wrongpass').style.display = "none"
+      }
     }
-    else if(this.state.editedTeacher.password===this.state.editedTeacher.checkpassword)  {
+    else {
+      document.getElementById('wrongpass').style.display = "none"
       this.setState({
         checkPass: true
       })
-      document.getElementById('wrongpass').style.display = "none"
     }
     this.setState({
       editedTeacher
@@ -161,6 +169,29 @@ class AdminEditTeacherModal extends React.Component {
       this.setState({
         entry_year: value
       });
+  }
+  clearContent(){
+    this.setState({
+      teacher: {
+        name: '',
+        lastname: '',
+        faculty_id: '',
+        passport_id: '',
+        gender: '',
+        degree: ''
+      },
+      account: {
+        email: '',
+        phone: '',
+        password:'',
+        checkpassword:''
+      },
+      file: '',
+      filename: '',
+      birthday: '',
+      entry_year: '',
+      checkContent: false
+    })
   }
   render(){
 
