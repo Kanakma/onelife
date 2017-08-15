@@ -534,7 +534,7 @@ router.post('/editstudent', (req, res) =>{
 													}
 												})
 											}
-										})			
+										})
 									}
 								})
 							}
@@ -628,7 +628,7 @@ var constructMjr = function(major){
 				}
 				callBack(null, allMjrs)
 			})
-		} 
+		}
 		else{
 			myMajor = {
 						major_id:major._id,
@@ -712,7 +712,7 @@ var constructFclty = function(faculty){
 					departments: faculty.departments
 				}
 			allFclts.push(myFaculty)
-			
+
 			callBack(null, allFclts)
 		}
 	}
@@ -1263,6 +1263,33 @@ router.get('/getonesubject', (req, res) => {
 		}
 	})
 })
+router.get('/getoneteacher', (req, res) => {
+	var teacherId = req.query.teacherId;
+	var myTeacher = {};
+	Teacher.findOne({_id: teacherId}, (err, teacher) => {
+		if(err) { console.log(err) }
+		else {
+		User.findOne({_id: teacher.user_id}, (err, user) => {
+				if(err) { console.log(err) }
+				else {
+									myTeacher = {
+										_id: teacher._id,
+										teacher_username: user.username,
+										teacher_name:  user.name,
+										teacher_lastname: user.lastname,
+										img: teacher.img,
+										degree: teacher.degree,
+										email: teacher.email,
+										phone: teacher.phone
+									}
+									res.send({
+										teacher: myTeacher
+									})
+								}
+							})
+						}
+					})
+				})
 
 //This route will load all teachers info
 router.get('/getteachers', (req, res) => {
@@ -1312,7 +1339,7 @@ var constructTeach = function(teacher){
 			email:'',
 			phone:'',
 			social:'',
-			gender:'', 
+			gender:'',
 			img:'',
 			degree:''
 		}

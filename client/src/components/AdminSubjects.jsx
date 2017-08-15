@@ -47,7 +47,6 @@ class AdminSubjects extends React.Component {
     }
   }
   openSubject(event){
-    console.log(this.context)
     this.context.router.history.push('/choosesubjects', {subject: event.target.id})
   }
   changeFilter(event){
@@ -105,20 +104,20 @@ class AdminSubjects extends React.Component {
                       <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
                       {(this.state.status == "admin") ?(
                         <div>
-                          <Link to="/infosubject" id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Подробнее</Link>
+                          <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
                               <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                           </button>
                         </div>
                       ):(
-                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Подробнее</button>
+                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                       )}
                   </div>
               </div>
             )
           ):(
               <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
-                Нет предметовю Добавьте предметы.
+                Нет предметов Добавьте предметы.
               </div>
           )
         }
@@ -156,7 +155,7 @@ class AdminSubjects extends React.Component {
                         <td><center>{subject.remained}</center></td>
                         <td>
 
-                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light m-t-10" style={{color: 'white'}}>Регистрация</button>
+                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light" style={{color: 'white'}}>Подробнее</button>
 
 
                         </td>

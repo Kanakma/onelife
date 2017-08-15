@@ -15,18 +15,24 @@ class TeacherProfile extends React.Component {
     super(props);
 
     this.state = {
-      teachers: [],
+      teacherId:  this.props.location.state.teacherId,
       teacher:{},
       isOpen:false,
       status: '',
-      checkFilter: false
+      checkFilter: false,
+      myImg: '59916a04a2ab162c0b1dc507-default_avatar.png'
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.getTeacher = this.getTeacher.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getteachers',  {
+    this.getTeacher();
+
+  }
+  getTeacher(){
+    axios.get('/api/getoneteacher?teacherId='+this.state.teacherId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -34,7 +40,8 @@ class TeacherProfile extends React.Component {
     })
       .then(res => {
         this.setState({
-          teachers: res.data.allTchrs
+          teacher: res.data.teacher,
+          myImg: res.data.teacher.img
         });
       });
   }
@@ -75,7 +82,7 @@ class TeacherProfile extends React.Component {
       });
   }
   render() {
-    console.log(this.state.teachers);
+    console.log(this.state.teacher)
     return (
       <div className="container clearfix">
       <div className="bg-title">
@@ -87,40 +94,37 @@ class TeacherProfile extends React.Component {
       </div>
       <div className="my-content" hidden={this.state.checkFilter}>
       <div className="row" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
-        {
-          this.state.teachers.map((teacher, index) =>{
-            return (
             <div className="row">
-              <div key={index} className="col-md-4 col-sm-4 col-xs-12">
+              <div  className="col-md-4 col-sm-4 col-xs-12">
                 <div className="white-box">
                   <div className="user-bg">
-                    <a href="professor-profile.html"><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-responsive teacher-profile-img"/></a>
+                    <img className="img-responsive" src={require("../../../public/teacher-img/"+this.state.myImg)} alt="course-image" style={{width:'100%', height: '100%'}}/>
                   </div>
                   <div className="user-btm-box">
                     <div className="row text-center m-t-10">
                       <div className = "col-md-6">
                         <strong>Имя</strong>
-                        <p>{teacher.name} {teacher.lastname}</p>
+                        <p>{this.state.teacher.teacher_name} {this.state.teacher.teacher_lastname}</p>
                       </div>
                       <div className = "col-md-6">
                         <strong>Степень</strong>
-                        <p>{teacher.degree}</p>
+                        <p>{this.state.teacher.degree}</p>
                       </div>
                     </div>
                     <div className="row text-center m-t-10">
                       <div className = "col-md-6">
                         <strong>E-mail</strong>
-                        <p>{teacher.email}</p>
+                        <p>{this.state.teacher.email}</p>
                       </div>
                       <div className = "col-md-6">
                         <strong>Телефон</strong>
-                        <p>{teacher.phone}</p>
+                        <p>{this.state.teacher.phone}</p>
                       </div>
                     </div>
                     <div className="row text-center m-t-10">
                       <div className = "col-md-12">
                         <strong>Кафедра</strong>
-                        <p>{teacher.department}</p>
+                        <p></p>
                       </div>
                     </div>
                     <div className="col-md-4 col-sm-4 text-center">
@@ -148,66 +152,19 @@ class TeacherProfile extends React.Component {
                   <TeacherProfileNav />
                 </div>
               </div>
-            </div>
-            )
-          })
-        }
+
+
       </div>
       </div>
-      <div className="my-content" hidden={!this.state.checkFilter}>
-      <div className="table-responsive">
+      </div>
 
-          <table id="myTable" className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>№</th>
-                      <th>Имя</th>
-                      <th>Степень</th>
-                      <th>Факультет</th>
-                      <th>Телефон</th>
-                      <th>E-mail</th>
-                      {(this.state.status == "admin") ?(
-                        <th><center>Опиции</center></th>
-                      ):(
-                        <th></th>
-                      )}
-                  </tr>
-              </thead>
-              <tbody>
-
-              {
-                this.state.teachers.map((teacher, t) =>{
-                return(
-                <tr key={t}>
-                    <td>{t+1}</td>
-                    <td>{teacher.name} {teacher.lastname}</td>
-                    <td>{teacher.degree}</td>
-                    <td>{teacher.faculty_id}</td>
-                    <td>{teacher.phone}</td>
-                    <td>{teacher.email}</td>
-                    {(this.state.status == "admin") ?(
-                      <td className="text-center ">
-                        <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
-                          <i className="fa fa-pencil" style={{color: '#717171'}}></i>
-                        </button>
-                      </td>
-                    ):(
-                      <td></td>
-                    )}
-                </tr>
-                    )
-                })
-              }
-              </tbody>
-
-          </table>
-        </div>
-        </div>
           <AdminEditTeacherModal
             show={this.state.isOpen}
             onClose={this.toggleModalClose}
             teacher={this.state.teacher}
           />
+
+
       </div>);
   }
 }

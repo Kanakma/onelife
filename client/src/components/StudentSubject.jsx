@@ -74,34 +74,38 @@ class StudentSubject extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-        <div className="col-md-10 col-md-offset-2 bg-title">
+        <div className="bg-title">
           <h4>Информация о предмете</h4>
         </div>
-        <div className="col-md-9 my-content">
-        <div className="row" style={{marginTop: '-15px'}}>
+        <div className="my-content">
+        <div className="row" >
           <div className="col-md-12 col-xs-12"  style={{padding: '0px 7.5px'}}>
               <div className="white-box">
                   <div className="row">
-                      <div className="col-md-12 m-b-20">
+                      <div className="col-md-offset-4 col-md-4 text-center">
                           <img className="img-responsive" src={require("../../../public/subject-img/"+this.state.myImg)} alt="course-image"/>
                       </div>
                   </div>
-                  <div className="row">
-                      <div className="col-md-4 col-xs-6 b-r"> <strong>Наименование курса</strong>
-                          <br/>
-                          <p className="text-muted">{this.state.subject.subject_name}</p>
+                  <div className="row" style={{margin: '0px', marginTop: '15px'}}>
+                      <div className="col-md-3 col-xs-6 b-r">
+                        <strong>Наименование курса</strong>
+                        <br/>
+                        <p className="text-muted">{this.state.subject.subject_name}</p>
                       </div>
-                      <div className="col-md-3 col-xs-6 b-r"> <strong>Количество кредитов</strong>
-                          <br/>
-                          <p className="text-muted">{this.state.subject.credit_number}</p>
+                      <div className="col-md-3 col-xs-6 b-r">
+                        <strong>Количество кредитов</strong>
+                        <br/>
+                        <p className="text-muted">{this.state.subject.credit_number}</p>
                       </div>
-                      <div className="col-md-3 col-xs-6 b-r"> <strong>Профессор</strong>
-                          <br/>
-                          <p className="text-muted">{this.state.subject.teacher_name}</p>
+                      <div className="col-md-3 col-xs-6 b-r">
+                        <strong>Профессор</strong>
+                        <br/>
+                        <p className="text-muted">{this.state.subject.teacher_name}</p>
                       </div>
-                      <div className="col-md-2 col-xs-6"> <strong>Курс</strong>
-                          <br/>
-                          <p className="text-muted">{this.state.subject.course_number}</p>
+                      <div className="col-md-3 col-xs-6">
+                        <strong>Курс</strong>
+                        <br/>
+                        <p className="text-muted">{this.state.subject.course_number}</p>
                       </div>
                   </div>
                   <hr/>
