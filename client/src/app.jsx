@@ -25,9 +25,9 @@ import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
 import AllInfoSubject from './components/AllInfoSubject.jsx';
+import AdminAddParrent from './components/AdminAddParrent.jsx';
+import AdminParrents from './components/AdminParrents.jsx';
 import Auth from './modules/Auth';
-
-
 
 ReactDom.render((
   <BrowserRouter>
@@ -58,6 +58,8 @@ ReactDom.render((
       <Route path="/adddepartments" component={AdminAddDepartment}/>
       <Route path= "/teacherprofile" component={TeacherProfile}/>
       <Route path= "/infosubject" component={AllInfoSubject}/>
+      <Route path="/addparrent" component={AdminAddParrent}/>
+      <Route path= "/parrents" component={AdminParrents}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

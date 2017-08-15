@@ -16,6 +16,7 @@ class Base extends React.Component {
       checkTeacher: false,
       checkStudent: false,
       checkDepartment: false,
+      checkParrent:false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -62,6 +63,10 @@ class Base extends React.Component {
       this.setState({
         checkDepartment: !this.state.checkDepartment
       })
+    } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
+        this.setState({
+          checkParrent: !this.state.checkParrent
+        })
     }
   }
   render() {
@@ -144,6 +149,16 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkStudent}>
                         <li><Link to="/students" className="waves-effect" style={{paddingLeft: '45px'}}>Все студенты</Link></li>
                         <li><Link to="/addstudents" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить студента</Link></li>
+                      </ul>
+                  </li>
+                    <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
+                      <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Родители
+                      <span hidden={this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <span hidden={!this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkParrent}>
+                        <li><Link to="/parrents" className="waves-effect" style={{paddingLeft: '45px'}}>Все родители</Link></li>
+                        <li><Link to="/addparrent" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить родителя</Link></li>
                       </ul>
                   </li>
                   <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
