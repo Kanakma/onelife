@@ -1397,77 +1397,88 @@ var constructTeach = function(teacher){
 		})
 	}
 }
-router.get('/getstudents', (req, res) => {
-	Student.find((err, students) => {
-		if(err) {console.log(err) }
-		else {
-			var myStudents = [];
-			var myStudent = {
-					student_id:'',
-					username: '',
-					name: '',
-					lastname: '',
-					passport_id: '',
-					faculty_id: '',
-					faculty_name:'',
-					major_id: '',
-					major_name:'',
-					admission_year: '',
-					graduation_year: '',
-					birthday:''
-			}
-			User.find((err, users) => {
-				if(err) {console.log(err) }
-				else {
-					Faculty.find((err, faculties) => {
-						if(err) {console.log(err) }
-						else {
-							Major.find((err, majors) => {
-								if(err) {console.log(err) }
-								else {
-									students.forEach(function(student){
-										users.forEach(function(user){
-											if(student.user_id.toString() == user._id.toString()){
-												faculties.forEach(function(faculty){
-													if(student.faculty_id.toString() == faculty._id.toString()){
-														majors.forEach(function(major){
-															if(student.major_id.toString() == major._id.toString()){
-																myStudent = {
-																		img:student.img,
-																		student_id:student._id,
-																		username: user.username,
-																		user_id:student.user_id,
-																		name: user.name,
-																		lastname: user.lastname,
-																		passport_id: user.passport_id,
-																		faculty_id: faculty._id,
-																		faculty_name: faculty.faculty_name,
-																		major_id: major._id,
-																		major_name: major.major_name,
-																		admission_year: student.admission_year,
-																		graduation_year: student.graduation_year,
-																		birthday:user.birthday
-																}
-																myStudents.push(myStudent);
-															}
-														})
-													}
-												})
-											}
-										});
-									});
-									res.send({
-										students: myStudents
-									})
-								}
-							})
-						}
-					})
-				}
+router.get('/getstudents', (req, res) =>{
+	Student.find().populate('user_id faculty_id department_id major_id').exec(function(err, students){
+		if(err) console.log(err);
+		if(students){
+			res.send({
+				students: students
 			})
 		}
 	})
-});
+})
+
+// router.get('/getstudents', (req, res) => {
+// 	Student.find((err, students) => {
+// 		if(err) {console.log(err) }
+// 		else {
+// 			var myStudents = [];
+// 			var myStudent = {
+// 					student_id:'',
+// 					username: '',
+// 					name: '',
+// 					lastname: '',
+// 					passport_id: '',
+// 					faculty_id: '',
+// 					faculty_name:'',
+// 					major_id: '',
+// 					major_name:'',
+// 					admission_year: '',
+// 					graduation_year: '',
+// 					birthday:''
+// 			}
+// 			User.find((err, users) => {
+// 				if(err) {console.log(err) }
+// 				else {
+// 					Faculty.find((err, faculties) => {
+// 						if(err) {console.log(err) }
+// 						else {
+// 							Major.find((err, majors) => {
+// 								if(err) {console.log(err) }
+// 								else {
+// 									students.forEach(function(student){
+// 										users.forEach(function(user){
+// 											if(student.user_id.toString() == user._id.toString()){
+// 												faculties.forEach(function(faculty){
+// 													if(student.faculty_id.toString() == faculty._id.toString()){
+// 														majors.forEach(function(major){
+// 															if(student.major_id.toString() == major._id.toString()){
+// 																myStudent = {
+// 																		img:student.img,
+// 																		student_id:student._id,
+// 																		username: user.username,
+// 																		user_id:student.user_id,
+// 																		name: user.name,
+// 																		lastname: user.lastname,
+// 																		passport_id: user.passport_id,
+// 																		faculty_id: faculty._id,
+// 																		faculty_name: faculty.faculty_name,
+// 																		major_id: major._id,
+// 																		major_name: major.major_name,
+// 																		admission_year: student.admission_year,
+// 																		graduation_year: student.graduation_year,
+// 																		birthday:user.birthday
+// 																}
+// 																myStudents.push(myStudent);
+// 															}
+// 														})
+// 													}
+// 												})
+// 											}
+// 										});
+// 									});
+// 									res.send({
+// 										students: myStudents
+// 									})
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
+// 		}
+// 	})
+// });
 
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {
