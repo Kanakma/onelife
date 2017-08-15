@@ -83,7 +83,7 @@ class StudentSubject extends React.Component {
               <div className="white-box">
                   <div className="row">
                       <div className="col-md-offset-4 col-md-4 text-center">
-                          <img className="img-responsive" src={require("../../../public/subject-img/"+this.state.myImg)} alt="course-image"/>
+                          <img className="img-responsive" src={require("../../../public/subject-img/"+this.state.myImg)} alt="course-image" style={{width: '100%', height: '100%'}}/>
                       </div>
                   </div>
                   <div className="row" style={{margin: '0px', marginTop: '15px'}}>
