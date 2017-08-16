@@ -162,6 +162,7 @@ class AdminEditStudentModal extends React.Component {
       }
 
   render(){
+    console.log(this.props.student)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -199,7 +200,7 @@ class AdminEditStudentModal extends React.Component {
             <form action="/students" onSubmit={this.editStudentFunc}>
               <div className="form-group">
         <label>Имя студента</label>
-          <input type="text" className="form-control" placeholder={this.props.student.name}
+          <input type="text" className="form-control" placeholder={this.props.student.user_id.name}
                 name="name"
                 onChange={this.changeStudent}
                 value={this.state.student.name} />
@@ -207,7 +208,7 @@ class AdminEditStudentModal extends React.Component {
         </div>
         <div className="form-group">
         <label>Фамилия студента</label>
-          <input type="text" className="form-control" placeholder={this.props.student.lastname}
+          <input type="text" className="form-control" placeholder={this.props.student.user_id.lastname}
                 name="lastname"
                 onChange={this.changeStudent}
                 value={this.state.student.lastname} />
@@ -215,7 +216,7 @@ class AdminEditStudentModal extends React.Component {
         </div>
         <div className="form-group">
         <label>ИИН</label>
-          <input type="text" className="form-control" placeholder={this.props.student.passport_id}
+          <input type="text" className="form-control" placeholder={this.props.student.user_id.passport_id}
                 name="passport_id"
                 onChange={this.changeStudent}
                 value={this.state.student.passport_id} />
@@ -237,13 +238,13 @@ class AdminEditStudentModal extends React.Component {
             <DatePicker value={this.state.birthday}
             onChange={this.birthdayChange}
             className="form-control mydatepicker"
-            placeholder={this.props.student.birthday}
+            placeholder={this.props.student.user_id.birthday}
             />
         </div>
         <div className="form-group row">
           <div className="col-md-6">
           <label>Год поступления</label>
-            <input type="number" className="form-control" placeholder={this.props.student.name}
+            <input type="number" className="form-control"
                   name="admission_year"
                   onChange={this.changeStudent}
                   value={this.state.student.admission_year}
@@ -253,7 +254,7 @@ class AdminEditStudentModal extends React.Component {
           </div>
           <div className="col-md-6">
           <label>Год выпуска</label>
-            <input type="number" className="form-control" placeholder={this.props.student.name}
+            <input type="number" className="form-control"
                   name="graduation_year"
                   onChange={this.changeStudent}
                   value={this.state.student.graduation_year}
