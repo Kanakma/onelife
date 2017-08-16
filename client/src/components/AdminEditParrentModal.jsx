@@ -1,50 +1,46 @@
 import React from 'react';
-import Auth from '../modules/Auth';
 import axios from 'axios';
+import Auth from '../modules/Auth'
 import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
+import Select from 'react-select';
 
 class AdminEditParrentModal extends React.Component {
 
   constructor(props){
     super(props);
-    this.state={
-      editedTeacher:{
-        name:'',
-        lastname:'',
+    this.state = {
+      message: '',
+      errors: {},
+      students:[],
+      parrent:{
+        address:'',
         passport_id:'',
-        birthday:'',
-        entry_year:'',
-        degree:'',
-        email:'',
-        phone:'',
-        faculty_id:'',
-        gender:'',
-        password: '',
-        checkpassword: ''
+        gender:''
       },
-      birthday:'',
-      entry_year:'',
-      file: {},
-      filename:'',
-      // social:this.props.teacher.social,
-      faculties:[],
-      checkPass: true
-    }
-    this.editTeacherFunc=this.editTeacherFunc.bind(this);
-    this.changeTeacher=this.changeTeacher.bind(this);
-    this.birthdayChange=this.birthdayChange.bind(this);
-    this.entry_yearChange=this.entry_yearChange.bind(this);
-    this.dateFormat=this.dateFormat.bind(this);
-    this.deleteTeacher=this.deleteTeacher.bind(this);
-    this.changeImg = this.changeImg.bind(this);
-    this.addImg = this.addImg.bind(this);
+      account: {
+        lastname:'',
+        name:'',
+        email: '',
+        phone: '',
+        password:'',
+        checkpassword:''
+      },
+      birthday: '',
+      checkContent: false, 
+      value: []
+    };
+    this.changeParrent = this.changeParrent.bind(this);
+    this.editParrent = this.editParrent.bind(this);
+    this.deleteParrent = this.deleteParrent.bind(this);
+    this.birthdayChange = this.birthdayChange.bind(this);
     this.clearContent = this.clearContent.bind(this);
-    // this.changeTeacherSocial=this.changeTeacherSocial.bind(this);
+    this.changeAccount = this.changeAccount.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
   };
 
   componentDidMount() {
-    axios.get('/api/getfaculties',  {
+    axios.get('/api/getstudents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -52,135 +48,61 @@ class AdminEditParrentModal extends React.Component {
     })
       .then(res => {
         this.setState({
-          faculties: res.data.allFclts
+          students: res.data.students
         });
       });
   }
-
-  dateFormat(date){
-    var fDate = new Date(date);
-    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
-    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
-    return m + "/" + d + "/" + fDate.getFullYear()
-  }
-
-  editTeacherFunc(){
-    event.preventDefault();
-    if(this.state.filename.length>0){
-      this.addImg();
-    }
-    const teacher_id = this.props.teacher.teacher_id;
-    const birthday = this.state.birthday;
-    const entry_year = this.state.entry_year;
-    const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
-    axios.post('/api/editteacher', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    });
-  }
-
-
-  deleteTeacher(){
-    const formData = `teacher_id=${JSON.stringify(this.props.teacher.teacher_id)}`;
-    axios.post('/api/deleteteacher', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
-  }
-
-  addImg(){
-    var teacher_id = this.props.teacher.teacher_id;
-    return new Promise((resolve, reject) => {
-      let imageFormData = new FormData();
-      imageFormData.append('imageFile', this.state.file);
-      axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
-        responseType: 'json',
-        headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-        }
-      })
-    });
-  }
-
-  changeTeacher(event){
+  changeParrent(event){
     const field = event.target.name;
-    const editedTeacher = this.state.editedTeacher;
-    editedTeacher[field] = event.target.value;
-    if((this.state.editedTeacher.password.length>0) || (this.state.editedTeacher.checkpassword.length>0)){
-      if((this.state.editedTeacher.password!=this.state.editedTeacher.checkpassword)){
-        this.setState({
-          checkPass: false
-        })
-        document.getElementById('wrongpass').style.display = "block"
-      }
-      else if(this.state.editedTeacher.password===this.state.editedTeacher.checkpassword){
-        this.setState({
-          checkPass: true
-        })
-        document.getElementById('wrongpass').style.display = "none"
-      }
-    }
-    else {
-      document.getElementById('wrongpass').style.display = "none"
+    const parrent = this.state.parrent;
+    parrent[field] = event.target.value;
       this.setState({
-        checkPass: true
+        parrent: parrent
       })
-    }
-    this.setState({
-      editedTeacher
+  }
+  editParrent(){
+    event.preventDefault();
+    var parrent_id=this.props.parrent._id;
+    const birthday = encodeURIComponent(this.state.birthday);
+    const formData = `parrent=${JSON.stringify(this.state.parrent)}&birthday=${birthday}&account=${JSON.stringify(this.state.account)}&students=${JSON.stringify(this.state.value)}&parrent_id=${parrent_id}`;
+    axios.post('/api/editparrent', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
+      }
     })
   }
 
-  changeImg(e){
-    e.preventDefault();
-
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    if(file.size>1000000){
-      this.setState({
-        file: '',
-        filename: ''
-      })
-      alert("Размер файла не должен превышать 1 Мб!")
-    } else{
-      reader.onloadend = () => {
-        this.setState({
-          file: file,
-          filename: file.name
-        });
+  deleteParrent(){
+    var parrent_id=this.props.parrent._id;
+    const formData = `parrent_id=${parrent_id}`;
+    axios.post('/api/deleteparrent', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
       }
-      reader.readAsDataURL(file);
-    }
+    })
   }
-
+  
   birthdayChange(value){
       this.setState({
         birthday: value
       });
   }
-
-  entry_yearChange(value){
-      this.setState({
-        entry_year: value
-      });
-  }
+  
   clearContent(){
-    this.setState({
-      teacher: {
-        name: '',
-        lastname: '',
+    this.setState({ 
+      parrent: {
         faculty_id: '',
         passport_id: '',
         gender: '',
         degree: ''
       },
       account: {
+        name: '',
+        lastname: '',
         email: '',
         phone: '',
         password:'',
@@ -189,16 +111,31 @@ class AdminEditParrentModal extends React.Component {
       file: '',
       filename: '',
       birthday: '',
-      entry_year: '',
+      value:[],
       checkContent: false
     })
   }
-  render(){
 
+  changeAccount(event){
+    const field = event.target.name;
+    const account = this.state.account;
+    account[field] = event.target.value;
+      this.setState({
+        account: account
+      })
+  }
+
+  handleSelectChange (value) {
+    this.setState({ value });
+
+  }
+
+  render() {
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
     }
+
     // The gray background
     const backdropStyle = {
       position: 'fixed',
@@ -217,162 +154,132 @@ class AdminEditParrentModal extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 1000,
-      minHeight: 700,
+      minHeight: 300,
       margin: '35px auto',
       padding: 30
     };
+
+    function valueProp(student){
+      return { value:student._id, label:student.user_id.name + ' ' + student.user_id.lastname}
+    }
+    
+    var options = this.state.students.map(valueProp)
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-          <div>
               <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
                 X
               </button>
-            <form action="/parrents" onSubmit={this.editTeacherFunc}>
+          <div>
+            <form action="/parrents"  onSubmit={this.editParrent}>
               <div className="form-group">
-                <label>Имя</label>
-                <input type="text" className="form-control" placeholder={this.props.teacher.name}
-                name="name"
-                onChange={this.changeTeacher}
-                value={this.state.editedTeacher.name} />
+              <label>Имя родителя</label>
+                <input type="text" className="form-control" placeholder={this.props.parrent.user_id.name}
+                      name="name"
+                      onChange={this.changeAccount}
+                      value={this.state.parrent.name} />
                 <span className="bar"></span>
               </div>
               <div className="form-group">
-                <label>Фамилия</label>
-                <input type="text" className="form-control" placeholder={this.props.teacher.lastname}
-                name="lastname"
-                onChange={this.changeTeacher}
-                value={this.state.editedTeacher.lastname} />
+              <label>Фамилия родителя</label>
+                <input type="text" className="form-control" placeholder={this.props.parrent.user_id.lastname}
+                      name="lastname"
+                      onChange={this.changeAccount}
+                      value={this.state.parrent.lastname} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group row">
+                <div className="col-md-6">
+                  <label>День рождения</label>
+                  <DatePicker value={this.state.birthday}
+                  placeholder={this.props.parrent.user_id.birthday}
+                  onChange={this.birthdayChange}
+                  className="form-control mydatepicker"/>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Телефон</label>
+                <InputElement mask="+7 (999) 999-99-99"
+                      className="form-control" 
+                      placeholder={this.props.parrent.phone}
+                      name="phone"
+                      onChange={this.changeAccount}
+                      value={this.state.account.phone} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                <label>E-mail</label>
+                <input type="email" 
+                      className="form-control"
+                      placeholder={this.props.parrent.email}
+                      name="email"
+                      onChange={this.changeAccount}
+                      value={this.state.account.email} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group row">
+                <div className="col-md-6">
+                    <label>Студенты</label>
+                    <Select
+                      options={options}
+                      onChange={this.handleSelectChange}
+                      multi={true}
+                      multiSelectAll={true}
+                      value={this.state.value}
+                      placeholder=""
+                    />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Адрес</label>
+                <input type="text" className="form-control"
+                      placeholder={this.props.parrent.address}
+                      name="address"
+                      onChange={this.changeParrent}
+                      value={this.state.parrent.address} />
                 <span className="bar"></span>
               </div>
               <div className="form-group">
                 <label>ИИН</label>
-                <input type="text" className="form-control" placeholder={this.props.teacher.passport_id}
-                name="passport_id"
-                onChange={this.changeTeacher}
-                value={this.state.editedTeacher.passport_id}/>
+                <input type="text" className="form-control"
+                      placeholder={this.props.parrent.user_id.passport_id}
+                      name="passport_id"
+                      onChange={this.changeParrent}
+                      value={this.state.parrent.passport_id} />
                 <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>День рождения</label>
-                <DatePicker value={this.state.birthday}
-                onChange={this.birthdayChange}
-                placeholder={this.dateFormat(this.props.teacher.birthday)}
-                className="form-control mydatepicker"/>
-              </div>
-              <div className="form-group">
-                <label>День начала работы</label>
-                <DatePicker value={this.state.entry_year}
-                placeholder={this.dateFormat(this.props.teacher.entry_year)}
-                onChange={this.entry_yearChange}
-                className="form-control mydatepicker"/>
               </div>
               <div className="form-group row">
                 <div className="col-md-6">
                   <label>Пол</label>
-                  <select className="form-control" name="gender" value={this.state.editedTeacher.gender} onChange={this.changeTeacher}>
+                  <select className="form-control" name="gender" value={this.state.parrent.gender} onChange={this.changeParrent}>
                     <option value="">Выберите пол</option>
                     <option value="Мужчина">Мужчина</option>
                     <option value="Женщина">Женщина</option>
                   </select>
                   <span className="bar"></span>
                 </div>
-                <div className="col-md-6">
-                  <label>Степень</label>
-                  <select className="form-control" name="degree" value={this.state.editedTeacher.degree} onChange={this.changeTeacher}>
-                    <option value="">Выберите степень</option>
-                    <option value="Ассистент">Ассистент</option>
-                    <option value="Лаборант">Лаборант</option>
-                    <option value="Доктор">Доктор</option>
-                    <option value="Профессор">Профессор</option>
-                    <option value="Академик">Академик</option>
-                  </select>
-                  <span className="bar"></span>
-                </div>
               </div>
-              {this.state.faculties ? (
-                <div className="form-group">
-                  <select className="form-control" name="faculty_id" value={this.state.editedTeacher.faculty_id} onChange={this.changeTeacher}>
-                    <option value=''>Выберите факультет</option>
-                    {this.state.faculties.map((faculty, f) =>
-                      <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
-                    )}
-                  </select>
-                  <span className="bar"></span>
-                </div>
-                ) : (
-                <div className="form-group">
-                  <select className="form-control" name="faculty_id" value={this.state.editedTeacher.faculty_id} onChange={this.changeTeacher}>
-                    <option value=''>Факультеты не добавлены</option>
-                  </select>
-                  <span className="bar"></span>
-                </div>
-                )}
               <div className="form-group">
-                <label>E-mail</label>
-                <input type="email" className="form-control" placeholder={this.props.teacher.email}
-                      name="email"
-                      onChange={this.changeTeacher}
-                      value={this.state.editedTeacher.email} />
+                <label>Пароль</label>
+                <input type="password" className="form-control" placeholder="Введите пароль"
+                      name="password"
+                      onChange={this.changeAccount}
+                      value={this.state.account.password} />
                 <span className="bar"></span>
-            </div>
-              <div className="form-group">
-                <label>Телефон</label>
-                <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder={this.props.teacher.phone}
-                      name="phone"
-                      onChange={this.changeTeacher}
-                      value={this.state.editedTeacher.phone} />
-                <span className="bar"></span>
-            </div>
-            <div className="form-group">
-              <label>Изображение преподавателя</label>
-              <div className="fileinput input-group fileinput-new" data-provides="fileinput">
-                  <div className="form-control" data-trigger="fileinput">
-                  {this.state.filename.length > 0 ?(
-                    <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                    </div>
-                  ):(
-                    <span></span>
-                  )}
-                  </div>
-                  <span className="input-group-addon btn btn-default btn-file">
-                  {this.state.filename.length > 0 ?(
-                    <span className="fileinput-exists">Изменить</span>
-                  ):(
-                    <span className="fileinput-new">Выбрать</span>
-                  )}
-                    <input type="hidden" value="" name="..."/>
-                    <input type="file" name="" onChange={this.changeImg} />
-                  </span>
               </div>
-            </div>
-            <div className="form-group">
-              <label>Пароль</label>
-              <input type="password" className="form-control" placeholder="Введите пароль"
-                    name="password"
-                    onChange={this.changeTeacher}
-                    value={this.state.editedTeacher.password}
-                     />
-              <span className="bar"></span>
-            </div>
-            <div className="form-group">
-              <label>Подтверждение пароля</label>
-              <input type="password" className="form-control" placeholder="Повторите пароль"
-                    name="checkpassword"
-                    onChange={this.changeTeacher}
-                    value={this.state.editedTeacher.checkpassword} />
-              <span className="bar"></span>
-            </div>
-            <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
-              <p style={{color: 'red'}}>Пароли не совпадают</p>
-            </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass}>
+              <div className="form-group">
+                <label>Подтверждение пароля</label>
+                <input type="password" className="form-control" placeholder="Повторите пароль"
+                      name="checkpassword"
+                      onChange={this.changeAccount}
+                      value={this.state.account.checkpassword} />
+                <span className="bar"></span>
+              </div>
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
                 Сохранить изменения
               </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteTeacher}>
-                Удалить Преподователя
+              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteParrent}>
+                Удалить родителя
               </button>
             </form>
           </div>
@@ -381,5 +288,4 @@ class AdminEditParrentModal extends React.Component {
     );
   }
 }
-
 export default AdminEditParrentModal;

@@ -4,6 +4,7 @@ import Auth from '../modules/Auth'
 import AdminHome from './AdminHome.jsx';
 import StudentHome from './StudentHome.jsx';
 import TeacherHome from './TeacherHome.jsx';
+import ParentHome from './ParentHome.jsx';
 import App from './App.jsx';
 import Base from './Base.jsx';
 import jwtDecode from 'jwt-decode';
@@ -32,8 +33,10 @@ class HomePage extends React.Component {
           <AdminHome />
       ): (this.state.status == "student") ?(
         <StudentHome />
-      ):(
+      ):(this.state.status == "teacher") ?(
         <TeacherHome />
+      ):(
+        <ParentHome />
       )}
       </div>);
   }

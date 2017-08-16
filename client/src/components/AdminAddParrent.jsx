@@ -15,28 +15,24 @@ class AdminAddParrent extends React.Component {
       errors: {},
       students:[],
       parrent:{
-        lastname:'',
-        name:'',
-        childs:[],
         address:'',
         passport_id:'',
         gender:''
       },
       account: {
+        lastname:'',
+        name:'',
         email: '',
         phone: '',
         password:'',
         checkpassword:''
       },
-      checkAcc:false,
       birthday: '',
-      checkContent: false, 
       value: []
     };
     this.changeParrent = this.changeParrent.bind(this);
     this.addParrent = this.addParrent.bind(this);
     this.birthdayChange = this.birthdayChange.bind(this);
-    this.entry_yearChange = this.entry_yearChange.bind(this);
     this.clearContent = this.clearContent.bind(this);
     this.changeAccount = this.changeAccount.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -59,17 +55,13 @@ class AdminAddParrent extends React.Component {
     const parrent = this.state.parrent;
     parrent[field] = event.target.value;
       this.setState({
-        parrent: parrent,
-        checkContent: true,
-        message: '',
-        errors: {}
+        parrent: parrent
       })
-      this.checkContent();
   }
   addParrent(event){
     event.preventDefault();
     const birthday = encodeURIComponent(this.state.birthday);
-    const formData = `parrent=${JSON.stringify(this.state.parrent)}&birthday=${birthday}&account=${JSON.stringify(this.state.account)}`;
+    const formData = `parrent=${JSON.stringify(this.state.parrent)}&birthday=${birthday}&account=${JSON.stringify(this.state.account)}&students=${JSON.stringify(this.state.value)}`;
     axios.post('/api/addparrent', formData, {
       responseType: 'json',
       headers: {
@@ -96,87 +88,43 @@ class AdminAddParrent extends React.Component {
       this.setState({
         birthday: value
       });
-      this.checkContent();
   }
   
-  entry_yearChange(value){
-      this.setState({
-        entry_year: value
-      });
-      this.checkContent();
-  }
   clearContent(){
     this.setState({ 
       parrent: {
-        name: '',
-        lastname: '',
-        faculty_id: '',
-        passport_id: '',
-        gender: '',
-        degree: ''
+        address:'',
+        passport_id:'',
+        gender:''
       },
       account: {
+        lastname:'',
+        name:'',
         email: '',
         phone: '',
         password:'',
         checkpassword:''
       },
-      file: '',
-      filename: '',
       birthday: '',
-      entry_year: '',
-      checkContent: false
+      value:[]
     })
   }
-  checkContent(){
-    if((this.state.parrent.passport_id.length > 0) && (this.state.parrent.name.length > 0) && (this.state.parrent.lastname.length > 0)
-        && (this.state.birthday.length > 0) && (this.state.entry_year.length > 0) && (this.state.parrent.gender.length > 0)
-        && (this.state.parrent.degree.length > 0) && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0) && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0) ){
-          if(this.state.account.password === this.state.account.checkpassword){
-            document.getElementById('wrongpass').style.display = "none"
-            this.setState({
-              checkContent: true
-            })
-          }
-          else if(this.state.account.password != this.state.account.checkpassword){
-              document.getElementById('wrongpass').style.display = "block"
-              this.setState({
-                checkContent: false
-              })
 
-          }
-
-        }else {
-          this.setState({
-            checkContent: false
-          })
-        }
-  }
   changeAccount(event){
     const field = event.target.name;
     const account = this.state.account;
     account[field] = event.target.value;
       this.setState({
-        account: account,
-        checkAcc: true,
-        accMessage: '',
-        errors: {}
+        account: account
       })
-    this.checkContent();
   }
-  // showOptions(e){
-  //   this.setState({
-  //     hidden:!this.state.hidden
-  //   })
-  // }
 
   handleSelectChange (value) {
     this.setState({ value });
+
   }
 
   render() {
-    console.log(this.state.value)
-
     function valueProp(student){
       return { value:student._id, label:student.user_id.name + ' ' + student.user_id.lastname}
     }
@@ -195,19 +143,19 @@ class AdminAddParrent extends React.Component {
         {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
         <form action="/"  onSubmit={this.addParrent}>
           <div className="form-group">
-          <label>Имя преподавателя</label>
+          <label>Имя родителя</label>
             <input type="text" className="form-control" placeholder="Введите имя преподавателя"
                   name="name"
-                  onChange={this.changeParrent}
-                  value={this.state.parrent.name} />
+                  onChange={this.changeAccount}
+                  value={this.state.account.name} />
             <span className="bar"></span>
           </div>
           <div className="form-group">
-          <label>Фамилия преподавателя</label>
+          <label>Фамилия родителя</label>
             <input type="text" className="form-control" placeholder="Введите фамилию преподавателя"
                   name="lastname"
-                  onChange={this.changeParrent}
-                  value={this.state.parrent.lastname} />
+                  onChange={this.changeAccount}
+                  value={this.state.account.lastname} />
             <span className="bar"></span>
           </div>
           <div className="form-group row">
@@ -216,26 +164,6 @@ class AdminAddParrent extends React.Component {
               <DatePicker value={this.state.birthday} onChange={this.birthdayChange} className="form-control mydatepicker"/>
             </div>
           </div>
-
-          <div className="form-group row">
-          <div className="col-md-6">
-          <span>
-            <div className="section">
-              <label>Студенты</label>
-              <Select
-                options={options}
-                onChange={this.handleSelectChange}
-                multi={true}
-                multiSelectAll={true}
-                disabled={this.state.disabled}
-                value={this.state.value}
-                placeholder=""
-              />
-            </div>
-          </span>
-
-          </div>
-        </div>
           <div className="form-group">
             <label>Телефон</label>
             <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder="Введите номер телефона"
@@ -251,6 +179,19 @@ class AdminAddParrent extends React.Component {
                   onChange={this.changeAccount}
                   value={this.state.account.email} />
             <span className="bar"></span>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-6">
+                <label>Студенты</label>
+                <Select
+                  options={options}
+                  onChange={this.handleSelectChange}
+                  multi={true}
+                  multiSelectAll={true}
+                  value={this.state.value}
+                  placeholder=""
+                />
+            </div>
           </div>
           <div className="form-group">
             <label>Адрес</label>
@@ -295,6 +236,10 @@ class AdminAddParrent extends React.Component {
                   value={this.state.account.checkpassword} />
             <span className="bar"></span>
           </div>
+          <div>
+            <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
+            <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
+          </div>
         </form>
       </div>
       </div>
@@ -303,22 +248,3 @@ class AdminAddParrent extends React.Component {
 }
 
 export default AdminAddParrent;
-// {this.state.students ? (
-//             <div className="form-group">
-//               <label>Студент</label>
-//               <select className="form-control" multiple name="childs" value={this.state.parrent.childs} onChange={this.changeParrent}>
-//                 {this.state.students.map((student, f) =>
-//                   <option key={f} value={student._id}>{student._id}</option>
-//                 )}
-//               </select>
-//               <span className="bar"></span>
-//             </div>
-//             ) : (
-//             <div className="form-group">
-//               <label>Студент</label>
-//               <select className="form-control" name="faculty_id" value={this.state.parrent.childs} onChange={this.changeParrent}>
-//                 <option value=''>Студенты не добавлены</option>
-//               </select>
-//               <span className="bar"></span>
-//             </div>
-//           )}

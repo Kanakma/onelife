@@ -7,6 +7,7 @@ import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';
 import AdminHome from './components/AdminHome.jsx';
 import TeacherHome from './components/TeacherHome.jsx';
+import ParentHome from './components/ParentHome.jsx';
 import AdminFaculties from './components/AdminFaculties.jsx';
 import AdminMajors from './components/AdminMajors.jsx';
 import AdminStudents from './components/AdminStudents.jsx';
@@ -24,7 +25,6 @@ import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
-
 import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
 import AdminAddParrent from './components/AdminAddParrent.jsx';
 import AdminParrents from './components/AdminParrents.jsx';
@@ -61,9 +61,7 @@ ReactDom.render((
       <Route path="/departments" component={AdminDepartments}/>
       <Route path="/adddepartments" component={AdminAddDepartment}/>
       <Route path= "/teacherprofile" component={TeacherProfile}/>
-
       <Route path= "/addattendance" component={TeacherAddAttendance}/>
-
       <Route path="/addparrent" component={AdminAddParrent}/>
       <Route path= "/parrents" component={AdminParrents}/>
       <Route path="/teachersubjects" component={TeacherSubjects}/>
