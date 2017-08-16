@@ -1263,6 +1263,7 @@ router.get('/getonesubject', (req, res) => {
 		}
 	})
 })
+//This route will get info about teacher
 router.get('/getoneteacher', (req, res) => {
 	var teacherId = req.query.teacherId;
 	var myTeacher = {};
