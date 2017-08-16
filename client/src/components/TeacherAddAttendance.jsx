@@ -13,6 +13,7 @@ class TeacherAddTest extends React.Component {
       message: '',
       errors: {},
       subjects: [],
+      subject: {},
       students: [],
       subject_id: '',
       checkSubject: false,
@@ -37,18 +38,9 @@ class TeacherAddTest extends React.Component {
           subjects: res.data.subjects
         });
       });
-          axios.get('/api/getsubjectsforstudents',  {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(res => {
-        console.log(res.data)
-        // this.setState({
-        //   students: res.data.students
-        // });
-      });
+
+
+          
     //     axios.get('/api/getstudents',  {
     //   responseType: 'json',
     //   headers: {
@@ -64,6 +56,7 @@ class TeacherAddTest extends React.Component {
   }
   updateStudents(event){
     if(event.target.value.length > 0){
+
       this.setState({
         subject_id: event.target.value,
         checkSubject: true,
@@ -79,9 +72,25 @@ class TeacherAddTest extends React.Component {
         message: ''
       })
     }
+
+    axios.get('/api/getsubjectsforstudents?subjectId='+event.target.value, {
+            responseType: 'json',
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded'
+            }
+    })
+      .then(res => {
+        
+        
+        this.setState({
+          students: res.data.students
+        });
+      });
+
   }
 
   render() {
+    console.log(this.state.students)
     return (
       <div className="container clearfix">
       <div className=" bg-title">
@@ -115,23 +124,21 @@ class TeacherAddTest extends React.Component {
                       <th>№</th>
                       <th>ID</th>
                       <th>ФИО</th>
-                      <th>Специальность</th>
-                      <th>Факультет</th>
-                      <th>Год пост.</th>
-                      <th>
-                          <center>Опции</center>
-                      </th>
+                   
+                      <th>Был</th>
+                      <th>Не Был</th>
+                      
                   </tr>
               </thead>
                 <tbody>
               {this.state.students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.username}</td>
-                    <td>{student.name} {student.lastname}</td>
-                    <td>{student.major_name}</td>
-                    <td>{student.faculty_name}</td>
-                    <td>{student.admission_year}</td>
+                    <td>{student.user_id.username}</td>
+                    <td>{student.user_id.name} {student.user_id.lastname}</td>
+                    
+                    <td><input className="radio" name="att" value="byl" type="radio"></input></td>
+                    <td><input className="radio" name="att" value="nebyl" type="radio"></input></td>
                     
                 </tr>
               )}

@@ -1587,11 +1587,14 @@ router.get('/getsubjectsforstudents',(req,res)=>{
 // 	}
 
 // })
-	
-	Subject.find({
+	var subjectId=req.query.subjectId;
+
+	Subject.findOne({
+		_id:subjectId
 
 	}).populate({
-		path:'students',
+		path:'students teacher_id ',
+
 		populate: {
 			path: 'user_id'
 			
@@ -1602,7 +1605,7 @@ router.get('/getsubjectsforstudents',(req,res)=>{
 		res.status(500).send({err: err});
 	} else {
 		//console.log(subject);
-		res.status(200).send({data: subject});
+		res.status(200).send({students: subject.students});
 
 	}
 	})
