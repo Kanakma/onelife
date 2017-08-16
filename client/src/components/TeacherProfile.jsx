@@ -82,7 +82,6 @@ class TeacherProfile extends React.Component {
       });
   }
   render() {
-    console.log(this.state.teacher)
     return (
       <div className="container clearfix">
       <div className="bg-title">

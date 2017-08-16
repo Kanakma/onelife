@@ -1236,7 +1236,7 @@ router.get('/getonesubject', (req, res) => {
 									Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
 										if(err) console.log(err);
 										if(studentSSS){
-										
+
 											mySubject = {
 												_id: subject._id,
 												subject_name: subject.subject_name,
@@ -1277,7 +1277,7 @@ router.get('/getonesubject', (req, res) => {
 													message: "Достигнуто максимальное количество студентов",
 													already: true
 												})
-											}	
+											}
 										}
 									})
 
@@ -1299,7 +1299,6 @@ router.get('/getteachersubjects', (req, res) => {
 					Subject.find({teacher_id: teacher._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
 						if (err){console.log(err)}
 						else{
-								console.log(subjects)
 								res.send({
 									subjects: subjects
 								})
@@ -1587,14 +1586,14 @@ router.get('/getsubjectsforstudents',(req,res)=>{
 // 	}
 
 // })
-	
+
 	Subject.find({
 
 	}).populate({
 		path:'students',
 		populate: {
 			path: 'user_id'
-			
+
 		}
 	}).exec(function(err,subject){
 
@@ -1608,7 +1607,7 @@ router.get('/getsubjectsforstudents',(req,res)=>{
 	})
 
 
-    
+
 
 
 })
