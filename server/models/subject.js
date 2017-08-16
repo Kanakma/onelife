@@ -9,7 +9,10 @@ const SubjectSchema = new mongoose.Schema({
   course_number: Number,
   credit_number: Number,
   max_students: Number,
-  students: Array,
+ //students: Array,
+  students:  [{type: mongoose.Schema.Types.ObjectId, ref: 'Student'}], 
+ // students : {student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' }},
+ // students: {type: mongoose.Schema.Types.ObjectId, ref: 'Student'},
   description: String,
   img: {
     type:String,

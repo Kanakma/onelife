@@ -171,6 +171,16 @@ class Base extends React.Component {
                 <div className="navbar-header">
                   <ul className="nav nav-stacked">
                       <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+                         <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
+                          <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Посещаемость
+                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                          </Link>
+                          <ul className="nav" hidden={!this.state.checkStudent}>
+                            <li><Link to="/tests" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
+                            <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
+                          </ul>
+                      </li>
                       <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
                       <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Тест

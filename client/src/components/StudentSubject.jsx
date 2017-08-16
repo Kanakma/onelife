@@ -68,6 +68,9 @@ class StudentSubject extends React.Component {
       }
     })
       .then(res => {
+        this.setState({
+          message: res.data.message
+        })
         this.componentDidMount()
       });
   }
@@ -127,7 +130,6 @@ class StudentSubject extends React.Component {
                   ):(
                     <div></div>
                   )}
-
               </div>
           </div>
         </div>

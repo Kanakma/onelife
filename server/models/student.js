@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const StudentSchema = new mongoose.Schema({
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    unique: true
-  },
+  user_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true},
   img: {
     type:String,
     default:'default.jpg'

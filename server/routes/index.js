@@ -11,6 +11,8 @@ var QuizPoint = require('../models/quiz_point')
 var Department = require('../models/department')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
+var mongoose = require('mongoose');
+var DeepPopulate = require('mongoose-deep-populate')(mongoose);
 let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
@@ -1021,14 +1023,30 @@ router.post('/choosesubject', (req, res) => {
 	var subjectId = req.body.subjectId.trim();
 	var token = req.headers.authorization.split(' ')[1];
 	var decoded = jwtDecode(token);
-	Subject.findByIdAndUpdate(subjectId, {$push: {students: decoded.sub}}, (err, subject) => {
-		if(err) {console.log(err)}
-		else {
-			res.send({
-				message: 'Добавлено'
-			});
+
+	Student.findOne({user_id:decoded.sub}, function(err, student){
+		if(err) console.log(err);
+		if(student){
+			//console.log('	heeeeeeeeeeeeeree')
+			Subject.findOne({_id: subjectId},function(err,subj) {
+				if(err) console.log(err);
+				if(subj){
+					//console.log('thereS++++++++++++++++++++++')
+					subj.students.push(student._id)
+					subj.markModified("students");
+					subj.save(function(err, saved){
+						if(err) console.log(err);
+						if(saved){
+						//	console.log('yaaaaaaaaas')
+							res.send({message:'Добавлено'})
+						}
+					});
+				}
+			})
 		}
 	})
+
+
 });
 
 router.post('/sendanswer', (req, res) => {
@@ -1134,6 +1152,7 @@ router.post('/addtest', (req, res) => {
 	})
 });
 
+
 router.get('/getsubjects', (req, res) => {
 	var mySubjects = [];
 	var mySubject = {};
@@ -1212,47 +1231,53 @@ router.get('/getonesubject', (req, res) => {
 							User.findOne({_id: teacher.user_id}, (err, user) => {
 								if(err) { console.log(err) }
 								else {
-									mySubject = {
-										_id: subject._id,
-										subject_name: subject.subject_name,
-										subject_code: subject.subject_code,
-										description: subject.description,
-										major_name: major.major_name,
-										teacher_name: user.lastname + ' ' + user.name,
-										period: subject.period,
-										course_number: subject.course_number,
-										credit_number: subject.credit_number,
-										max_students: subject.max_students,
-										remained: subject.max_students - subject.students.length,
-										img: subject.img
-									}
-									if(subject.students.length < subject.max_students){
-										subject.students.forEach(function(s){
-											if(s.toString() == decoded.sub.toString()){
-												already = true;
+									Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
+										if(err) console.log(err);
+										if(studentSSS){
+										
+											mySubject = {
+												_id: subject._id,
+												subject_name: subject.subject_name,
+												subject_code: subject.subject_code,
+												description: subject.description,
+												major_name: major.major_name,
+												teacher_name: user.lastname + ' ' + user.name,
+												period: subject.period,
+												course_number: subject.course_number,
+												credit_number: subject.credit_number,
+												max_students: subject.max_students,
+												remained: subject.max_students - subject.students.length,
+												img: subject.img
 											}
-										})
-										if(already){
-											res.send({
-												subject: mySubject,
-												message: "Вы записаны на этот предмет",
-												already: already
-											})
-										} else {
-											res.send({
-												subject: mySubject,
-												message: "",
-												already: already
-											})
-										}
-									} else {
-										res.send({
-											subject: mySubject,
-											message: "Достигнуто максимальное количество студентов",
-											already: true
-										})
-									}
+											if(subject.students.length < subject.max_students){
+												subject.students.forEach(function(s){
 
+													if(s.toString() == studentSSS._id.toString()){
+														already = true;
+													}
+												})
+												if(already){
+													res.send({
+														subject: mySubject,
+														message: "Вы записаны на этот предмет",
+														already: already
+													})
+												} else {
+													res.send({
+														subject: mySubject,
+														message: "",
+														already: already
+													})
+												}
+											} else {
+												res.send({
+													subject: mySubject,
+													message: "Достигнуто максимальное количество студентов",
+													already: true
+												})
+											}	
+										}
+									})
 
 								}
 							})
@@ -1484,5 +1509,51 @@ router.get('/getforsubject', (req, res) => {
 		}
 	})
 });
+
+router.get('/getsubjectsforstudents',(req,res)=>{
+
+
+//то что работает
+// Subject.find({
+
+// }).populate('students').exec(function(err, subject) {
+
+// 	if(err) {
+// 		res.status(500).send({err: err});
+// 	} else {
+// 		console.log(subject);
+// 		res.status(200).send({data: subject});
+
+// 	}
+
+// })
+	
+	Subject.find({
+
+	}).populate({
+		path:'students',
+		populate: {
+			path: 'user_id'
+			
+		}
+	}).exec(function(err,subject){
+
+	if(err) {
+		res.status(500).send({err: err});
+	} else {
+		//console.log(subject);
+		res.status(200).send({data: subject});
+
+	}
+	})
+
+
+    
+
+
+})
+
+
+
 
 module.exports = router;

@@ -42,7 +42,7 @@ class TeacherTest extends React.Component {
   }
   openTest(event){
     //console.log(this.context.router)
-    this.props.history.push('/starttest', {test_id: event.target.id})
+    this.context.router.history.push('/starttest', {test_id: event.target.id})
   }
 
   render() {
