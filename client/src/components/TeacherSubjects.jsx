@@ -31,7 +31,6 @@ class TeacherSubjects extends React.Component {
     if(Auth.isUserAuthenticated()){
       var token = Auth.getToken();
       var decoded = jwtDecode(token);
-      console.log(decoded.sub)
       this.setState({
         status: decoded.userstatus,
         userId: decoded.sub
@@ -76,7 +75,6 @@ class TeacherSubjects extends React.Component {
         });
     }
   render() {
-    console.log(this.state.subjects)
     return (
       <div className="container clearfix">
       <div className="bg-title" style={{paddingRight: '3%'}}>
