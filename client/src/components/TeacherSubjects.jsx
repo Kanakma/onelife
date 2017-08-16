@@ -42,7 +42,6 @@ class TeacherSubjects extends React.Component {
         }
       })
         .then(res => {
-          console.log(res.data.subjects)
           this.setState({
             subjects: res.data.subjects
           });
@@ -50,7 +49,7 @@ class TeacherSubjects extends React.Component {
     }
   }
   openSubject(event){
-    this.context.router.history.push('/choosesubjects', {subject: event.target.id})
+    this.context.router.history.push('/subjectinfo', {subject: event.target.id})
   }
   changeFilter(event){
     if(event.target.id == 'list'){

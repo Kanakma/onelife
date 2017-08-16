@@ -29,6 +29,7 @@ import AdminAddParrent from './components/AdminAddParrent.jsx';
 import AdminParrents from './components/AdminParrents.jsx';
 import TeacherSubjects from './components/TeacherSubjects.jsx';
 import StudentSubjects from './components/StudentSubjects.jsx';
+import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
 
 import Auth from './modules/Auth';
 
@@ -65,7 +66,7 @@ ReactDom.render((
       <Route path= "/parrents" component={AdminParrents}/>
       <Route path="/teachersubjects" component={TeacherSubjects}/>
       <Route path= "/studentsubjects" component={StudentSubjects}/>
-
+      <Route path= "/subjectinfo" component={AdminSubjectInfo}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
