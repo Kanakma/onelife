@@ -59,6 +59,7 @@ class AdminStudents extends React.Component {
     }
   }
   render() {
+    console.log(this.state.students)
     return (
       <div className="container clearfix">
       <div className="bg-title" >
@@ -93,14 +94,14 @@ class AdminStudents extends React.Component {
                           )
                       }
                           <div className="col-md-8 col-sm-8">
-                              <h3 className="box-title m-b-0">{student.name} {student.lastname}</h3>
+                              <h3 className="box-title m-b-0">{student.user_id.name} {student.user_id.lastname}</h3>
                               <address>
-                                Факультет: {student.faculty_name}<br/>
-                                Пользователь: {student.username}
+                                Факультет: {student.faculty_id.faculty_name}<br/>
+                                Пользователь: {student.user_id.username}
                                 <br/>
-                                <abbr title="Email">E:</abbr> {student.email}
+                                <abbr title="Email">E:</abbr> 
                                 <br/>
-                                <abbr title="Phone">P:</abbr> {student.phone}
+                                <abbr title="Phone">P:</abbr> 
                               </address>
                               <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                                   <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
@@ -139,10 +140,10 @@ class AdminStudents extends React.Component {
               {this.state.students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.username}</td>
-                    <td>{student.name} {student.lastname}</td>
-                    <td>{student.major_name}</td>
-                    <td>{student.faculty_name}</td>
+                    <td>{student.user_id.username}</td>
+                    <td>{student.user_id.name} {student.user_id.lastname}</td>
+                    <td>{student.major_id.major_name}</td>
+                    <td>{student.faculty_id.faculty_name}</td>
                     <td>{student.admission_year}</td>
                     <td className="text-center">
                         <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}}>

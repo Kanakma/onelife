@@ -257,12 +257,20 @@ class AdminAddStudent extends React.Component {
         </div>
         <div className="form-group row">
           <div className="col-md-6">
-            <select className="form-control" name="major_id" value={this.state.student.major_id} onChange={this.changeStudent}>
-              <option value=''>Выберите специальность</option>
-              {this.state.majors.map((major, m) =>
-                  <option key={m} value={major.major_id}>{major.major_name}</option>
-              )}
-            </select>
+
+              { this.state.majors ? (
+                <select className="form-control" name="major_id" value={this.state.student.major_id} onChange={this.changeStudent}>
+                  <option value=''>Выберите специальность</option>
+                  {this.state.majors.map((major, m) =>
+                    <option key={m} value={major.major_id}>{major.major_name}</option>
+                  )}
+                </select>
+                ):(
+                <select className="form-control" name="major_id" value={this.state.student.major_id} onChange={this.changeStudent}>
+                  <option value=''>Выберите специальность</option>
+                </select>
+                )
+              }
             <span className="bar"></span>
           </div>
         </div>

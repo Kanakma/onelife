@@ -30,7 +30,8 @@ class AdminAddParrent extends React.Component {
       },
       checkAcc:false,
       birthday: '',
-      checkContent: false
+      checkContent: false, 
+      value: []
     };
     this.changeParrent = this.changeParrent.bind(this);
     this.addParrent = this.addParrent.bind(this);
@@ -38,7 +39,7 @@ class AdminAddParrent extends React.Component {
     this.entry_yearChange = this.entry_yearChange.bind(this);
     this.clearContent = this.clearContent.bind(this);
     this.changeAccount = this.changeAccount.bind(this);
-    this.logChange = this.logChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getstudents',  {
@@ -97,10 +98,6 @@ class AdminAddParrent extends React.Component {
       });
       this.checkContent();
   }
-
-  logChange(value) {
-      console.log(value);
-  }
   
   entry_yearChange(value){
       this.setState({
@@ -109,7 +106,7 @@ class AdminAddParrent extends React.Component {
       this.checkContent();
   }
   clearContent(){
-    this.setState({
+    this.setState({ 
       parrent: {
         name: '',
         lastname: '',
@@ -167,10 +164,21 @@ class AdminAddParrent extends React.Component {
       })
     this.checkContent();
   }
+  // showOptions(e){
+  //   this.setState({
+  //     hidden:!this.state.hidden
+  //   })
+  // }
 
-  render() {    
+  handleSelectChange (value) {
+    this.setState({ value });
+  }
+
+  render() {
+    console.log(this.state.value)
+
     function valueProp(student){
-      return { value:student._id, label:student.user_id.name + ' ' + student.user_id.lastname, className:'optionSelect'}
+      return { value:student._id, label:student.user_id.name + ' ' + student.user_id.lastname}
     }
     
     var options = this.state.students.map(valueProp)
@@ -208,11 +216,26 @@ class AdminAddParrent extends React.Component {
               <DatePicker value={this.state.birthday} onChange={this.birthdayChange} className="form-control mydatepicker"/>
             </div>
           </div>
+
+          <div className="form-group row">
+          <div className="col-md-6">
+          <span>
+            <div className="section">
+              <label>Студенты</label>
               <Select
                 options={options}
-                onChange={this.logChange}
+                onChange={this.handleSelectChange}
                 multi={true}
+                multiSelectAll={true}
+                disabled={this.state.disabled}
+                value={this.state.value}
+                placeholder=""
               />
+            </div>
+          </span>
+
+          </div>
+        </div>
           <div className="form-group">
             <label>Телефон</label>
             <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder="Введите номер телефона"

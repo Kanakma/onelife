@@ -17,34 +17,32 @@ class TeacherProfile extends React.Component {
     this.state = {
       teacherId:  this.props.location.state.teacherId,
       teacher:{},
+      oneTeach:{},
       isOpen:false,
+      myImg:'599127fbc44d450ebb874450-default_avatar.png',
       status: '',
-      checkFilter: false,
-      myImg: '59916a04a2ab162c0b1dc507-default_avatar.png'
+      checkFilter: false
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
-    this.getTeacher = this.getTeacher.bind(this);
   }
   componentDidMount() {
-    this.getTeacher();
-
-  }
-  getTeacher(){
-    axios.get('/api/getoneteacher?teacherId='+this.state.teacherId,  {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(res => {
-        this.setState({
-          teacher: res.data.teacher,
-          myImg: res.data.teacher.img
+      axios.get('/api/getoneteacher?teacherId='+this.state.teacherId,  {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+          this.setState({
+            teacher: res.data.teacher,
+            myImg: res.data.teacher.img
+          });
         });
-      });
   }
+
 
   changeFilter(event){
     if(event.target.id == 'list'){
@@ -72,7 +70,7 @@ class TeacherProfile extends React.Component {
   toggleModal(teacher) {
       this.setState({
         isOpen: !this.state.isOpen,
-        teacher:teacher
+        oneTeach:teacher
       });
   }
 
@@ -97,7 +95,7 @@ class TeacherProfile extends React.Component {
               <div  className="col-md-4 col-sm-4 col-xs-12">
                 <div className="white-box">
                   <div className="user-bg">
-                    <img className="img-responsive" src={require("../../../public/teacher-img/"+this.state.myImg)} alt="course-image" style={{width:'100%', height: '100%'}}/>
+                    <img src={require("../../../public/teacher-img/"+this.state.myImg)} alt="user" className="img-responsive" style={{width: '100%', height: '100%'}}/>
                   </div>
                   <div className="user-btm-box">
                     <div className="row text-center m-t-10">
@@ -139,7 +137,7 @@ class TeacherProfile extends React.Component {
 
                         </div>
                         <div className="col-md-8 col-sm-8">
-                            <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                            <button onClick={this.toggleModal.bind(this, this.state.teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                                 <i style={{color: '#8c8c8c'}} className="fa fa-pencil"></i>
                             </button>
                         </div>
@@ -160,7 +158,7 @@ class TeacherProfile extends React.Component {
           <AdminEditTeacherModal
             show={this.state.isOpen}
             onClose={this.toggleModalClose}
-            teacher={this.state.teacher}
+            teacher={this.state.oneTeach}
           />
 
 
