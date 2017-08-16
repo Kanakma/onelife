@@ -186,7 +186,7 @@ class Base extends React.Component {
                 <div className="navbar-header">
                   <ul className="nav nav-stacked">
                       <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
-                      <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
+                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
                       <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Тест
                           <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
@@ -197,7 +197,7 @@ class Base extends React.Component {
                             <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
                       </li>
-                      <li><Link to="/subjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
+                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
                       <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                   </ul>
                 </div>
@@ -224,7 +224,7 @@ class Base extends React.Component {
               <div className="navbar-header">
                 <ul className="nav nav-stacked">
                     <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
-                    <li><Link to="/subjects" className="waves-effect" name="subject">
+                    <li><Link to="/studentsubjects" className="waves-effect" name="subject">
                         <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Предметы
                         </Link>
                     </li>
