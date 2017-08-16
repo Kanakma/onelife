@@ -1224,6 +1224,7 @@ router.get('/getonesubject', (req, res) => {
 	Subject.findOne({_id: subjectId}, (err, subject) => {
 		if(err) { console.log(err) }
 		else {
+
 			Major.findOne({_id: subject.major_id}, (err, major) => {
 				if(err) { console.log(err) }
 				else {
@@ -1235,8 +1236,7 @@ router.get('/getonesubject', (req, res) => {
 								else {
 									Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
 										if(err) console.log(err);
-										if(studentSSS){
-
+										else{
 											mySubject = {
 												_id: subject._id,
 												subject_name: subject.subject_name,
