@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import AdminEditSubjectModal from './AdminEditSubjectModal.jsx'
 
-class AdminSubjects extends React.Component {
+class StudentSubjects extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -193,7 +193,7 @@ class AdminSubjects extends React.Component {
       </div>);
   }
 }
-AdminSubjects.contextTypes = {
+StudentSubjects.contextTypes = {
   router: PropTypes.object.isRequired
 };
-export default AdminSubjects;
+export default StudentSubjects;

@@ -536,7 +536,7 @@ router.post('/editstudent', (req, res) =>{
 													}
 												})
 											}
-										})			
+										})
 									}
 								})
 							}
@@ -630,7 +630,7 @@ var constructMjr = function(major){
 				}
 				callBack(null, allMjrs)
 			})
-		} 
+		}
 		else{
 			myMajor = {
 						major_id:major._id,
@@ -714,7 +714,7 @@ var constructFclty = function(faculty){
 					departments: faculty.departments
 				}
 			allFclts.push(myFaculty)
-			
+
 			callBack(null, allFclts)
 		}
 	}
@@ -1179,11 +1179,13 @@ router.get('/getsubjects', (req, res) => {
 																var remained = subject.max_students - subject.students.length;
 																mySubject = {
 																	_id: subject._id,
+																	user_id: teacher.user_id,
 																	subject_name: subject.subject_name,
 																	subject_code: subject.subject_code,
 																	description: subject.description,
 																	major_name: major.major_name,
 																	teacher_name: temp,
+																	teacher_id: subject.teacher_id,
 																	period: subject.period,
 																	course_number: subject.course_number,
 																	credit_number: subject.credit_number,
@@ -1288,6 +1290,53 @@ router.get('/getonesubject', (req, res) => {
 		}
 	})
 })
+router.get('/getteachersubjects', (req, res) => {
+	var userId = req.query.teacherId;
+	var mySubjects ={};
+			Teacher.findOne({user_id: userId}, (err, teacher) => {
+				if(err) { console.log(err) }
+				else {
+					Subject.find({teacher_id: teacher._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
+						if (err){console.log(err)}
+						else{
+								console.log(subjects)
+								res.send({
+									subjects: subjects
+								})
+							}
+					})
+				}
+			})
+		})
+
+
+	router.get('/getoneteacher', (req, res) => {
+		var teacherId = req.query.teacherId;
+		var myTeacher = {};
+		Teacher.findOne({_id: teacherId}, (err, teacher) => {
+			if(err) { console.log(err) }
+			else {
+				User.findOne({_id: teacher.user_id}, (err, user) => {
+					if(err) { console.log(err) }
+					else {
+								myTeacher = {
+									_id: teacher._id,
+									teacher_username: user.username,
+									teacher_name:  user.name,
+									teacher_lastname: user.lastname,
+									img: teacher.img,
+									degree: teacher.degree,
+									email: teacher.email,
+									phone: teacher.phone
+								}
+						res.send({
+							teacher: myTeacher
+							})
+						}
+					})
+				}
+			})
+		})
 
 //This route will load all teachers info
 router.get('/getteachers', (req, res) => {
@@ -1337,7 +1386,7 @@ var constructTeach = function(teacher){
 			email:'',
 			phone:'',
 			social:'',
-			gender:'', 
+			gender:'',
 			img:'',
 			degree:''
 		}
@@ -1395,77 +1444,88 @@ var constructTeach = function(teacher){
 		})
 	}
 }
-router.get('/getstudents', (req, res) => {
-	Student.find((err, students) => {
-		if(err) {console.log(err) }
-		else {
-			var myStudents = [];
-			var myStudent = {
-					student_id:'',
-					username: '',
-					name: '',
-					lastname: '',
-					passport_id: '',
-					faculty_id: '',
-					faculty_name:'',
-					major_id: '',
-					major_name:'',
-					admission_year: '',
-					graduation_year: '',
-					birthday:''
-			}
-			User.find((err, users) => {
-				if(err) {console.log(err) }
-				else {
-					Faculty.find((err, faculties) => {
-						if(err) {console.log(err) }
-						else {
-							Major.find((err, majors) => {
-								if(err) {console.log(err) }
-								else {
-									students.forEach(function(student){
-										users.forEach(function(user){
-											if(student.user_id.toString() == user._id.toString()){
-												faculties.forEach(function(faculty){
-													if(student.faculty_id.toString() == faculty._id.toString()){
-														majors.forEach(function(major){
-															if(student.major_id.toString() == major._id.toString()){
-																myStudent = {
-																		img:student.img,
-																		student_id:student._id,
-																		username: user.username,
-																		user_id:student.user_id,
-																		name: user.name,
-																		lastname: user.lastname,
-																		passport_id: user.passport_id,
-																		faculty_id: faculty._id,
-																		faculty_name: faculty.faculty_name,
-																		major_id: major._id,
-																		major_name: major.major_name,
-																		admission_year: student.admission_year,
-																		graduation_year: student.graduation_year,
-																		birthday:user.birthday
-																}
-																myStudents.push(myStudent);
-															}
-														})
-													}
-												})
-											}
-										});
-									});
-									res.send({
-										students: myStudents
-									})
-								}
-							})
-						}
-					})
-				}
+router.get('/getstudents', (req, res) =>{
+	Student.find().populate('user_id faculty_id department_id major_id').exec(function(err, students){
+		if(err) console.log(err);
+		if(students){
+			res.send({
+				students: students
 			})
 		}
 	})
-});
+})
+
+// router.get('/getstudents', (req, res) => {
+// 	Student.find((err, students) => {
+// 		if(err) {console.log(err) }
+// 		else {
+// 			var myStudents = [];
+// 			var myStudent = {
+// 					student_id:'',
+// 					username: '',
+// 					name: '',
+// 					lastname: '',
+// 					passport_id: '',
+// 					faculty_id: '',
+// 					faculty_name:'',
+// 					major_id: '',
+// 					major_name:'',
+// 					admission_year: '',
+// 					graduation_year: '',
+// 					birthday:''
+// 			}
+// 			User.find((err, users) => {
+// 				if(err) {console.log(err) }
+// 				else {
+// 					Faculty.find((err, faculties) => {
+// 						if(err) {console.log(err) }
+// 						else {
+// 							Major.find((err, majors) => {
+// 								if(err) {console.log(err) }
+// 								else {
+// 									students.forEach(function(student){
+// 										users.forEach(function(user){
+// 											if(student.user_id.toString() == user._id.toString()){
+// 												faculties.forEach(function(faculty){
+// 													if(student.faculty_id.toString() == faculty._id.toString()){
+// 														majors.forEach(function(major){
+// 															if(student.major_id.toString() == major._id.toString()){
+// 																myStudent = {
+// 																		img:student.img,
+// 																		student_id:student._id,
+// 																		username: user.username,
+// 																		user_id:student.user_id,
+// 																		name: user.name,
+// 																		lastname: user.lastname,
+// 																		passport_id: user.passport_id,
+// 																		faculty_id: faculty._id,
+// 																		faculty_name: faculty.faculty_name,
+// 																		major_id: major._id,
+// 																		major_name: major.major_name,
+// 																		admission_year: student.admission_year,
+// 																		graduation_year: student.graduation_year,
+// 																		birthday:user.birthday
+// 																}
+// 																myStudents.push(myStudent);
+// 															}
+// 														})
+// 													}
+// 												})
+// 											}
+// 										});
+// 									});
+// 									res.send({
+// 										students: myStudents
+// 									})
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
+// 		}
+// 	})
+// });
 
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {

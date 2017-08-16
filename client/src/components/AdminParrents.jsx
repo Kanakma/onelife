@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
-import AdminEditTeacherModal from './AdminEditTeacherModal.jsx';
+import AdminEditParrentModal from './AdminEditParrentModal.jsx';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 moment.locale('ru');
 
-class AdminTeachers extends React.Component {
+class AdminParrents extends React.Component {
 
   constructor(props) {
     super(props);
@@ -18,21 +17,12 @@ class AdminTeachers extends React.Component {
       teacher:{},
       isOpen:false,
       status: '',
-      teacherId: '',
       checkFilter: false
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
-    this.openTeacherProfile = this.openTeacherProfile.bind(this);
 
-  }
-  openTeacherProfile(event){
-    // this.setState({
-    //   teacherId: event.target.id
-    // })
-
-    this.context.router.history.push('/teacherprofile', {teacherId: event.target.id})
   }
   componentDidMount() {
     axios.get('/api/getteachers',  {
@@ -110,19 +100,16 @@ class AdminTeachers extends React.Component {
                       {
                         teacher.img!='default.jpg' ? (
                           <div className="col-md-4 col-sm-4 text-center">
-                              <img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/>
-                              <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
+                              <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
                           </div>
                           ):(
                           <div className="col-md-4 col-sm-4 text-center">
-                              <img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/>
-                              <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
+                              <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/></Link>
                           </div>
                           )
                       }
                           <div className="col-md-8 col-sm-8">
-                                <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
-                              <small>{teacher.degree}</small>
+                              <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
                               <address>
                                 Факультет: {teacher.faculty_name}<br/>
                                 Пользователь: {teacher.username}
@@ -208,7 +195,7 @@ class AdminTeachers extends React.Component {
           </table>
         </div>
         </div>
-          <AdminEditTeacherModal
+          <AdminEditParrentModal
             show={this.state.isOpen}
             onClose={this.toggleModalClose}
             teacher={this.state.teacher}
@@ -216,8 +203,5 @@ class AdminTeachers extends React.Component {
       </div>);
   }
 }
-AdminTeachers.contextTypes = {
-  router: PropTypes.object.isRequired
-};
 
-export default AdminTeachers;
+export default AdminParrents;

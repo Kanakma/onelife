@@ -31,12 +31,13 @@
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
-    "react-bootstrap": "^0.30.8",
+    "react-bootstrap": "^0.30.10",
     "react-bootstrap-date-picker": "^5.0.1",
     "react-dom": "^15.4.1",
     "react-input-mask": "^0.8.2",
     "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1"
+    "react-router-dom": "^4.1.1",
+    "react-select": "^1.0.0-rc.5"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import AdminEditSubjectModal from './AdminEditSubjectModal.jsx'
 
-class AdminSubjects extends React.Component {
+class TeacherSubjects extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -15,7 +15,8 @@ class AdminSubjects extends React.Component {
       status: '',
       checkFilter: false,
       isOpen:false,
-      subject:{}
+      subject:{},
+      userId: ''
     };
     this.openSubject = this.openSubject.bind(this);
     this.getStatus = this.getStatus.bind(this);
@@ -24,26 +25,29 @@ class AdminSubjects extends React.Component {
     this.toggleModalClose = this.toggleModalClose.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getsubjects',  {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(res => {
-        this.setState({
-          subjects: res.data.subjects
-        });
-        this.getStatus();
-      });
+    this.getStatus();
   }
   getStatus(){
     if(Auth.isUserAuthenticated()){
       var token = Auth.getToken();
       var decoded = jwtDecode(token);
+      console.log(decoded.sub)
       this.setState({
-        status: decoded.userstatus
+        status: decoded.userstatus,
+        userId: decoded.sub
       });
+      axios.get('/api/getteachersubjects?teacherId='+decoded.sub,  {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          console.log(res.data.subjects)
+          this.setState({
+            subjects: res.data.subjects
+          });
+        });
     }
   }
   openSubject(event){
@@ -72,6 +76,7 @@ class AdminSubjects extends React.Component {
         });
     }
   render() {
+    console.log(this.state.subjects)
     return (
       <div className="container clearfix">
       <div className="bg-title" style={{paddingRight: '3%'}}>
@@ -99,9 +104,9 @@ class AdminSubjects extends React.Component {
                           <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
                       </div>
                       <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
-                      <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_name}</span></p>
-                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_name}</span></p>
-                      <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
+                      <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_id.major_name}</span></p>
+                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
+                      <p><span><i className="fa fa-user-plus"></i> Количество возможных студентов: {subject.max_students}</span></p>
                       {(this.state.status == "admin") ?(
                         <div>
                           <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
@@ -136,7 +141,7 @@ class AdminSubjects extends React.Component {
                       <th><center>Осталось мест</center></th>
                       <th>Информация</th>
                       {(this.state.status == "admin") ?(
-                        <th>Опиции</th>
+                        <th>Опции</th>
                       ):(
                         <th></th>
                       )}
@@ -149,10 +154,10 @@ class AdminSubjects extends React.Component {
                     <tr key={s}>
                         <td>{s+1}</td>
                         <td>{subject.subject_name}</td>
-                        <td>{subject.major_name}</td>
-                        <td>{subject.teacher_name}</td>
+                        <td>{subject.major_id.major_name}</td>
+                        <td>{subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</td>
                         <td><center>{subject.course_number}</center></td>
-                        <td><center>{subject.remained}</center></td>
+                        <td><center>{subject.max_students}</center></td>
                         <td>
 
                           <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light" style={{color: 'white'}}>Подробнее</button>
@@ -193,7 +198,7 @@ class AdminSubjects extends React.Component {
       </div>);
   }
 }
-AdminSubjects.contextTypes = {
+TeacherSubjects.contextTypes = {
   router: PropTypes.object.isRequired
 };
-export default AdminSubjects;
+export default TeacherSubjects;

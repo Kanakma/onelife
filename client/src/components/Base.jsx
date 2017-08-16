@@ -16,6 +16,7 @@ class Base extends React.Component {
       checkTeacher: false,
       checkStudent: false,
       checkDepartment: false,
+      checkParrent:false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -62,6 +63,10 @@ class Base extends React.Component {
       this.setState({
         checkDepartment: !this.state.checkDepartment
       })
+    } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
+        this.setState({
+          checkParrent: !this.state.checkParrent
+        })
     }
   }
   render() {
@@ -146,6 +151,16 @@ class Base extends React.Component {
                         <li><Link to="/addstudents" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить студента</Link></li>
                       </ul>
                   </li>
+                    <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
+                      <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Родители
+                      <span hidden={this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <span hidden={!this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkParrent}>
+                        <li><Link to="/parrents" className="waves-effect" style={{paddingLeft: '45px'}}>Все родители</Link></li>
+                        <li><Link to="/addparrent" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить родителя</Link></li>
+                      </ul>
+                  </li>
                   <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
               </ul>
             </div>
@@ -171,6 +186,7 @@ class Base extends React.Component {
                 <div className="navbar-header">
                   <ul className="nav nav-stacked">
                       <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+
                          <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Посещаемость
                           <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
@@ -181,7 +197,10 @@ class Base extends React.Component {
                             <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
                           </ul>
                       </li>
-                      <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
+                     
+
+                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
+
                       <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Тест
                           <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
@@ -192,6 +211,7 @@ class Base extends React.Component {
                             <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
                       </li>
+                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
                       <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                   </ul>
                 </div>
@@ -217,15 +237,17 @@ class Base extends React.Component {
             <nav className="navbar side-navbar">
               <div className="navbar-header">
                 <ul className="nav nav-stacked">
-                    <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
-                    <li><Link to="/subjects" className="waves-effect" name="subject">
-                        <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Предметы
+                    <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
+                    <li><Link to="/studentsubjects" className="waves-effect" name="subject">
+                        <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Предметы
                         </Link>
                     </li>
                     <li><Link to="/tests" className="waves-effect">
-                        <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тесты
+                        <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Тесты
                         </Link>
                     </li>
+                    <li><Link to="/subjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
+                    <li><Link to="/subjects" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Оценки</Link></li>
                     <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                 </ul>
               </div>

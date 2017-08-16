@@ -4,7 +4,7 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
-class StudentSubject extends React.Component {
+class SubjectInfo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -68,9 +68,6 @@ class StudentSubject extends React.Component {
       }
     })
       .then(res => {
-        this.setState({
-          message: res.data.message
-        })
         this.componentDidMount()
       });
   }
@@ -134,6 +131,7 @@ class StudentSubject extends React.Component {
                   ):(
                     <div></div>
                   )}
+
               </div>
           </div>
         </div>
@@ -141,4 +139,4 @@ class StudentSubject extends React.Component {
       </div>);
   }
 }
-export default StudentSubject;
+export default SubjectInfo;

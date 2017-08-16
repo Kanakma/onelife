@@ -17,18 +17,21 @@ import AdminAddMajor from './components/AdminAddMajor.jsx';
 import AdminAddStudent from './components/AdminAddStudent.jsx';
 import AdminAddSubject from './components/AdminAddSubject.jsx';
 import AdminAddTeacher from './components/AdminAddTeacher.jsx';
-import StudentSubject from './components/StudentSubject.jsx';
+import SubjectInfo from './components/SubjectInfo.jsx';
 import TeacherTest from './components/TeacherTest.jsx';
 import TeacherAddTest from './components/TeacherAddTest.jsx';
 import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
-import AllInfoSubject from './components/AllInfoSubject.jsx';
+
 import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
+import AdminAddParrent from './components/AdminAddParrent.jsx';
+import AdminParrents from './components/AdminParrents.jsx';
+import TeacherSubjects from './components/TeacherSubjects.jsx';
+import StudentSubjects from './components/StudentSubjects.jsx';
+
 import Auth from './modules/Auth';
-
-
 
 ReactDom.render((
   <BrowserRouter>
@@ -41,7 +44,7 @@ ReactDom.render((
             <LoginPage />
           )
         )}/>
-      <Route path="/choosesubjects" component={StudentSubject}/>
+      <Route path="/choosesubjects" component={SubjectInfo}/>
       <Route path="/starttest" component={StudentPassTest}/>
       <Route path="/tests" component={TeacherTest}/>
       <Route path="/addtest" component={TeacherAddTest}/>
@@ -58,8 +61,14 @@ ReactDom.render((
       <Route path="/departments" component={AdminDepartments}/>
       <Route path="/adddepartments" component={AdminAddDepartment}/>
       <Route path= "/teacherprofile" component={TeacherProfile}/>
-      <Route path= "/infosubject" component={AllInfoSubject}/>
+
       <Route path= "/addattendance" component={TeacherAddAttendance}/>
+
+      <Route path="/addparrent" component={AdminAddParrent}/>
+      <Route path= "/parrents" component={AdminParrents}/>
+      <Route path="/teachersubjects" component={TeacherSubjects}/>
+      <Route path= "/studentsubjects" component={StudentSubjects}/>
+
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
