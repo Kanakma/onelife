@@ -59,7 +59,6 @@ class AdminStudents extends React.Component {
     }
   }
   render() {
-    console.log(this.state.students)
     return (
       <div className="container clearfix">
       <div className="bg-title" >
@@ -99,9 +98,9 @@ class AdminStudents extends React.Component {
                                 Факультет: {student.faculty_id.faculty_name}<br/>
                                 Пользователь: {student.user_id.username}
                                 <br/>
-                                <abbr title="Email">E:</abbr> 
+                                <abbr title="Email">E:</abbr>
                                 <br/>
-                                <abbr title="Phone">P:</abbr> 
+                                <abbr title="Phone">P:</abbr>
                               </address>
                               <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                                   <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>

@@ -40217,7 +40217,6 @@ var AdminStudents = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      console.log(this.state.students);
       return _react2.default.createElement(
         'div',
         { className: 'container clearfix' },
@@ -43767,20 +43766,6 @@ var TeacherProfile = function (_React$Component) {
                     _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' }),
                     _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' }),
                     _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' })
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'row' },
-                    _react2.default.createElement('div', { className: 'col-md-4 col-sm-4 text-center' }),
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'col-md-8 col-sm-8' },
-                      _react2.default.createElement(
-                        'button',
-                        { onClick: this.toggleModal.bind(this, this.state.teacher), className: 'btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo', style: { background: 'none' } },
-                        _react2.default.createElement('i', { style: { color: '#8c8c8c' }, className: 'fa fa-pencil' })
-                      )
-                    )
                   )
                 )
               ),
@@ -43790,17 +43775,12 @@ var TeacherProfile = function (_React$Component) {
                 _react2.default.createElement(
                   'div',
                   { className: 'white-box' },
-                  _react2.default.createElement(_TeacherProfileNav2.default, null)
+                  _react2.default.createElement(_TeacherProfileNav2.default, { teacher: this.state.teacher })
                 )
               )
             )
           )
-        ),
-        _react2.default.createElement(_AdminEditTeacherModal2.default, {
-          show: this.state.isOpen,
-          onClose: this.toggleModalClose,
-          teacher: this.state.oneTeach
-        })
+        )
       );
     }
   }]);
@@ -45714,7 +45694,6 @@ var AdminEditDepartmentModal = function (_React$Component) {
       this.setState({
         department: department
       });
-      console.log(this.state.department);
     }
   }, {
     key: 'render',
@@ -47105,6 +47084,10 @@ var _reactBootstrapDatePicker = __webpack_require__(28);
 
 var _reactBootstrapDatePicker2 = _interopRequireDefault(_reactBootstrapDatePicker);
 
+var _reactInputMask = __webpack_require__(31);
+
+var _reactInputMask2 = _interopRequireDefault(_reactInputMask);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -47171,7 +47154,8 @@ var AdminEditStudentModal = function (_React$Component) {
         this.addImg();
       }
       var student_id = this.props.student.student_id;
-      var formData = 'editedStudent=' + JSON.stringify(this.state.student) + '&student_id=' + student_id + '&birthday=' + this.state.birthday;
+      var birthday = this.state.birthday;
+      var formData = 'student=' + JSON.stringify(this.state.student) + '&student_id=' + student_id + '&birthday=' + this.state.birthday;
       _axios2.default.post('/api/editstudent', formData, {
         responseType: 'json',
         headers: {
@@ -47293,7 +47277,6 @@ var AdminEditStudentModal = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(this.props.student);
       // Render nothing if the "show" prop is false
       if (!this.props.show) {
         return null;
@@ -48759,6 +48742,22 @@ var _jwtDecode = __webpack_require__(14);
 
 var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
 
+var _Auth = __webpack_require__(5);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+var _axios = __webpack_require__(7);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _reactBootstrapDatePicker = __webpack_require__(28);
+
+var _reactBootstrapDatePicker2 = _interopRequireDefault(_reactBootstrapDatePicker);
+
+var _reactInputMask = __webpack_require__(31);
+
+var _reactInputMask2 = _interopRequireDefault(_reactInputMask);
+
 var _reactRouterDom = __webpack_require__(9);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -48807,6 +48806,8 @@ var TeacherProfileNav = function (_React$Component) {
   _createClass(TeacherProfileNav, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         _reactRouterDom.BrowserRouter,
         null,
@@ -48844,9 +48845,13 @@ var TeacherProfileNav = function (_React$Component) {
               )
             )
           ),
-          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/biography', component: Biography }),
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/biography', component: function component(props) {
+              return _react2.default.createElement(Biography, { teacher: _this2.props.teacher });
+            } }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/activity', component: Activity }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/editinfo', component: EditInfo })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/editinfo', component: function component(props) {
+              return _react2.default.createElement(EditInfo, { teacher: _this2.props.teacher });
+            } })
         )
       );
     }
@@ -48882,7 +48887,13 @@ var Biography = function (_React$Component2) {
               '\u0424\u0418\u041E'
             ),
             _react2.default.createElement('br', null),
-            _react2.default.createElement('p', { className: 'text-muted' })
+            _react2.default.createElement(
+              'p',
+              { className: 'text-muted' },
+              this.props.teacher.teacher_name,
+              ' ',
+              this.props.teacher.teacher_lastname
+            )
           ),
           _react2.default.createElement(
             'div',
@@ -48893,7 +48904,11 @@ var Biography = function (_React$Component2) {
               '\u0422\u0435\u043B\u0435\u0444\u043E\u043D'
             ),
             _react2.default.createElement('br', null),
-            _react2.default.createElement('p', { className: 'text-muted' })
+            _react2.default.createElement(
+              'p',
+              { className: 'text-muted' },
+              this.props.teacher.phone
+            )
           ),
           _react2.default.createElement(
             'div',
@@ -48904,7 +48919,11 @@ var Biography = function (_React$Component2) {
               'E-mail'
             ),
             _react2.default.createElement('br', null),
-            _react2.default.createElement('p', { className: 'text-muted' })
+            _react2.default.createElement(
+              'p',
+              { className: 'text-muted' },
+              this.props.teacher.email
+            )
           ),
           _react2.default.createElement(
             'div',
@@ -48984,9 +49003,9 @@ var EditInfo = function (_React$Component4) {
   function EditInfo(props) {
     _classCallCheck(this, EditInfo);
 
-    var _this4 = _possibleConstructorReturn(this, (EditInfo.__proto__ || Object.getPrototypeOf(EditInfo)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (EditInfo.__proto__ || Object.getPrototypeOf(EditInfo)).call(this, props));
 
-    _this4.state = {
+    _this5.state = {
       editedTeacher: {
         name: '',
         lastname: '',
@@ -49009,19 +49028,479 @@ var EditInfo = function (_React$Component4) {
       faculties: [],
       checkPass: true
     };
-    return _this4;
+    return _this5;
   }
 
   _createClass(EditInfo, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this6 = this;
+
+      _axios2.default.get('/api/getfaculties', {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      }).then(function (res) {
+        _this6.setState({
+          faculties: res.data.allFclts
+        });
+      });
+    }
+  }, {
+    key: 'dateFormat',
+    value: function dateFormat(date) {
+      var fDate = new Date(date);
+      var m = fDate.getMonth() * 1 + 1 < 10 ? "0" + (fDate.getMonth() * 1 + 1) : fDate.getMonth() * 1 + 1;
+      var d = fDate.getDate() * 1 < 10 ? "0" + fDate.getDate() * 1 : fDate.getDate() * 1;
+      return m + "/" + d + "/" + fDate.getFullYear();
+    }
+  }, {
+    key: 'editTeacherFunc',
+    value: function editTeacherFunc() {
+      event.preventDefault();
+      if (this.state.filename.length > 0) {
+        this.addImg();
+      }
+      var teacher_id = this.props.teacher.teacher_id;
+      var birthday = this.state.birthday;
+      var entry_year = this.state.entry_year;
+      var formData = 'editedTeacher=' + JSON.stringify(this.state.editedTeacher) + '&teacher_id=' + teacher_id + '&birthday=' + birthday + '&entry_year=' + entry_year;
+      _axios2.default.post('/api/editteacher', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Authorization': 'bearer ' + _Auth2.default.getToken()
+        }
+      });
+    }
+  }, {
+    key: 'deleteTeacher',
+    value: function deleteTeacher() {
+      var formData = 'teacher_id=' + JSON.stringify(this.props.teacher.teacher_id);
+      _axios2.default.post('/api/deleteteacher', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Authorization': 'bearer ' + _Auth2.default.getToken()
+        }
+      });
+    }
+  }, {
+    key: 'addImg',
+    value: function addImg() {
+      var _this7 = this;
+
+      var teacher_id = this.props.teacher.teacher_id;
+      return new Promise(function (resolve, reject) {
+        var imageFormData = new FormData();
+        imageFormData.append('imageFile', _this7.state.file);
+        _axios2.default.post('/api/addteacherimg?teacher_id=' + teacher_id, imageFormData, {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        });
+      });
+    }
+  }, {
+    key: 'changeTeacher',
+    value: function changeTeacher(event) {
+      var field = event.target.name;
+      var editedTeacher = this.state.editedTeacher;
+      editedTeacher[field] = event.target.value;
+      if (this.state.editedTeacher.password.length > 0 || this.state.editedTeacher.checkpassword.length > 0) {
+        if (this.state.editedTeacher.password != this.state.editedTeacher.checkpassword) {
+          this.setState({
+            checkPass: false
+          });
+          document.getElementById('wrongpass').style.display = "block";
+        } else if (this.state.editedTeacher.password === this.state.editedTeacher.checkpassword) {
+          this.setState({
+            checkPass: true
+          });
+          document.getElementById('wrongpass').style.display = "none";
+        }
+      } else {
+        document.getElementById('wrongpass').style.display = "none";
+        this.setState({
+          checkPass: true
+        });
+      }
+      this.setState({
+        editedTeacher: editedTeacher
+      });
+    }
+  }, {
+    key: 'changeImg',
+    value: function changeImg(e) {
+      var _this8 = this;
+
+      e.preventDefault();
+
+      var reader = new FileReader();
+      var file = e.target.files[0];
+      if (file.size > 1000000) {
+        this.setState({
+          file: '',
+          filename: ''
+        });
+        alert("Размер файла не должен превышать 1 Мб!");
+      } else {
+        reader.onloadend = function () {
+          _this8.setState({
+            file: file,
+            filename: file.name
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }, {
+    key: 'birthdayChange',
+    value: function birthdayChange(value) {
+      this.setState({
+        birthday: value
+      });
+    }
+  }, {
+    key: 'entry_yearChange',
+    value: function entry_yearChange(value) {
+      this.setState({
+        entry_year: value
+      });
+    }
+  }, {
+    key: 'clearContent',
+    value: function clearContent() {
+      this.setState({
+        teacher: {
+          name: '',
+          lastname: '',
+          faculty_id: '',
+          passport_id: '',
+          gender: '',
+          degree: ''
+        },
+        account: {
+          email: '',
+          phone: '',
+          password: '',
+          checkpassword: ''
+        },
+        file: '',
+        filename: '',
+        birthday: '',
+        entry_year: '',
+        checkContent: false
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
-          'h2',
-          null,
-          '\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044E'
+          'form',
+          { action: '/teachers', onSubmit: this.editTeacherFunc },
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0418\u043C\u044F'
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.props.teacher.teacher_name,
+              name: 'name',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.name }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0424\u0430\u043C\u0438\u043B\u0438\u044F'
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.props.teacher.teacher_lastname,
+              name: 'lastname',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.lastname }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0418\u0418\u041D'
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.props.teacher.passport_id,
+              name: 'passport_id',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.passport_id }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0414\u0435\u043D\u044C \u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F'
+            ),
+            _react2.default.createElement(_reactBootstrapDatePicker2.default, { value: this.state.birthday,
+              onChange: this.birthdayChange,
+              placeholder: this.dateFormat(this.props.teacher.birthday),
+              className: 'form-control mydatepicker' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0414\u0435\u043D\u044C \u043D\u0430\u0447\u0430\u043B\u0430 \u0440\u0430\u0431\u043E\u0442\u044B'
+            ),
+            _react2.default.createElement(_reactBootstrapDatePicker2.default, { value: this.state.entry_year,
+              placeholder: this.dateFormat(this.props.teacher.entry_year),
+              onChange: this.entry_yearChange,
+              className: 'form-control mydatepicker' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-6' },
+              _react2.default.createElement(
+                'label',
+                null,
+                '\u041F\u043E\u043B'
+              ),
+              _react2.default.createElement(
+                'select',
+                { className: 'form-control', name: 'gender', value: this.state.editedTeacher.gender, onChange: this.changeTeacher },
+                _react2.default.createElement(
+                  'option',
+                  { value: '' },
+                  '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043F\u043E\u043B'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u041C\u0443\u0436\u0447\u0438\u043D\u0430' },
+                  '\u041C\u0443\u0436\u0447\u0438\u043D\u0430'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u0416\u0435\u043D\u0449\u0438\u043D\u0430' },
+                  '\u0416\u0435\u043D\u0449\u0438\u043D\u0430'
+                )
+              ),
+              _react2.default.createElement('span', { className: 'bar' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-6' },
+              _react2.default.createElement(
+                'label',
+                null,
+                '\u0421\u0442\u0435\u043F\u0435\u043D\u044C'
+              ),
+              _react2.default.createElement(
+                'select',
+                { className: 'form-control', name: 'degree', value: this.state.editedTeacher.degree, onChange: this.changeTeacher },
+                _react2.default.createElement(
+                  'option',
+                  { value: '' },
+                  '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0442\u0435\u043F\u0435\u043D\u044C'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442' },
+                  '\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442' },
+                  '\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u0414\u043E\u043A\u0442\u043E\u0440' },
+                  '\u0414\u043E\u043A\u0442\u043E\u0440'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u041F\u0440\u043E\u0444\u0435\u0441\u0441\u043E\u0440' },
+                  '\u041F\u0440\u043E\u0444\u0435\u0441\u0441\u043E\u0440'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: '\u0410\u043A\u0430\u0434\u0435\u043C\u0438\u043A' },
+                  '\u0410\u043A\u0430\u0434\u0435\u043C\u0438\u043A'
+                )
+              ),
+              _react2.default.createElement('span', { className: 'bar' })
+            )
+          ),
+          this.state.faculties ? _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'select',
+              { className: 'form-control', name: 'faculty_id', value: this.state.editedTeacher.faculty_id, onChange: this.changeTeacher },
+              _react2.default.createElement(
+                'option',
+                { value: '' },
+                '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442'
+              ),
+              this.state.faculties.map(function (faculty, f) {
+                return _react2.default.createElement(
+                  'option',
+                  { key: f, value: faculty._id },
+                  faculty.faculty_name
+                );
+              })
+            ),
+            _react2.default.createElement('span', { className: 'bar' })
+          ) : _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'select',
+              { className: 'form-control', name: 'faculty_id', value: this.state.editedTeacher.faculty_id, onChange: this.changeTeacher },
+              _react2.default.createElement(
+                'option',
+                { value: '' },
+                '\u0424\u0430\u043A\u0443\u043B\u044C\u0442\u0435\u0442\u044B \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u044B'
+              )
+            ),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              'E-mail'
+            ),
+            _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: this.props.teacher.email,
+              name: 'email',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.email }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0422\u0435\u043B\u0435\u0444\u043E\u043D'
+            ),
+            _react2.default.createElement(_reactInputMask2.default, { mask: '+7 (999) 999-99-99', className: 'form-control', placeholder: this.props.teacher.phone,
+              name: 'phone',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.phone }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043F\u0440\u0435\u043F\u043E\u0434\u0430\u0432\u0430\u0442\u0435\u043B\u044F'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'fileinput input-group fileinput-new', 'data-provides': 'fileinput' },
+              _react2.default.createElement(
+                'div',
+                { className: 'form-control', 'data-trigger': 'fileinput' },
+                this.state.filename.length > 0 ? _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement('i', { className: 'glyphicon glyphicon-file fileinput-exists' }),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fileinput-filename' },
+                    this.state.filename
+                  )
+                ) : _react2.default.createElement('span', null)
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'input-group-addon btn btn-default btn-file' },
+                this.state.filename.length > 0 ? _react2.default.createElement(
+                  'span',
+                  { className: 'fileinput-exists' },
+                  '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
+                ) : _react2.default.createElement(
+                  'span',
+                  { className: 'fileinput-new' },
+                  '\u0412\u044B\u0431\u0440\u0430\u0442\u044C'
+                ),
+                _react2.default.createElement('input', { type: 'hidden', value: '', name: '...' }),
+                _react2.default.createElement('input', { type: 'file', name: '', onChange: this.changeImg })
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u041F\u0430\u0440\u043E\u043B\u044C'
+            ),
+            _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C',
+              name: 'password',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.password
+            }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group' },
+            _react2.default.createElement(
+              'label',
+              null,
+              '\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435 \u043F\u0430\u0440\u043E\u043B\u044F'
+            ),
+            _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: '\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C',
+              name: 'checkpassword',
+              onChange: this.changeTeacher,
+              value: this.state.editedTeacher.checkpassword }),
+            _react2.default.createElement('span', { className: 'bar' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group text-center', id: 'wrongpass', style: { display: 'none' } },
+            _react2.default.createElement(
+              'p',
+              { style: { color: 'red' } },
+              '\u041F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
+            )
+          ),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', className: 'btn btn-info waves-effect waves-light m-r-10', disabled: !this.state.checkPass },
+            '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-info waves-effect waves-light m-r-10', onClick: this.deleteTeacher },
+            '\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u041F\u0440\u0435\u043F\u043E\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u044F'
+          )
         )
       );
     }

@@ -6,7 +6,6 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import TeacherProfileNav from './TeacherProfileNav.jsx';
-
 moment.locale('ru');
 
 class TeacherProfile extends React.Component {
@@ -132,21 +131,11 @@ class TeacherProfile extends React.Component {
                     </div>
 
                   </div>
-                    <div className="row">
-                        <div className="col-md-4 col-sm-4 text-center">
-
-                        </div>
-                        <div className="col-md-8 col-sm-8">
-                            <button onClick={this.toggleModal.bind(this, this.state.teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                <i style={{color: '#8c8c8c'}} className="fa fa-pencil"></i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
               </div>
               <div className="col-md-8 col-xs-12">
                 <div className="white-box">
-                  <TeacherProfileNav />
+                  <TeacherProfileNav teacher={this.state.teacher}/>
                 </div>
               </div>
 
@@ -154,14 +143,6 @@ class TeacherProfile extends React.Component {
       </div>
       </div>
       </div>
-
-          <AdminEditTeacherModal
-            show={this.state.isOpen}
-            onClose={this.toggleModalClose}
-            teacher={this.state.oneTeach}
-          />
-
-
       </div>);
   }
 }

@@ -90,7 +90,6 @@ class AdminEditDepartmentModal extends React.Component {
       this.setState({
         department: department
       })
-      console.log(this.state.department)
   }
 
   render(){

@@ -365,6 +365,7 @@ router.post('/editteacher', (req, res) =>{
 							user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
 							user.gender = (editedTeacher.gender!='')?editedTeacher.gender:user.gender;
 							user.passport_id = (editedTeacher.passport_id!='')?editedTeacher.passport_id:user.passport_id;
+							user.password=(editedTeacher.password!='')?bcrypt.hashSync(editedTeacher.password, 10):user.password;
 							user.save(function(err, savedUser){
 								if(err) console.log(err);
 								if(savedUser){
@@ -497,39 +498,41 @@ router.post('/deletestudent', (req, res) =>{
 })
 //this route will edit the student info
 router.post('/editstudent', (req, res) =>{
-	const editedStudent = JSON.parse(req.body.editedStudent);
+	const student = JSON.parse(req.body.student);
+	console.log(req.body)
 	Student.findOne({_id:req.body.student_id}, function(err, student){
 		if(err) console.log(err);
-		if(student){
-			if(editedStudent.major_id){
-				Major.findOne({_id:editedStudent.major_id}, function(err, major){
+		else{
+			if(student.major_id){
+				Major.findOne({_id:student.major_id}, function(err, major){
 					if(err) console.log(err);
-					if(major){
+					else{
 						Department.findOne({_id:major.major_department}, function(err, department){
 							if(err) console.log(err);
-							if(department){
+							else{
 								Faculty.findOne({_id:department.department_faculty},function(err, faculty){
 									if(err) console.log(err);
-									if(faculty){
+									else{
 										student.faculty_id = faculty._id;
 										student.department_id = department._id;
-										student.major_id = (editedStudent.major_id!='')?editedStudent.major_id:student.major_id;
-										student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
-										student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+										student.major_id = (student.major_id!='')?student.major_id:student.major_id;
+										student.admission_year = (student.admission_year!='')?student.admission_year:student.admission_year;
+										student.graduation_year = (student.graduation_year!='')?student.graduation_year:student.graduation_year;
 										student.save(function(err, savedStudent){
 											if(err) console.log(err);
-											if(savedStudent){
+											else{
 												User.findOne({_id:savedStudent.user_id}, function(err, user){
 													if(err) console.log(err);
-													if(user){
-														user.name = (editedStudent.name!='')?editedStudent.name:user.name;
-														user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+													else{
+														user.name = (student.name!='')?student.name:user.name;
+														user.lastname = (student.lastname!='')?student.lastname:user.lastname;
 														user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-														user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
-														user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+														user.gender = (student.gender!='')?student.gender:user.gender;
+														user.passport_id = (student.passport_id!='')?student.passport_id:user.passport_id;
+														user.password = (student.password!='')?bcrypt.hashSync(student.password, 10):user.password;
 														user.save(function(err, savedUser){
 															if(err) console.log(err);
-															if(savedUser){
+															else{
 																res.status(200).send({sms:'Yes!!!!!!!'})
 															}
 														})
@@ -546,23 +549,24 @@ router.post('/editstudent', (req, res) =>{
 			} else{
 				Student.findOne({_id:req.body.student_id}, function(err, student){
 					if(err) console.log(err);
-					if(student){
+					else{
 						student.faculty_id = student.faculty_id;
 						student.department_id = student.department_id;
 						student.major_id = student.major_id;
-						student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
-						student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+						student.admission_year = (student.admission_year!='')?student.admission_year:student.admission_year;
+						student.graduation_year = (student.graduation_year!='')?student.graduation_year:student.graduation_year;
 						student.save(function(err, savedStudent){
 							if(err) console.log(err);
-							if(savedStudent){
+							else{
 								User.findOne({_id:savedStudent.user_id}, function(err, user){
 									if(err) console.log(err);
-									if(user){
-										user.name = (editedStudent.name!='')?editedStudent.name:user.name;
-										user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+									else{
+										user.name = (student.name!='')?student.name:user.name;
+										user.lastname = (student.lastname!='')?student.lastname:user.lastname;
 										user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-										user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
-										user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+										user.gender = (student.gender!='')?student.gender:user.gender;
+										user.passport_id = (student.passport_id!='')?student.passport_id:user.passport_id;
+										user.password = (student.password!='')?student.password:user.password;
 										user.save(function(err, savedUser){
 											if(err) console.log(err);
 											if(savedUser){
@@ -1362,7 +1366,11 @@ router.get('/getteachersubjects', (req, res) => {
 									img: teacher.img,
 									degree: teacher.degree,
 									email: teacher.email,
-									phone: teacher.phone
+									phone: teacher.phone,
+									birthday: user.birthday,
+									entry_year: teacher.entry_year,
+									passport_id: user.passport_id
+
 								}
 						res.send({
 							teacher: myTeacher
