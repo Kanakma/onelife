@@ -1322,7 +1322,28 @@ router.get('/getteachersubjects', (req, res) => {
 				}
 			})
 		})
-
+		router.get('/getteacherprofileinfo', (req, res) => {
+			var userId = req.query.teacherId;
+					Teacher.findOne({user_id: userId}).populate('user_id').exec(function(err, teacher){
+						if(err) { console.log(err) }
+						else {
+								res.send({
+									teacher: teacher
+								})
+						}
+					})
+				})
+				router.get('/getstudentprofileinfo', (req, res) => {
+					var userId = req.query.studentId;
+							Student.findOne({user_id: userId}).populate('user_id').populate('major_id').exec(function(err, student){
+								if(err) { console.log(err) }
+								else {
+										res.send({
+											student: student
+										})
+								}
+							})
+						})
 
 	router.get('/getoneteacher', (req, res) => {
 		var teacherId = req.query.teacherId;

@@ -641,5 +641,47 @@ active state
 .teacherInfo{
   height: 280px;
 }
+.page-wrapper{
+  width: 100%;
+  height: 100%;
+  padding-left: 220px;
+}
+.profile-heading{
+  width: 100%;
+  height: 300px;
+  background-image: url(  /img/university.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.5;
+}
+.profile-heading:after{
 
+}
+.profile-heading-name{
+  font-size: 50px;
+  color:  black;
+  font-family: 'Roboto',sans-serif;
+  vertical-align: middle;
+  padding: 50px 0;
+}
+.page-content{
+  padding: 20px 0;
+}
+.profile-teacher-img{
+  width: 90px;
+  height: 90px;
+}
+.profile-teacher-name{
+  font-size: 20px;
+  color: black;
+  font-family:  'Roboto',sans-serif;
+}
+.profile-teacher-btn{
+  width: 150px;
+  height: 35px;
+  background-color: #5d8fce;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
 /* new end */

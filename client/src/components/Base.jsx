@@ -197,7 +197,7 @@ class Base extends React.Component {
                             <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
                           </ul>
                       </li>
-                     
+
 
                       <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
 
@@ -237,7 +237,7 @@ class Base extends React.Component {
             <nav className="navbar side-navbar">
               <div className="navbar-header">
                 <ul className="nav nav-stacked">
-                    <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
+                    <li><Link to="/studentprofile" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
                     <li><Link to="/studentsubjects" className="waves-effect" name="subject">
                         <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Предметы
                         </Link>
