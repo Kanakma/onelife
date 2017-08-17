@@ -49,7 +49,7 @@ class AdminEditDepartmentModal extends React.Component {
           teachers: res.data.allTchrs
         });
       });
-    }
+    } 
 
   dateFormat(date){
     var fDate = new Date(date);
@@ -94,7 +94,6 @@ class AdminEditDepartmentModal extends React.Component {
   }
 
   render(){
-
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -121,6 +120,7 @@ class AdminEditDepartmentModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
+    
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>

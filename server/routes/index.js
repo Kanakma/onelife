@@ -1552,7 +1552,7 @@ router.get('/getsubjectsforstudents',(req, res)=>{
 		}
 	})
 })
-
+//This route will add the parrent
 router.post('/addparrent',(req, res) =>{
 	var parrent = JSON.parse(req.body.parrent);
 	var students = JSON.parse(req.body.students).map(function(student){
@@ -1611,28 +1611,7 @@ router.post('/addparrent',(req, res) =>{
 		}
 	})
 })
-router.get('/getparents', (req, res)=>{
-	Parrent.find({}).populate('user_id').populate({path:'childs', populate:{path:'user_id faculty_id department_id major_id'}}).exec((err, parrents)=>{
-		if(err) console.log(err);
-		if(parrents){
-			res.send({
-				parrents:parrents
-			})
-		}
-	})
-})
-
-router.post('/deleteparrent', (req, res)=>{
-	Parrent.findOneAndRemove({_id:req.body.parrent_id}, function(err, parrent){
-		if(err) console.log(err);
-		if(parrent){
-			User.findOneAndRemove({_id:parrent.user_id}, function(err, user){
-				if(err) console.log(err);
-			})
-		}
-	})
-})
-
+//This route will edit the parent
 router.post('/editparrent', (req, res)=>{
 	var parrent = JSON.parse(req.body.parrent);
 	var students = JSON.parse(req.body.students).map(function(student){
@@ -1669,4 +1648,32 @@ router.post('/editparrent', (req, res)=>{
 		}
 	})
 })
+//This route will get parrents
+router.get('/getparents', (req, res)=>{
+	Parrent.find({}).populate('user_id').populate({path:'childs', populate:{path:'user_id faculty_id department_id major_id'}}).exec((err, parrents)=>{
+		if(err) console.log(err);
+		if(parrents){
+			res.send({
+				parrents:parrents
+			})
+		}
+	})
+})
+//This route will delete parent
+router.post('/deleteparrent', (req, res)=>{
+	Parrent.findOneAndRemove({_id:req.body.parrent_id}, function(err, parrent){
+		if(err) console.log(err);
+		if(parrent){
+			User.findOneAndRemove({_id:parrent.user_id}, function(err, user){
+				if(err) console.log(err);
+				if(user){
+					res.send({
+						message:"Удалено"
+					})
+				}
+			})
+		}
+	})
+})
+
 module.exports = router;

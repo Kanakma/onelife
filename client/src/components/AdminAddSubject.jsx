@@ -20,7 +20,8 @@ class AdminAddSubject extends React.Component {
         course_number: 0,
         credit_number: 0,
         max_students: 0,
-        description: ''
+        description: '',
+        optional:true
       },
       file: '',
       filename: '',

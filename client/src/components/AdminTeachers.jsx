@@ -28,10 +28,6 @@ class AdminTeachers extends React.Component {
 
   }
   openTeacherProfile(event){
-    // this.setState({
-    //   teacherId: event.target.id
-    // })
-
     this.context.router.history.push('/teacherprofile', {teacherId: event.target.id})
   }
   componentDidMount() {
