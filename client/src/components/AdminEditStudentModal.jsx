@@ -2,7 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
-
+import InputElement from 'react-input-mask';
 
 class AdminEditStudentModal extends React.Component {
 
@@ -52,7 +52,8 @@ class AdminEditStudentModal extends React.Component {
       this.addImg();
     }
     const student_id = this.props.student.student_id;
-    const formData = `editedStudent=${JSON.stringify(this.state.student)}&student_id=${student_id}&birthday=${this.state.birthday}`;
+    const birthday =this.state.birthday;
+    const formData = `student=${JSON.stringify(this.state.student)}&student_id=${student_id}&birthday=${this.state.birthday}`;
     axios.post('/api/editstudent', formData, {
       responseType: 'json',
       headers: {
@@ -162,7 +163,6 @@ class AdminEditStudentModal extends React.Component {
       }
 
   render(){
-    console.log(this.props.student)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
