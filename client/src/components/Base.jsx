@@ -17,6 +17,8 @@ class Base extends React.Component {
       checkStudent: false,
       checkDepartment: false,
       checkParrent:false,
+      checkAttendance:false,
+      checkTest:false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -67,6 +69,14 @@ class Base extends React.Component {
         this.setState({
           checkParrent: !this.state.checkParrent
         })
+    } else if((nameDropdown == "attendance") || (idDropdown == "attendance")){
+      this.setState({
+        checkAttendance: !this.state.checkAttendance
+      })
+    } else if((nameDropdown == "test") || (idDropdown == "test")){
+      this.setState({
+        checkTest: !this.state.checkTest
+      })
     }
   }
   render() {
@@ -186,27 +196,27 @@ class Base extends React.Component {
                 <div className="navbar-header">
                   <ul className="nav nav-stacked">
                       <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
-
-                         <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
+                         <li><Link to="#" className="waves-effect" name="attendance" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Посещаемость
-                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
-                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={this.state.checkAttendance} id="attendance" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={!this.state.checkAttendance} id="attendance" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
                           </Link>
-                          <ul className="nav" hidden={!this.state.checkStudent}>
+                          <ul className="nav" hidden={!this.state.checkAttendance}>
                             <li><Link to="/tests" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
                             <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
                           </ul>
                       </li>
 
 
-                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
+        
 
-                      <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
+                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
+                      <li><Link to="#" className="waves-effect" name="test" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Тест
-                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
-                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={this.state.checkTest} id="test" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={!this.state.checkTest} id="test" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
                           </Link>
-                          <ul className="nav" hidden={!this.state.checkStudent}>
+                          <ul className="nav" hidden={!this.state.checkTest}>
                             <li><Link to="/tests" className="waves-effect" style={{paddingLeft: "45px"}} >Все тесты</Link></li>
                             <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
@@ -254,6 +264,33 @@ class Base extends React.Component {
             </nav>
             </div>
             </div>
+            </div>
+          ):(Auth.isUserAuthenticated() && (this.state.status == "parent")) ?(
+            <div>
+              <nav className="navbar navbar-default m-b-0">
+                <div className="navbar-header myheader">
+                    <div className="top-left-part">
+                      <Link to="/" className="logo">
+                        <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
+                        <span className="hidden-xs">
+                            <strong></strong>
+                        </span>
+                      </Link>
+                    </div>
+                </div>
+              </nav>
+              <div className="row">
+                <div className="col-md-2 well-white">
+                  <nav className="navbar side-navbar">
+                    <div className="navbar-header">
+                      <ul className="nav nav-stacked">
+                        <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
+                        <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>                    
+                      </ul>
+                    </div>
+                  </nav>
+                </div>
+              </div>
             </div>
           ):(
             <div>

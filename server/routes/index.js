@@ -1,14 +1,15 @@
-var express = require('express')
+var express = require('express');
 var router = express.Router();
-var Major = require('../models/major')
-var Faculty = require('../models/faculty')
-var User = require('../models/user')
-var Teacher = require('../models/teacher')
-var Student = require('../models/student')
-var Subject = require('../models/subject')
-var Quiz = require('../models/quiz')
-var QuizPoint = require('../models/quiz_point')
-var Department = require('../models/department')
+var Major = require('../models/major');
+var Faculty = require('../models/faculty');
+var User = require('../models/user');
+var Teacher = require('../models/teacher');
+var Student = require('../models/student');
+var Subject = require('../models/subject');
+var Quiz = require('../models/quiz');
+var QuizPoint = require('../models/quiz_point');
+var Department = require('../models/department');
+var Parrent = require('../models/parrent')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -298,7 +299,7 @@ router.post('/addteacher', (req, res) => {
 							}
 							const newTeacher = new Teacher(teacherData);
 						  	newTeacher.save((err, teacher) => {
-								if (err) { return done(err); }
+								if (err) { console.log(err); }
 								else {
 									res.send({
 										teacher: teacher
@@ -306,7 +307,7 @@ router.post('/addteacher', (req, res) => {
 								}
 							})
 						}
-				  	});
+				  });
 				}
 			})
 		}
@@ -1023,7 +1024,6 @@ router.post('/choosesubject', (req, res) => {
 	var subjectId = req.body.subjectId.trim();
 	var token = req.headers.authorization.split(' ')[1];
 	var decoded = jwtDecode(token);
-
 	Student.findOne({user_id:decoded.sub}, function(err, student){
 		if(err) console.log(err);
 		if(student){
@@ -1306,6 +1306,7 @@ router.get('/getonesubject', (req, res) => {
 		}
 	})
 })
+
 router.get('/getteachersubjects', (req, res) => {
 	var userId = req.query.teacherId;
 			Teacher.findOne({user_id: userId}, (err, teacher) => {
@@ -1322,6 +1323,7 @@ router.get('/getteachersubjects', (req, res) => {
 				}
 			})
 		})
+
 		router.get('/getteacherprofileinfo', (req, res) => {
 			var userId = req.query.teacherId;
 					Teacher.findOne({user_id: userId}).populate('user_id').exec(function(err, teacher){
@@ -1490,78 +1492,6 @@ router.get('/getstudents', (req, res) =>{
 	})
 })
 
-// router.get('/getstudents', (req, res) => {
-// 	Student.find((err, students) => {
-// 		if(err) {console.log(err) }
-// 		else {
-// 			var myStudents = [];
-// 			var myStudent = {
-// 					student_id:'',
-// 					username: '',
-// 					name: '',
-// 					lastname: '',
-// 					passport_id: '',
-// 					faculty_id: '',
-// 					faculty_name:'',
-// 					major_id: '',
-// 					major_name:'',
-// 					admission_year: '',
-// 					graduation_year: '',
-// 					birthday:''
-// 			}
-// 			User.find((err, users) => {
-// 				if(err) {console.log(err) }
-// 				else {
-// 					Faculty.find((err, faculties) => {
-// 						if(err) {console.log(err) }
-// 						else {
-// 							Major.find((err, majors) => {
-// 								if(err) {console.log(err) }
-// 								else {
-// 									students.forEach(function(student){
-// 										users.forEach(function(user){
-// 											if(student.user_id.toString() == user._id.toString()){
-// 												faculties.forEach(function(faculty){
-// 													if(student.faculty_id.toString() == faculty._id.toString()){
-// 														majors.forEach(function(major){
-// 															if(student.major_id.toString() == major._id.toString()){
-// 																myStudent = {
-// 																		img:student.img,
-// 																		student_id:student._id,
-// 																		username: user.username,
-// 																		user_id:student.user_id,
-// 																		name: user.name,
-// 																		lastname: user.lastname,
-// 																		passport_id: user.passport_id,
-// 																		faculty_id: faculty._id,
-// 																		faculty_name: faculty.faculty_name,
-// 																		major_id: major._id,
-// 																		major_name: major.major_name,
-// 																		admission_year: student.admission_year,
-// 																		graduation_year: student.graduation_year,
-// 																		birthday:user.birthday
-// 																}
-// 																myStudents.push(myStudent);
-// 															}
-// 														})
-// 													}
-// 												})
-// 											}
-// 										});
-// 									});
-// 									res.send({
-// 										students: myStudents
-// 									})
-// 								}
-// 							})
-// 						}
-// 					})
-// 				}
-// 			})
-// 		}
-// 	})
-// });
-
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {
 		if(err) {console.log(err) }
@@ -1605,55 +1535,138 @@ router.get('/getforsubject', (req, res) => {
 	})
 });
 
-router.get('/getsubjectsforstudents',(req,res)=>{
-
-
-//то что работает
-// Subject.find({
-
-// }).populate('students').exec(function(err, subject) {
-
-// 	if(err) {
-// 		res.status(500).send({err: err});
-// 	} else {
-// 		console.log(subject);
-// 		res.status(200).send({data: subject});
-
-// 	}
-
-// })
-
-	var subjectId=req.query.subjectId;
-
-	Subject.findOne({
-		_id:subjectId
-
-
-	}).populate({
-		path:'students teacher_id ',
-
-		populate: {
-			path: 'user_id'
-
+router.get('/getsubjectsforstudents',(req, res)=>{
+		var subjectId=req.query.subjectId;
+		Subject.findOne({
+			_id:subjectId
+		}).populate({
+			path:'students teacher_id ',
+			populate: {
+				path: 'user_id'
+			}
+		}).exec(function(err,subject){
+		if(err) {
+			res.status(500).send({err: err});
+		} else {
+			res.status(200).send({students: subject.students});
 		}
-	}).exec(function(err,subject){
-
-	if(err) {
-		res.status(500).send({err: err});
-	} else {
-		//console.log(subject);
-		res.status(200).send({students: subject.students});
-
-	}
 	})
-
-
-
-
-
 })
 
+router.post('/addparrent',(req, res) =>{
+	var parrent = JSON.parse(req.body.parrent);
+	var students = JSON.parse(req.body.students).map(function(student){
+		return student.value
+	});
+	var account = JSON.parse(req.body.account);
+	var birthday = req.body.birthday;
+	User.findOne({passport_id:parrent.passport_id}, function(err, user){
+		if(err) {
+			console.log(err);
+		}
+		else if(user){
+			res.status(409).send({
+				message: 'Этот пользователь уже есть в списке'
+			})
+		} else {
+			Parrent.find((err, parents) =>{
+				if(err) console.log(err);
+				else{
+					var userData = {
+						username: 30000+parents.length,
+						password:bcrypt.hashSync(account.password, 10),
+						passport_id:parrent.passport_id,
+						name:account.name,
+						lastname:account.lastname,
+						birthday:birthday,
+						status: 'parent',
+						gender:account.gender
+					}
+					const newUser = new User(userData);
+					newUser.save((err, saved)=>{
+						if(err) { console.log(err) }
+						else{
+							var parrentData={
+								user_id:saved._id,
+								email:account.email,
+								phone:account.phone,
+								address:parrent.address,
+									childs:students
+							}
+							const newParent = new Parrent(parrentData);
+							newParent.save(function(err, savedparrent){
+								if(err) console.log(err);
+								if(savedparrent){
+									res.send({
+										parent: savedparrent,
+										message:"Родитель сохранен успешно!",
+										errors:{}
+									})
+								}
+							})
+						}
+					})
+				}
+			})
+		}
+	})
+})
+router.get('/getparents', (req, res)=>{
+	Parrent.find({}).populate('user_id').populate({path:'childs', populate:{path:'user_id faculty_id department_id major_id'}}).exec((err, parrents)=>{
+		if(err) console.log(err);
+		if(parrents){
+			res.send({
+				parrents:parrents
+			})
+		}
+	})
+})
 
+router.post('/deleteparrent', (req, res)=>{
+	Parrent.findOneAndRemove({_id:req.body.parrent_id}, function(err, parrent){
+		if(err) console.log(err);
+		if(parrent){
+			User.findOneAndRemove({_id:parrent.user_id}, function(err, user){
+				if(err) console.log(err);
+			})
+		}
+	})
+})
 
-
+router.post('/editparrent', (req, res)=>{
+	var parrent = JSON.parse(req.body.parrent);
+	var students = JSON.parse(req.body.students).map(function(student){
+		return student.value
+	});
+	var account = JSON.parse(req.body.account);
+	var birthday = req.body.birthday;
+	Parrent.findOne({_id:req.body.parrent_id}, function(err, parrentF){
+		if(err) console.log(err);
+		if(parrent){
+			parrentF.email = (account.email!='')?account.email:parrentF.email;
+			parrentF.phone = (account.phone!='')?account.phone:parrentF.phone;
+			parrentF.address = (parrent.address!='')?parrent.address:parrentF.address;
+			parrentF.childs = (students.length!=0)?students:parrentF.childs;
+			parrentF.save(function(err, savedParrent){
+				if(err) console.log(err);
+				if(savedParrent){
+					User.findOne({_id:savedParrent.user_id}, function(err, user){
+						if(err) console.log(err);
+						if(user){
+							user.password = (account.password!='')?bcrypt.hashSync(account.password, 10):user.password;
+							user.passport_id = (parrent.passport_id!='')?parrent.password:user.password;
+							user.name = (account.name!='')?account.name:user.name;
+							user.lastname = (account.lastname!='')?account.lastname:user.lastname;
+							user.birthday = (birthday!='')?birthday:user.birthday;
+							user.gender = (parrent.gender!='')?parrent.gender:user.gender;
+							user.save(function(err, savedUser){
+								if(err) console.log(err);
+							})
+						}
+					})
+				}
+			})
+		}
+	})
+})
 module.exports = router;

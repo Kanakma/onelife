@@ -8,6 +8,7 @@ import HomePage from './components/HomePage.jsx';
 import AdminHome from './components/AdminHome.jsx';
 import TeacherHome from './components/TeacherHome.jsx';
 import StudentHome from './components/StudentHome.jsx';
+import ParentHome from './components/ParentHome.jsx';
 import AdminFaculties from './components/AdminFaculties.jsx';
 import AdminMajors from './components/AdminMajors.jsx';
 import AdminStudents from './components/AdminStudents.jsx';

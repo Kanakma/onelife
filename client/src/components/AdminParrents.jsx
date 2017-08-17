@@ -13,8 +13,23 @@ class AdminParrents extends React.Component {
     super(props);
 
     this.state = {
-      teachers: [],
-      teacher:{},
+      parrents: [{
+        address:'',
+        email:'',
+        phone:'',
+        user_id:{
+          birthday:'',
+          lastname:'',
+          name:'',
+          passport_id:'',
+          status:'',
+          username:'',
+          _id:''
+        },
+        _id:'',
+        childs:[]
+      }],
+      parrent:{},
       isOpen:false,
       status: '',
       checkFilter: false
@@ -25,7 +40,7 @@ class AdminParrents extends React.Component {
 
   }
   componentDidMount() {
-    axios.get('/api/getteachers',  {
+    axios.get('/api/getparents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -33,7 +48,7 @@ class AdminParrents extends React.Component {
     })
       .then(res => {
         this.setState({
-          teachers: res.data.allTchrs
+          parrents: res.data.parrents
         });
       });
   }
@@ -61,10 +76,10 @@ class AdminParrents extends React.Component {
   }
 
 
-  toggleModal(teacher) {
+  toggleModal(parrent) {
       this.setState({
         isOpen: !this.state.isOpen,
-        teacher:teacher
+        parrent:parrent
       });
   }
 
@@ -80,125 +95,66 @@ class AdminParrents extends React.Component {
       <div className="bg-title" >
         <div className="row">
           <div className="col-md-9">
-            <h4>Все преподаватели</h4>
-          </div>
-          <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
-            <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-th-large fa-lg" aria-hidden="true" id="block" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-filter fa-lg" aria-hidden="true" style={{color: '#00c292'}}></i>
+            <h4>Все родители</h4>
           </div>
         </div>
       </div>
-      <div className="my-content" hidden={this.state.checkFilter}>
-      <div className="row" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
-        {this.state.teachers ? (
-            this.state.teachers.map((teacher, index) =>{
-              return (
-                <div key={index} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
-                  <div className="white-box teacherInfo">
-                      <div className="row">
-                      {
-                        teacher.img!='default.jpg' ? (
-                          <div className="col-md-4 col-sm-4 text-center">
-                              <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/></Link>
-                          </div>
-                          ):(
-                          <div className="col-md-4 col-sm-4 text-center">
-                              <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/></Link>
-                          </div>
-                          )
-                      }
-                          <div className="col-md-8 col-sm-8">
-                              <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3> <small>{teacher.degree}</small>
-                              <address>
-                                Факультет: {teacher.faculty_name}<br/>
-                                Пользователь: {teacher.username}
-                                <br/>
-                                <abbr title="Email">E:</abbr> {teacher.email}
-                                <br/>
-                                <abbr title="Phone">P:</abbr> {teacher.phone}
-                              </address>
-                              <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-              )
-            })
-          ):(
-              <div>
-                Нет преподавателей. Добавьте преподавателей.
-              </div>
-          )
-        }
-      </div>
-      </div>
-      <div className="my-content"  hidden={!this.state.checkFilter}>
+      <div className="my-content">
       <div className="table-responsive">
-
           <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
-                      <th>Имя</th>
-                      <th>Степень</th>
-                      <th>Факультет</th>
+                      <th>ФИО</th>
+                      <th>Студент(ы)</th>
                       <th>Телефон</th>
                       <th>E-mail</th>
-                      {(this.state.status == "admin") ?(
+                      <th>Адресс</th>
                         <th><center>Опиции</center></th>
-                      ):(
-                        <th></th>
-                      )}
                   </tr>
               </thead>
               <tbody>
               {
-                this.state.teachers ? (
-                  this.state.teachers.map((teacher, t) =>{
+                this.state.parrents ? (
+                  this.state.parrents.map((parrent, t) =>{
                     return(
                     <tr key={t}>
                         <td>{t+1}</td>
-                        <td>{teacher.name} {teacher.lastname}</td>
-                        <td>{teacher.degree}</td>
-                        <td>{teacher.faculty_name}</td>
-                        <td>{teacher.phone}</td>
-                        <td>{teacher.email}</td>
-                        {(this.state.status == "admin") ?(
+                        <td>{parrent.user_id.name} {parrent.user_id.lastname}</td>
+                        <td>{parrent.childs.map((student, s)=>
+                          <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
+                        )}</td>
+                        <td>{parrent.phone}</td>
+                        <td>{parrent.email}</td>
+                        <td>{parrent.address}</td>
                           <td className="text-center ">
-                            <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
+                            <button onClick={this.toggleModal.bind(this, parrent)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
                               <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                             </button>
                           </td>
-                        ):(
-                          <td></td>
-                        )}
                     </tr>
                     )
                 })
                   ):(
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
                       </tr>
                   )
               }
               </tbody>
-
           </table>
         </div>
         </div>
           <AdminEditParrentModal
             show={this.state.isOpen}
             onClose={this.toggleModalClose}
-            teacher={this.state.teacher}
+            parrent={this.state.parrent}
           />
       </div>);
   }
