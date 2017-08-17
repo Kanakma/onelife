@@ -1214,6 +1214,23 @@ router.get('/getsubjects', (req, res) => {
 		}
 	})
 });
+router.get('/getsubject', (req, res) => {
+	var subjectId = req.query.subjectId;
+	var mySubject = {};
+	var already = false;
+	Subject.findOne({_id: subjectId}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).exec(function(err, subject){
+		if(err) { console.log(err) }
+		else {
+			res.send({
+				subject: subject,
+				teacher: subject.teacher_id,
+				user: subject.teacher_id.user_id,
+				img: subject.img
+			})
+
+		}
+	})
+})
 
 router.get('/getonesubject', (req, res) => {
 	var subjectId = req.query.subjectId;
@@ -1235,8 +1252,7 @@ router.get('/getonesubject', (req, res) => {
 								else {
 									Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
 										if(err) console.log(err);
-										if(studentSSS){
-
+										else{
 											mySubject = {
 												_id: subject._id,
 												subject_name: subject.subject_name,
@@ -1293,7 +1309,6 @@ router.get('/getonesubject', (req, res) => {
 
 router.get('/getteachersubjects', (req, res) => {
 	var userId = req.query.teacherId;
-	var mySubjects ={};
 			Teacher.findOne({user_id: userId}, (err, teacher) => {
 				if(err) { console.log(err) }
 				else {

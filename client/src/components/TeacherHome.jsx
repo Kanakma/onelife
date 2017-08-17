@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 
 class TeacherHome extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      
+    }
+  }
 
   render() {
     return (
