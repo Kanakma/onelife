@@ -17,6 +17,10 @@ const SubjectSchema = new mongoose.Schema({
   img: {
     type:String,
     default:'default.jpg'
+  },
+  optional: {
+    type:Boolean,
+    default:true
   }
 });
 

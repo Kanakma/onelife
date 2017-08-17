@@ -4,7 +4,7 @@ import Auth from '../modules/Auth'
 import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
 import Select from 'react-select';
-
+ 
 class AdminEditParrentModal extends React.Component {
 
   constructor(props){
@@ -31,7 +31,7 @@ class AdminEditParrentModal extends React.Component {
       value: []
     };
     this.changeParrent = this.changeParrent.bind(this);
-    this.editParrent = this.editParrent.bind(this);
+    this.editParrentFunc = this.editParrentFunc.bind(this);
     this.deleteParrent = this.deleteParrent.bind(this);
     this.birthdayChange = this.birthdayChange.bind(this);
     this.clearContent = this.clearContent.bind(this);
@@ -52,6 +52,7 @@ class AdminEditParrentModal extends React.Component {
         });
       });
   }
+
   changeParrent(event){
     const field = event.target.name;
     const parrent = this.state.parrent;
@@ -60,7 +61,8 @@ class AdminEditParrentModal extends React.Component {
         parrent: parrent
       })
   }
-  editParrent(){
+
+  editParrentFunc(){
     event.preventDefault();
     var parrent_id=this.props.parrent._id;
     const birthday = encodeURIComponent(this.state.birthday);
@@ -68,8 +70,7 @@ class AdminEditParrentModal extends React.Component {
     axios.post('/api/editparrent', formData, {
       responseType: 'json',
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
+        'Content-type': 'application/x-www-form-urlencoded'
       }
     })
   }
@@ -80,11 +81,13 @@ class AdminEditParrentModal extends React.Component {
     axios.post('/api/deleteparrent', formData, {
       responseType: 'json',
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
+        'Content-type': 'application/x-www-form-urlencoded'
       }
     })
-  }
+      .then(response => {
+        window.location.reload();
+      });
+    }
   
   birthdayChange(value){
       this.setState({
@@ -171,7 +174,7 @@ class AdminEditParrentModal extends React.Component {
                 X
               </button>
           <div>
-            <form action="/parrents"  onSubmit={this.editParrent}>
+            <form action="/parrents"  onSubmit={this.editParrentFunc}>
               <div className="form-group">
               <label>Имя родителя</label>
                 <input type="text" className="form-control" placeholder={this.props.parrent.user_id.name}
@@ -278,7 +281,7 @@ class AdminEditParrentModal extends React.Component {
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
                 Сохранить изменения
               </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteParrent}>
+              <button type="button" className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteParrent}>
                 Удалить родителя
               </button>
             </form>
