@@ -10,9 +10,8 @@ var Quiz = require('../models/quiz');
 var QuizPoint = require('../models/quiz_point');
 var Department = require('../models/department');
 var Parrent = require('../models/parrent')
-
 var Attendance = require('../models/attendance')
-
+var Homework = require('../models/homework')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -1710,11 +1709,11 @@ router.post('/addattendance',(req, res)=>{
    }
   })
 
- }) 
+ })
  res.send({
    message: "Вы выставили посещаемость"
    })
-  
+
 })
 
 

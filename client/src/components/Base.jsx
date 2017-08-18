@@ -19,6 +19,7 @@ class Base extends React.Component {
       checkParrent:false,
       checkAttendance:false,
       checkTest:false,
+      checkHomework: false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -77,7 +78,12 @@ class Base extends React.Component {
       this.setState({
         checkTest: !this.state.checkTest
       })
+    } else if((nameDropdown == "homework") || (idDropdown == "homework")){
+      this.setState({
+        checkHomework: !this.state.checkHomework
+      })
     }
+
   }
   render() {
     return (
@@ -206,10 +212,6 @@ class Base extends React.Component {
                             <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
                           </ul>
                       </li>
-
-
-        
-
                       <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Все предметы</Link></li>
                       <li><Link to="#" className="waves-effect" name="test" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Тест
@@ -221,7 +223,15 @@ class Base extends React.Component {
                             <li><Link to="/addtest" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить тест</Link></li>
                           </ul>
                       </li>
-                      <li><Link to="/teachersubjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
+                      <li><Link to="#" className="waves-effect" name="homework" onClick={this.changeHide}><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание
+                        <span hidden={this.state.checkHomework} id="homework" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                        <span hidden={!this.state.checkHomework} id="homework" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                        </Link>
+                        <ul className="nav" hidden={!this.state.checkHomework}>
+                          <li><Link to="/teacherhomework" className="waves-effect" style={{paddingLeft: "45px"}} >Все задания</Link></li>
+                          <li><Link to="/teacheraddhomework" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить задание</Link></li>
+                        </ul>
+                      </li>
                       <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                   </ul>
                 </div>
@@ -285,7 +295,7 @@ class Base extends React.Component {
                     <div className="navbar-header">
                       <ul className="nav nav-stacked">
                         <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
-                        <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>                    
+                        <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                       </ul>
                     </div>
                   </nav>

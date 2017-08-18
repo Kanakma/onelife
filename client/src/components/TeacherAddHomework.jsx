@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import AdminEditSubjectModal from './AdminEditSubjectModal.jsx'
 
-class TeacherHomework extends React.Component{
+class TeacherAddHomework extends React.Component{
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -48,7 +48,7 @@ class TeacherHomework extends React.Component{
     }
   }
   openSubject(event){
-    this.context.router.history.push('/subjectinfo', {subject: event.target.id})
+    this.context.router.history.push('/newhomework', {subject: event.target.id})
   }
   changeFilter(event){
     if(event.target.id == 'list'){
@@ -79,7 +79,7 @@ class TeacherHomework extends React.Component{
 
         <div className="row">
           <div className="col-md-9">
-            <h4>Все дз</h4>
+            <h4>Добавить домашнее задание</h4>
           </div>
           <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
             <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
@@ -105,13 +105,13 @@ class TeacherHomework extends React.Component{
                       <p><span><i className="fa fa-user-plus"></i> Количество возможных студентов: {subject.max_students}</span></p>
                       {(this.state.status == "admin") ?(
                         <div>
-                          <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                          <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Добавить дз</button>
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
                               <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                           </button>
                         </div>
                       ):(
-                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Добавить дз</button>
                       )}
                   </div>
               </div>
@@ -156,7 +156,7 @@ class TeacherHomework extends React.Component{
                         <td><center>{subject.max_students}</center></td>
                         <td>
 
-                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light" style={{color: 'white'}}>Подробнее</button>
+                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light" style={{color: 'white'}}>Добавить дз</button>
 
 
                         </td>
@@ -186,15 +186,10 @@ class TeacherHomework extends React.Component{
           </table>
         </div>
         </div>
-        <AdminEditSubjectModal
-          show={this.state.isOpen}
-          onClose={this.toggleModalClose}
-          subject={this.state.subject}
-        />
       </div>);
   }
 }
-TeacherHomework.contextTypes = {
+TeacherAddHomework.contextTypes = {
   router: PropTypes.object.isRequired
 };
-export default TeacherHomework;
+export default TeacherAddHomework;

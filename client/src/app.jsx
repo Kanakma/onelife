@@ -26,13 +26,15 @@ import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
-import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
+import TeacherAddAttendance from './components/TeacherAddAttendance.jsx';
+import TeacherAddHomework from './components/TeacherAddHomework.jsx';
 import AdminAddParrent from './components/AdminAddParrent.jsx';
 import AdminParrents from './components/AdminParrents.jsx';
 import TeacherSubjects from './components/TeacherSubjects.jsx';
 import StudentSubjects from './components/StudentSubjects.jsx';
 import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
-
+import TeacherHomework from './components/TeacherHomework.jsx';
+import TeacherAddNewHomework from './components/TeacherAddNewHomework.jsx';
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -70,6 +72,9 @@ ReactDom.render((
       <Route path= "/studentsubjects" component={StudentSubjects}/>
       <Route path= "/subjectinfo" component={AdminSubjectInfo}/>
       <Route path= "/studentprofile" component={StudentHome}/>
+      <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
+      <Route path= "/teacherhomework" component={TeacherHomework}/>
+      <Route path= "/newhomework" component={TeacherAddNewHomework}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

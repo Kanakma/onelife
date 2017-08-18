@@ -752,3 +752,12 @@ active state
 .Select-clear-zone{
   display: none;
 }
+
+
+
+.homework-message{
+  width: 60%;
+  padding: 10px;
+  border-radius: 5px;
+  resize: none;
+}
