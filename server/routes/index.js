@@ -10,6 +10,9 @@ var Quiz = require('../models/quiz');
 var QuizPoint = require('../models/quiz_point');
 var Department = require('../models/department');
 var Parrent = require('../models/parrent')
+
+var Attendance = require('../models/attendance')
+
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -1543,6 +1546,7 @@ router.get('/getforsubject', (req, res) => {
 	})
 });
 
+
 router.get('/getsubjectsforstudents',(req, res)=>{
 		var subjectId=req.query.subjectId;
 		Subject.findOne({
@@ -1683,5 +1687,36 @@ router.post('/deleteparrent', (req, res)=>{
 		}
 	})
 })
+
+
+router.post('/addattendance',(req, res)=>{
+ var attendances=JSON.parse(req.body.data);
+ var subject_id=req.body.subject_id;
+ var att_date=req.body.att_date
+    console.log(attendances)
+ attendances.map(function(attendance){
+
+  var newAtt= new Attendance({
+   student:attendance.name,
+   date: att_date,
+   stud_attendance: attendance.att_status,
+   subject_name:subject_id
+  })
+
+  newAtt.save(function(err, saved){
+   if(err) console.log(err);
+   if(saved){
+    console.log(saved)
+   }
+  })
+
+ }) 
+ res.send({
+   message: "Вы выставили посещаемость"
+   })
+  
+})
+
+
 
 module.exports = router;
