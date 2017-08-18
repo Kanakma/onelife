@@ -1562,6 +1562,7 @@ router.get('/getsubjectsforstudents',(req, res)=>{
 })
 //This route will add the parrent
 router.post('/addparrent',(req, res) =>{
+	console.log(req.body.parrent)
 	var parrent = JSON.parse(req.body.parrent);
 	var students = JSON.parse(req.body.students).map(function(student){
 		return student.value

@@ -4,7 +4,7 @@ import Auth from '../modules/Auth'
 import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
 import Select from 'react-select';
- 
+
 class AdminEditParrentModal extends React.Component {
 
   constructor(props){
@@ -27,7 +27,7 @@ class AdminEditParrentModal extends React.Component {
         checkpassword:''
       },
       birthday: '',
-      checkContent: false, 
+      checkContent: false,
       value: []
     };
     this.changeParrent = this.changeParrent.bind(this);
@@ -88,15 +88,15 @@ class AdminEditParrentModal extends React.Component {
         window.location.reload();
       });
     }
-  
+
   birthdayChange(value){
       this.setState({
         birthday: value
       });
   }
-  
+
   clearContent(){
-    this.setState({ 
+    this.setState({
       parrent: {
         faculty_id: '',
         passport_id: '',
@@ -165,7 +165,7 @@ class AdminEditParrentModal extends React.Component {
     function valueProp(student){
       return { value:student._id, label:student.user_id.name + ' ' + student.user_id.lastname}
     }
-    
+
     var options = this.state.students.map(valueProp)
     return (
       <div style={backdropStyle}>
@@ -203,7 +203,7 @@ class AdminEditParrentModal extends React.Component {
               <div className="form-group">
                 <label>Телефон</label>
                 <InputElement mask="+7 (999) 999-99-99"
-                      className="form-control" 
+                      className="form-control"
                       placeholder={this.props.parrent.phone}
                       name="phone"
                       onChange={this.changeAccount}
@@ -212,7 +212,7 @@ class AdminEditParrentModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>E-mail</label>
-                <input type="email" 
+                <input type="email"
                       className="form-control"
                       placeholder={this.props.parrent.email}
                       name="email"
@@ -223,7 +223,7 @@ class AdminEditParrentModal extends React.Component {
               <div className="form-group row">
                 <div className="col-md-6">
                     <label>Студенты</label>
-                    <Select
+                    <Select 
                       options={options}
                       onChange={this.handleSelectChange}
                       multi={true}
