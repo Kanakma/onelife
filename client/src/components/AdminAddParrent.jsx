@@ -41,7 +41,8 @@ class AdminAddParrent extends React.Component {
         { label: "Baz", value: 3},
         { label: "Fuz", value: 4},
       ],
-      selectedValues: []
+      selectedValues: [],
+      checkContent: false
     };
     this.changeParrent = this.changeParrent.bind(this);
     this.addParrent = this.addParrent.bind(this);
@@ -63,6 +64,7 @@ class AdminAddParrent extends React.Component {
         });
       });
   }
+
   changeParrent(event){
     const field = event.target.name;
     const parrent = this.state.parrent;
@@ -70,6 +72,32 @@ class AdminAddParrent extends React.Component {
       this.setState({
         parrent: parrent
       })
+      this.checkContent();
+  }
+  checkContent(){
+    if((this.state.parrent.passport_id.length > 0) && (this.state.account.name.length > 0) && (this.state.account.lastname.length > 0)
+     && (this.state.parrent.gender.length > 0) && (this.state.account.email.length > 0)&& (this.state.account.phone.length > 0)
+     &&(this.state.birthday.length > 0) && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0)
+     && (this.state.parrent.address.length > 0)){
+          if(this.state.account.password === this.state.account.checkpassword){
+            document.getElementById('wrongpass').style.display = "none"
+            this.setState({
+              checkContent: true
+            })
+          }
+          else if(this.state.account.password != this.state.account.checkpassword){
+              document.getElementById('wrongpass').style.display = "block"
+              this.setState({
+                checkContent: false
+              })
+
+          }
+
+        }else {
+          this.setState({
+            checkContent: false
+          })
+        }
   }
   addParrent(event){
     event.preventDefault();
@@ -101,6 +129,7 @@ class AdminAddParrent extends React.Component {
       this.setState({
         birthday: value
       });
+      this.checkContent();
   }
 
   clearContent(){
@@ -130,6 +159,7 @@ class AdminAddParrent extends React.Component {
       this.setState({
         account: account
       })
+      this.checkContent();
   }
 
     onChange(values) {
@@ -139,15 +169,8 @@ class AdminAddParrent extends React.Component {
     }
   handleSelectChange (value) {
     this.setState({ value });
-
+    this.checkContent();
   }
-  // <Select className="parentStudents"
-  //   options={options}
-  //   onChange={this.handleSelectChange}
-  //   multi={true}
-  //   multiSelectAll={true}
-  //   value={this.state.value}
-  // />
 
   render() {
     function valueProp(student){
@@ -214,6 +237,7 @@ class AdminAddParrent extends React.Component {
                   multi={true}
                   multiSelectAll={true}
                   value={this.state.value}
+                  placeholder=" "
                 />
             </div>
           </div>
@@ -260,8 +284,11 @@ class AdminAddParrent extends React.Component {
                   value={this.state.account.checkpassword} />
             <span className="bar"></span>
           </div>
+          <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+            <p style={{color: 'red'}}>Пароли не совпадают</p>
+          </div>
           <div>
-            <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
+            <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
             <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
           </div>
         </form>
