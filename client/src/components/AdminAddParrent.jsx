@@ -4,7 +4,13 @@ import Auth from '../modules/Auth'
 import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
 import Select from 'react-select';
-
+var options = [
+  { value: 'one', label: 'One' },
+  { value: 'two', label: 'Two' }
+];
+function logChange(val) {
+  console.log("Selected: " + JSON.stringify(val));
+}
 class AdminAddParrent extends React.Component {
 
   constructor(props) {
@@ -28,7 +34,14 @@ class AdminAddParrent extends React.Component {
         checkpassword:''
       },
       birthday: '',
-      value: []
+      value: [],
+      products: [
+        { label: "Foo", value: 1},
+        { label: "Bar", value: 2},
+        { label: "Baz", value: 3},
+        { label: "Fuz", value: 4},
+      ],
+      selectedValues: []
     };
     this.changeParrent = this.changeParrent.bind(this);
     this.addParrent = this.addParrent.bind(this);
@@ -89,9 +102,9 @@ class AdminAddParrent extends React.Component {
         birthday: value
       });
   }
-  
+
   clearContent(){
-    this.setState({ 
+    this.setState({
       parrent: {
         address:'',
         passport_id:'',
@@ -119,16 +132,28 @@ class AdminAddParrent extends React.Component {
       })
   }
 
+    onChange(values) {
+      this.setState({
+        selectedValues: values
+      });
+    }
   handleSelectChange (value) {
     this.setState({ value });
 
   }
+  // <Select className="parentStudents"
+  //   options={options}
+  //   onChange={this.handleSelectChange}
+  //   multi={true}
+  //   multiSelectAll={true}
+  //   value={this.state.value}
+  // />
 
   render() {
     function valueProp(student){
       return { value:student._id, label:student.user_id.name + ' ' + student.user_id.lastname}
     }
-    
+
     var options = this.state.students.map(valueProp)
 
     return (
@@ -144,7 +169,7 @@ class AdminAddParrent extends React.Component {
         <form action="/"  onSubmit={this.addParrent}>
           <div className="form-group">
           <label>Имя родителя</label>
-            <input type="text" className="form-control" placeholder="Введите имя преподавателя"
+            <input type="text" className="form-control" placeholder="Введите имя родителя"
                   name="name"
                   onChange={this.changeAccount}
                   value={this.state.account.name} />
@@ -152,7 +177,7 @@ class AdminAddParrent extends React.Component {
           </div>
           <div className="form-group">
           <label>Фамилия родителя</label>
-            <input type="text" className="form-control" placeholder="Введите фамилию преподавателя"
+            <input type="text" className="form-control" placeholder="Введите фамилию родителя"
                   name="lastname"
                   onChange={this.changeAccount}
                   value={this.state.account.lastname} />
@@ -181,21 +206,20 @@ class AdminAddParrent extends React.Component {
             <span className="bar"></span>
           </div>
           <div className="form-group row">
-            <div className="col-md-6">
+            <div className="col-md-12">
                 <label>Студенты</label>
-                <Select
+                <Select className="parentStudents"
                   options={options}
                   onChange={this.handleSelectChange}
                   multi={true}
                   multiSelectAll={true}
                   value={this.state.value}
-                  placeholder=""
                 />
             </div>
           </div>
           <div className="form-group">
             <label>Адрес</label>
-            <input type="text" className="form-control" placeholder="Введите имя преподавателя"
+            <input type="text" className="form-control" placeholder="Введите адрес родителя"
                   name="address"
                   onChange={this.changeParrent}
                   value={this.state.parrent.address} />
