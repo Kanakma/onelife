@@ -9,6 +9,7 @@ var Subject = require('../models/subject')
 var Quiz = require('../models/quiz')
 var QuizPoint = require('../models/quiz_point')
 var Department = require('../models/department')
+var Attendance = require('../models/attendance')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -1571,52 +1572,155 @@ router.get('/getforsubject', (req, res) => {
 
 router.get('/getsubjectsforstudents',(req,res)=>{
 
-
-//то что работает
-// Subject.find({
-
-// }).populate('students').exec(function(err, subject) {
-
-// 	if(err) {
-// 		res.status(500).send({err: err});
-// 	} else {
-// 		console.log(subject);
-// 		res.status(200).send({data: subject});
-
-// 	}
-
-// })
-
 	var subjectId=req.query.subjectId;
 
 	Subject.findOne({
 		_id:subjectId
-
-
 	}).populate({
 		path:'students teacher_id ',
-
 		populate: {
 			path: 'user_id'
-
 		}
 	}).exec(function(err,subject){
 
 	if(err) {
 		res.status(500).send({err: err});
 	} else {
-		//console.log(subject);
 		res.status(200).send({students: subject.students});
-
 	}
 	})
 
 
-
-
-
 })
 
+// router.post('/addattendance',(req, res)=>{
+// 	var attendances=JSON.parse(req.body.data);
+// 	var subject_id=req.body.subject_id;
+// 	var att_date=req.body.att_date
+//     console.log(attendances)
+// 	attendances.map(function(attendance){
+//      Attendance.findOne({
+//      	subject_id:req.body.subject_id,
+//      	 att_date:att_date
+//      	}, (error, found, notfound)=>{
+//      		console.log(found)
+//      		if(found){ console.log('vy uhze dovlyali takoi attendance')}
+//      			if(notfound){
+//  					var newAtt= new Attendance({
+// 						student:attendance.name,
+// 						date: att_date,
+// 						stud_attendance: attendance.att_status,
+// 						subject_name:subject_id
+// 					})
+// 				}
+
+// 		// newAtt.save(function(err, saved){
+// 		// 	if(err) console.log(err);
+// 		// 	if(saved){
+// 		// 		console.log(saved)
+// 		// 	}
+// 		// })
+
+// 	}) 
+// 	res.send({
+// 			message: "Вы выставили посещаемость"
+// 			})
+
+     			
+
+//      	})
+	
+		
+//  })
+
+router.post('/addattendance',(req, res)=>{
+ var attendances=JSON.parse(req.body.data);
+ var subject_id=req.body.subject_id;
+ var att_date=req.body.att_date
+    console.log(attendances)
+ attendances.map(function(attendance){
+
+  var newAtt= new Attendance({
+   student:attendance.name,
+   date: att_date,
+   stud_attendance: attendance.att_status,
+   subject_name:subject_id
+  })
+
+  newAtt.save(function(err, saved){
+   if(err) console.log(err);
+   if(saved){
+    console.log(saved)
+   }
+  })
+
+ }) 
+ res.send({
+   message: "Вы выставили посещаемость"
+   })
+  
+})
+
+
+// 	User.findOne({passport_id: req.body.passport_id.trim()}, (err, user) => {
+// 		if(err) { console.log(err) }
+// 		else if (user){
+// 			res.status(409).send({
+// 				message: 'Этот пользователь уже есть в списке'
+// 			})
+// 		} else {
+// 			Student.find((err, students) => {
+// 				if(err) { console.log(err) }
+// 				else {
+// 					Major.findOne({_id:req.body.major_id}, function(err, major){
+// 						if(err) console.log(err);
+// 						if(major){
+// 							Department.findOne({_id:major.major_department}, function(err, department){
+// 								if(err) console.log(err);
+// 								if(department){
+// 									var userData = {
+// 										username: 100001+students.length,
+// 										password: bcrypt.hashSync(req.body.password, 10),
+// 										passport_id: req.body.passport_id.trim(),
+// 										name: req.body.name.trim(),
+// 										gender:req.body.gender.trim(),
+// 										lastname: req.body.lastname.trim(),
+// 										birthday: req.body.birthday.trim(),
+// 										status: 'student'
+// 									}
+// 									const newUser = new User(userData);
+// 								  newUser.save((err, savedUser) => {
+// 								    if (err) { console.log(err); }
+// 										else {
+// 											var studentData = {
+// 												user_id: savedUser._id,
+// 												university_code: '195',
+// 												faculty_id: department.department_faculty,
+// 												department_id: major.major_department,
+// 												major_id: req.body.major_id.trim(),
+// 												admission_year: req.body.admission_year.trim(),
+// 												graduation_year: req.body.graduation_year.trim()
+// 											}
+// 											const newStudent = new Student(studentData);
+// 										  	newStudent.save((err) => {
+// 												if (err) { console.log(err) }
+// 												else {
+// 													res.send({
+// 														newStudent:newStudent,
+// 													})
+// 												}
+// 											})
+// 										}
+// 								  });
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
+// 		}
+// 	})
+// })
 
 
 
