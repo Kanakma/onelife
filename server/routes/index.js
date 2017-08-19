@@ -10,9 +10,8 @@ var Quiz = require('../models/quiz');
 var QuizPoint = require('../models/quiz_point');
 var Department = require('../models/department');
 var Parrent = require('../models/parrent')
-
 var Attendance = require('../models/attendance')
-
+var Homework = require('../models/homework')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -346,6 +345,125 @@ router.post('/addteacherimg', (req, res) => {
 		});
 	})
 })
+
+router.post('/addhomework', (req, res) => {
+	Teacher.findOne({user_id: req.body.user_id}, (err, teacher) => {
+		if(err) { console.log(err) }
+		else if (teacher){
+			Homework.find((err, homework) => {
+				if(err) { console.log(err) }
+				else {
+					var newHomework = {
+						message: req.body.description,
+						deadline: req.body.deadline,
+						lessonDate: req.body.lesson,
+						subject_id: req.body.subject_id,
+						teacher_id: teacher._id
+					}
+					const newWork = new Homework(newHomework);
+				  	newWork.save((err, savedhomework) => {
+					    if (err) { console.log(err); }
+						else {
+									res.send({
+										homework: savedhomework
+									})
+								}
+							})
+						}
+				  })
+				}
+			})
+
+			});
+
+router.post('/addhomeworkfile', (req, res) => {
+		let form = new multiparty.Form();
+		// Teacher.findOne({user_id: req.body.user_id}, (err, teacher) => {
+		// 	if(err) { console.log(err) }
+		// 	else if (teacher){
+		// 		Homework.find((err, homework) => {
+		// 			if(err) { console.log(err) }
+		// 			else {
+		// 				var newHomework = {
+		// 					message: req.body.description,
+		// 					deadline: req.body.deadline,
+		// 					lessonDate: req.body.lesson,
+		// 					subject_id: req.body.subject_id,
+		// 					teacher_id: teacher._id
+		// 				}
+		// 				const newWork = new Homework(newHomework);
+		// 			  	newWork.save((err, savedhomework) => {
+		// 				    if (err) { console.log(err); }
+		// 					else {
+		// 								res.send({
+		// 									homework: savedhomework
+		// 								})
+		// 							}
+		// 						})
+		// 					}
+		// 			  })
+		// 			}
+		// 		})
+				form.parse(req, (err, fields, files) => {
+					console.log(files)
+					console.log(fields)
+				  	var tempPath = files.file[0].path;
+					var fileName = files.file[0].originalFilename;
+					let copyToPath = "public/teacher-homeworks/" + fields.subjectId +'-'+ fileName;
+					fs.readFile(tempPath, (err, data) => {
+						// make copy of image to new location
+						fs.writeFile(copyToPath, data, (err) => {
+							// delete temp image
+							fs.unlink(tempPath, () => {
+								if(err) {return res.status(401).end();}
+								else {
+									Teacher.findOne({user_id: fields.user_id}, (err, teacher) => {
+										if(err) { console.log(err) }
+										else if (teacher){
+											console.log(teacher)
+											Homework.find((err, homework) => {
+												if(err) { console.log(err) }
+												else {
+													var newHomework = {
+														message: fields.description,
+														deadline: fields.deadline,
+														lessonDate: fields.lesson,
+														subject_id: fields.subject_id,
+														teacher_id: teacher._id,
+														file: fields.subjectId +'-'+ fileName
+													}
+													const newWork = new Homework(newHomework);
+												  	newWork.save((err, savedhomework) => {
+													    if (err) { console.log(err); }
+														else {
+																	res.send({
+																		homework: savedhomework
+																	})
+																	// res.status(200).send({
+																	// 			message: 'Пользователь добавлен!'
+																	// 		})
+																}
+															})
+														}
+												  })
+												}
+											})
+
+									// Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id +'-'+ fileName}}, { new: true }, (err) => {
+									// 	if(err) { console.log(err) }
+			            //   				else {
+			            //   					res.status(200).send({
+									// 			message: 'Пользователь добавлен!'
+									// 		})
+									// 	}
+									// })
+								}
+							});
+						});
+					});
+				})
+})
+
 
 router.post('/editteacher', (req, res) =>{
 	const editedTeacher = JSON.parse(req.body.editedTeacher);
@@ -1711,11 +1829,11 @@ router.post('/addattendance',(req, res)=>{
    }
   })
 
- }) 
+ })
  res.send({
    message: "Вы выставили посещаемость"
    })
-  
+
 })
 
 router.get('/getattendanceforall',(req,res)=>{

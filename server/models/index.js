@@ -17,4 +17,5 @@ module.exports.connect = (uri) => {
   require('./major');
   require('./subject');
   require('./quiz');
+  require('./homework');
 };
