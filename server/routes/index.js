@@ -1564,6 +1564,7 @@ router.get('/getsubjectsforstudents',(req, res)=>{
 		}
 	})
 })
+
 //This route will add the parrent
 router.post('/addparrent',(req, res) =>{
 	var parrent = JSON.parse(req.body.parrent);
@@ -1717,6 +1718,40 @@ router.post('/addattendance',(req, res)=>{
   
 })
 
+router.get('/getattendanceforall',(req,res)=>{
+	var subjectId=req.query.subjectId;
+	Attendance.find({
+		subject_name:subjectId
+	}).populate({
+		path: 'student',
+		populate:{
+			path: 'user_id'
+		}
+	}).exec(function(err,attendances){
+		if(err){
+			res.status(500).send({err: err});
+		} else {
+			res.status(200).send({attendances: attendances});
+		}
+	})
 
+})
+// router.get('/getsubjectsforstudents',(req, res)=>{
+// 		var subjectId=req.query.subjectId;
+// 		Subject.findOne({
+// 			_id:subjectId
+// 		}).populate({
+// 			path:'students teacher_id ',
+// 			populate: {
+// 				path: 'user_id'
+// 			}
+// 		}).exec(function(err,subject){
+// 		if(err) {
+// 			res.status(500).send({err: err});
+// 		} else {
+// 			res.status(200).send({students: subject.students});
+// 		}
+// 	})
+// })
 
 module.exports = router;

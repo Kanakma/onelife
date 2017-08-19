@@ -18,6 +18,7 @@ class Base extends React.Component {
       checkDepartment: false,
       checkParrent:false,
       checkAttendance:false,
+      checkMark:false,
       checkTest:false,
       status: ''
     };
@@ -73,11 +74,15 @@ class Base extends React.Component {
       this.setState({
         checkAttendance: !this.state.checkAttendance
       })
+    } else if((nameDropdown == "mark") || (idDropdown == "mark")){
+      this.setState({
+        checkMark: !this.state.checkMark
+      })
     } else if((nameDropdown == "test") || (idDropdown == "test")){
       this.setState({
         checkTest: !this.state.checkTest
       })
-    }
+    } 
   }
   render() {
     return (
@@ -195,15 +200,29 @@ class Base extends React.Component {
               <nav className="navbar side-navbar">
                 <div className="navbar-header">
                   <ul className="nav nav-stacked">
-                      <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+                      <li>
+
+                      <Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+
                          <li><Link to="#" className="waves-effect" name="attendance" onClick={this.changeHide}>
                           <i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Посещаемость
                           <span hidden={this.state.checkAttendance} id="attendance" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
                           <span hidden={!this.state.checkAttendance} id="attendance" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
                           </Link>
                           <ul className="nav" hidden={!this.state.checkAttendance}>
-                            <li><Link to="/tests" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
+                            <li><Link to="/attendances" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
                             <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
+                          </ul>
+                      </li>
+
+                      <li><Link to="#" className="waves-effect" name="mark" onClick={this.changeHide}>
+                          <i className="fa fa-line-chart fa-lg icons" aria-hidden="true" ></i>Оценки
+                          <span hidden={this.state.checkMark} id="mark" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                          <span hidden={!this.state.checkMark} id="mark" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                          </Link>
+                          <ul className="nav" hidden={!this.state.checkMark}>
+                            <li><Link to="/marks" className="waves-effect" style={{paddingLeft: "45px"}} >Все Оценки</Link></li>
+                            <li><Link to="/addmark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Оценки</Link></li>
                           </ul>
                       </li>
 
