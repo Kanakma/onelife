@@ -27,11 +27,15 @@ import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
 import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
+import TeacherAddMark from './components/TeacherAddMark.jsx';
 import AdminAddParrent from './components/AdminAddParrent.jsx';
 import AdminParrents from './components/AdminParrents.jsx';
 import TeacherSubjects from './components/TeacherSubjects.jsx';
 import StudentSubjects from './components/StudentSubjects.jsx';
 import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
+import ShowAttendance from './components/ShowAttendance.jsx';
+import ShowMarks from './components/ShowMarks.jsx';
+
 
 import Auth from './modules/Auth';
 
@@ -62,14 +66,17 @@ ReactDom.render((
       <Route path="/addstudents" component={AdminAddStudent}/>
       <Route path="/departments" component={AdminDepartments}/>
       <Route path="/adddepartments" component={AdminAddDepartment}/>
-      <Route path= "/teacherprofile" component={TeacherProfile}/>
-      <Route path= "/addattendance" component={TeacherAddAttendance}/>
+      <Route path="/teacherprofile" component={TeacherProfile}/>
+      <Route path="/addattendance" component={TeacherAddAttendance}/>
+      <Route path="/addmark" component={TeacherAddMark}/>
       <Route path="/addparrent" component={AdminAddParrent}/>
       <Route path= "/parrents" component={AdminParrents}/>
       <Route path="/teachersubjects" component={TeacherSubjects}/>
       <Route path= "/studentsubjects" component={StudentSubjects}/>
       <Route path= "/subjectinfo" component={AdminSubjectInfo}/>
       <Route path= "/studentprofile" component={StudentHome}/>
+      <Route path="/attendances" component={ShowAttendance}/>
+      <Route path="/marks" component={ShowMarks}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
