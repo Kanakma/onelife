@@ -38,6 +38,8 @@ import ShowAttendance from './components/ShowAttendance.jsx';
 import ShowMarks from './components/ShowMarks.jsx';
 import TeacherHomework from './components/TeacherHomework.jsx';
 import TeacherAddNewHomework from './components/TeacherAddNewHomework.jsx';
+import AdminAddSchedule from './components/AdminAddSchedule.jsx';
+import AdminSchedules from './components/AdminSchedules.jsx'
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -81,6 +83,8 @@ ReactDom.render((
       <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
       <Route path= "/teacherhomework" component={TeacherHomework}/>
       <Route path= "/newhomework" component={TeacherAddNewHomework}/>
+      <Route path= "/schedules" component={AdminSchedules}/>
+      <Route path= "/addschedule" component={AdminAddSchedule}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

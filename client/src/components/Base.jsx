@@ -21,6 +21,7 @@ class Base extends React.Component {
       checkMark:false,
       checkTest:false,
       checkHomework: false,
+      checkSchedule:false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -83,12 +84,15 @@ class Base extends React.Component {
       this.setState({
         checkTest: !this.state.checkTest
       })
-    }else if((nameDropdown == "homework") || (idDropdown == "homework")){
+    } else if((nameDropdown == "homework") || (idDropdown == "homework")){
       this.setState({
         checkHomework: !this.state.checkHomework
       })
+    } else if((nameDropdown == "schedule") || (idDropdown == "schedule")){
+      this.setState({
+        checkSchedule: !this.state.checkSchedule
+      })
     }
-
   }
   render() {
     return (
@@ -150,6 +154,16 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkSubject}>
                         <li><Link to="/subjects" className="waves-effect" style={{paddingLeft: '45px'}}>Все предметы</Link></li>
                         <li><Link to="/addsubjects" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить предмет</Link></li>
+                      </ul>
+                  </li>
+                  <li><Link to="#" className="waves-effect" name="schedule" onClick={this.changeHide}>
+                      <i className="fa fa-calendar fa-lg icons" aria-hidden="true" ></i>Расписание
+                      <span hidden={this.state.checkSchedule} id="schedule" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <span hidden={!this.state.checkSchedule} id="schedule" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkSchedule}>
+                        <li><Link to="/schedules" className="waves-effect" style={{paddingLeft: '45px'}}>Расписания</Link></li>
+                        <li><Link to="/addschedule" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить расписание</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="teacher" onClick={this.changeHide}>
