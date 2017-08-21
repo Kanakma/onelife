@@ -87,7 +87,7 @@ class AdminAddStudent extends React.Component {
     addStudent(event){
       event.preventDefault();
       const name = encodeURIComponent(this.state.student.name);
-     
+
       const lastname = encodeURIComponent(this.state.student.lastname);
       const major_id = encodeURIComponent(this.state.student.major_id);
       const birthday = encodeURIComponent(this.state.birthday);
@@ -226,7 +226,7 @@ class AdminAddStudent extends React.Component {
         <div className="form-group row">
           <div className="col-md-6">
             <label>Пол</label>
-            <select className="form-control" name="gender" value={this.state.student.gender} onChange={this.changeStudent}>
+            <select className="form-control" name="gender" value={this.state.student.gender} onChange={this.changeStudent} style={{cursor: 'pointer'}}>
               <option value="">Выберите пол</option>
               <option value="Мужчина">Мужчина</option>
               <option value="Женщина">Женщина</option>

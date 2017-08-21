@@ -41,12 +41,10 @@ class TeacherProfileNav extends React.Component{
   <Router>
     <div>
       <ul className="nav nav-tabs tabs customtab teacher-nav">
-        <li><Link to="/biography">Биография</Link></li>
-        <li><Link to="/activity">Активность</Link></li>
+        <li><Link to="/teacherprofile">Биография</Link></li>
         <li><Link to="/editinfo">Редактировать информацию</Link></li>
       </ul>
-      <Route exact path="/biography"  component={props => <Biography teacher={this.props.teacher}/>}/>
-      <Route path="/activity" component={Activity}/>
+      <Route exact={true} path="/teacherprofile"  component={props => <Biography teacher={this.props.teacher}/>}/>
       <Route path="/editinfo" component={props => <EditInfo teacher={this.props.teacher}/>}/>
     </div>
   </Router>
@@ -90,17 +88,6 @@ class Biography extends React.Component{
     <hr/>
   </div>
 )}
-}
-
-class Activity extends React.Component{
-  render(){
-    return (
-      <div>
-        <h2>Активность</h2>
-      </div>
-    )
-  }
-
 }
 
 class EditInfo extends React.Component{
@@ -257,25 +244,27 @@ class EditInfo extends React.Component{
   }
   clearContent(){
     this.setState({
-      teacher: {
-        name: '',
-        lastname: '',
-        faculty_id: '',
-        passport_id: '',
-        gender: '',
-        degree: ''
+      editedTeacher:{
+        name:'',
+        lastname:'',
+        passport_id:'',
+        birthday:'',
+        entry_year:'',
+        degree:'',
+        email:'',
+        phone:'',
+        faculty_id:'',
+        gender:'',
+        password: '',
+        checkpassword: ''
       },
-      account: {
-        email: '',
-        phone: '',
-        password:'',
-        checkpassword:''
-      },
-      file: '',
-      filename: '',
-      birthday: '',
-      entry_year: '',
-      checkContent: false
+      birthday:'',
+      entry_year:'',
+      file: {},
+      filename:'',
+      // social:this.props.teacher.social,
+      faculties:[],
+      checkPass: true
     })
   }
   render(){

@@ -48,7 +48,7 @@ class TeacherHomework extends React.Component{
     }
   }
   openSubject(event){
-    this.context.router.history.push('/subjectinfo', {subject: event.target.id})
+    this.context.router.history.push('/allhomeworks', {subject: event.target.id})
   }
   changeFilter(event){
     if(event.target.id == 'list'){
@@ -105,13 +105,13 @@ class TeacherHomework extends React.Component{
                       <p><span><i className="fa fa-user-plus"></i> Количество возможных студентов: {subject.max_students}</span></p>
                       {(this.state.status == "admin") ?(
                         <div>
-                          <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                          <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Все задания</button>
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
                               <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                           </button>
                         </div>
                       ):(
-                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Все задания</button>
                       )}
                   </div>
               </div>

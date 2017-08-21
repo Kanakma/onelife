@@ -378,32 +378,6 @@ router.post('/addhomework', (req, res) => {
 
 router.post('/addhomeworkfile', (req, res) => {
 		let form = new multiparty.Form();
-		// Teacher.findOne({user_id: req.body.user_id}, (err, teacher) => {
-		// 	if(err) { console.log(err) }
-		// 	else if (teacher){
-		// 		Homework.find((err, homework) => {
-		// 			if(err) { console.log(err) }
-		// 			else {
-		// 				var newHomework = {
-		// 					message: req.body.description,
-		// 					deadline: req.body.deadline,
-		// 					lessonDate: req.body.lesson,
-		// 					subject_id: req.body.subject_id,
-		// 					teacher_id: teacher._id
-		// 				}
-		// 				const newWork = new Homework(newHomework);
-		// 			  	newWork.save((err, savedhomework) => {
-		// 				    if (err) { console.log(err); }
-		// 					else {
-		// 								res.send({
-		// 									homework: savedhomework
-		// 								})
-		// 							}
-		// 						})
-		// 					}
-		// 			  })
-		// 			}
-		// 		})
 				form.parse(req, (err, fields, files) => {
 					console.log(files)
 					console.log(fields)
@@ -428,7 +402,7 @@ router.post('/addhomeworkfile', (req, res) => {
 														message: fields.description,
 														deadline: fields.deadline,
 														lessonDate: fields.lesson,
-														subject_id: fields.subject_id,
+														subject_id: fields.subjectId,
 														teacher_id: teacher._id,
 														file: fields.subjectId +'-'+ fileName
 													}
