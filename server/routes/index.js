@@ -9,7 +9,8 @@ var Subject = require('../models/subject');
 var Quiz = require('../models/quiz');
 var QuizPoint = require('../models/quiz_point');
 var Department = require('../models/department');
-var Parrent = require('../models/parrent')
+var Parrent = require('../models/parrent');
+var Mark=require('../models/mark')
 
 var Attendance = require('../models/attendance')
 
@@ -1693,8 +1694,7 @@ router.post('/deleteparrent', (req, res)=>{
 router.post('/addattendance',(req, res)=>{
  var attendances=JSON.parse(req.body.data);
  var subject_id=req.body.subject_id;
- var att_date=req.body.att_date
-    console.log(attendances)
+ var att_date=req.body.att_date;
  attendances.map(function(attendance){
 
   var newAtt= new Attendance({
@@ -1718,6 +1718,25 @@ router.post('/addattendance',(req, res)=>{
   
 })
 
+
+router.get('/getsubjectsforstudents',(req, res)=>{
+		var subjectId=req.query.subjectId;
+		Subject.findOne({
+			_id:subjectId
+		}).populate({
+			path:'students teacher_id ',
+			populate: {
+				path: 'user_id'
+			}
+		}).exec(function(err,subject){
+		if(err) {
+			res.status(500).send({err: err});
+		} else {
+			res.status(200).send({students: subject.students});
+		}
+	})
+})
+
 router.get('/getattendanceforall',(req,res)=>{
 	var subjectId=req.query.subjectId;
 	Attendance.find({
@@ -1736,22 +1755,106 @@ router.get('/getattendanceforall',(req,res)=>{
 	})
 
 })
-// router.get('/getsubjectsforstudents',(req, res)=>{
-// 		var subjectId=req.query.subjectId;
-// 		Subject.findOne({
-// 			_id:subjectId
-// 		}).populate({
-// 			path:'students teacher_id ',
-// 			populate: {
-// 				path: 'user_id'
-// 			}
-// 		}).exec(function(err,subject){
-// 		if(err) {
-// 			res.status(500).send({err: err});
-// 		} else {
-// 			res.status(200).send({students: subject.students});
-// 		}
-// 	})
-// })
+
+router.post('/updatestudentsforattendance',(req,res)=> {
+	//var attendances=JSON.parse(req.body.data);
+	 var subject_id=req.body.subject_id;
+	 var att_date=req.body.att_date
+
+    Attendance.find({
+    	subject_name:subject_id,
+    	date:att_date
+
+    }).populate({
+    	path: 'student',
+    	populate: {
+    		path:'user_id'
+    	}
+    }).exec(function(err,attendances){
+    	if(err){
+    		res.status(500).send({err:err});
+    		console.log('phuck u')
+    	} else {
+    		res.status(200).send({attendances:attendances})
+    		//console.log(attendances,'ok')
+    	}
+    })
+
+})
+
+router.post('/addmark',(req,res) =>{
+	 var marks=JSON.parse(req.body.data);
+	 var subject_id=req.body.subject_id;
+	 var att_date=req.body.att_date;
+     console.log(marks,'maaaaaaarks')
+     marks.map(function(mark){
+     	var newMark=  new Mark ({
+     		student: mark.name,
+	     	date: att_date,
+	     	stud_mark: mark.stud_mark,
+	     	stud_comment: mark.stud_comment,
+	     	subject_name: subject_id
+     	})
+     	newMark.save(function(err,saved){
+     		if(err)console.log (err);
+     		if(saved){
+     			console.log(saved)
+     		}
+     	})
+
+     })
+
+   res.send({
+   message: "Вы выставили посещаемость"
+   })
+})
+
+
+router.post('/updatestudentsformark',(req,res)=> {
+	 var subject_id=req.body.subject_id;
+	 var att_date=req.body.att_date;
+
+	 Mark.find({
+	 	subject_name:subject_id,
+    	date:att_date
+	 }).populate({
+    	path: 'student',
+    	populate: {
+    		path:'user_id'
+    	}
+    }).exec(function(err,attendances){
+    	if(err){
+    		res.status(500).send({err:err});
+    		console.log('phuck u')
+    	} else {
+    		res.status(200).send({attendances:attendances})
+    		console.log(attendances,'ok')
+    	}
+    })
+
+
+
+	   //   Attendance.find({
+    // 	subject_name:subject_id,
+    // 	date:att_date
+
+    // }).populate({
+    // 	path: 'student',
+    // 	populate: {
+    // 		path:'user_id'
+    // 	}
+    // }).exec(function(err,attendances){
+    // 	if(err){
+    // 		res.status(500).send({err:err});
+    // 		console.log('phuck u')
+    // 	} else {
+    // 		res.status(200).send({attendances:attendances})
+    // 		//console.log(attendances,'ok')
+    // 	}
+    // })
+
+
+})
+
 
 module.exports = router;
