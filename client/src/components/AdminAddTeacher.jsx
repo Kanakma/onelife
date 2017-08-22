@@ -301,8 +301,8 @@ class AdminAddTeacher extends React.Component {
                 <div className="form-control" data-trigger="fileinput">
                 {this.state.filename.length > 0 ?(
                   <div>
-                  <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                  <span className="fileinput-filename">{this.state.filename}</span>
+                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                    <span className="fileinput-filename">{this.state.filename}</span>
                   </div>
                 ):(
                   <span></span>

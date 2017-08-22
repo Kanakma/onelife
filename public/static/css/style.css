@@ -752,3 +752,27 @@ active state
 .Select-clear-zone{
   display: none;
 }
+.Select--multi .Select-multi-value-wrapper {
+    display: flex;
+}
+.Select-value-icon{
+  font-size: 27px;
+}
+.Select-value-label{
+  font-size: 17px;
+}
+.Select-value{
+  margin-right: 15px !important; 
+}
+
+
+.homework-message{
+  width: 60%;
+  padding: 10px;
+  border-radius: 5px;
+  resize: none;
+}
+.homework-file{
+  width: 60%;
+  margin: 0 auto;
+}
