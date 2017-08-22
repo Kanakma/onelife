@@ -12,6 +12,7 @@ var Department = require('../models/department');
 var Parrent = require('../models/parrent')
 var Attendance = require('../models/attendance')
 var Homework = require('../models/homework')
+var Group = require('../models/group')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -1621,6 +1622,71 @@ router.get('/getstudents', (req, res) =>{
 	})
 })
 
+router.get('/getgroups', (req, res) => {
+	getGroups()
+		.then(function(groups){
+				var arrayOfGroups = groupFunction(groups)
+				async.waterfall(arrayOfGroups, function(err, allGroups){
+				if(err) console.log("error");
+				res.status(200).send({allGroups})
+			})
+		})
+});
+
+var getGroups = function(){
+	return new Promise(function(resolve, reject){
+		return Group.find(function(err, groups){
+			if (err) reject(err);
+			else if(groups){
+				resolve(groups);
+			}
+		})
+	})
+}
+// This func for iterating each element in majors array
+var groupFunction = function(groups){
+	return groups.map(function(group){
+		var oneGroup = constructGroup(group);
+		return oneGroup;
+	})
+}
+// This func for defining each major's fields
+var constructGroup = function(group){
+	return function(allGroups, callback){
+		var myGroup = {};
+		var callBack = (typeof allGroups === 'function') ? allGroups : callback;
+		var allGroups = (typeof allGroups === 'function') ? [] : allGroups;
+		if(group.major!=''){
+			Major.findOne({_id:group.major}).populate('major_department').exec(function(err, major){
+				if(err) console.log(err);
+				if(major){
+
+					Teacher.findOne({_id:group.curator}).populate('user_id').exec(function(err, teacher){
+						if(err) console.log(err);
+						if(teacher){
+					myGroup = {
+						group_id:group._id,
+						group_name:group.group_name,
+						course_number:group.course_number,
+						major:group.major,
+						major_name: major.major_name,
+						curator_name: teacher.user_id.name,
+						curator_lastname: teacher.user_id.lastname,
+						group_department: major.major_department.department_name,
+						students: group.students
+					}
+
+
+				allGroups.push(myGroup);
+			}
+			callBack(null, allGroups)
+		})
+				}
+
+			})
+		}
+	}
+}
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {
 		if(err) {console.log(err) }
@@ -1804,6 +1870,58 @@ router.post('/deleteparrent', (req, res)=>{
 				}
 			})
 		}
+	})
+})
+
+router.post('/addgroup',(req, res) =>{
+	var group = JSON.parse(req.body.group);
+	console.log(group.group_name)
+	Group.findOne({group_name: group.group_name}, function(err, dgroup){
+		if(err) {
+			console.log(err);
+		}
+		else if(dgroup){
+			res.status(409).send({
+				message: 'Эта группа уже есть в списке'
+			})
+		} else {
+			var groupData = {
+				group_name: group.group_name,
+				curator: group.curator,
+				major: group.major,
+				course_number: group.course_number
+			}
+					const newGroup = new Group(groupData);
+					newGroup.save((err) => {
+						if (err) { console.log(err); }
+						else {
+							res.send({
+								message: 'Группа удачно добавлена'
+							})
+						}
+					});
+		}
+	})
+})
+router.post('/editgroup', (req, res) => {
+	var editedGroup = JSON.parse(req.body.editedGroup);
+		Group.findOne({_id: req.body.group_id}, function(err, group){
+			if(err)console.log(err);
+			if(group){
+        group.group_name = (editedGroup.group_name!='')?editedGroup.group_name:group.group_name;
+        group.curator = (editedGroup.curator!='')?editedGroup.curator:group.curator;
+        group.course_number = (editedGroup.course_number!='')?editedGroup.course_number:group.course_number;
+        group.major = (editedGroup.major!='')?editedGroup.major:group.major;
+				group.save(function(err, result){
+					if(err) console.log(err);
+				})
+			}
+		})
+});
+router.post('/deletegroup', (req, res) =>{
+	var newData = JSON.parse(req.body.group_id);
+	Group.findOneAndRemove({_id:newData}, function(err, result){
+		if(err)console.log(err);
 	})
 })
 
