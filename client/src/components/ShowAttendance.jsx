@@ -26,7 +26,6 @@ class TeacherAddAttendance extends React.Component {
     };
   
     this.updateStudents = this.updateStudents.bind(this);
-    this.changeAttendance = this.changeAttendance.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
   }
@@ -54,90 +53,34 @@ class TeacherAddAttendance extends React.Component {
   }
 
   changeDate(value){
-    var date = this.dateFormat(value)
+   var date = this.dateFormat(value)
+  
      this.setState({
         att_date: value
       });
-  }
+     const  subject_id =this.state.subject_id;
+     
 
-  changeAttendance(event){
-   // console.log('vizval!')
-    function IndInObjArr(objArray, subj, inkey, sensetive) {
-      var sens = ((typeof inkey) === "boolean") ? inkey : false;
-      var found = false;
-      var result = [];
-      if (objArray.length > 0) {
-        objArray.forEach(function(obj, ind) {
-          if (!sens && inkey) {
-            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
-            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
-            if (sub1 == sub2) {
-              found = true;
-              result.push(ind);
-            }
-          } else {
-            for (var key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
-                var sub2 = sens ? subj : subj.toString().toLowerCase();
-                if (sub1 == sub2) {
-                  found = true;
-                  result.push(ind);
-                }
-              }
-            }
-          }
-        })
-      }
+    const val= value;
+    
+    const formData = `subject_id=${subject_id}&att_date=${val}`;
+   axios.post('/api/updatestudentsforattendance', formData, {
 
-      if (found) {
-        return result;
-      } else {
-        return false;
-      }
-
-    }
-    const field = event.target.name; // id student
-    const attendance = this.state.attendance;
-    var temp = this.state.attendances;
-    var temp1 =this.state.attendance;
-
-      console.log(temp,'old temp')
-      var old = IndInObjArr(temp,event.target.name, 'name');
-      if(old.length > 0){
-        console.log(old, 'Found')
-        temp[old[0]].att_status = event.target.value;
-      } else {
-       temp.push({
-             name:event.target.name,
-             att_status: event.target.value
-        })
-      }
-
-      console.log(temp,'new temp')
-
-
+    responseType: 'json',
+    headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+   })
+       .then(res=>{
       this.setState({
-
-        attendances: temp,  
-        attendance :{
-             name:event.target.name,
-             att_status: event.target.value
-        },
-
-      checkAttendance: true ,
-
+        attendances: res.data.attendances
       })
-        
+   })
+    
 
   }
 
-
-
-
-  updateStudents(event){
-    //console.log(event.target.value,'tARGET VALUE')
-    if(event.target.value.length > 0){
+    updateStudents(event){
+      if(event.target.value.length > 0){
 
       this.setState({
         subject_id: event.target.value,
@@ -153,38 +96,16 @@ class TeacherAddAttendance extends React.Component {
         checkSubject: false,
         message: ''
       })
-    }
-    axios.get('/api/getattendanceforall?subjectId='+event.target.value, {
-            responseType: 'json',
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded'
-            }
-    })
-      .then(res => {
-      
-        this.setState({
-          attendances: res.data.attendances
-        });
-      });
+     }
 
 
-  }
+   }
+
+  
+
 
   render() {
-      // function thisDate(value) {
-      //   if(this.state.att_date!='' && this.state.att_date == value.date){
-      //     return value;
-      //   } else{
-      //     console.log('+++++++++++++')
-      //   }
-      // }
-      // var attendances=this.state.attendances.filter(thisDate);
 
-
-      // console.log(attendances)
-      //console.log(attendance).
-    //console.log(res.data.students)
-    // console.log(this.state.att_date)
     return (
 
       <div className="container clearfix">
@@ -207,7 +128,7 @@ class TeacherAddAttendance extends React.Component {
           <div className="form-group row">
             <div className="col-md-6">
               <label>Дата проведения Пары</label>
-              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+              <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
          
           </div>
@@ -219,7 +140,7 @@ class TeacherAddAttendance extends React.Component {
                       <th>ФИО</th>
                    
                       <th>Cтатус</th>
-                      <th>Дата</th>
+                    
                       
                   </tr>
               </thead>
@@ -230,7 +151,7 @@ class TeacherAddAttendance extends React.Component {
                     <td>{student.student.user_id.username}</td>
                     <td >{student.student.user_id.name} {student.student.user_id.lastname}</td>
                     <td>{student.stud_attendance}</td>
-                    <td>{student.date}</td>
+                   
                    
              
                     

@@ -4,7 +4,7 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
-class ShowMarks extends React.Component {
+class TeacherAddAttendance extends React.Component {
 
   constructor(props) {
     super(props);
@@ -22,18 +22,12 @@ class ShowMarks extends React.Component {
       stud_attendance: {},
       checkAttendance: false,
       attendances: [],
-     
-      
-
       att_date:''
-
     };
   
     this.updateStudents = this.updateStudents.bind(this);
-    this.changeAttendance = this.changeAttendance.bind(this);
-    this.sendAttendance = this.sendAttendance.bind(this);
     this.changeDate=this.changeDate.bind(this);
-  
+    this.dateFormat=this.dateFormat.bind(this);
   }
 
   componentDidMount() {
@@ -50,112 +44,44 @@ class ShowMarks extends React.Component {
         });
       });
   }
+
+  dateFormat(date){
+    var fDate = new Date(date);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
+
   changeDate(value){
-    console.log(value,'<---')
+   var date = this.dateFormat(value)
      this.setState({
         att_date: value
       });
-
-  }
-  changeAttendance(event){
-   // console.log('vizval!')
-    function IndInObjArr(objArray, subj, inkey, sensetive) {
-      var sens = ((typeof inkey) === "boolean") ? inkey : false;
-      var found = false;
-      var result = [];
-      if (objArray.length > 0) {
-        objArray.forEach(function(obj, ind) {
-          if (!sens && inkey) {
-            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
-            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
-            if (sub1 == sub2) {
-              found = true;
-              result.push(ind);
-            }
-          } else {
-            for (var key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
-                var sub2 = sens ? subj : subj.toString().toLowerCase();
-                if (sub1 == sub2) {
-                  found = true;
-                  result.push(ind);
-                }
-              }
-            }
-          }
-        })
-      }
-
-      if (found) {
-        return result;
-      } else {
-        return false;
-      }
-
-    }
-    const field = event.target.name; // id student
-    const attendance = this.state.attendance;
-    var temp = this.state.attendances;
-    var temp1 =this.state.attendance;
-
-      console.log(temp,'old temp')
-      var old = IndInObjArr(temp,event.target.name, 'name');
-      if(old.length > 0){
-        console.log(old, 'Found')
-        temp[old[0]].att_status = event.target.value;
-      } else {
-       temp.push({
-             name:event.target.name,
-             att_status: event.target.value
-        })
-      }
-
-      console.log(temp,'new temp')
-
-
-      this.setState({
-
-        attendances: temp,  
-        attendance :{
-             name:event.target.name,
-             att_status: event.target.value
-        },
-
-      checkAttendance: true ,
-
-      })
-        
-
-  }
-
-  sendAttendance(event){
-    event.preventDefault();
-    const subject_id= this.state.subject_id;
-    const att_date=this.state.att_date;
-    //console.log(att_date);
-    const formData = `data=${JSON.stringify(this.state.attendances)}&subject_id=${subject_id}&att_date=${att_date}`;
-
-   axios.post('/api/addattendance', formData, {
+     const  subject_id =this.state.subject_id;
+  
+    const val= value;
+   
+    const formData = `subject_id=${subject_id}&att_date=${val}`;
+   axios.post('/api/updatestudentsformark', formData, {
 
     responseType: 'json',
     headers: {
           'Content-type': 'application/x-www-form-urlencoded'}
    })
-    .then(res=>{
+       .then(res=>{
       this.setState({
-        message: res.data.message
+        attendances: res.data.attendances
+
       })
+
    })
+    
+
   }
 
-
-
-
-
-  updateStudents(event){
-    //console.log(event.target.value,'tARGET VALUE')
-    if(event.target.value.length > 0){
+    updateStudents(event){
+      console.log(event.target.value)
+      if(event.target.value.length > 0){
 
       this.setState({
         subject_id: event.target.value,
@@ -171,33 +97,21 @@ class ShowMarks extends React.Component {
         checkSubject: false,
         message: ''
       })
-    }
-    axios.get('/api/getattendanceforall?subjectId='+event.target.value, {
-            responseType: 'json',
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded'
-            }
-    })
-      .then(res => {
-      
-        this.setState({
-          attendances: res.data.attendances
-        });
-              //console.log(res.data.attendances)
-      });
+     }
 
 
-  }
+   }
+
+  
+
 
   render() {
 
-//console.log(attendance)
-    //console.log(res.data.students)
-   // console.log(this.state.att_date)
     return (
+
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Вся успеваемость</h4>
+        <h4>Вся посещаемость</h4>
 
       </div>
       <div className="my-content  ">
@@ -215,7 +129,7 @@ class ShowMarks extends React.Component {
           <div className="form-group row">
             <div className="col-md-6">
               <label>Дата проведения Пары</label>
-              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+              <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
          
           </div>
@@ -226,8 +140,7 @@ class ShowMarks extends React.Component {
                       <th>ID</th>
                       <th>ФИО</th>
                    
-                      <th>Cтатус</th>
-                      <th>Дата</th>
+                      <th>Оценка</th>
                       
                   </tr>
               </thead>
@@ -236,10 +149,9 @@ class ShowMarks extends React.Component {
                 <tr key={s}>
                     <td>{s+1}</td>
                     <td>{student.student.user_id.username}</td>
-                    <td >{student.student.user_id.name} {student.student.user_id.lastname}</td>
-                    <td>{student.stud_attendance}</td>
-                    <td>{student.att_date}</td>
-                   
+                    <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
+                    <td>{student.stud_mark}</td>
+                    
              
                     
                 </tr>
@@ -247,10 +159,7 @@ class ShowMarks extends React.Component {
               </tbody>
                        
           </table>
-          <div className="row">
-           {this.state.message && <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>}
-           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendAttendance}>Выставить посещаемость</button>
-           </div>
+        
       </div>
 
       </div>
@@ -258,4 +167,4 @@ class ShowMarks extends React.Component {
   }
 }
 
-export default ShowMarks;
+export default TeacherAddAttendance;
