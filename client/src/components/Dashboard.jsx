@@ -34,20 +34,38 @@ class AdminMajors extends React.Component {
 
   render() {
     return (
-      <div className="container clearfix">
-        <div className="bg-title">
-          <h4>Dashboard</h4>
-        </div>
-        <div className=" my-content">
-        <div className = "table-responsive first_row " style={{marginRight:"30px"}}>
-        </div>
-
-
-        <div className = "table-responsive  first_row" >
-        </div>
-        </div>
-      </div>
-    );
+<div className="container clearfix">
+            <div className="bg-title">
+              <h4>Dashboard</h4>
+            </div>
+            <div className=" my-content ">
+              <div className="dashboard">
+                <div className = " first_row ">
+                  <p className = "dashboard_title">12 преподавателей онлайн</p>
+                </div>
+                <div className = "second_row" >
+                  <p className = "dashboard_title">12 студентов онлайн</p>
+                </div>
+                <div className ="courses_stat">
+                </div>
+                <div className ="courses_stat">
+                </div>
+                <div className ="courses_stat">
+                </div>
+                <div className ="leveled_pie">
+                </div>
+                <div className="big_stat">
+                </div>
+                <div style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
+                  <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
+                  </div>
+                  <div className ="mini_stat">
+                  </div>
+                </div>
+              </div>
+            </div>
+</div>
+  );
   }
 }
 
