@@ -121,7 +121,7 @@ class Base extends React.Component {
           <div className="navbar side-navbar">
             <div className="navbar-header">
               <ul className="nav nav-stacked">
-                  <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+                  <li><Link to="/dashboard" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
                   <li><Link to="#" className="waves-effect" name="faculty" onClick={this.changeHide}>
                       <i className="fa fa-university fa-lg icons" aria-hidden="true"> </i>Факультеты
                       <span hidden={this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>

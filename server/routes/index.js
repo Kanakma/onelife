@@ -2011,8 +2011,21 @@ router.post('/updatestudentsforattendance',(req,res)=> {
     		res.status(500).send({err:err});
     		console.log('phuck u')
     	} else {
-    		res.status(200).send({attendances:attendances})
+    		//res.status(200).send({attendances:attendances})
     		//console.log(attendances,'ok')
+
+    				//console.log(attendances.length,'lnghthhhhh')
+    		if(attendances.length!=0){
+    			res.status(200).send({attendances:attendances})
+    		    console.log(attendances,'ok')
+    		} else{
+    			res.send({
+    				attendances: attendances,
+    				message: 'Ничего не найдено'
+    			})
+    			console.log('тут ничего')
+    		}
+    	
     	}
     })
 
@@ -2022,7 +2035,7 @@ router.post('/addmark',(req,res) =>{
 	 var marks=JSON.parse(req.body.data);
 	 var subject_id=req.body.subject_id;
 	 var att_date=req.body.att_date;
-     console.log(marks,'maaaaaaarks')
+    // console.log(marks,'maaaaaaarks')
      marks.map(function(mark){
      	var newMark=  new Mark ({
      		student: mark.name,
@@ -2034,13 +2047,13 @@ router.post('/addmark',(req,res) =>{
      	newMark.save(function(err,saved){
      		if(err)console.log (err);
      		if(saved){
-     			console.log(saved)
+     			//console.log(saved)
      		}
      	})
 
      })
 
-   res.send({
+   res.status(200).send({
    message: "Вы выставили посещаемость"
    })
 })
@@ -2061,10 +2074,25 @@ router.post('/updatestudentsformark',(req,res)=> {
     }).exec(function(err,attendances){
     	if(err){
     		res.status(500).send({err:err});
-    		console.log('phuck u')
+    		console.log('err')
     	} else {
-    		res.status(200).send({attendances:attendances})
-    		console.log(attendances,'ok')
+
+    		//console.log(attendances.length,'lnghthhhhh')
+    		if(attendances.length!=0){
+    			res.status(200).send({attendances:attendances})
+    		//    console.log(attendances,'ok')
+    		} else{
+    			res.send({
+    				attendances: attendances,
+    				message: 'Ничего не найдено'
+    			})
+    			//console.log('тут ничего')
+    		}
+    	
+    			
+
+    		
+    	
     	}
     })
 

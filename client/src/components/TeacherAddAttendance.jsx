@@ -141,7 +141,7 @@ class TeacherAddAttendance extends React.Component {
     event.preventDefault();
     const subject_id= this.state.subject_id;
     const att_date=this.state.att_date;
-    console.log(subject_id,'att_dateeeeeeeeeeee')
+  //  console.log(subject_id,'att_dateeeeeeeeeeee')
     var dd= this.dateFormat1(att_date);
   
     if(today===dd){
@@ -218,6 +218,7 @@ class TeacherAddAttendance extends React.Component {
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
+
      
         <div className="form-group col-md-6">
         <label>Выберите предмет</label>
@@ -231,7 +232,7 @@ class TeacherAddAttendance extends React.Component {
           <div className="form-group row">
             <div className="col-md-6">
               <label>Дата проведения Пары</label>
-              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+              <DatePicker  language="ru-ru" locale="ru-ru" onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
          
           </div>
@@ -263,7 +264,15 @@ class TeacherAddAttendance extends React.Component {
                        
           </table>
           <div className="row">
-           {this.state.message && <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>}
+
+            {
+              this.state.message==='Вы можете выставлять посещаемость только на текущую дату' ? (
+                <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
+              ) : (
+                <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
+              )
+            }
+          
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendAttendance}>Выставить посещаемость</button>
            </div>
       </div>

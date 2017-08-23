@@ -233,6 +233,7 @@ class AdminAddStudent extends React.Component {
             </select>
             <span className="bar"></span>
           </div>
+
         </div>
         <div className="form-group">
             <label>День рождения</label>
