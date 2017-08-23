@@ -270,7 +270,7 @@ class AdminEditTeacherModal extends React.Component {
               <div className="form-group row">
                 <div className="col-md-6">
                   <label>Пол</label>
-                  <select className="form-control" name="gender" value={this.state.editedTeacher.gender} onChange={this.changeTeacher}>
+                  <select className="form-control" name="gender" value={this.state.editedTeacher.gender} onChange={this.changeTeacher} style={{cursor: 'pointer'}}>
                     <option value="">Выберите пол</option>
                     <option value="Мужчина">Мужчина</option>
                     <option value="Женщина">Женщина</option>

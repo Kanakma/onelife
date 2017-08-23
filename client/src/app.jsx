@@ -38,8 +38,12 @@ import ShowAttendance from './components/ShowAttendance.jsx';
 import ShowMarks from './components/ShowMarks.jsx';
 import TeacherHomework from './components/TeacherHomework.jsx';
 import TeacherAddNewHomework from './components/TeacherAddNewHomework.jsx';
+import TeacherAllHomeworks from './components/TeacherAllHomeworks.jsx';
 import AdminAddSchedule from './components/AdminAddSchedule.jsx';
 import AdminSchedules from './components/AdminSchedules.jsx'
+import AdminGroups from './components/AdminGroups.jsx';
+import AdminAddGroups from './components/AdminAddGroups.jsx';
+import Dashboard from './components/Dashboard.jsx';
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -73,18 +77,22 @@ ReactDom.render((
       <Route path="/addattendance" component={TeacherAddAttendance}/>
       <Route path="/addmark" component={TeacherAddMark}/>
       <Route path="/addparrent" component={AdminAddParrent}/>
-      <Route path= "/parrents" component={AdminParrents}/>
+      <Route path="/parrents" component={AdminParrents}/>
       <Route path="/teachersubjects" component={TeacherSubjects}/>
-      <Route path= "/studentsubjects" component={StudentSubjects}/>
-      <Route path= "/subjectinfo" component={AdminSubjectInfo}/>
-      <Route path= "/studentprofile" component={StudentHome}/>
+      <Route path="/studentsubjects" component={StudentSubjects}/>
+      <Route path="/subjectinfo" component={AdminSubjectInfo}/>
+      <Route path="/studentprofile" component={StudentHome}/>
       <Route path="/attendances" component={ShowAttendance}/>
       <Route path="/marks" component={ShowMarks}/>
       <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
       <Route path= "/teacherhomework" component={TeacherHomework}/>
       <Route path= "/newhomework" component={TeacherAddNewHomework}/>
+      <Route path= "/allhomeworks" component={TeacherAllHomeworks}/>
       <Route path= "/schedules" component={AdminSchedules}/>
       <Route path= "/addschedule" component={AdminAddSchedule}/>
+      <Route path= "/groups" component={AdminGroups}/>
+      <Route path= "/addgroups" component={AdminAddGroups}/>
+      <Route path="/dashboard" component={Dashboard}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

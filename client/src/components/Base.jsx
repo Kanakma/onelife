@@ -21,6 +21,7 @@ class Base extends React.Component {
       checkTest:false,
       checkHomework: false,
       checkSchedule:false,
+      checkGroup: false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -48,52 +49,265 @@ class Base extends React.Component {
       this.setState({
         checkFaculty: !this.state.checkFaculty
       })
+      if(this.state.checkFaculty==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "major") || (idDropdown == "major")){
       this.setState({
         checkMajor: !this.state.checkMajor
       })
+      if(this.state.checkMajor==false){
+        this.setState({
+          checkFaculty: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "subject") || (idDropdown == "subject")){
       this.setState({
         checkSubject: !this.state.checkSubject
       })
+      if(this.state.checkSubject==false){
+        this.setState({
+          checkMajor: false,
+          checkFaculty: false,
+          checkTeacher: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "teacher") || (idDropdown == "teacher")){
       this.setState({
         checkTeacher: !this.state.checkTeacher
       })
+      if(this.state.checkTeacher==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "student") || (idDropdown == "student")){
       this.setState({
         checkStudent: !this.state.checkStudent
       })
+      if(this.state.checkStudent==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "department") || (idDropdown == "department")){
       this.setState({
         checkDepartment: !this.state.checkDepartment
       })
+      if(this.state.checkDepartment==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
         this.setState({
           checkParrent: !this.state.checkParrent
         })
+        if(this.state.checkParrent==false){
+          this.setState({
+            checkMajor: false,
+            checkSubject: false,
+            checkTeacher: false,
+            checkFaculty: false,
+            checkStudent: false,
+            checkDepartment:false,
+            checkAttendance:false,
+            checkMark:false,
+            checkTest:false,
+            checkHomework: false,
+            checkSchedule:false,
+            checkGroup: false
+          })
+        }
     } else if((nameDropdown == "attendance") || (idDropdown == "attendance")){
       this.setState({
         checkAttendance: !this.state.checkAttendance
       })
+      if(this.state.checkAttendance==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "mark") || (idDropdown == "mark")){
       this.setState({
         checkMark: !this.state.checkMark
       })
+      if(this.state.checkMark==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "test") || (idDropdown == "test")){
       this.setState({
         checkTest: !this.state.checkTest
       })
+      if(this.state.checkTest==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "homework") || (idDropdown == "homework")){
       this.setState({
         checkHomework: !this.state.checkHomework
       })
+      if(this.state.checkHomework==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "schedule") || (idDropdown == "schedule")){
       this.setState({
         checkSchedule: !this.state.checkSchedule
       })
+      if(this.state.checkSchedule==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkHomework:false,
+          checkGroup: false
+        })
+      }
+    }else if((nameDropdown == "group") || (idDropdown == "group")){
+      this.setState({
+        checkGroup: !this.state.checkGroup
+      })
+      if(this.state.checkGroup==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkHomework: false
+        })
     }
   }
+  }
+
   render() {
     return (
       <div>
@@ -114,11 +328,11 @@ class Base extends React.Component {
           <div className="navbar side-navbar">
             <div className="navbar-header">
               <ul className="nav nav-stacked">
-                  <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
+                  <li><Link to="/dashboard" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true" ></i>Главная</Link></li>
                   <li><Link to="#" className="waves-effect" name="faculty" onClick={this.changeHide}>
                       <i className="fa fa-university fa-lg icons" aria-hidden="true"> </i>Факультеты
-                      <span hidden={this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>
-                      <span hidden={!this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '60px'}} ></i></span>
+                      <span hidden={this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkFaculty} id="faculty" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkFaculty}>
                         <li><Link to="/faculties" className="waves-effect" style={{paddingLeft: '45px'}}>Все факультеты</Link></li>
@@ -127,8 +341,8 @@ class Base extends React.Component {
                   </li>
                   <li><Link to="#" className="waves-effect" name="department" onClick={this.changeHide}>
                       <i className="fa fa-building fa-lg icons" aria-hidden="true"></i>Кафедры
-                      <span hidden={this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '80px'}} ></i></span>
-                      <span hidden={!this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '80px'}} ></i></span>
+                      <span hidden={this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkDepartment} id="department" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkDepartment}>
                         <li><Link to="/departments" className="waves-effect" style={{paddingLeft: '45px'}}>Все кафедры</Link></li>
@@ -137,18 +351,28 @@ class Base extends React.Component {
                   </li>
                   <li><Link to="#" className="waves-effect" name="major" onClick={this.changeHide}>
                       <i className="fa fa-mortar-board fa-lg icons" aria-hidden="true" ></i>Специальности
-                      <span hidden={this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '35px'}} ></i></span>
-                      <span hidden={!this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '35px'}} ></i></span>
+                      <span hidden={this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40ox'}} ></i></span>
+                      <span hidden={!this.state.checkMajor} id="major" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkMajor}>
                         <li><Link to="/majors" className="waves-effect" style={{paddingLeft: '45px'}}>Все специальности</Link></li>
                         <li><Link to="/addmajors" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить специальность</Link></li>
                       </ul>
                   </li>
+                  <li><Link to="#" className="waves-effect" name="group" onClick={this.changeHide}>
+                      <i className="fa fa-users fa-lg icons" aria-hidden="true" ></i>Группы
+                      <span hidden={this.state.checkGroup} id="group" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkGroup} id="group" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkGroup}>
+                        <li><Link to="/groups" className="waves-effect" style={{paddingLeft: '45px'}}>Все группы</Link></li>
+                        <li><Link to="/addgroups" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить группу</Link></li>
+                      </ul>
+                  </li>
                   <li><Link to="#" className="waves-effect" name="subject" onClick={this.changeHide}>
                       <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Предметы
-                      <span hidden={this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      <span hidden={!this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <span hidden={this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkSubject} id="subject" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkSubject}>
                         <li><Link to="/subjects" className="waves-effect" style={{paddingLeft: '45px'}}>Все предметы</Link></li>
@@ -157,8 +381,8 @@ class Base extends React.Component {
                   </li>
                   <li><Link to="#" className="waves-effect" name="schedule" onClick={this.changeHide}>
                       <i className="fa fa-calendar fa-lg icons" aria-hidden="true" ></i>Расписание
-                      <span hidden={this.state.checkSchedule} id="schedule" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      <span hidden={!this.state.checkSchedule} id="schedule" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <span hidden={this.state.checkSchedule} id="schedule" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkSchedule} id="schedule" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkSchedule}>
                         <li><Link to="/schedules" className="waves-effect" style={{paddingLeft: '45px'}}>Расписания</Link></li>
@@ -176,9 +400,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
-                      <i className="fa fa-users fa-lg icons" aria-hidden="true" ></i>Студенты
-                      <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <i className="fa fa-user fa-lg icons" aria-hidden="true" ></i>Студенты
+                      <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkStudent}>
                         <li><Link to="/students" className="waves-effect" style={{paddingLeft: '45px'}}>Все студенты</Link></li>
@@ -187,8 +411,8 @@ class Base extends React.Component {
                   </li>
                     <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
                       <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Родители
-                      <span hidden={this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
-                      <span hidden={!this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '75px'}} ></i></span>
+                      <span hidden={this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkParrent}>
                         <li><Link to="/parrents" className="waves-effect" style={{paddingLeft: '45px'}}>Все родители</Link></li>

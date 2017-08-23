@@ -33,14 +33,13 @@ class AdminEditSubjectModal extends React.Component {
       checkMajor: false,
       checkContent: false,
       checkFaculty: false
+
     }
     this.changeMajorGroup = this.changeMajorGroup.bind(this);
     this.changeFaculty = this.changeFaculty.bind(this);
     this.changeImg = this.changeImg.bind(this);
     this.changeSubject = this.changeSubject.bind(this);
     this.editSubjectFunc = this.editSubjectFunc.bind(this);
-    this.changeMajorGroup = this.changeMajorGroup.bind(this);
-    this.changeFaculty = this.changeFaculty.bind(this);
     this.deleteSubject = this.deleteSubject.bind(this);
   };
 
@@ -59,7 +58,8 @@ class AdminEditSubjectModal extends React.Component {
         });
       });
   }
-    changeMajorGroup(event){
+  
+  changeMajorGroup(event){
           if(event.target.value.length > 0){
             this.setState({
               major_group: event.target.value,
@@ -79,6 +79,7 @@ class AdminEditSubjectModal extends React.Component {
             })
           }
   }
+  
   changeFaculty(event){
           if(event.target.value.length > 0){
             this.setState({
@@ -100,6 +101,7 @@ class AdminEditSubjectModal extends React.Component {
           }
 
   }
+  
   editSubjectFunc(){
     if(this.state.filename.length>0){
       var subject_id = this.props.subject._id
@@ -132,18 +134,16 @@ class AdminEditSubjectModal extends React.Component {
   }
 
   deleteSubject(){
-    const formData = `subject_id=${this.props.subject._id}`;
+    event.preventDefault();
+    const formData = `subject_id=${JSON.stringify(this.props.subject._id)}`;
     axios.post('/api/deletesubject', formData, {
       responseType: 'json',
       headers: {
-      'Content-type': 'application/x-www-form-urlencoded'
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
       }
     })
-      .then(response => {
-        window.location.reload();
-      });
   }
-
   changeSubject(event){
     const field = event.target.name;
     const editedSubject = this.state.editedSubject;
@@ -208,8 +208,8 @@ class AdminEditSubjectModal extends React.Component {
       reader.readAsDataURL(file);
     }
   }
-
   render(){
+    // console.log(this.props.subject._id)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;

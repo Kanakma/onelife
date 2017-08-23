@@ -22,7 +22,8 @@ class TeacherAddAttendance extends React.Component {
       stud_attendance: {},
       checkAttendance: false,
       attendances: [],
-      att_date:''
+      att_date:'',
+      chk:''
 
     };
   
@@ -47,15 +48,28 @@ class TeacherAddAttendance extends React.Component {
         });
       });
   }
+
+
+  dateFormat(date){
+    var fDate = new Date(date);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
+
+  dateFormat1(dd){
+    var fDate = new Date(dd);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
   changeDate(value){
-    console.log(value,'<---')
      this.setState({
         att_date: value
       });
 
   }
   changeAttendance(event){
-   // console.log('vizval!')
     function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
       var found = false;
@@ -83,60 +97,55 @@ class TeacherAddAttendance extends React.Component {
           }
         })
       }
-
       if (found) {
         return result;
       } else {
         return false;
       }
-
     }
-    const field = event.target.name; // id student
-    const attendance = this.state.attendance;
     var temp = this.state.attendances;
-    var temp1 =this.state.attendance;
-
-      console.log(temp,'old temp')
+    //console.log(event.target.name,'oldddd')
       var old = IndInObjArr(temp,event.target.name, 'name');
       if(old.length > 0){
-        console.log(old, 'Found')
-        temp[old[0]].att_status = event.target.value;
+        temp[old[0]].att_status = (event.target.value!='')?event.target.value:'был';
       } else {
        temp.push({
-             name:event.target.name,
-             att_status: event.target.value
+         name:event.target.name,
+         att_status: (event.target.value!='')?event.target.value:'был'
         })
       }
-// var names = temp.reduce(function (a, b) {
-//   if (a.indexOf(b.name) == -1) {
-//     a.push(b.name)
-//   }
-//   return a;
-// }, []);
-      console.log(temp,'new temp')
-
-
       this.setState({
-
-        attendances: temp,  
-        attendance :{
-             name:event.target.name,
-             att_status: event.target.value
-        },
-
-      checkAttendance: true ,
-
+        attendances: temp,
+        checkAttendance: true
       })
-        
-
   }
 
   sendAttendance(event){
+ 
+    var dd= new Date();
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+      dd='0'+dd;
+    } 
+    if(mm<10){
+      mm='0'+mm;
+    } 
+
+    var today = mm+'/'+dd+'/'+yyyy;
+
     event.preventDefault();
     const subject_id= this.state.subject_id;
     const att_date=this.state.att_date;
-    //console.log(att_date);
-    const formData = `data=${JSON.stringify(this.state.attendances)}&subject_id=${subject_id}&att_date=${att_date}`;
+  //  console.log(subject_id,'att_dateeeeeeeeeeee')
+    var dd= this.dateFormat1(att_date);
+  
+    if(today===dd){
+          const formData = `data=${JSON.stringify(this.state.attendances)}&subject_id=${subject_id}&att_date=${att_date}`;
 
    axios.post('/api/addattendance', formData, {
 
@@ -149,7 +158,21 @@ class TeacherAddAttendance extends React.Component {
         message: res.data.message
       })
    })
+  } 
+  if(today!=dd){
+      this.setState({
+        message: 'Вы можете выставлять посещаемость только на текущую дату'
+      })
   }
+  else{
+    this.setState({
+        message: 'Укажите пожалуйста дату'
+      })
+  }
+
+  }
+
+  //update students on rabotaet bez filtracii
   updateStudents(event){
     if(event.target.value.length > 0){
 
@@ -183,11 +206,10 @@ class TeacherAddAttendance extends React.Component {
 
   }
 
+ 
+
+
   render() {
-
-
-    // console.log(this.state.students)
-   // console.log(this.state.att_date)
     return (
       <div className="container clearfix">
       <div className=" bg-title">
@@ -196,6 +218,7 @@ class TeacherAddAttendance extends React.Component {
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
+
      
         <div className="form-group col-md-6">
         <label>Выберите предмет</label>
@@ -209,7 +232,7 @@ class TeacherAddAttendance extends React.Component {
           <div className="form-group row">
             <div className="col-md-6">
               <label>Дата проведения Пары</label>
-              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+              <DatePicker  language="ru-ru" locale="ru-ru" onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
          
           </div>
@@ -241,7 +264,15 @@ class TeacherAddAttendance extends React.Component {
                        
           </table>
           <div className="row">
-           {this.state.message && <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>}
+
+            {
+              this.state.message==='Вы можете выставлять посещаемость только на текущую дату' ? (
+                <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
+              ) : (
+                <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
+              )
+            }
+          
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendAttendance}>Выставить посещаемость</button>
            </div>
       </div>

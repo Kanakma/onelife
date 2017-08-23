@@ -60,7 +60,7 @@ class AdminDepartments extends React.Component {
                       <th>E-mail</th>
                       <th>
                           <center>
-                              Кол-во спец-тей
+                              Кол-во спец-ей
                           </center>
                       </th>
                       <th>

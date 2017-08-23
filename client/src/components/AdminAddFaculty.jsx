@@ -41,9 +41,6 @@ class AdminAddFaculty extends React.Component {
             teachers: res.data.allTchrs
           });
         });
-
-
-
   }
 
   changeFaculty(event){
