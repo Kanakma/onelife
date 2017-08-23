@@ -32,7 +32,6 @@ class SubjectInfo extends React.Component {
     this.getStatus();
   }
   getSubject(){
-
     axios.get('/api/getonesubject?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {

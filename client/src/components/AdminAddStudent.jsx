@@ -273,7 +273,7 @@ class AdminAddStudent extends React.Component {
         </div>
         <div className="form-group row">
           <div className="col-md-6">
-
+            <label>Специальность</label>
               { this.state.majors ? (
                 <select className="form-control" name="major_id" value={this.state.student.major_id} onChange={this.changeStudent}>
                   <option value=''>Выберите специальность</option>
@@ -290,6 +290,7 @@ class AdminAddStudent extends React.Component {
             <span className="bar"></span>
           </div>
           <div className="col-md-6">
+            <label>Группа</label>
               { this.state.groups ? (
                 <select className="form-control" name="group_id" value={this.state.student.group_id} onChange={this.changeStudent}>
                   <option value=''>Выберите группу</option>

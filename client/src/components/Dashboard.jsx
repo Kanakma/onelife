@@ -32,27 +32,22 @@ class AdminMajors extends React.Component {
       });
   }
 
-
   render() {
-
     return (
-<div className="container clearfix">
-            <div className="bg-title">
-              <h4>Dashboard</h4>
-            </div>
-            <div className=" my-content">
-            <div className = "table-responsive first_row " style={{marginRight:"30px"}}>
-            </div>
+      <div className="container clearfix">
+        <div className="bg-title">
+          <h4>Dashboard</h4>
+        </div>
+        <div className=" my-content">
+        <div className = "table-responsive first_row " style={{marginRight:"30px"}}>
+        </div>
 
 
-            <div className = "table-responsive  first_row" >
-            </div>
-            </div>
-</div>
-
-
-
-  );
+        <div className = "table-responsive  first_row" >
+        </div>
+        </div>
+      </div>
+    );
   }
 }
 

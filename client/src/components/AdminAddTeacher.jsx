@@ -246,6 +246,7 @@ class AdminAddTeacher extends React.Component {
           </div>
           <div className="form-group row">
             <div className="col-md-6">
+              <label>Пол</label>
               <select className="form-control" name="gender" value={this.state.teacher.gender} onChange={this.changeTeacher} style={{cursor: 'pointer'}}>
                 <option value="">Выберите пол</option>
                 <option value="Мужчина">Мужчина</option>
@@ -254,6 +255,7 @@ class AdminAddTeacher extends React.Component {
               <span className="bar"></span>
             </div>
             <div className="col-md-6">
+              <label>Степень</label>
               <select className="form-control" name="degree" value={this.state.teacher.degree} onChange={this.changeTeacher}>
                 <option value="">Выберите степень</option>
                 <option value="Ассистент">Ассистент</option>

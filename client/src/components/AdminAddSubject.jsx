@@ -44,6 +44,7 @@ class AdminAddSubject extends React.Component {
     this.changeImg = this.changeImg.bind(this);
     this.checkContent = this.checkContent.bind(this);
   }
+
   componentDidMount() {
     axios.get('/api/getforsubject',  {
       responseType: 'json',
@@ -59,6 +60,7 @@ class AdminAddSubject extends React.Component {
         });
       });
   }
+
   changeSubject(event){
     const field = event.target.name;
     const subject = this.state.subject;
@@ -68,51 +70,53 @@ class AdminAddSubject extends React.Component {
             message: '',
             errors: {}
           })
-          this.checkContent()
+    this.checkContent()
   }
-  changeMajorGroup(event){
-          if(event.target.value.length > 0){
-            this.setState({
-              major_group: event.target.value,
-              checkMajor: true,
-              message: '',
-              errors: {},
-              majors: this.state.main_majors.filter(function(major) {
-                                  return major.major_group.indexOf(event.target.value) > -1;
-                              })
-            })
-          } else {
-            this.setState({
-              major_group: event.target.value,
-              checkMajor: false,
-              message: '',
-              errors: {}
-            })
-          }
-          this.checkContent();
-  }
-  changeFaculty(event){
-          if(event.target.value.length > 0){
-            this.setState({
-              faculty_name: event.target.value,
-              checkFaculty: true,
-              message: '',
-              errors: {},
-              teachers: this.state.main_teachers.filter(function(teacher) {
-                                  return teacher.faculty_id.indexOf(event.target.value) > -1;
-                              })
-            })
-          } else {
-            this.setState({
-              faculty_name: event.target.value,
-              checkFaculty: false,
-              message: '',
-              errors: {}
-            })
-          }
-          this.checkContent()
 
+  changeMajorGroup(event){
+    if(event.target.value.length > 0){
+      this.setState({
+        major_group: event.target.value,
+        checkMajor: true,
+        message: '',
+        errors: {},
+        majors: this.state.main_majors.filter(function(major) {
+                            return major.major_group.indexOf(event.target.value) > -1;
+                        })
+      })
+    } else {
+      this.setState({
+        major_group: event.target.value,
+        checkMajor: false,
+        message: '',
+        errors: {}
+      })
+    }
+    this.checkContent();
   }
+
+  changeFaculty(event){
+    if(event.target.value.length > 0){
+      this.setState({
+        faculty_name: event.target.value,
+        checkFaculty: true,
+        message: '',
+        errors: {},
+        teachers: this.state.main_teachers.filter(function(teacher) {
+                            return teacher.faculty_id.indexOf(event.target.value) > -1;
+                        })
+      })
+    } else {
+      this.setState({
+        faculty_name: event.target.value,
+        checkFaculty: false,
+        message: '',
+        errors: {}
+      })
+    }
+    this.checkContent()
+  }
+
   addSubject(event){
     event.preventDefault();
     const formData = `data=${JSON.stringify(this.state.subject)}`;
@@ -153,6 +157,7 @@ class AdminAddSubject extends React.Component {
           }
         });
   }
+
   clearContent(){
     this.setState({
       subject: {
@@ -173,6 +178,7 @@ class AdminAddSubject extends React.Component {
       checkFaculty: false
     })
   }
+
   changeImg(e){
     e.preventDefault();
 
@@ -195,6 +201,7 @@ class AdminAddSubject extends React.Component {
       reader.readAsDataURL(file);
     }
   }
+
   checkContent(){
     if((this.state.subject.description.length > 0) && (this.state.subject.subject_code.length > 0) && (this.state.subject.subject_name.length > 0) && (this.state.subject.teacher_id.length > 0) && (this.state.subject.major_id.length > 0)
         && (this.state.subject.period > 0) && (this.state.subject.course_number > 0) && (this.state.subject.credit_number > 0)
@@ -208,6 +215,7 @@ class AdminAddSubject extends React.Component {
           });
         }
   }
+
   render() {
     return (
       <div className="container clearfix">
@@ -232,8 +240,18 @@ class AdminAddSubject extends React.Component {
                      name="subject_name" value={this.state.subject.subject_name} onChange={this.changeSubject} />
                 <span className="bar"></span>
             </div>
+            <div className="form-group">
+              <label>Тип</label>
+              <select className="form-control" name="optional" value={this.state.subject.optional} onChange={this.changeSubject} style={{cursor: 'pointer'}}>
+                <option value="">Выберите тип</option>
+                <option value={false}>Обязательный</option>
+                <option value={true}>Не обязательный</option>
+              </select>
+              <span className="bar"></span>
+            </div>
             <div className="form-group row">
             <div className="col-md-6">
+              <label>Наименование групп специальностей</label>
               <select className="form-control" name="major_group" value={this.state.major_group} onChange={this.changeMajorGroup}>
                 <option value="">Наименование групп специальностей</option>
                 <option value="Образование">Образование</option>
@@ -251,6 +269,7 @@ class AdminAddSubject extends React.Component {
               <span className="bar"></span>
             </div>
             <div className="col-md-6">
+              <label>Специальность</label>
               <select className="form-control" name="major_id" value={this.state.subject.major_id} onChange={this.changeSubject} disabled={!this.state.checkMajor}>
                 <option value=''>Выберите специальность</option>
                 {this.state.majors.map((major, m) =>
@@ -262,6 +281,7 @@ class AdminAddSubject extends React.Component {
             </div>
             <div className="form-group row">
             <div className="col-md-6">
+              <label>Факультет</label>
               <select className="form-control" name="faculty_id" value={this.state.faculty_name} onChange={this.changeFaculty}>
                 <option value=''>Выберите факультет</option>
                 {this.state.faculties.map((faculty, f) =>
@@ -271,6 +291,7 @@ class AdminAddSubject extends React.Component {
               <span className="bar"></span>
             </div>
             <div className="col-md-6">
+              <label>Преподаватель</label>
               <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={!this.state.checkFaculty}>
                 <option value='dvdv'>Выберите преподавателя</option>
                 {this.state.teachers.map((teacher, t) =>
@@ -331,6 +352,7 @@ class AdminAddSubject extends React.Component {
               </div>
             </div>
             <div className="form-group">
+              <label>Описание</label><br/>
               <textarea type="text"
                            className="form-control"
                            value={this.state.subject.description}

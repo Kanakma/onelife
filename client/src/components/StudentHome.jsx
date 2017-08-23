@@ -13,7 +13,7 @@ class StudentHome extends React.Component {
          user_id: {},
          major_id: {}
        },
-       img: '5992d14a00877f29c9dc720d-default_avatar.png'
+       img: '599c14d780239a46c51aa04b-default_avatar.png'
     }
   }
   componentDidMount() {

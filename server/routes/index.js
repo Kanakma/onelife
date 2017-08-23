@@ -214,7 +214,8 @@ router.post('/addsubject', (req, res) => {
 		course_number: s.course_number,
 		credit_number: s.credit_number,
 		max_students: s.max_students,
-		description: s.description
+		description: s.description,
+		optional:s.optional
 	}
 	Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
 		if(err) {console.log(err) }
@@ -407,8 +408,7 @@ router.post('/addteacherimg', (req, res) => {
 		let form = new multiparty.Form();
 		var teacher_id = req.query.teacher_id;
 	form.parse(req, (err, fields, files) => {
-		console.log(files)
-	  	var tempPath = files.imageFile[0].path;
+	  var tempPath = files.imageFile[0].path;
 		var fileName = files.imageFile[0].originalFilename;
 		let copyToPath = "public/teacher-img/" + teacher_id +'-'+ fileName;
 		fs.readFile(tempPath, (err, data) => {
@@ -420,8 +420,8 @@ router.post('/addteacherimg', (req, res) => {
 					else {
 						Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id +'-'+ fileName}}, { new: true }, (err) => {
 							if(err) { console.log(err) }
-              				else {
-              					res.status(200).send({
+      				else {
+        					res.status(200).send({
 									message: 'Пользователь добавлен!'
 								})
 							}
@@ -434,41 +434,39 @@ router.post('/addteacherimg', (req, res) => {
 })
 
 router.post('/addhomework', (req, res) => {
-	Teacher.findOne({user_id: req.body.user_id}, (err, teacher) => {
-		if(err) { console.log(err) }
-		else if (teacher){
-			Homework.find((err, homework) => {
-				if(err) { console.log(err) }
-				else {
-					var newHomework = {
-						message: req.body.description,
-						deadline: req.body.deadline,
-						lessonDate: req.body.lesson,
-						subject_id: req.body.subject_id,
-						teacher_id: teacher._id
-					}
-					const newWork = new Homework(newHomework);
-				  	newWork.save((err, savedhomework) => {
-					    if (err) { console.log(err); }
-						else {
-									res.send({
-										homework: savedhomework
-									})
-								}
+Teacher.findOne({user_id: req.body.user_id}, (err, teacher) => {
+	if(err)console.log(err);
+  if (teacher){
+		Homework.find((err, homework) => {
+			if(err) console.log(err);
+			if(homework) {
+				var newHomework = {
+					message: req.body.description,
+					deadline: req.body.deadline,
+					lessonDate: req.body.lesson,
+					subject_id: req.body.subject_id,
+					teacher_id: teacher._id,
+					group_id:req.body.group_id
+				}
+				const newWork = new Homework(newHomework);
+		  	newWork.save((err, savedhomework) => {
+			  	if (err) console.log(err);
+					if (savedhomework){
+							res.send({
+								homework: savedhomework
 							})
 						}
-				  })
+					})
 				}
-			})
-
-			});
+		  })
+		}
+	})
+});
 
 router.post('/addhomeworkfile', (req, res) => {
 		let form = new multiparty.Form();
 				form.parse(req, (err, fields, files) => {
-					console.log(files)
-					console.log(fields)
-				  	var tempPath = files.file[0].path;
+			  	var tempPath = files.file[0].path;
 					var fileName = files.file[0].originalFilename;
 					let copyToPath = "public/teacher-homeworks/" + fields.subjectId +'-'+ fileName;
 					fs.readFile(tempPath, (err, data) => {
@@ -476,48 +474,38 @@ router.post('/addhomeworkfile', (req, res) => {
 						fs.writeFile(copyToPath, data, (err) => {
 							// delete temp image
 							fs.unlink(tempPath, () => {
-								if(err) {return res.status(401).end();}
+								if(err) {
+									console.log(err)
+								}
 								else {
 									Teacher.findOne({user_id: fields.user_id}, (err, teacher) => {
-										if(err) { console.log(err) }
-										else if (teacher){
-											console.log(teacher)
+										if(err) console.log(err) 
+										if (teacher){
 											Homework.find((err, homework) => {
-												if(err) { console.log(err) }
-												else {
+												if(err) console.log(err) 
+												if(homework) {
 													var newHomework = {
 														message: fields.description,
 														deadline: fields.deadline,
 														lessonDate: fields.lesson,
 														subject_id: fields.subjectId,
 														teacher_id: teacher._id,
-														file: fields.subjectId +'-'+ fileName
+														file: fields.subjectId +'-'+ fileName,
+														group_id:fields.group_id
 													}
 													const newWork = new Homework(newHomework);
 												  	newWork.save((err, savedhomework) => {
-													    if (err) { console.log(err); }
-														else {
+													    if (err) console.log(err);
+															if(savedhomework){
 																	res.send({
 																		homework: savedhomework
 																	})
-																	// res.status(200).send({
-																	// 			message: 'Пользователь добавлен!'
-																	// 		})
 																}
 															})
 														}
 												  })
 												}
 											})
-
-									// Teacher.findOneAndUpdate({_id: teacher_id}, { $set: {img: teacher_id +'-'+ fileName}}, { new: true }, (err) => {
-									// 	if(err) { console.log(err) }
-			            //   				else {
-			            //   					res.status(200).send({
-									// 			message: 'Пользователь добавлен!'
-									// 		})
-									// 	}
-									// })
 								}
 							});
 						});
@@ -990,7 +978,6 @@ router.get('/getfacultiesmajors', (req, res) => {
 			Major.find((err, majors) => {
 				if(err) {console.log(err) }
 				else {
-
 					res.send({
 						faculties: faculties,
 						majors: majors
@@ -1000,6 +987,7 @@ router.get('/getfacultiesmajors', (req, res) => {
 		}
 	})
 });
+
 router.post('/editdepartment', (req, res) =>{
 	var editedDep = JSON.parse(req.body.department);
 	console.log(req.body)
@@ -1747,14 +1735,11 @@ var constructGroup = function(group){
 						group_department: major.major_department.department_name,
 						students: group.students
 					}
-
-
 				allGroups.push(myGroup);
 			}
 			callBack(null, allGroups)
 		})
 				}
-
 			})
 		}
 	}

@@ -151,6 +151,7 @@ class AdminEditSubjectModal extends React.Component {
       this.setState({
         editedSubject: editedSubject
       })
+      console.log(this.state.editedSubject)
   }
 
   changeMajorGroup(event){
@@ -256,6 +257,15 @@ class AdminEditSubjectModal extends React.Component {
                      name="subject_name" value={this.state.editedSubject.subject_name} onChange={this.changeSubject} />
                 <span className="bar"></span>
               </div>
+            <div className="form-group">
+              <label>Тип</label>
+              <select className="form-control" name="optional" value={this.state.editedSubject.optional} onChange={this.changeSubject} style={{cursor: 'pointer'}}>
+                <option value="">Выберите тип</option>
+                <option value={false}>Обязательный</option>
+                <option value={true}>Не обязательный</option>
+              </select>
+              <span className="bar"></span>
+            </div>
               <div className="form-group row">
                 <div className="col-md-6">
                   <select className="form-control" name="major_group" value={this.state.major_group} onChange={this.changeMajorGroup}>
