@@ -49,57 +49,265 @@ class Base extends React.Component {
       this.setState({
         checkFaculty: !this.state.checkFaculty
       })
+      if(this.state.checkFaculty==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "major") || (idDropdown == "major")){
       this.setState({
         checkMajor: !this.state.checkMajor
       })
+      if(this.state.checkMajor==false){
+        this.setState({
+          checkFaculty: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "subject") || (idDropdown == "subject")){
       this.setState({
         checkSubject: !this.state.checkSubject
       })
+      if(this.state.checkSubject==false){
+        this.setState({
+          checkMajor: false,
+          checkFaculty: false,
+          checkTeacher: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "teacher") || (idDropdown == "teacher")){
       this.setState({
         checkTeacher: !this.state.checkTeacher
       })
+      if(this.state.checkTeacher==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "student") || (idDropdown == "student")){
       this.setState({
         checkStudent: !this.state.checkStudent
       })
+      if(this.state.checkStudent==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkDepartment: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "department") || (idDropdown == "department")){
       this.setState({
         checkDepartment: !this.state.checkDepartment
       })
+      if(this.state.checkDepartment==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
         this.setState({
           checkParrent: !this.state.checkParrent
         })
+        if(this.state.checkParrent==false){
+          this.setState({
+            checkMajor: false,
+            checkSubject: false,
+            checkTeacher: false,
+            checkFaculty: false,
+            checkStudent: false,
+            checkDepartment:false,
+            checkAttendance:false,
+            checkMark:false,
+            checkTest:false,
+            checkHomework: false,
+            checkSchedule:false,
+            checkGroup: false
+          })
+        }
     } else if((nameDropdown == "attendance") || (idDropdown == "attendance")){
       this.setState({
         checkAttendance: !this.state.checkAttendance
       })
+      if(this.state.checkAttendance==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkMark:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "mark") || (idDropdown == "mark")){
       this.setState({
         checkMark: !this.state.checkMark
       })
+      if(this.state.checkMark==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkTest:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "test") || (idDropdown == "test")){
       this.setState({
         checkTest: !this.state.checkTest
       })
+      if(this.state.checkTest==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkHomework: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "homework") || (idDropdown == "homework")){
       this.setState({
         checkHomework: !this.state.checkHomework
       })
+      if(this.state.checkHomework==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkGroup: false
+        })
+      }
     } else if((nameDropdown == "schedule") || (idDropdown == "schedule")){
       this.setState({
         checkSchedule: !this.state.checkSchedule
       })
+      if(this.state.checkSchedule==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkHomework:false,
+          checkGroup: false
+        })
+      }
     }else if((nameDropdown == "group") || (idDropdown == "group")){
       this.setState({
         checkGroup: !this.state.checkGroup
       })
+      if(this.state.checkGroup==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkHomework: false
+        })
     }
-
   }
+  }
+
   render() {
     return (
       <div>
