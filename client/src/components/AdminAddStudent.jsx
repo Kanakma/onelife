@@ -22,10 +22,12 @@ class AdminAddStudent extends React.Component {
           graduation_year: '',
           password:'',
           checkpassword:'',
-          gender:''
+          gender:'',
+          group_id: ''
         },
         birthday: '',
         majors: [],
+        groups: [],
         checkContent: false,
         file: '',
         filename: ''
@@ -48,6 +50,17 @@ class AdminAddStudent extends React.Component {
             majors: res.data.allMjrs
           });
         });
+        axios.get('/api/getgroups',  {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(res => {
+            this.setState({
+              groups: res.data.allGroups
+            });
+          });
     }
     changeStudent(event){
       const field = event.target.name;
@@ -55,7 +68,7 @@ class AdminAddStudent extends React.Component {
       student[field] = event.target.value;
       if((this.state.student.passport_id.length > 0) && (this.state.student.name.length > 0) && (this.state.student.lastname.length > 0)
             && (this.state.student.major_id.length > 0) && (this.state.birthday.length > 0) && (this.state.student.admission_year > 0) && (this.state.student.graduation_year > 0) && (this.state.student.password.length > 0)
-            && (this.state.student.checkpassword.length > 0)){
+            && (this.state.student.checkpassword.length > 0) && (this.state.student.group_id.length > 0)){
               if(this.state.student.password === this.state.student.checkpassword){
                   document.getElementById('wrongpass').style.display = "none"
                   this.setState({
@@ -90,13 +103,14 @@ class AdminAddStudent extends React.Component {
 
       const lastname = encodeURIComponent(this.state.student.lastname);
       const major_id = encodeURIComponent(this.state.student.major_id);
+      const group_id = encodeURIComponent(this.state.student.group_id);
       const birthday = encodeURIComponent(this.state.birthday);
       const admission_year = encodeURIComponent(this.state.student.admission_year);
       const gender = encodeURIComponent(this.state.student.gender);
       const graduation_year = encodeURIComponent(this.state.student.graduation_year);
       const passport_id = encodeURIComponent(this.state.student.passport_id);
       const password = encodeURIComponent(this.state.student.password);
-      const formData = `passport_id=${passport_id}&name=${name}&lastname=${lastname}&major_id=${major_id}&birthday=${birthday}&admission_year=${admission_year}&graduation_year=${graduation_year}&password=${password}&gender=${gender}`;
+      const formData = `passport_id=${passport_id}&name=${name}&lastname=${lastname}&major_id=${major_id}&group_id=${group_id}&birthday=${birthday}&admission_year=${admission_year}&graduation_year=${graduation_year}&password=${password}&gender=${gender}`;
       axios.post('/api/addstudent', formData, {
         responseType: 'json',
         headers: {
@@ -179,7 +193,8 @@ class AdminAddStudent extends React.Component {
           admission_year: '',
           graduation_year: '',
           password:'',
-          checkpassword:''
+          checkpassword:'',
+          group_id: ''
         },
         birthday: '',
         checkContent: false,
@@ -233,6 +248,7 @@ class AdminAddStudent extends React.Component {
             </select>
             <span className="bar"></span>
           </div>
+
         </div>
         <div className="form-group">
             <label>День рождения</label>
@@ -269,6 +285,22 @@ class AdminAddStudent extends React.Component {
                 ):(
                 <select className="form-control" name="major_id" value={this.state.student.major_id} onChange={this.changeStudent}>
                   <option value=''>Выберите специальность</option>
+                </select>
+                )
+              }
+            <span className="bar"></span>
+          </div>
+          <div className="col-md-6">
+              { this.state.groups ? (
+                <select className="form-control" name="group_id" value={this.state.student.group_id} onChange={this.changeStudent}>
+                  <option value=''>Выберите группу</option>
+                  {this.state.groups.map((group, g) =>
+                    <option key={g} value={group.group_id}>{group.group_name}</option>
+                  )}
+                </select>
+                ):(
+                <select className="form-control" name="group_id" value={this.state.student.group_id} onChange={this.changeStudent}>
+                  <option value=''>Выберите группу</option>
                 </select>
                 )
               }

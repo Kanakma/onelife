@@ -12,8 +12,6 @@ class TeacherAddMark extends React.Component {
     this.state = {
       message: '',
       errors: {},
-      student: [{}],
-      comment: [{}],
       subjects: [],
       subject: {},
       students: [],
@@ -25,15 +23,17 @@ class TeacherAddMark extends React.Component {
       checkAttendance: false,
       attendances: [],
       att_date:'',
-       mark: '',
-      // marks:[]
-      marks: [{ mark: '' }],
+      chk:'',
+      mark:'', 
+      marks: [],
+      student: [{}]
 
     };
   
     this.updateStudents = this.updateStudents.bind(this);
+    
     this.changeAttendance = this.changeAttendance.bind(this);
-    this.sendMArk = this.sendMark.bind(this);
+    this.sendMark = this.sendMark.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.changeMark=this.changeMark.bind(this);
     this.changeComment=this.changeComment.bind(this);
@@ -54,47 +54,33 @@ class TeacherAddMark extends React.Component {
         });
       });
   }
+
+
+  dateFormat(date){
+    var fDate = new Date(date);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
+
+  dateFormat1(dd){
+    var fDate = new Date(dd);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
   changeDate(value){
-    console.log(value,'<---')
      this.setState({
         att_date: value
       });
 
   }
 
-
-  changeMark(event) {
-    const field = event.target.id;
-    const student = this.state.student;
-    student[field] = event.target.value;
-    console.log(student)
-   // const newMarks=this.state.marks.map((mark, ss) =>{
-   //  if(s!=ss) return mark;
-   //  return {mark, mark:event.target.value}
-   // })
-   // this.setState({ marks: newMarks });
-  //     console.log('vizval!')
- 
-  //  const grade=event.target.value;
-  //  const mark = this.state.mark;
-  //  var temp=this.state.marks;
-  //  this.setState({
-  //     mark:event.target.value
-  // })
-  //  console.log(mark)
-  //    temp.push({
-
-  //            mark:event.target.value
-  //           // comment: event.target.value
-  //       })
-
-
-  }
+  
   changeComment(event){
 
-  }
-  changeAttendance(event){
-   // console.log('vizval!')
+
+
     function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
       var found = false;
@@ -122,58 +108,199 @@ class TeacherAddMark extends React.Component {
           }
         })
       }
-
       if (found) {
         return result;
       } else {
         return false;
       }
-
     }
-    const field = event.target.name; // id student
-    const attendance = this.state.attendance;
-    var temp = this.state.attendances;
+  
   
 
-      console.log(temp,'old temp')
-
-      var old = IndInObjArr(temp,event.target.name, 'name');
+    const field = event.target.id;
+    const student = this.state.student;
+    student[field] = event.target.value;
+    console.log(event.target.value,'value')
+    console.log(event.target.id,'comments')
+    var temp=this.state.marks;
+    var old = IndInObjArr(temp,event.target.id, 'name');
       if(old.length > 0){
-        console.log(old, 'Found')
-        temp[old[0]].att_status = event.target.value;
+        temp[old[0]].stud_comment = event.target.value;
       } else {
-       temp.push({
-             name:event.target.name,
-             att_status: event.target.value
+
+         temp.push({
+         name: event.target.id
+    })
+      }
+       this.setState({
+        comments: temp,
+        checkAttendance: true
+      })
+   
+   //console.log(temp,'temp')
+    
+
+
+
+
+  }
+ 
+
+
+  changeMark(event) {
+
+    function IndInObjArr(objArray, subj, inkey, sensetive) {
+      var sens = ((typeof inkey) === "boolean") ? inkey : false;
+      var found = false;
+      var result = [];
+      if (objArray.length > 0) {
+        objArray.forEach(function(obj, ind) {
+          if (!sens && inkey) {
+            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
+            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
+            if (sub1 == sub2) {
+              found = true;
+              result.push(ind);
+            }
+          } else {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
+                var sub2 = sens ? subj : subj.toString().toLowerCase();
+                if (sub1 == sub2) {
+                  found = true;
+                  result.push(ind);
+                }
+              }
+            }
+          }
         })
       }
+      if (found) {
+        return result;
+      } else {
+        return false;
+      }
+    }
+  
+  
 
-      console.log(temp,'new temp')
+    const field = event.target.id;
+    const student = this.state.student;
+    student[field] = event.target.value;
+   //console.log(event.target.value,'value')//mark
+   // console.log(event.target.id,'stud_id')
+    var temp=this.state.marks;
+    var old = IndInObjArr(temp,event.target.id, 'name');
+    if(event.target.value<100){
+      
+      if(old.length > 0){
+        temp[old[0]].stud_mark = event.target.value;
+      } else {
 
-
-      this.setState({
-
-        attendances: temp,  
-        attendance :{
-             name:event.target.name,
-             att_status: event.target.value
-        },
-
-      checkAttendance: true ,
-
+         temp.push({
+         name: event.target.id
+    })
+      }
+       this.setState({
+        marks: temp,
+        checkAttendance: true
       })
-        
 
+    } else {
+      this.setState({
+        message: 'Ваше значение должно быть меньше 100'
+      })
+    }
+
+
+   
+    console.log(temp,'temp111')
+    
+
+
+
+  }
+  changeAttendance(event){
+    function IndInObjArr(objArray, subj, inkey, sensetive) {
+      var sens = ((typeof inkey) === "boolean") ? inkey : false;
+      var found = false;
+      var result = [];
+      if (objArray.length > 0) {
+        objArray.forEach(function(obj, ind) {
+          if (!sens && inkey) {
+            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
+            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
+            if (sub1 == sub2) {
+              found = true;
+              result.push(ind);
+            }
+          } else {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
+                var sub2 = sens ? subj : subj.toString().toLowerCase();
+                if (sub1 == sub2) {
+                  found = true;
+                  result.push(ind);
+                }
+              }
+            }
+          }
+        })
+      }
+      if (found) {
+        return result;
+      } else {
+        return false;
+      }
+    }
+    var temp = this.state.attendances;
+    //console.log(event.target.name,'oldddd')
+      var old = IndInObjArr(temp,event.target.name, 'name');
+      if(old.length > 0){
+        temp[old[0]].att_status = (event.target.value!='')?event.target.value:'был';
+      } else {
+       temp.push({
+         name:event.target.name,
+         att_status: (event.target.value!='')?event.target.value:'был'
+        })
+      }
+      this.setState({
+        attendances: temp,
+        checkAttendance: true
+      })
   }
 
   sendMark(event){
+ 
+    var dd= new Date();
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+      dd='0'+dd;
+    } 
+    if(mm<10){
+      mm='0'+mm;
+    } 
+
+    var today = mm+'/'+dd+'/'+yyyy;
+
     event.preventDefault();
     const subject_id= this.state.subject_id;
     const att_date=this.state.att_date;
-    //console.log(att_date);
-    const formData = `data=${JSON.stringify(this.state.attendances)}&subject_id=${subject_id}&att_date=${att_date}`;
+    console.log(subject_id,'subject_id')
+    console.log(att_date,'att_')
+    var dd= this.dateFormat1(att_date);
+  
+    if(today===dd){
+          const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}`;
 
-   axios.post('/api/addattendance', formData, {
+   axios.post('/api/addmark', formData, {
 
     responseType: 'json',
     headers: {
@@ -184,7 +311,21 @@ class TeacherAddMark extends React.Component {
         message: res.data.message
       })
    })
+  } 
+  if(today!=dd){
+      this.setState({
+        message: 'Вы можете выставлять посещаемость только на текущую дату'
+      })
   }
+  else{
+    this.setState({
+        message: 'Укажите пожалуйста дату'
+      })
+  }
+
+  }
+
+  //update students on rabotaet bez filtracii
   updateStudents(event){
     if(event.target.value.length > 0){
 
@@ -218,15 +359,14 @@ class TeacherAddMark extends React.Component {
 
   }
 
+ 
+
+
   render() {
-
-
-    // console.log(this.state.students)
-   // console.log(this.state.att_date)
     return (
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Выставить оценки</h4>
+        <h4>Выставить посещаемость</h4>
 
       </div>
       <div className="my-content  ">
@@ -255,8 +395,8 @@ class TeacherAddMark extends React.Component {
                       <th>ID</th>
                       <th>ФИО</th>
                    
-                      <th>Балл</th>
-                      <th>Комментарий</th>
+                      <th>Был</th>
+                      <th>Не Был</th>
                       
                   </tr>
               </thead>
@@ -267,9 +407,8 @@ class TeacherAddMark extends React.Component {
                     <td>{student.user_id.username}</td>
                     <td >{student.user_id.name} {student.user_id.lastname}</td>
                     
-                    <td  ><input type="text" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} placeholder="Выставите оценку" /></td>
-                    <td  ><input type="text" className="form-control " id={student._id} onChange={this.changeComment} placeholder="Оставьте комментарий" name="mark"/></td>
-
+                    <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} placeholder="Выставите оценку" /></td>
+                    <td  ><input type="text" className="form-control " id={student._id} value={student.comment} onChange={this.changeComment} placeholder="Оставьте комментарий" name="mark"/></td>
                     
                 </tr>
               )}
@@ -277,8 +416,19 @@ class TeacherAddMark extends React.Component {
                        
           </table>
           <div className="row">
-           {this.state.message && <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>}
-           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить</button>
+
+      {
+              this.state.message==='Вы можете выставлять посещаемость только на текущую дату'||
+              this.state.message==='Ваше значение должно быть меньше 100'
+
+               ? (
+                <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
+              ) : (
+                <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
+              )
+            }
+          
+           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
            </div>
       </div>
 
