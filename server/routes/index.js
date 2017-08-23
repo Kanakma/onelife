@@ -263,6 +263,91 @@ router.post('/addsubjectimg', (req, res) => {
 	})
 })
 
+router.post('/editsubject', (req, res) =>{
+	var subject_id = req.query.subject_id
+	if(subject_id){
+		let form = new multiparty.Form();
+		form.parse(req, (err, fields, files) => {
+			var dataD = JSON.parse(fields.data)
+		  var tempPath = files.imageFile[0].path;
+			var fileName = files.imageFile[0].originalFilename;
+			let copyToPath = "public/subject-img/" + subject_id +'-'+ fileName;
+			fs.readFile(tempPath, (err, data) => {
+				// make copy of image to new location
+				fs.writeFile(copyToPath, data, (err) => {
+					// delete temp image
+					fs.unlink(tempPath, () => {
+						if(err) {return res.status(401).end();}
+						else {
+							Subject.findOne({_id: subject_id}, function(err, subject){
+								if(err) console.log(err);
+								if(subject){
+									subject.subject_code = (dataD.subject_code!='')?dataD.subject_code:subject.subject_code;
+									subject.subject_name =(dataD.subject_name!='')?dataD.subject_name:subject.subject_name;
+									subject.major_id =(dataD.major_id!='')?dataD.major_id:subject.major_id;
+									subject.teacher_id =(dataD.teacher_id!='')?dataD.teacher_id:subject.teacher_id;
+									subject.period =(dataD.period!='')?dataD.period:subject.period;
+									subject.course_number =(dataD.course_number!='')?dataD.course_number:subject.course_number;
+									subject.credit_number =(dataD.credit_number!='')?dataD.credit_number:subject.credit_number;
+									subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;									
+									subject.description =(dataD.description!='')?dataD.description:subject.description;
+									subject.optional =(dataD.optional!='')?dataD.optional:subject.optional;
+									subject.img = subject_id +'-'+ fileName;
+									subject.save(function(err, saved){
+										if(err) console.log(err)
+										else{
+											res.send({
+												saved:saved
+											})
+										}
+									})
+								}
+							})
+						}
+					});
+				});
+			});
+		})
+	} else{
+		var dataD = JSON.parse(req.body.data)
+		Subject.findOne({_id: req.body.subject_id}, function(err, subject){
+			if(err) console.log(err);
+			if(subject){
+				subject.subject_code = (dataD.subject_code!='')?dataD.subject_code:subject.subject_code;
+				subject.subject_name =(dataD.subject_name!='')?dataD.subject_name:subject.subject_name;
+				subject.major_id =(dataD.major_id!='')?dataD.major_id:subject.major_id;
+				subject.teacher_id =(dataD.teacher_id!='')?dataD.teacher_id:subject.teacher_id;
+				subject.period =(dataD.period!='')?dataD.period:subject.period;
+				subject.course_number =(dataD.course_number!='')?dataD.course_number:subject.course_number;
+				subject.credit_number =(dataD.credit_number!='')?dataD.credit_number:subject.credit_number;
+				subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;									
+				subject.description =(dataD.description!='')?dataD.description:subject.description;
+				subject.optional =(dataD.optional!='')?dataD.optional:subject.optional;
+				subject.img = subject.img;
+				subject.save(function(err, saved){
+					if(err) console.log(err)
+					else{
+						res.send({
+							saved:saved
+						})
+					}
+				})
+			}
+		})
+	}
+})
+
+router.post('/deletesubject', (req, res) =>{
+	Subject.findOneAndRemove({_id:req.body.subject_id}, function(err, subject){
+		if(err) console.log(err)
+		if(subject){
+			res.send({
+				message:"Удалено"
+			})
+		}
+	})
+})
+
 router.post('/addteacher', (req, res) => {
 	var t = JSON.parse(req.body.teacher);
 	var tU = JSON.parse(req.body.account);

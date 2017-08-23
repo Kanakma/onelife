@@ -269,6 +269,7 @@ optional: show position indicator in red
    background: #FF0000;
 }
 .my-content{
+
  padding: 0px 25px 15px 25px;
  margin-left: 220px;
  margin-bottom: 15px;
@@ -764,8 +765,6 @@ active state
 .Select-value{
   margin-right: 15px !important; 
 }
-
-
 .homework-message{
   width: 60%;
   padding: 10px;
@@ -775,4 +774,13 @@ active state
 .homework-file{
   width: 60%;
   margin: 0 auto;
+}
+.chess{
+  height: 1500px;
+}
+.Knight{
+  font-size: 150px;
+}
+.fade{
+  top:50px;
 }

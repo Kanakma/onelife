@@ -8,7 +8,6 @@ import jwtDecode from 'jwt-decode';
 class Base extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       checkFaculty: false,
       checkMajor: false,
@@ -25,6 +24,7 @@ class Base extends React.Component {
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
+    this.getStatus = this.getStatus.bind(this);
   }
   getStatus(){
     if(Auth.isUserAuthenticated()){
@@ -97,7 +97,6 @@ class Base extends React.Component {
   render() {
     return (
       <div>
-
       {(Auth.isUserAuthenticated() && (this.state.status == "admin")) ?(
         <div>
           <nav className="navbar navbar-default m-b-0">

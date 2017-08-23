@@ -87,7 +87,6 @@ class AdminAddStudent extends React.Component {
     addStudent(event){
       event.preventDefault();
       const name = encodeURIComponent(this.state.student.name);
-     
       const lastname = encodeURIComponent(this.state.student.lastname);
       const major_id = encodeURIComponent(this.state.student.major_id);
       const birthday = encodeURIComponent(this.state.birthday);

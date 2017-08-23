@@ -8,6 +8,9 @@ class AdminEditSubjectModal extends React.Component {
   constructor(props){
     super(props);
     this.state={
+      main_majors: [],
+      faculties: [],
+      main_teachers: [],
       editedSubject:{
         subject_code: '',
         subject_name: '',
@@ -19,19 +22,26 @@ class AdminEditSubjectModal extends React.Component {
         max_students: 0,
         description: ''
       },
+      file: '',
+      filename: '',
+      major_group: '',
+      main_majors: [],
+      majors: [],
+      faculties: [],
+      main_teachers: [],
+      teachers: [],
       checkMajor: false,
-      checkFaculty: false,
-      main_majors:[],
-      faculties:[],
-      main_teachers:[],
-      majors:[],
-      file:'',
-      filename:''
+      checkContent: false,
+      checkFaculty: false
     }
     this.changeMajorGroup = this.changeMajorGroup.bind(this);
     this.changeFaculty = this.changeFaculty.bind(this);
     this.changeImg = this.changeImg.bind(this);
     this.changeSubject = this.changeSubject.bind(this);
+    this.editSubjectFunc = this.editSubjectFunc.bind(this);
+    this.changeMajorGroup = this.changeMajorGroup.bind(this);
+    this.changeFaculty = this.changeFaculty.bind(this);
+    this.deleteSubject = this.deleteSubject.bind(this);
   };
 
   componentDidMount() {
@@ -47,6 +57,90 @@ class AdminEditSubjectModal extends React.Component {
           faculties: res.data.faculties,
           main_teachers: res.data.teachers
         });
+      });
+  }
+    changeMajorGroup(event){
+          if(event.target.value.length > 0){
+            this.setState({
+              major_group: event.target.value,
+              checkMajor: true,
+              message: '',
+              errors: {},
+              majors: this.state.main_majors.filter(function(major) {
+                                  return major.major_group.indexOf(event.target.value) > -1;
+                              })
+            })
+          } else {
+            this.setState({
+              major_group: event.target.value,
+              checkMajor: false,
+              message: '',
+              errors: {}
+            })
+          }
+  }
+  changeFaculty(event){
+          if(event.target.value.length > 0){
+            this.setState({
+              faculty_name: event.target.value,
+              checkFaculty: true,
+              message: '',
+              errors: {},
+              teachers: this.state.main_teachers.filter(function(teacher) {
+                                  return teacher.faculty_id.indexOf(event.target.value) > -1;
+                              })
+            })
+          } else {
+            this.setState({
+              faculty_name: event.target.value,
+              checkFaculty: false,
+              message: '',
+              errors: {}
+            })
+          }
+
+  }
+  editSubjectFunc(){
+    if(this.state.filename.length>0){
+      var subject_id = this.props.subject._id
+      return new Promise((resolve, reject) => {
+        let imageFormData = new FormData();
+        imageFormData.append('imageFile', this.state.file);
+        imageFormData.append('data', JSON.stringify(this.state.editedSubject));
+        axios.post('/api/editsubject?subject_id='+subject_id, imageFormData, {
+          responseType: 'json',
+          headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(response => {
+            window.location.reload();
+          });
+      });
+    }
+    else{
+      const formData = `data=${JSON.stringify(this.state.editedSubject)}&subject_id=${this.props.subject._id}`;
+      axios.post('/api/editsubject', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+      })
+      .then(response => {
+        window.location.reload();
+      });
+    }
+  }
+
+  deleteSubject(){
+    const formData = `subject_id=${this.props.subject._id}`;
+    axios.post('/api/deletesubject', formData, {
+      responseType: 'json',
+      headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(response => {
+        window.location.reload();
       });
   }
 
@@ -142,7 +236,6 @@ class AdminEditSubjectModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
-
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
@@ -150,7 +243,7 @@ class AdminEditSubjectModal extends React.Component {
               <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
                 X
               </button>
-            <form action="/teachers" onSubmit={this.editSubjectFunc}>
+            <form action="/subjects" onSubmit={this.editSubjectFunc}>
               <div className="form-group">
                 <label>Код предмета</label>
                 <input type="text" className="form-control" placeholder={this.props.subject.subject_code}
@@ -186,6 +279,26 @@ class AdminEditSubjectModal extends React.Component {
                     <option value=''>Выберите специальность</option>
                     {this.state.majors.map((major, m) =>
                       <option key={m} value={major._id}>{major.major_name}</option>
+                    )}
+                  </select>
+                  <span className="bar"></span>
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="col-md-6">
+                  <select className="form-control" name="faculty_id" value={this.state.editedSubject.faculty_name} onChange={this.changeFaculty}>
+                    <option value=''>Выберите факультет</option>
+                    {this.state.faculties.map((faculty, f) =>
+                      <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
+                    )}
+                  </select>
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-6">
+                  <select className="form-control" name="teacher_id" value={this.state.editedSubject.teacher_id} onChange={this.changeSubject} disabled={!this.state.checkFaculty}>
+                    <option value='dvdv'>Выберите преподавателя</option>
+                    {this.state.teachers.map((teacher, t) =>
+                      <option key={t} value={teacher._id}>{teacher.lastname} {teacher.name}</option>
                     )}
                   </select>
                   <span className="bar"></span>
@@ -254,7 +367,7 @@ class AdminEditSubjectModal extends React.Component {
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
                 Сохранить изменения
               </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteSubject}>
+              <button type="button" className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteSubject}>
                 Удалить предмет
               </button>
             </form>
