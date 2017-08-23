@@ -35,7 +35,8 @@
     "react-input-mask": "^0.8.2",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-select": "^1.0.0-rc.5"
+    "react-select": "^1.0.0-rc.5",
+    "recharts": "^1.0.0-alpha.4"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

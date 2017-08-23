@@ -776,3 +776,10 @@ active state
   width: 60%;
   margin: 0 auto;
 }
+ /*DASHBOARD*/
+ .first_row{
+   display: inline-block;
+/*   margin-left: 30px;*/
+   width:47%;
+
+ }
