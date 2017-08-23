@@ -791,7 +791,69 @@ active state
  .first_row{
    display: inline-block;
 /*   margin-left: 30px;*/
-   width:47%;
+   width:49%;
+   height:140px;
+   background-color: white;
+   background-image: url(/img/teacher.jpg);
+   background-repeat: none;
+   background-size: cover;
+   text-align: center;
+   padding-top: 35px;
+
 
  }
+ .second_row{
+   display: inline-block;
+/*   margin-left: 30px;*/
+   width:49%;
+   height:140px;
+   background-color: white;
+   background-image: url(/img/student.jpg);
+   background-repeat: none;
+   background-size: cover;
+   padding-top: 35px;
 
+
+ }
+ .dashboard{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  text-align: center;
+
+ }
+.dashboard_title{
+    /* Style for "12 препода" */
+  width: 480px;
+  height: 33px;
+  color: #ffffff;
+  font-family: "Century Gothic";
+  font-size: 35px;
+  font-weight: 400;
+  margin:auto;
+  }
+.courses_stat{
+  width: 21%;
+  height:201px;
+  background-color: white;
+    margin-top: 20px;
+  }
+.leveled_pie{
+  width: 31%;
+  height:201px;
+  background-color: white;
+  margin-top: 20px;
+}
+.big_stat{
+  width:67%;
+  height:340px;
+    background-color: white;
+      margin-top: 20px;
+}
+.mini_stat{
+  width:100%;
+  height:118px;
+    background-color: white;
+          margin-top: 20px;
+
+}
