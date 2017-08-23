@@ -186,9 +186,9 @@ class AdminSubjects extends React.Component {
         </div>
         </div>
         <AdminEditSubjectModal
+          subject={this.state.subject}
           show={this.state.isOpen}
           onClose={this.toggleModalClose}
-          subject={this.state.subject}
         />
       </div>);
   }

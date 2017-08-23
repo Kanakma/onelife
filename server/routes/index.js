@@ -533,40 +533,46 @@ router.post('/addstudent', (req, res) => {
 							Department.findOne({_id:major.major_department}, function(err, department){
 								if(err) console.log(err);
 								if(department){
-									var userData = {
-										username: 100001+students.length,
-										password: bcrypt.hashSync(req.body.password, 10),
-										passport_id: req.body.passport_id.trim(),
-										name: req.body.name.trim(),
-										gender:req.body.gender.trim(),
-										lastname: req.body.lastname.trim(),
-										birthday: req.body.birthday.trim(),
-										status: 'student'
-									}
-									const newUser = new User(userData);
-								  newUser.save((err, savedUser) => {
-								    if (err) { console.log(err); }
-										else {
-											var studentData = {
-												user_id: savedUser._id,
-												university_code: '195',
-												faculty_id: department.department_faculty,
-												department_id: major.major_department,
-												major_id: req.body.major_id.trim(),
-												admission_year: req.body.admission_year.trim(),
-												graduation_year: req.body.graduation_year.trim()
+									Group.findOne({_id:req.body.group_id}, function(err, group){
+										if(err) console.log(err);
+										if(group){
+											var userData = {
+												username: 100001+students.length,
+												password: bcrypt.hashSync(req.body.password, 10),
+												passport_id: req.body.passport_id.trim(),
+												name: req.body.name.trim(),
+												gender:req.body.gender.trim(),
+												lastname: req.body.lastname.trim(),
+												birthday: req.body.birthday.trim(),
+												status: 'student'
 											}
-											const newStudent = new Student(studentData);
-										  	newStudent.save((err) => {
-												if (err) { console.log(err) }
+											const newUser = new User(userData);
+										  newUser.save((err, savedUser) => {
+										    if (err) { console.log(err); }
 												else {
-													res.send({
-														newStudent:newStudent,
+													var studentData = {
+														user_id: savedUser._id,
+														university_code: '195',
+														faculty_id: department.department_faculty,
+														department_id: major.major_department,
+														major_id: req.body.major_id.trim(),
+														group_id: req.body.group_id.trim(),
+														admission_year: req.body.admission_year.trim(),
+														graduation_year: req.body.graduation_year.trim()
+													}
+													const newStudent = new Student(studentData);
+												  	newStudent.save((err) => {
+														if (err) { console.log(err) }
+														else {
+															res.send({
+																newStudent:newStudent,
+															})
+														}
 													})
 												}
-											})
+										  });
 										}
-								  });
+									})
 								}
 							})
 						}
@@ -622,91 +628,97 @@ router.post('/deletestudent', (req, res) =>{
 })
 //this route will edit the student info
 router.post('/editstudent', (req, res) =>{
-	const student = JSON.parse(req.body.student);
-	console.log(req.body)
+	const editedStudent = JSON.parse(req.body.student);
 	Student.findOne({_id:req.body.student_id}, function(err, student){
 		if(err) console.log(err);
 		else{
-			if(student.major_id){
 				Major.findOne({_id:student.major_id}, function(err, major){
 					if(err) console.log(err);
 					else{
-						Department.findOne({_id:major.major_department}, function(err, department){
-							if(err) console.log(err);
-							else{
-								Faculty.findOne({_id:department.department_faculty},function(err, faculty){
-									if(err) console.log(err);
-									else{
-										student.faculty_id = faculty._id;
-										student.department_id = department._id;
-										student.major_id = (student.major_id!='')?student.major_id:student.major_id;
-										student.admission_year = (student.admission_year!='')?student.admission_year:student.admission_year;
-										student.graduation_year = (student.graduation_year!='')?student.graduation_year:student.graduation_year;
-										student.save(function(err, savedStudent){
-											if(err) console.log(err);
-											else{
-												User.findOne({_id:savedStudent.user_id}, function(err, user){
-													if(err) console.log(err);
-													else{
-														user.name = (student.name!='')?student.name:user.name;
-														user.lastname = (student.lastname!='')?student.lastname:user.lastname;
-														user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-														user.gender = (student.gender!='')?student.gender:user.gender;
-														user.passport_id = (student.passport_id!='')?student.passport_id:user.passport_id;
-														user.password = (student.password!='')?bcrypt.hashSync(student.password, 10):user.password;
-														user.save(function(err, savedUser){
-															if(err) console.log(err);
-															else{
-																res.status(200).send({sms:'Yes!!!!!!!'})
-															}
-														})
-													}
-												})
-											}
-										})
-									}
-								})
-							}
-						})
+									Department.findOne({_id:major.major_department}, function(err, department){
+										if(err) console.log(err);
+										else{
+											Faculty.findOne({_id:department.department_faculty},function(err, faculty){
+												if(err) console.log(err);
+												else{
+													student.faculty_id = faculty._id;
+													student.department_id = department._id;
+													student.major_id = (editedStudent.major_id!='')?editedStudent.major_id:student.major_id;
+													student.group_id = (editedStudent.group_id!='')?editedStudent.group_id:student.group_id;
+													student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+													student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+													student.save(function(err, savedStudent){
+														if(err) console.log(err);
+														else{
+															console.log(savedStudent)
+															User.findOne({_id:savedStudent.user_id}, function(err, user){
+																if(err) console.log(err);
+																else{
+																	user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+																	user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+																	user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+																	user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+																	user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+																	user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+																	user.save(function(err, savedUser){
+																		if(err) console.log(err);
+																		else{
+																			res.status(200).send({sms:'Yes!!!!!!!'})
+																		}
+																	})
+																}
+															})
+														}
+													})
+												}
+											})
+										}
+									})
+
 					}
 				})
-			} else{
-				Student.findOne({_id:req.body.student_id}, function(err, student){
-					if(err) console.log(err);
-					else{
-						student.faculty_id = student.faculty_id;
-						student.department_id = student.department_id;
-						student.major_id = student.major_id;
-						student.admission_year = (student.admission_year!='')?student.admission_year:student.admission_year;
-						student.graduation_year = (student.graduation_year!='')?student.graduation_year:student.graduation_year;
-						student.save(function(err, savedStudent){
-							if(err) console.log(err);
-							else{
-								User.findOne({_id:savedStudent.user_id}, function(err, user){
-									if(err) console.log(err);
-									else{
-										user.name = (student.name!='')?student.name:user.name;
-										user.lastname = (student.lastname!='')?student.lastname:user.lastname;
-										user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-										user.gender = (student.gender!='')?student.gender:user.gender;
-										user.passport_id = (student.passport_id!='')?student.passport_id:user.passport_id;
-										user.password = (student.password!='')?student.password:user.password;
-										user.save(function(err, savedUser){
-											if(err) console.log(err);
-											if(savedUser){
-												res.status(200).send({sms:'Yes!!!!!!!'})
-											}
-										})
-									}
-								})
-							}
-						})
-					}
-				})
-			}
+
+	//  else{
+	// 			Student.findOne({_id:req.body.student_id}, function(err, student){
+	// 				if(err) console.log(err);
+	// 				else{
+	// 					student.faculty_id = student.faculty_id;
+	// 					student.department_id = student.department_id;
+	// 					student.major_id = student.major_id;
+	// 					student.group_id = student.group_id;
+	// 					student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+	// 					student.graduation_year = (student.graduation_year!='')?student.graduation_year:student.graduation_year;
+	// 					student.save(function(err, savedStudent){
+	// 						if(err) console.log(err);
+	// 						else{
+	// 							User.findOne({_id:savedStudent.user_id}, function(err, user){
+	// 								if(err) console.log(err);
+	// 								else{
+	// 									user.name = (student.name!='')?student.name:user.name;
+	// 									user.lastname = (student.lastname!='')?student.lastname:user.lastname;
+	// 									user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+	// 									user.gender = (student.gender!='')?student.gender:user.gender;
+	// 									user.passport_id = (student.passport_id!='')?student.passport_id:user.passport_id;
+	// 									user.password = (student.password!='')?student.password:user.password;
+	// 									user.save(function(err, savedUser){
+	// 										if(err) console.log(err);
+	// 										if(savedUser){
+	// 											res.status(200).send({sms:'Yes!!!!!!!'})
+	// 										}
+	// 									})
+	// 								}
+	// 							})
+	// 						}
+	// 					})
+	// 				}
+	// 			})
+	// 		}
 		}
 	})
 })
+
+
+
 //This route will load all majors
 router.get('/getmajors', (req, res) => {
 	getMajors()
@@ -1613,7 +1625,7 @@ var constructTeach = function(teacher){
 	}
 }
 router.get('/getstudents', (req, res) =>{
-	Student.find().populate('user_id faculty_id department_id major_id').exec(function(err, students){
+	Student.find().populate('user_id faculty_id department_id major_id group_id').exec(function(err, students){
 		if(err) console.log(err);
 		if(students){
 			res.send({
@@ -1869,6 +1881,40 @@ router.post('/deleteparrent', (req, res)=>{
 						message:"Удалено"
 					})
 				}
+			})
+		}
+	})
+})
+
+
+router.post('/editsubject', (req, res)=>{
+	console.log(req.body.editedSubject)
+	var editedSubject = JSON.parse(req.body.editedSubject);
+	Subject.findOne({_id:req.body.subject_id}, function(err, subject){
+		if(err) console.log(err);
+		if(subject){
+			subject.subject_name = (editedSubject.name!='')?editedSubject.subject_name:subject.subject_name;
+			subject.subject_code = (editedSubject.code!='')?editedSubject.subject_code:subject.subject_code;
+			subject.course_number = (editedSubject.course_number!=0)?editedSubject.course_number:subject.course_number;
+			subject.credits_number = (editedSubject.credits_number!=0)?editedSubject.credits_number:subject.credits_number;
+			subject.description = (editedSubject.description!='')?editedSubject.description:subject.description;
+			subject.save(function(err, savedSubject){
+				if(err) console.log(err);
+				if(savedSubject){
+				}
+			})
+		}
+	})
+})
+
+
+router.post('/deletesubject', (req, res)=>{
+	console.log(req.body.subject_id)
+	Subject.findOneAndRemove({_id:req.body.subject_id}, function(err, subject){
+		if(err) console.log(err);
+		if(subject){
+			res.send({
+				message:"Удалено"
 			})
 		}
 	})

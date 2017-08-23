@@ -26,12 +26,16 @@ class AdminEditSubjectModal extends React.Component {
       main_teachers:[],
       majors:[],
       file:'',
-      filename:''
+      filename:'',
+      subject: {}
     }
     this.changeMajorGroup = this.changeMajorGroup.bind(this);
     this.changeFaculty = this.changeFaculty.bind(this);
     this.changeImg = this.changeImg.bind(this);
     this.changeSubject = this.changeSubject.bind(this);
+    this.editSubjectFunc = this.editSubjectFunc.bind(this);
+    this.deleteSubject = this.deleteSubject.bind(this);
+
   };
 
   componentDidMount() {
@@ -49,7 +53,30 @@ class AdminEditSubjectModal extends React.Component {
         });
       });
   }
+  editSubjectFunc(){
+    event.preventDefault();
+    const subject_id = this.props.subject._id;
+    const formData = `editedSubject=${JSON.stringify(this.state.editedSubject)}&subject_id=${subject_id}`;
+    axios.post('/api/editsubject', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
+      }
+    })
+  }
 
+  deleteSubject(){
+    event.preventDefault();
+    const formData = `subject_id=${JSON.stringify(this.props.subject._id)}`;
+    axios.post('/api/deletesubject', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
+      }
+    })
+  }
   changeSubject(event){
     const field = event.target.name;
     const editedSubject = this.state.editedSubject;
@@ -114,8 +141,8 @@ class AdminEditSubjectModal extends React.Component {
       reader.readAsDataURL(file);
     }
   }
-
   render(){
+    // console.log(this.props.subject._id)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -142,7 +169,7 @@ class AdminEditSubjectModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
-
+    // console.log(this.state.subject)
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
@@ -150,7 +177,7 @@ class AdminEditSubjectModal extends React.Component {
               <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
                 X
               </button>
-            <form action="/teachers" onSubmit={this.editSubjectFunc}>
+            <form action="/subjects" onSubmit={this.editSubjectFunc}>
               <div className="form-group">
                 <label>Код предмета</label>
                 <input type="text" className="form-control" placeholder={this.props.subject.subject_code}

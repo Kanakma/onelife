@@ -13,12 +13,15 @@ class AdminEditStudentModal extends React.Component {
         name: '',
         lastname: '',
         major_id: '',
+        group_id: '',
         passport_id: '',
         admission_year: '',
         graduation_year: '',
         password:'',
         checkpassword:''
       },
+      majors: [],
+      groups: [],
       birthday:'',
       file: '',
       filename: '',
@@ -44,6 +47,17 @@ class AdminEditStudentModal extends React.Component {
             majors: res.data.allMjrs
           });
         });
+        axios.get('/api/getgroups',  {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(res => {
+            this.setState({
+              groups: res.data.allGroups
+            });
+          });
     }
 
   editStudentFunc(){
@@ -51,7 +65,7 @@ class AdminEditStudentModal extends React.Component {
     if(this.state.filename.length>0){
       this.addImg();
     }
-    const student_id = this.props.student.student_id;
+    const student_id = this.props.student._id;
     const birthday =this.state.birthday;
     const formData = `student=${JSON.stringify(this.state.student)}&student_id=${student_id}&birthday=${this.state.birthday}`;
     axios.post('/api/editstudent', formData, {
@@ -64,7 +78,7 @@ class AdminEditStudentModal extends React.Component {
   }
 
   deleteStudent(){
-    var student_id = this.props.student.student_id;
+    var student_id = this.props.student._id;
     const formData = `student_id=${student_id}`;
     axios.post('/api/deletestudent', formData, {
       responseType: 'json',
@@ -114,6 +128,7 @@ class AdminEditStudentModal extends React.Component {
       this.setState({
           student: student
         })
+
       }
 
   changeImg(e){
@@ -149,6 +164,7 @@ class AdminEditStudentModal extends React.Component {
             name: '',
             lastname: '',
             major_id: '',
+            group_id: '',
             passport_id: '',
             admission_year: '',
             graduation_year: '',
@@ -276,6 +292,18 @@ class AdminEditStudentModal extends React.Component {
             </select>
             <span className="bar"></span>
           </div>
+          <div className="col-md-6">
+            <label>Группа</label>
+            <select className="form-control" name="group_id"
+                    value={this.state.student.group_id}
+                    onChange={this.changeStudent}>
+              <option value=''>Выберите группу</option>
+              {this.state.groups.map((group, g) =>
+                  <option key={g} value={group.group_id}>{group.group_name}</option>
+              )}
+            </select>
+            <span className="bar"></span>
+          </div>
         </div>
         <div className="form-group">
         <label>Изображение студента</label>
@@ -320,7 +348,7 @@ class AdminEditStudentModal extends React.Component {
         <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
           <p style={{color: 'red'}}>Пароли не совпадают</p>
         </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass} onClick={this.clearContent} >
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass} >
                 Сохранить изменения
               </button>
               <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteStudent}>

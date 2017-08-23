@@ -39,8 +39,9 @@ class AdminStudents extends React.Component {
   toggleModal(student){
       this.setState({
         isOpen: !this.state.isOpen,
-        student:student
+        student: student
     });
+
   }
   toggleModalClose() {
       this.setState({
@@ -98,9 +99,8 @@ class AdminStudents extends React.Component {
                                 Факультет: {student.faculty_id.faculty_name}<br/>
                                 Пользователь: {student.user_id.username}
                                 <br/>
-                                <abbr title="Email">E:</abbr>
+                                Группа: {student.group_id.group_name}
                                 <br/>
-                                <abbr title="Phone">P:</abbr>
                               </address>
                               <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                                   <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
@@ -130,6 +130,7 @@ class AdminStudents extends React.Component {
                       <th>Специальность</th>
                       <th>Факультет</th>
                       <th>Год пост.</th>
+                      <th>Группа</th>
                       <th>
                           <center>Опции</center>
                       </th>
@@ -144,6 +145,7 @@ class AdminStudents extends React.Component {
                     <td>{student.major_id.major_name}</td>
                     <td>{student.faculty_id.faculty_name}</td>
                     <td>{student.admission_year}</td>
+                    <td>{student.group_id.group_name}</td>
                     <td className="text-center">
                         <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}}>
                            <i className="fa fa-pencil"></i>
