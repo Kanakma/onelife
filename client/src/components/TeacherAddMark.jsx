@@ -188,10 +188,12 @@ class TeacherAddMark extends React.Component {
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
-    console.log(event.target.value,'value')
-    console.log(event.target.id,'marks')
+   //console.log(event.target.value,'value')//mark
+   // console.log(event.target.id,'stud_id')
     var temp=this.state.marks;
     var old = IndInObjArr(temp,event.target.id, 'name');
+    if(event.target.value<100){
+      
       if(old.length > 0){
         temp[old[0]].stud_mark = event.target.value;
       } else {
@@ -204,6 +206,14 @@ class TeacherAddMark extends React.Component {
         marks: temp,
         checkAttendance: true
       })
+
+    } else {
+      this.setState({
+        message: 'Ваше значение должно быть меньше 100'
+      })
+    }
+
+
    
     console.log(temp,'temp111')
     
@@ -397,7 +407,7 @@ class TeacherAddMark extends React.Component {
                     <td>{student.user_id.username}</td>
                     <td >{student.user_id.name} {student.user_id.lastname}</td>
                     
-                    <td  ><input type="text" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} placeholder="Выставите оценку" /></td>
+                    <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} placeholder="Выставите оценку" /></td>
                     <td  ><input type="text" className="form-control " id={student._id} value={student.comment} onChange={this.changeComment} placeholder="Оставьте комментарий" name="mark"/></td>
                     
                 </tr>
@@ -406,7 +416,18 @@ class TeacherAddMark extends React.Component {
                        
           </table>
           <div className="row">
-           {this.state.message && <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>}
+
+      {
+              this.state.message==='Вы можете выставлять посещаемость только на текущую дату'||
+              this.state.message==='Ваше значение должно быть меньше 100'
+
+               ? (
+                <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
+              ) : (
+                <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
+              )
+            }
+          
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
            </div>
       </div>

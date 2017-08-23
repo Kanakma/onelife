@@ -70,7 +70,8 @@ class TeacherAddAttendance extends React.Component {
    })
        .then(res=>{
       this.setState({
-        attendances: res.data.attendances
+        attendances: res.data.attendances,
+        message: res.data.message
 
       })
 
@@ -116,7 +117,9 @@ class TeacherAddAttendance extends React.Component {
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
-     
+           <div className="form-group col-md-12">
+<h5 style={{ fontSize: '14px', color: 'mark'}}>{this.state.message}</h5>
+        </div>
         <div className="form-group col-md-6">
         <label>Выберите предмет</label>
           <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateStudents}>
