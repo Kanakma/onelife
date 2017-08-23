@@ -779,9 +779,19 @@ active state
   width: 60%;
   margin: 0 auto;
 }
+
 #success{
    text-align: center;
    color: green;
    display: none;
    margin-top: 15px;
 }
+
+ /*DASHBOARD*/
+ .first_row{
+   display: inline-block;
+/*   margin-left: 30px;*/
+   width:47%;
+
+ }
+
