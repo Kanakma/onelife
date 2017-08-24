@@ -12,7 +12,7 @@ class TeacherHome extends React.Component {
        teacher: {
          user_id: {}
        },
-       img: '599c14d780239a46c51aa04b-default_avatar.png'
+       img: '599bec7ea17a7a2088d03fc4-default_avatar.png'
     }
   }
   componentDidMount() {

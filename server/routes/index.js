@@ -292,7 +292,7 @@ router.post('/editsubject', (req, res) =>{
 									subject.period =(dataD.period!='')?dataD.period:subject.period;
 									subject.course_number =(dataD.course_number!='')?dataD.course_number:subject.course_number;
 									subject.credit_number =(dataD.credit_number!='')?dataD.credit_number:subject.credit_number;
-									subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;									
+									subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;
 									subject.description =(dataD.description!='')?dataD.description:subject.description;
 									subject.optional =(dataD.optional!='')?dataD.optional:subject.optional;
 									subject.img = subject_id +'-'+ fileName;
@@ -323,7 +323,7 @@ router.post('/editsubject', (req, res) =>{
 				subject.period =(dataD.period!='')?dataD.period:subject.period;
 				subject.course_number =(dataD.course_number!='')?dataD.course_number:subject.course_number;
 				subject.credit_number =(dataD.credit_number!='')?dataD.credit_number:subject.credit_number;
-				subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;									
+				subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;
 				subject.description =(dataD.description!='')?dataD.description:subject.description;
 				subject.optional =(dataD.optional!='')?dataD.optional:subject.optional;
 				subject.img = subject.img;
@@ -1341,6 +1341,7 @@ router.post('/addtest', (req, res) => {
 
 router.get('/getsubjects', (req, res) => {
 	var mySubjects = [];
+	var subjectNames = [];
 	var mySubject = {};
 	Subject.find((err, subjects) => {
 		if(err) {console.log(err) }
@@ -1380,6 +1381,7 @@ router.get('/getsubjects', (req, res) => {
 																	img: subject.img
 																}
 																mySubjects.push(mySubject);
+																subjectNames.push(mySubject.subject_name);
 															}
 														})
 													}
@@ -1388,7 +1390,8 @@ router.get('/getsubjects', (req, res) => {
 										})
 									})
 									res.send({
-										subjects: mySubjects
+										subjects: mySubjects,
+										subject_names: subjectNames
 									})
 								}
 							})
@@ -2115,7 +2118,7 @@ router.post('/updatestudentsforattendance',(req,res)=> {
     			})
     			console.log('тут ничего')
     		}
-    	
+
     	}
     })
 
@@ -2178,11 +2181,11 @@ router.post('/updatestudentsformark',(req,res)=> {
     			})
     			//console.log('тут ничего')
     		}
-    	
-    			
 
-    		
-    	
+
+
+
+
     	}
     })
 
