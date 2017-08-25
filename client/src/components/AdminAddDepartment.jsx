@@ -249,14 +249,18 @@ class AdminAddDepartment extends React.Component {
           </div>
           ) : (
             <div className="container clearfix">
-              <div className="col-md-10 col-md-offset-2 bg-title">
-                <h4>Нет факультетов. Сначала добавьте факультеты</h4>
+              <div className="bg-title">
+                <h4>Добавить кафедру</h4>
+              </div>
+              <div className=" my-content">
+                <div className = "table-responsive">
+                  <h4>Нет факультетов. Добавьте факультеты</h4>
+                </div>
               </div>
             </div>
           )
         }
-
-        </div>
+      </div>
 );
   }
 }

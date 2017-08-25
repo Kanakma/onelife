@@ -21,7 +21,6 @@ class AdminStudents extends React.Component {
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
-    this.changeFilter = this.changeFilter.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getstudents',  {
@@ -48,17 +47,6 @@ class AdminStudents extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
-  changeFilter(event){
-    if(event.target.id == 'list'){
-      this.setState({
-        checkFilter: true
-      })
-    } else {
-      this.setState({
-        checkFilter: false
-      })
-    }
-  }
   render() {
     return (
       <div className="container clearfix">
@@ -67,16 +55,11 @@ class AdminStudents extends React.Component {
           <div className="col-md-9">
             <h4>Все студенты</h4>
           </div>
-          <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
-            <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-th-large fa-lg" aria-hidden="true" id="block" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-filter fa-lg" aria-hidden="true" style={{color: '#00c292'}}></i>
-          </div>
         </div>
       </div>
-      <div className="my-content" hidden={this.state.checkFilter}>
+      <div className="my-content">
       <div className="row" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
-        {this.state.students ? (
+        {this.state.students.length>0 ? (
             this.state.students.map((student, s) =>{
               return (
                 <div key={s} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
@@ -91,72 +74,34 @@ class AdminStudents extends React.Component {
                           <div className="col-md-4 col-sm-4 text-center">
                               <Link to="/teacherprofile"  ><img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/></Link>
                           </div>
-                          )
+                        )
                       }
-                          <div className="col-md-8 col-sm-8">
-                              <h3 className="box-title m-b-0">{student.user_id.name} {student.user_id.lastname}</h3>
-                              <address>
-                                Факультет: {student.faculty_id.faculty_name}<br/>
-                                Пользователь: {student.user_id.username}
-                                <br/>
-                                Группа: {student.group_id.group_name}
-                                <br/>
-                              </address>
-                              <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
-                              </button>
-                          </div>
+                        <div className="col-md-8 col-sm-8">
+                          <h3 className="box-title m-b-0">{student.user_id.name} {student.user_id.lastname}</h3>
+                          <address>
+                            Факультет: {student.faculty_id.faculty_name}<br/>
+                            Пользователь: {student.user_id.username}
+                            <br/>
+                            Группа: {student.group_id.group_name}
+                            <br/>
+                          </address>
+                          <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                              <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
+                          </button>
+                        </div>
                       </div>
                   </div>
                 </div>
               )
             })
           ):(
-              <div>
-                Нет преподавателей. Добавьте преподавателей.
-              </div>
+            <div>
+              Нет студентов. Добавьте студентов.
+            </div>
           )
         }
-      </div>
-      </div>
-      <div className=" my-content" hidden={!this.state.checkFilter} >
-      <div className="table-responsive">
-          <table id="myTable" className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Специальность</th>
-                      <th>Факультет</th>
-                      <th>Год пост.</th>
-                      <th>Группа</th>
-                      <th>
-                          <center>Опции</center>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody>
-              {this.state.students.map((student, s) =>
-                <tr key={s}>
-                    <td>{s+1}</td>
-                    <td>{student.user_id.username}</td>
-                    <td>{student.user_id.name} {student.user_id.lastname}</td>
-                    <td>{student.major_id.major_name}</td>
-                    <td>{student.faculty_id.faculty_name}</td>
-                    <td>{student.admission_year}</td>
-                    <td>{student.group_id.group_name}</td>
-                    <td className="text-center">
-                        <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}}>
-                           <i className="fa fa-pencil"></i>
-                        </button>
-                    </td>
-                </tr>
-              )}
-              </tbody>
-          </table>
         </div>
-        </div>
+      </div>
         <AdminEditStudentModal
           show={this.state.isOpen}
           onClose={this.toggleModalClose}

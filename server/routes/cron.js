@@ -1,0 +1,25 @@
+var express = require('express');
+var router = express.Router();
+var Major = require('../models/major');
+var Faculty = require('../models/faculty');
+var User = require('../models/user');
+var Teacher = require('../models/teacher');
+var Student = require('../models/student');
+var Subject = require('../models/subject');
+var Quiz = require('../models/quiz');
+var QuizPoint = require('../models/quiz_point');
+var Department = require('../models/department');
+var Parrent = require('../models/parrent');
+var Mark=require('../models/mark')
+var Attendance = require('../models/attendance')
+var Homework = require('../models/homework')
+var Group = require('../models/group')
+const bcrypt = require('bcryptjs');
+var jwtDecode = require('jwt-decode');
+var mongoose = require('mongoose');
+var DeepPopulate = require('mongoose-deep-populate')(mongoose);
+let multiparty = require('multiparty');
+let fs = require('fs');
+var async = require('async');
+var cron = require('node-cron');
+

@@ -21,7 +21,7 @@ class AdminAddSubject extends React.Component {
         credit_number: 0,
         max_students: 0,
         description: '',
-        optional:true
+        optional:false
       },
       file: '',
       filename: '',
@@ -34,7 +34,8 @@ class AdminAddSubject extends React.Component {
       teachers: [],
       checkMajor: false,
       checkContent: false,
-      checkFaculty: false
+      checkFaculty: false,
+      checkOptional:true
     };
     this.changeSubject = this.changeSubject.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -94,7 +95,6 @@ class AdminAddSubject extends React.Component {
     }
     this.checkContent();
   }
-
   changeFaculty(event){
     if(event.target.value.length > 0){
       this.setState({
@@ -203,17 +203,18 @@ class AdminAddSubject extends React.Component {
   }
 
   checkContent(){
-    if((this.state.subject.description.length > 0) && (this.state.subject.subject_code.length > 0) && (this.state.subject.subject_name.length > 0) && (this.state.subject.teacher_id.length > 0) && (this.state.subject.major_id.length > 0)
-        && (this.state.subject.period > 0) && (this.state.subject.course_number > 0) && (this.state.subject.credit_number > 0)
-        && (this.state.subject.max_students > 0) && (this.state.major_group.length > 0) && (this.state.filename.length > 0)){
-          this.setState({
-            checkContent: true
-          });
-        } else {
-          this.setState({
-            checkContent: false
-          });
-        }
+    if((this.state.subject.description.length > 0) && (this.state.subject.subject_code.length > 0) && (this.state.subject.subject_name.length > 0)
+    && (this.state.subject.teacher_id.length > 0) && (this.state.subject.major_id.length > 0) && (this.state.subject.optional!='')
+    && (this.state.subject.period > 0) && (this.state.subject.course_number > 0) && (this.state.subject.credit_number > 0)
+    && (this.state.subject.max_students > 0) && (this.state.major_group.length > 0) && (this.state.filename.length > 0)){
+      this.setState({
+        checkContent: true
+      });
+    } else {
+      this.setState({
+        checkContent: false
+      });
+    }
   }
 
   render() {
@@ -241,14 +242,13 @@ class AdminAddSubject extends React.Component {
                 <span className="bar"></span>
             </div>
             <div className="form-group">
-              <label>Тип</label>
-              <select className="form-control" name="optional" value={this.state.subject.optional} onChange={this.changeSubject} style={{cursor: 'pointer'}}>
-                <option value="">Выберите тип</option>
-                <option value={false}>Обязательный</option>
-                <option value={true}>Не обязательный</option>
-              </select>
-              <span className="bar"></span>
-            </div>
+                <label>Элективный</label>
+                <select className="form-control" name="optional" disabled={this.state.checkOptional} value={this.state.elective} onChange={this.changeSubject} style={{cursor: 'pointer'}}>
+                  <option value={false}>Обязательный</option>
+                  <option value={true}>Факультативный</option>
+                </select>
+                <span className="bar"></span>
+              </div>
             <div className="form-group row">
             <div className="col-md-6">
               <label>Наименование групп специальностей</label>
