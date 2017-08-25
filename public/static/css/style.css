@@ -24,6 +24,11 @@ This is for popins font for firefox
  src: url(https://fonts.gstatic.com/s/poppins/v1/yQWaOD4iNU5NTY0apN-qj_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
+@font-face {
+  font-family: 'gothic';
+  src: url('./gothic.eot');
+  src: local('gothic'), url('./gothic.woff') format('woff'), url('./gothic.ttf') format('truetype');
+}
 
 html {  height:100%;min-height:100% !important;margin:0;padding:0;   * see height, min-height values here. * }
 body {
@@ -802,7 +807,6 @@ active state
  }
  .second_row{
    display: inline-block;
-/*   margin-left: 30px;*/
    width:49%;
    height:140px;
    background-color: white;
@@ -822,10 +826,10 @@ active state
  }
 .dashboard_title{
     /* Style for "12 препода" */
-  width: 480px;
+ 
   height: 33px;
   color: #ffffff;
-  font-family: "Century Gothic";
+  font-family: "gothic";
   font-size: 35px;
   font-weight: 400;
   margin:auto;
@@ -834,7 +838,7 @@ active state
   width: 21%;
   height:201px;
   background-color: white;
-    margin-top: 20px;
+  margin-top: 20px;
   }
 .leveled_pie{
   width: 31%;
@@ -845,13 +849,118 @@ active state
 .big_stat{
   width:67%;
   height:340px;
-    background-color: white;
-      margin-top: 20px;
+  background-color: white;
+  margin-top: 20px;
 }
 .mini_stat{
   width:100%;
   height:118px;
-    background-color: white;
-          margin-top: 20px;
+  background-color: white;
+  margin-top: 20px;
+  text-align: left;
 
+}
+
+.time_stat{
+  width: 100%;
+  height: 15px;
+  color: black;
+  font-family: "gothic";
+  font-size: 16px;
+  font-weight: 400;
+  padding-top:20px;
+  padding-left: 20px;
+/*  margin-left:21px;*/
+}
+.mini_row{
+  text-align: center;
+ margin-top: 20px;
+}
+.number_big{
+  margin: 12px;
+  height: 31px;
+  color: #f05254;
+  font-family: "gothic";
+  font-weight: 400;
+  font-size: 40px;
+
+}
+.day_big{
+  height: 31px;
+  color: #f05254;
+  font-family: "gothic";
+  font-weight: 400;
+  font-size: 14px;
+}
+.bar_chart{
+  margin-top: 40px;
+  margin-left: -25px;
+}
+ ul {
+ list-style-type: none;
+ }
+ul.hr {
+  margin: 0; /* Обнуляем значение отступов */
+  padding: 4px; /* Значение полей */
+
+ }
+ul.hr li {
+  display: inline; /* Отображать как строчный элемент */
+  margin-right: 5px; /* Отступ слева */
+  padding: 15px; /* Поля вокруг текста */
+  float: right;
+  font-family: "gothic";
+  margin-top: 30px
+
+
+  }
+.tech{
+  height: 10px;
+  width: 10px;
+  margin:0;
+  background-color: red;
+  }
+.pie_chart{
+     top: -12px;
+  margin-left: -180px;
+}
+.pie_text{
+  float:left;
+  margin-left: 22px;
+  margin-top: 22px;
+}
+.pie_title{
+  height: 15px;
+  color: #000000;
+  font-family: "gothic";
+  font-size: 16px;
+  font-weight: 400;
+}
+.pie_subtext{
+  /* Style for "Количество" */
+  height: 11px;
+  color: #808080;
+  font-family: "gothic";
+  font-size: 12px;
+  font-weight: 400;
+}
+.mini_png{
+  margin-right: 12px;
+}
+.letniki_text{
+  /* Style for "Статистика" */
+float: left;
+height: 12px;
+color: #000000;
+font-family: "gothic";
+font-size: 14px;
+font-weight: 400;
+margin: -12px;
+margin-left: 20px;
+    margin-top: 66px;
+}
+.pie_menu{
+  width: 200px;
+  margin-top: -126px;
+    margin-left: 163px;
 }

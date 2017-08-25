@@ -34,8 +34,8 @@ import AdminParrents from './components/AdminParrents.jsx';
 import TeacherSubjects from './components/TeacherSubjects.jsx';
 import StudentSubjects from './components/StudentSubjects.jsx';
 import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
-import ShowAttendance from './components/ShowAttendance.jsx';
-import ShowMarks from './components/ShowMarks.jsx';
+import TeacherShowAttendance from './components/TeacherShowAttendance.jsx';
+import TeacherShowMarks from './components/TeacherShowMarks.jsx';
 import TeacherHomework from './components/TeacherHomework.jsx';
 import TeacherAddNewHomework from './components/TeacherAddNewHomework.jsx';
 import TeacherAllHomeworks from './components/TeacherAllHomeworks.jsx';
@@ -43,7 +43,6 @@ import AdminAddSchedule from './components/AdminAddSchedule.jsx';
 import AdminSchedules from './components/AdminSchedules.jsx'
 import AdminGroups from './components/AdminGroups.jsx';
 import AdminAddGroups from './components/AdminAddGroups.jsx';
-import Dashboard from './components/Dashboard.jsx';
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -82,8 +81,8 @@ ReactDom.render((
       <Route path="/studentsubjects" component={StudentSubjects}/>
       <Route path="/subjectinfo" component={AdminSubjectInfo}/>
       <Route path="/studentprofile" component={StudentHome}/>
-      <Route path="/attendances" component={ShowAttendance}/>
-      <Route path="/marks" component={ShowMarks}/>
+      <Route path="/attendances" component={TeacherShowAttendance.jsx}/>
+      <Route path="/marks" component={TeacherShowMarks}/>
       <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
       <Route path= "/teacherhomework" component={TeacherHomework}/>
       <Route path= "/newhomework" component={TeacherAddNewHomework}/>
@@ -92,7 +91,6 @@ ReactDom.render((
       <Route path= "/addschedule" component={AdminAddSchedule}/>
       <Route path= "/groups" component={AdminGroups}/>
       <Route path= "/addgroups" component={AdminAddGroups}/>
-      <Route path="/dashboard" component={Dashboard}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
