@@ -11,7 +11,7 @@ class SubjectInfo extends React.Component {
     this.state = {
       subjectId:  this.props.location.state.subject,
       subject: {},
-      myImg: '59907daeab55a310c391a057-1.jpg',
+      myImg: '599d6e41004ad4333879e83b-default.jpg',
       already: false,
       message: '',
       status: ''

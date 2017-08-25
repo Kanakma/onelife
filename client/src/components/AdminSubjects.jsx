@@ -87,7 +87,7 @@ class AdminSubjects extends React.Component {
           </div>
         </div>
       </div>
-      <div className=" my-content" hidden={this.state.checkFilter}> 
+      <div className=" my-content" hidden={this.state.checkFilter}>
         <div className="row"  >
         { this.state.subjects ? (
             this.state.subjects.map((subject, s) =>
