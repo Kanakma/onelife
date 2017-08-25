@@ -34,36 +34,25 @@ const renderLegend = (props) => {
 
   return (
     <ul className="hr">
-      
-        
-          
         {
-
         payload.map((entry, index) => (
           <li key={`item-${index}`}>{entry.value}</li>
         ))
-
-      }
-
-      
+      }   
     </ul>
   );
 }
 //bar
-var a =40;
-var kof=0.25;
-var b= a*kof;
-var c= a-b;//30
-console.log(a,b,c)
-const data1 = [
-      {name: '2011', ВсеПоступившие: 40, black: c, Девушки: b,  Парни: b, umber:10},
-      {name: '2012', ВсеПоступившие: 30, black: 13, Девушки: 22, Парни: 34, number:20},
-      {name: '2013', ВсеПоступившие: 20, black: 50, Девушки: 22, Парни: 10,  number:30},
-      {name: '2014', ВсеПоступившие: 27, black: 39, Девушки: 20,Парни: 18, number:40},
-      {name: '2015', ВсеПоступившие: 18, black: 48, Девушки: 21,Парни: 23, number:50},
-      {name: '2016', ВсеПоступившие: 23, black: 38, Девушки: 25,Парни: 50, number:60},
-      {name: '2017', ВсеПоступившие: 34, black: 43, Девушки: 21,Парни: 47, number:100},
-];
+
+// const data1 = [
+//       {name: '2011', ВсеПоступившие: 40, black: 15, Девушки: 23,  Парни: 22, umber:10},
+//       {name: '2012', ВсеПоступившие: 30, black: 13, Девушки: 22, Парни: 34, number:20},
+//       {name: '2013', ВсеПоступившие: 20, black: 50, Девушки: 22, Парни: 10,  number:30},
+//       {name: '2014', ВсеПоступившие: 27, black: 39, Девушки: 20,Парни: 18, number:40},
+//       {name: '2015', ВсеПоступившие: 18, black: 48, Девушки: 21,Парни: 23, number:50},
+//       {name: '2016', ВсеПоступившие: 23, black: 38, Девушки: 25,Парни: 50, number:60},
+//       {name: '2017', ВсеПоступившие: 34, black: 43, Девушки: 21,Парни: 47, number:100},
+// ];
 // const {PropTypes} = React;
 
 const CustomTooltip  = React.createClass({
@@ -178,7 +167,8 @@ class AdminHome extends React.Component {
       subject1: {},
       subject2: {},
       subject3: {},
-      genders:[]
+      girls:'',
+      all:''
     };
     this.openSubject = this.openSubject.bind(this);
      }
@@ -198,7 +188,9 @@ class AdminHome extends React.Component {
           majors: res.data.allMjrs
         });
       });
-      axios.get('/api/gender_stat', {
+
+
+      axios.get('/api/gender_girl', {
       	responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -206,9 +198,29 @@ class AdminHome extends React.Component {
 
       })
       .then(res => {
-      	genders: res.data.genders
-      	console.log(genders)
+      	this.setState({
+      		girls: res.data.girls
+      	})
+      	
+  
       })
+
+
+      axios.get('/api/gender_all', {
+      	responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+
+      })
+      .then(res => {
+      	this.setState({
+      	    all: res.data.all
+      	})
+      
+      })
+
+
       axios.get('/api/getsubjects',  {
         responseType: 'json',
         headers: {
@@ -248,6 +260,23 @@ class AdminHome extends React.Component {
     data02[0].uv= this.state.value1;
     data02[1].uv= this.state.value2;
     data02[2].uv= this.state.value3;
+
+var girls=this.state.girls;
+var boys= this.state.all-girls;
+//console.log(boys,'girrrll')
+
+//console.log(this.state.all,'girrrll')
+const data1 = [
+      {name: '2011', ВсеПоступившие: 40, black: 15, Девушки: 23,  Парни: 22, umber:10},
+      {name: '2012', ВсеПоступившие: 30, black: 13, Девушки: 22, Парни: 34, number:20},
+      {name: '2013', ВсеПоступившие: 20, black: 50, Девушки: 22, Парни: 10,  number:30},
+      {name: '2014', ВсеПоступившие: 27, black: 39, Девушки: 20,Парни: 18, number:40},
+      {name: '2015', ВсеПоступившие: 18, black: 48, Девушки: 21,Парни: 23, number:50},
+      {name: '2016', ВсеПоступившие: 23, black: 38, Девушки: 25,Парни: 50, number:60},
+      {name: '2017', ВсеПоступившие: 34, black: 43, Девушки: girls,Парни: boys, number:100},
+];
+
+
     return (
       <div className="container clearfix">
             <div className="bg-title">

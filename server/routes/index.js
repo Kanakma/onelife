@@ -2192,7 +2192,7 @@ router.post('/updatestudentsformark',(req,res)=> {
 
 
 })
-router.get('/gender_stat',(req,res)=>{
+router.get('/gender_girl',(req,res)=>{
 	console.log('girls')
 	User.count({
 		gender: 'Женщина',
@@ -2201,24 +2201,27 @@ router.get('/gender_stat',(req,res)=>{
 		if(err){
 			res.status(500).send({err: err});
 		} else {
-			//res.status(200).send({genders: genders});
+			res.status(200).send({girls: girls});
 			console.log(girls)
 
 		}
 	})
-	console.log('boys')
+
+})
+router.get('/gender_all',(req,res)=>{
+	console.log('all')
+
 	User.count({
 		status: 'student'
 	}).exec(function(err,all){
 	    if(err){
 			res.status(500).send({err: err});
 		} else {
-			//res.status(200).send({all: all});
+			res.status(200).send({all: all});
 			console.log(all)
 
 		}
 	})
-
 })
 
 module.exports = router;
