@@ -100,56 +100,56 @@ class AdminParrents extends React.Component {
         </div>
       </div>
       <div className="my-content">
-      <div className="table-responsive">
-          <table id="myTable" className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>№</th>
-                      <th>ФИО</th>
-                      <th>Студент(ы)</th>
-                      <th>Телефон</th>
-                      <th>E-mail</th>
-                      <th>Адресс</th>
-                        <th><center>Опиции</center></th>
-                  </tr>
-              </thead>
-              <tbody>
-              {
-                this.state.parrents ? (
-                  this.state.parrents.map((parrent, t) =>{
-                    return(
-                    <tr key={t}>
-                        <td>{t+1}</td>
-                        <td>{parrent.user_id.name} {parrent.user_id.lastname}</td>
-                        <td>{parrent.childs.map((student, s)=>
-                          <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
-                        )}</td>
-                        <td>{parrent.phone}</td>
-                        <td>{parrent.email}</td>
-                        <td>{parrent.address}</td>
-                          <td className="text-center ">
-                            <button onClick={this.toggleModal.bind(this, parrent)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
-                              <i className="fa fa-pencil" style={{color: '#717171'}}></i>
-                            </button>
-                          </td>
+        <div className="table-responsive">
+            <table id="myTable" className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>ФИО</th>
+                        <th>Студент(ы)</th>
+                        <th>Телефон</th>
+                        <th>E-mail</th>
+                        <th>Адресс</th>
+                          <th><center>Опиции</center></th>
                     </tr>
-                    )
-                })
-                  ):(
-                      <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
+                </thead>
+                <tbody>
+                {
+                  this.state.parrents>0 ? (
+                    this.state.parrents.map((parrent, t) =>{
+                      return(
+                      <tr key={t}>
+                          <td>{t+1}</td>
+                          <td>{parrent.user_id.name} {parrent.user_id.lastname}</td>
+                          <td>{parrent.childs.map((student, s)=>
+                            <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
+                          )}</td>
+                          <td>{parrent.phone}</td>
+                          <td>{parrent.email}</td>
+                          <td>{parrent.address}</td>
+                            <td className="text-center ">
+                              <button onClick={this.toggleModal.bind(this, parrent)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
+                                <i className="fa fa-pencil" style={{color: '#717171'}}></i>
+                              </button>
+                            </td>
                       </tr>
-                  )
-              }
-              </tbody>
-          </table>
-        </div>
+                      )
+                  })
+                    ):(
+                        <tr>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td className="text-center">---</td>
+                        </tr>
+                    )
+                }
+                </tbody>
+            </table>
+          </div>
         </div>
           <AdminEditParrentModal
             show={this.state.isOpen}

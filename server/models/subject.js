@@ -20,7 +20,7 @@ const SubjectSchema = new mongoose.Schema({
   },
   optional: {
     type:Boolean,
-    default:true
+    default:false
   }
 });
 

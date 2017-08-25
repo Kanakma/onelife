@@ -115,8 +115,6 @@ class AdminAddGroups extends React.Component {
     })
   }
   render() {
-    var majors = this.state.majors;
-    var teachers = this.state.teachers;
     return (
       <div>{
         this.state.majors ?(
@@ -178,7 +176,6 @@ class AdminAddGroups extends React.Component {
             )
           }
         </div>
-
         <div>
           <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%', marginTop: '25px'}}>Добавить</button>
           <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%', marginTop: '25px'}}>Отмена</button>
@@ -188,9 +185,14 @@ class AdminAddGroups extends React.Component {
       </div>
       </div>
     ) : (
-      <div className="container clearfix">
+     <div className="container clearfix">
         <div className="bg-title">
-          <h4>Нет факультетов. Сначала добавьте факультеты</h4>
+          <h4>Добавить группу</h4>
+        </div>
+        <div className=" my-content">
+          <div className = "table-responsive">
+            <h4>Нет специальностей. Добавьте специальности</h4>
+          </div>
         </div>
       </div>
     )

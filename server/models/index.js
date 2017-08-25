@@ -10,12 +10,19 @@ module.exports.connect = (uri) => {
     process.exit(1);
   });
 
-  require('./user');
-  require('./student');
-  require('./teacher');
+  require('./attendance');
+  require('./department');
   require('./faculty');
-  require('./major');
-  require('./subject');
-  require('./quiz');
+  require('./group');
   require('./homework');
+  require('./major');
+  require('./mark');
+  require('./parrent');
+  require('./quiz');
+  require('./quiz_point');
+  require('./schedule');
+  require('./student');
+  require('./subject');
+  require('./teacher');
+  require('./user');
 };

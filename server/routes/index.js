@@ -157,6 +157,14 @@ router.post('/deletefaculty', (req, res) =>{
 	var newData = JSON.parse(req.body.faculty_id);
 	Faculty.findOneAndRemove({_id:newData}, function(err, result){
 		if(err)console.log(err);
+		if(result){
+			Department.findOne({department_faculty:newData}, function(err, department){
+				if(err) console.log(err)
+				if(department){
+					console.log(department)
+				}
+			})
+		}
 	})
 })
 
@@ -1969,7 +1977,6 @@ router.post('/deletesubject', (req, res)=>{
 
 router.post('/addgroup',(req, res) =>{
 	var group = JSON.parse(req.body.group);
-	console.log(group.group_name)
 	Group.findOne({group_name: group.group_name}, function(err, dgroup){
 		if(err) {
 			console.log(err);
@@ -2016,6 +2023,17 @@ router.post('/deletegroup', (req, res) =>{
 	var newData = JSON.parse(req.body.group_id);
 	Group.findOneAndRemove({_id:newData}, function(err, result){
 		if(err)console.log(err);
+		if(result){
+			Major.findOne({group_id:newData}, function(err, major){
+				if(err) console.log(err);
+				if(major){
+					major.groups.splice(major.groups.indexOf(newData), 1);
+					major.save(function(err, result){
+						if(err) console.log(err);
+					})
+				}
+			})
+		}
 	})
 })
 
@@ -2104,10 +2122,6 @@ router.post('/updatestudentsforattendance',(req,res)=> {
     		res.status(500).send({err:err});
     		console.log('phuck u')
     	} else {
-    		//res.status(200).send({attendances:attendances})
-    		//console.log(attendances,'ok')
-
-    				//console.log(attendances.length,'lnghthhhhh')
     		if(attendances.length!=0){
     			res.status(200).send({attendances:attendances})
     		    console.log(attendances,'ok')
@@ -2143,9 +2157,7 @@ router.post('/addmark',(req,res) =>{
      			//console.log(saved)
      		}
      	})
-
      })
-
    res.status(200).send({
    message: "Вы выставили посещаемость"
    })
@@ -2167,7 +2179,6 @@ router.post('/updatestudentsformark',(req,res)=> {
     }).exec(function(err,attendances){
     	if(err){
     		res.status(500).send({err:err});
-    		console.log('err')
     	} else {
 
     		//console.log(attendances.length,'lnghthhhhh')
@@ -2179,38 +2190,9 @@ router.post('/updatestudentsformark',(req,res)=> {
     				attendances: attendances,
     				message: 'Ничего не найдено'
     			})
-    			//console.log('тут ничего')
     		}
-
-
-
-
-
     	}
     })
-
-
-
-	   //   Attendance.find({
-    // 	subject_name:subject_id,
-    // 	date:att_date
-
-    // }).populate({
-    // 	path: 'student',
-    // 	populate: {
-    // 		path:'user_id'
-    // 	}
-    // }).exec(function(err,attendances){
-    // 	if(err){
-    // 		res.status(500).send({err:err});
-    // 		console.log('phuck u')
-    // 	} else {
-    // 		res.status(200).send({attendances:attendances})
-    // 		//console.log(attendances,'ok')
-    // 	}
-    // })
-
-
 })
 
 
