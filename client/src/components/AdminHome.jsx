@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import Auth from '../modules/Auth';
 import Progress from 'react-progressbar';
 import { Line, Circle } from 'rc-progress';
@@ -7,20 +9,19 @@ import PropTypes from 'prop-types';
 import {  PieChart, Pie, Sector, Cell,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar} from 'recharts';
 import AdminEditMajorModal from './AdminEditMajorModal.jsx';
 
-
 const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
                   {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
 const COLORS = ['#0B9EAF', '#FFC31D ', '#F05254 ', '#3A4240 '];
 
-const RADIAN = Math.PI / 180; 
-                  
+const RADIAN = Math.PI / 180;
+
 var renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x  = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy  + radius * Math.sin(-midAngle * RADIAN);
  // setTimeout(function(){
   // console.log('adsdad')
-// },1000) 
+// },1000)
   return (
     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'}  dominantBaseline="central">
       {`${(percent * 100).toFixed(0)}%`}
@@ -33,19 +34,11 @@ const renderLegend = (props) => {
   const { payload } = props;
 
   return (
-    <ul className="hr">
-      
-        
-          
-        {
-
+    <ul className="hr">{
         payload.map((entry, index) => (
           <li key={`item-${index}`}>{entry.value}</li>
         ))
-
       }
-
-      
     </ul>
   );
 }
@@ -54,7 +47,6 @@ var a =40;
 var kof=0.25;
 var b= a*kof;
 var c= a-b;//30
-console.log(a,b,c)
 const data1 = [
       {name: '2011', uv: 40, black: c, red: b,  blue: b, umber:10},
       {name: '2012', uv: 30, black: 13, red: 22, blue: 34, number:20},
@@ -131,7 +123,7 @@ const style = {
   	lineHeight: '24px'
   };
 const data02 = [
-    { name: 'Алгоритмизация', uv: 0, pv: 4800, fill: '#0B9EAF '},
+    { name: 'САП', uv: 0, pv: 4800, fill: '#0B9EAF '},
     { name: 'ТВИМС', uv: 0, pv: 3908, fill: '#FFC31D'},
     { name: 'Матан', uv: 0, pv: 2400, fill: '#F05254'}
 ];
@@ -151,17 +143,16 @@ class AdminHome extends React.Component {
       value3: 0,
       subjects: [],
       displayedSubjects: [],
-      subject: '',
-      subjectId: [],
       subjectName: {},
-      names: [],
       subject1: {},
       subject2: {},
       subject3: {}
     };
     this.openSubject = this.openSubject.bind(this);
+    this.randomSubjects = this.randomSubjects.bind(this);
   }
   componentDidMount() {
+    const displayedSubjects=[];
     axios.get('/api/getmajors',  {
       responseType: 'json',
       headers: {
@@ -188,8 +179,12 @@ class AdminHome extends React.Component {
             subject2: res.data.subjects[Math.floor(Math.random() * res.data.subjects.length)],
             subject3: res.data.subjects[Math.floor(Math.random() * res.data.subjects.length)]
           });
+          this.randomSubjects();
         });
 
+        // displayedSubjects.push(this.state.subject1);
+        // displayedSubjects.push(this.state.subject2);
+        // displayedSubjects.push(this.state.subject3);
         const value1 = parseInt(Math.random() * 100, 10);
         const value2 = parseInt(Math.random() * 100, 10);
         const value3 = parseInt(Math.random() * 100, 10);
@@ -202,19 +197,28 @@ class AdminHome extends React.Component {
   openSubject(event){
     this.context.router.history.push('/subjectinfo', {subject: event.target.id})
   }
+  randomSubjects(){
+    const displayedSubjects = [];
+    displayedSubjects.push(this.state.subject1);
+    displayedSubjects.push(this.state.subject2);
+    displayedSubjects.push(this.state.subject3);
+    this.setState({
+      displayedSubjects: displayedSubjects
+    })
+
+  }
   render() {
-    data[0].name= this.state.subject1.subject_name;
-    data[1].name= this.state.subject2.subject_name;
-    data[2].name= this.state.subject3.subject_name;
-    data[0].uv= this.state.value1;
-    data[1].uv= this.state.value2;
-    data[2].uv= this.state.value3;
+    // data02[0].name= this.state.subject1.subject_name;
+    // data02[1].name= this.state.subject2.subject_name;
+    // data02[2].name= this.state.subject3.subject_name;
+    data02[0].uv= this.state.value1;
+    data02[1].uv= this.state.value2;
+    data02[2].uv= this.state.value3;
     return (
       <div className="container clearfix">
-            <div className="bg-title">
-              <h4>Главная админа</h4>
-
-            </div>
+        <div className="bg-title">
+          <h4>Главная админа</h4>
+          </div>
             <div className=" my-content ">
               <div className="dashboard">
                 <div className = " first_row ">
@@ -285,21 +289,21 @@ class AdminHome extends React.Component {
                          <Bar dataKey="red" stackId="a" fill="#F05254 " />
                          <Bar dataKey="black" stackId="b" fill="#3A4240" />
                          <Bar dataKey="blue" stackId="b" fill="#0B9EAF  " />
-                       
-                       
-                        
+
+
+
                       </BarChart>
                 </div>
                 <div style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
                   <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
                                                   <PieChart className="pie_chart" width={370} height={185} onMouseEnter={this.onPieEnter}>
                                         <Pie
-                                          data={data} 
-                                          cx={280} 
-                                          cy={100} 
+                                          data={data}
+                                          cx={280}
+                                          cy={100}
                                           labelLine={false}
                                           label={renderCustomizedLabel}
-                                          outerRadius={80} 
+                                          outerRadius={80}
                                           fill="#8884d8"
                                         >
                                           {
@@ -311,7 +315,7 @@ class AdminHome extends React.Component {
                   <ul>
                   <li><img src="./img/blue.png" className="mini_png"  />Основы Права</li>
          <li><img src="./img/red.png" className="mini_png"  />Матем Анализ</li>
-                  
+
                   </ul>
                   </div>
                  <p className="letniki_text">Статистика летников 2017 года</p>
@@ -319,63 +323,42 @@ class AdminHome extends React.Component {
                   <div className ="mini_stat">
                                            <p className = "time_stat">До конца учебного года осталось:</p>
                        <div className="mini_row">
-                         <span className ="number_big">123</span> 
+                         <span className ="number_big">123</span>
                              <span className ="day_big">дня</span>
                         </div>
-       
+
                   </div>
 
                 </div>
 
               </div>
                 <div className="row"  style={{marginRight: '-7px', marginLeft: '-7px', marginTop: '20px'}} >
-                { this.state.subjects ? (
-                  <div>
-                      <div className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
-                        <div className="white-box">
-                          <h4>{this.state.subject1.subject_name}</h4>
-                          <div className="text-muted m-b-20"><span className="m-r-10"><i className="fa fa-clock-o"></i> {this.state.subject1.course_number} курс</span>
-                              <span className="m-l-10"><i className="fa fa-usd"></i> {this.state.subject1.credit_number} кредита</span>
+                { this.state.displayedSubjects ? (
+                    this.state.displayedSubjects.map((subject, s) =>
+                      <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
+                          <img className="img-responsive subject-img" alt="user" src={require("../../../public/subject-img/"+subject.img)} />
+                          <div className="white-box">
+                              <h4>{subject.subject_name}</h4>
+                              <div className="text-muted m-b-20"><span className="m-r-10"><i className="fa fa-clock-o"></i> {subject.course_number} курс</span>
+                                  <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
+                              </div>
+                              <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
+                              <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_name}</span></p>
+                              <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_name}</span></p>
+                              <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
+                              {(this.state.status == "admin") ?(
+                                <div>
+                                  <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                                  <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
+                                      <i className="fa fa-pencil" style={{color: '#717171'}}></i>
+                                  </button>
+                                </div>
+                              ):(
+                                <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                              )}
                           </div>
-                          <p><span><i className="fa fa-clock-o"></i> Период: {this.state.subject1.period} месяцев</span></p>
-                          <p><span><i className="fa fa-graduation-cap"></i> Специальность: {this.state.subject1.major_name}</span></p>
-                          <p><span><i className="fa fa-user-o"></i> Преподаватель: {this.state.subject1.teacher_name}</span></p>
-                          <p><span><i className="fa fa-user-plus"></i> Осталось мест: {this.state.subject1.remained}</span></p>
-
-                            <button id={this.state.subject1._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                       </div>
-                      </div>
-                      <div className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
-
-                        <div className="white-box">
-                            <h4>{this.state.subject2.subject_name}</h4>
-                            <div className="text-muted m-b-20"><span className="m-r-10"><i className="fa fa-clock-o"></i> {this.state.subject2.course_number} курс</span>
-                                <span className="m-l-10"><i className="fa fa-usd"></i> {this.state.subject2.credit_number} кредита</span>
-                            </div>
-                            <p><span><i className="fa fa-clock-o"></i> Период: {this.state.subject2.period} месяцев</span></p>
-                            <p><span><i className="fa fa-graduation-cap"></i> Специальность: {this.state.subject2.major_name}</span></p>
-                            <p><span><i className="fa fa-user-o"></i> Преподаватель: {this.state.subject2.teacher_name}</span></p>
-                            <p><span><i className="fa fa-user-plus"></i> Осталось мест: {this.state.subject2.remained}</span></p>
-
-                              <button id={this.state.subject2._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
-                        </div>
-                      </div>
-                      <div className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
-
-                        <div className="white-box">
-                            <h4>{this.state.subject3.subject_name}</h4>
-                            <div className="text-muted m-b-20"><span className="m-r-10"><i className="fa fa-clock-o"></i> {this.state.subject3.course_number} курс</span>
-                                <span className="m-l-10"><i className="fa fa-usd"></i> {this.state.subject3.credit_number} кредита</span>
-                            </div>
-                            <p><span><i className="fa fa-clock-o"></i> Период: {this.state.subject3.period} месяцев</span></p>
-                            <p><span><i className="fa fa-graduation-cap"></i> Специальность: {this.state.subject3.major_name}</span></p>
-                            <p><span><i className="fa fa-user-o"></i> Преподаватель: {this.state.subject3.teacher_name}</span></p>
-                            <p><span><i className="fa fa-user-plus"></i> Осталось мест: {this.state.subject3.remained}</span></p>
-
-                              <button id={this.state.subject3._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
-                        </div>
-                      </div>
-                      </div>
+                    )
                   ):(
                       <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
                         Нет предметов Добавьте предметы.

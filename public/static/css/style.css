@@ -826,7 +826,7 @@ active state
  }
 .dashboard_title{
     /* Style for "12 препода" */
- 
+
   height: 33px;
   color: #ffffff;
   font-family: "gothic";
@@ -839,11 +839,8 @@ active state
   height:201px;
   background-color: white;
   margin-top: 20px;
-<<<<<<< HEAD
   padding: 22px;
   text-align: initial;
-=======
->>>>>>> fixed/diagrams
   }
 .leveled_pie{
   width: 31%;
@@ -963,29 +960,29 @@ ul.hr li {
 }
 .course-title{
   color: #000000;
-  font-family: "Century Gothic";
+  font-family: "gothic";
   font-size: 16px;
   font-weight: 400;
 }
 .student-number-text{
   color: #808080;
-  font-family: "Century Gothic";
+  font-family: "gothic";
   font-size: 12px;
   font-weight: 400;
   float: right;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 .rc-progress-line{
 
 }
 .progressbar-value{
-  font-family: "Century Gothic";
+  font-family: "gothic";
   font-size: 16px;
   font-weight: 400;
 }
 .leveled-pie-text{
   color: #000000;
-  font-family: "Century Gothic";
+  font-family: "gothic";
   font-size: 14px;
   font-weight: 400;
   margin-top: -135px;
@@ -1002,7 +999,7 @@ ul.hr li {
 }
 .student-number{
   color: #000000;
-  font-family: "Century Gothic";
+  font-family: "gothic";
   font-size: 35px;
   font-weight: 400;
   float: right;
@@ -1028,4 +1025,3 @@ margin-left: 20px;
   margin-top: -126px;
     margin-left: 163px;
 }
-
