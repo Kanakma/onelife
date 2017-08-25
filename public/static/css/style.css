@@ -658,10 +658,10 @@ active state
 .profile-heading{
   width: 100%;
   height: 300px;
-  background-image: url(  /img/university.jpg);
+  background-image: url( /img/background-image.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  opacity: 0.5;
+  padding:
 }
 .profile-heading:after{
 
@@ -677,13 +677,14 @@ active state
   padding: 20px 0;
 }
 .profile-teacher-img{
-  width: 90px;
-  height: 90px;
+  width: 121px;
+  height: 121px;
 }
 .profile-teacher-name{
+  color: #000000;
+  font-family: "gothic";
   font-size: 20px;
-  color: black;
-  font-family:  'Roboto',sans-serif;
+  font-weight: 400;
 }
 .profile-teacher-btn{
   width: 150px;
@@ -1010,18 +1011,63 @@ ul.hr li {
 }
 .letniki_text{
   /* Style for "Статистика" */
-float: left;
-height: 12px;
-color: #000000;
-font-family: "gothic";
-font-size: 14px;
-font-weight: 400;
-margin: -12px;
-margin-left: 20px;
-    margin-top: 66px;
+  float: left;
+  height: 12px;
+  color: #000000;
+  font-family: "gothic";
+  font-size: 14px;
+  font-weight: 400;
+  margin: -12px;
+  margin-left: 20px;
+  margin-top: 66px;
 }
 .pie_menu{
   width: 200px;
   margin-top: -126px;
     margin-left: 163px;
+}
+.teacher-progress-bar{
+
+}
+.teacher-common-statistic{
+  height: 450px;
+  width: 66%;
+  margin: 0 10px;
+  /*background-color: white;*/
+}
+.teacher-statistics{
+  padding: 20px 10px;
+  display: flex;
+  flex-flow: row wrap;
+}
+.teacher-number-statistic{
+  width: 48%;
+  height: 250px;
+  margin: 20px 10px;
+}
+.teacher-mini-profile{
+  width: 30%;
+  margin: 0 10px;
+}
+.teacher-courses-statistic{
+  height: 340px;
+  width: 68%;
+  margin: 0 10px;
+}
+.teacher-progress-statistic{
+  width: 28%;
+  height: 340px;
+  margin: 0 10px;
+}
+.teacher-number-statistic-text{
+  color: #000000;
+  font-family: "gothic";
+  font-size: 20px;
+  font-weight: 400;
+}
+.teacher-common-statistic-text{
+  color: #000000;
+  font-family: "gothic";
+  font-size: 16px;
+  font-weight: 400;
 }

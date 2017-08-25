@@ -43,17 +43,20 @@ class TeacherHome extends React.Component {
     return (
       <div className="container clearfix">
         <div className="page-wrapper">
-          <div className="bg-title" style={{marginLeft: '0px' }}>
+          <div className="bg-title" style={{margin: '0px' }}>
             <h4>Главная преподавателя</h4>
           </div>
           <div className="profile-heading text-center vertical-align">
+            <div className="teacher-progress-bar"></div>
+            <div className="teacher-progress-bar"></div>
+            <div className="teacher-progress-bar"></div>
             <div className="profile-heading-name ">
-            {this.state.teacher.user_id.name} {this.state.teacher.user_id.lastname}</div>
-            <div style={{fontSize: '20px', color: 'black'}}>{this.state.teacher.degree} </div>
+            </div>
+            <div style={{fontSize: '20px', color: 'black'}}></div>
           </div>
-          <div className="page-content">
-            <div className=" col-md-4">
-              <div className="white-box text-center">
+          <div className="teacher-statistics">
+            <div className="teacher-mini-profile  text-center" >
+              <div className="white-box text-center" style={{height: '100%'}}>
                 <div style={{width: '100%'}}>
                   <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
                 </div>
@@ -61,6 +64,27 @@ class TeacherHome extends React.Component {
                 <p>{this.state.teacher.degree}</p>
                 <button className="profile-teacher-btn">Настройки</button>
               </div>
+            </div>
+            <div className="teacher-common-statistic ">
+              <div className="white-box" style={{height: '100%'}}>
+                <p className="teacher-common-statistic-text">Общая статистика</p>
+              </div>
+            </div>
+            <div className="teacher-number-statistic">
+              <div className="white-box" style={{height: '100%'}}>
+                <p className="teacher-number-statistic-text">Количество студентов</p>
+              </div>
+            </div>
+            <div className="teacher-number-statistic">
+              <div className="white-box" style={{height: '100%'}}>
+                  <p className="teacher-number-statistic-text">Учебный год</p>
+              </div>
+            </div>
+            <div className="teacher-courses-statistic">
+              <div className="white-box"  style={{height: '100%'}}></div>
+            </div>
+            <div className="teacher-progress-statistic">
+              <div className="white-box"  style={{height: '100%'}}></div>
             </div>
           </div>
         </div>
