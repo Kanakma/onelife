@@ -2179,7 +2179,7 @@ router.post('/updatestudentsformark',(req,res)=> {
     				attendances: attendances,
     				message: 'Ничего не найдено'
     			})
-    			//console.log('тут ничего')
+    			
     		}
 
 
@@ -2191,27 +2191,34 @@ router.post('/updatestudentsformark',(req,res)=> {
 
 
 
-	   //   Attendance.find({
-    // 	subject_name:subject_id,
-    // 	date:att_date
+})
+router.get('/gender_stat',(req,res)=>{
+	console.log('girls')
+	User.count({
+		gender: 'Женщина',
+		status: 'student'
+	}).exec(function(err,girls){
+		if(err){
+			res.status(500).send({err: err});
+		} else {
+			//res.status(200).send({genders: genders});
+			console.log(girls)
 
-    // }).populate({
-    // 	path: 'student',
-    // 	populate: {
-    // 		path:'user_id'
-    // 	}
-    // }).exec(function(err,attendances){
-    // 	if(err){
-    // 		res.status(500).send({err:err});
-    // 		console.log('phuck u')
-    // 	} else {
-    // 		res.status(200).send({attendances:attendances})
-    // 		//console.log(attendances,'ok')
-    // 	}
-    // })
+		}
+	})
+	console.log('boys')
+	User.count({
+		status: 'student'
+	}).exec(function(err,all){
+	    if(err){
+			res.status(500).send({err: err});
+		} else {
+			//res.status(200).send({all: all});
+			console.log(all)
 
+		}
+	})
 
 })
-
 
 module.exports = router;

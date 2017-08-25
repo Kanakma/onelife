@@ -6,7 +6,7 @@ import { Line, Circle } from 'rc-progress';
 import PropTypes from 'prop-types';
 import {  PieChart, Pie, Sector, Cell,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar} from 'recharts';
 import AdminEditMajorModal from './AdminEditMajorModal.jsx';
-
+var cron = require('node-cron');
 
 const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
                   {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
@@ -56,13 +56,13 @@ var b= a*kof;
 var c= a-b;//30
 console.log(a,b,c)
 const data1 = [
-      {name: '2011', uv: 40, black: c, red: b,  blue: b, umber:10},
-      {name: '2012', uv: 30, black: 13, red: 22, blue: 34, number:20},
-      {name: '2013', uv: 20, black: 50, red: 22, blue: 10,  number:30},
-      {name: '2014', uv: 27, black: 39, red: 20,blue: 18, number:40},
-      {name: '2015', uv: 18, black: 48, red: 21,blue: 23, number:50},
-      {name: '2016', uv: 23, black: 38, red: 25,blue: 50, number:60},
-      {name: '2017', uv: 34, black: 43, red: 21,blue: 47, number:100},
+      {name: '2011', ВсеПоступившие: 40, black: c, Девушки: b,  Парни: b, umber:10},
+      {name: '2012', ВсеПоступившие: 30, black: 13, Девушки: 22, Парни: 34, number:20},
+      {name: '2013', ВсеПоступившие: 20, black: 50, Девушки: 22, Парни: 10,  number:30},
+      {name: '2014', ВсеПоступившие: 27, black: 39, Девушки: 20,Парни: 18, number:40},
+      {name: '2015', ВсеПоступившие: 18, black: 48, Девушки: 21,Парни: 23, number:50},
+      {name: '2016', ВсеПоступившие: 23, black: 38, Девушки: 25,Парни: 50, number:60},
+      {name: '2017', ВсеПоступившие: 34, black: 43, Девушки: 21,Парни: 47, number:100},
 ];
 // const {PropTypes} = React;
 
@@ -136,11 +136,30 @@ const data02 = [
     { name: 'Матан', uv: 0, pv: 2400, fill: '#F05254'}
 ];
 // <img className="img-responsive subject-img" alt="user" src={require("../../../public/subject-img/"+this.state.subject1.img)} />
+class Counter extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = { counter : props.val }
+  } 
+
+  render() {
+    var x = this;
+    var { counter } = this.state;
+    setTimeout(function() {
+      if (counter > 0) {
+        x.setState({ counter: counter - 1 });
+      }
+    }, 10000);
+    return <span>{counter}</span>;
+  }
+}
+
 
 class AdminHome extends React.Component {
 
   constructor(props) {
     super(props);
+
 
     this.state = {
       majors: [],
@@ -149,6 +168,7 @@ class AdminHome extends React.Component {
       value1: 0,
       value2: 0,
       value3: 0,
+      days_left: 272,
       subjects: [],
       displayedSubjects: [],
       subject: '',
@@ -157,11 +177,16 @@ class AdminHome extends React.Component {
       names: [],
       subject1: {},
       subject2: {},
-      subject3: {}
+      subject3: {},
+      genders:[]
     };
     this.openSubject = this.openSubject.bind(this);
-  }
+     }
+ 
+
   componentDidMount() {
+
+
     axios.get('/api/getmajors',  {
       responseType: 'json',
       headers: {
@@ -173,6 +198,17 @@ class AdminHome extends React.Component {
           majors: res.data.allMjrs
         });
       });
+      axios.get('/api/gender_stat', {
+      	responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+
+      })
+      .then(res => {
+      	genders: res.data.genders
+      	console.log(genders)
+      })
       axios.get('/api/getsubjects',  {
         responseType: 'json',
         headers: {
@@ -199,6 +235,9 @@ class AdminHome extends React.Component {
           value3: value3
         });
   }
+
+
+
   openSubject(event){
     this.context.router.history.push('/subjectinfo', {subject: event.target.id})
   }
@@ -206,9 +245,9 @@ class AdminHome extends React.Component {
     data[0].name= this.state.subject1.subject_name;
     data[1].name= this.state.subject2.subject_name;
     data[2].name= this.state.subject3.subject_name;
-    data[0].uv= this.state.value1;
-    data[1].uv= this.state.value2;
-    data[2].uv= this.state.value3;
+    data02[0].uv= this.state.value1;
+    data02[1].uv= this.state.value2;
+    data02[2].uv= this.state.value3;
     return (
       <div className="container clearfix">
             <div className="bg-title">
@@ -268,61 +307,56 @@ class AdminHome extends React.Component {
 
                 <ul className="hr">
                 <div className="pie_text">
-                <p className="pie_title">Статистика Поступивших</p>
-                <p className="pie_subtext">Количество студентов за семестр</p>
+	                <p className="pie_title">Статистика Поступивших</p>
+	                <p className="pie_subtext">Количество студентов за семестр</p>
 
                 </div>
-          <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
-          <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
+		          <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
+		          <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
                 </ul>
-                       <BarChart className="bar_chart" width={810} height={260} data={data1}
-                              margin={{top: 20, right: 30, left: 20, bottom: 5}}>
+                <BarChart className="bar_chart" width={810} height={260} data={data1}
+                margin={{top: 20, right: 30, left: 20, bottom: 5}}>
                          <XAxis dataKey="name"/>
                          <YAxis dataKey="number" />
                          <CartesianGrid strokeDasharray="3 3"/>
-                         <Tooltip  content={<CustomTooltip/>}/>
-                         <Bar dataKey="black" stackId="a" fill="#3A4240" />
-                         <Bar dataKey="red" stackId="a" fill="#F05254 " />
-                         <Bar dataKey="black" stackId="b" fill="#3A4240" />
-                         <Bar dataKey="blue" stackId="b" fill="#0B9EAF  " />
-                       
-                       
+                         <Tooltip />
+                         <Bar dataKey="Парни" stackId="a" fill="#F05254" />
+                         <Bar dataKey="Девушки" stackId="a" fill="#0B9EAF " />
                         
-                      </BarChart>
+                         <Bar dataKey="ВсеПоступившие" fill="#3A4240"/>
+                </BarChart>
                 </div>
                 <div style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
                   <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
-                                                  <PieChart className="pie_chart" width={370} height={185} onMouseEnter={this.onPieEnter}>
-                                        <Pie
-                                          data={data} 
-                                          cx={280} 
-                                          cy={100} 
-                                          labelLine={false}
-                                          label={renderCustomizedLabel}
-                                          outerRadius={80} 
-                                          fill="#8884d8"
-                                        >
+                        <PieChart className="pie_chart" width={370} height={185} onMouseEnter={this.onPieEnter}>
+                            <Pie
+                                data={data} 
+                                cx={280} 
+                                cy={100} 
+                                labelLine={false}
+                                label={renderCustomizedLabel}
+                                outerRadius={80} 
+                                fill="#8884d8"
+                            >
                                           {
                                             data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
                                           }
-                                        </Pie>
-                                </PieChart>
+                            </Pie>
+                        </PieChart>
                   <div className="pie_menu">
-                  <ul>
-                  <li><img src="./img/blue.png" className="mini_png"  />Основы Права</li>
-         <li><img src="./img/red.png" className="mini_png"  />Матем Анализ</li>
-                  
-                  </ul>
+	                  <ul>
+		                  <li><img src="./img/blue.png" className="mini_png"  />ИС</li>
+		                  <li><img src="./img/red.png" className="mini_png"  />ВТиПО</li>   
+	                  </ul>
                   </div>
-                 <p className="letniki_text">Статистика летников 2017 года</p>
+                  <p className="letniki_text">Статистика летников 2017 года</p>
                   </div>
                   <div className ="mini_stat">
-                                           <p className = "time_stat">До конца учебного года осталось:</p>
+                       <p className = "time_stat">До конца учебного года осталось:</p>
                        <div className="mini_row">
-                         <span className ="number_big">123</span> 
-                             <span className ="day_big">дня</span>
+                         <span className ="number_big"> <Counter val={20} /></span> 
+                         <span className ="day_big">дня</span>
                         </div>
-       
                   </div>
 
                 </div>
