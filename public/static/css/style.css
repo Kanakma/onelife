@@ -842,6 +842,7 @@ active state
   margin-top: 20px;
   padding: 22px;
   text-align: initial;
+
   }
 .leveled_pie{
   width: 31%;
@@ -883,11 +884,10 @@ active state
 }
 .mini_row{
   text-align: center;
- margin-top: 20px;
+  margin-top: 20px;
 }
 .number_big{
-  margin: 12px;
-  height: 31px;
+    height: 31px;
   color: #f05254;
   font-family: "gothic";
   font-weight: 400;
@@ -904,6 +904,7 @@ active state
 .bar_chart{
   margin-top: 40px;
   margin-left: -25px;
+
 }
  ul {
  list-style-type: none;
@@ -940,6 +941,7 @@ ul.hr li {
   margin-top: 22px;
 }
 .pie_title{
+  margin-left: -11px;
   height: 15px;
   color: #000000;
   font-family: "gothic";
