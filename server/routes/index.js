@@ -22,6 +22,41 @@ let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
 
+
+function IndInObjArr(objArray, subj, inkey, sensetive) {
+      var sens = ((typeof inkey) === "boolean") ? inkey : false;
+      var found = false;
+      var result = [];
+      if (objArray.length > 0) {
+        objArray.forEach(function(obj, ind) {
+          if (!sens && inkey) {
+            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
+            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
+            if (sub1 == sub2) {
+              found = true;
+              result.push(ind);
+            }
+          } else {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
+                var sub2 = sens ? subj : subj.toString().toLowerCase();
+                if (sub1 == sub2) {
+                  found = true;
+                  result.push(ind);
+                }
+              }
+            }
+          }
+        })
+      }
+      if (found) {
+        return result;
+      } else {
+        return false;
+      }
+    }
+
 //This route will add new major
 router.post('/addmajor', (req, res) => {
 	var majorData = {
@@ -2182,10 +2217,9 @@ router.post('/updatestudentsformark',(req,res)=> {
     		res.status(500).send({err:err});
     	} else {
 
-    		//console.log(attendances.length,'lnghthhhhh')
     		if(attendances.length!=0){
     			res.status(200).send({attendances:attendances})
-    		//    console.log(attendances,'ok')
+    		
     		} else{
     			res.send({
     				attendances: attendances,
@@ -2200,7 +2234,6 @@ router.post('/updatestudentsformark',(req,res)=> {
 
 })
 router.get('/gender_girl',(req,res)=>{
-	console.log('girls')
 	User.count({
 		gender: 'Женщина',
 		status: 'student'
@@ -2209,15 +2242,12 @@ router.get('/gender_girl',(req,res)=>{
 			res.status(500).send({err: err});
 		} else {
 			res.status(200).send({girls: girls});
-			console.log(girls)
-
 		}
 	})
 
 
 })
 router.get('/gender_all',(req,res)=>{
-	console.log('all')
 
 	User.count({
 		status: 'student'
@@ -2226,10 +2256,48 @@ router.get('/gender_all',(req,res)=>{
 			res.status(500).send({err: err});
 		} else {
 			res.status(200).send({all: all});
-			console.log(all)
 
 		}
 	})
+})
+
+router.get('/count_majors',(req,res) =>{
+	var majNames = [];
+
+    var maj_id=[]
+     Student.aggregate(
+		{$group : {
+			 _id : "$major_id",
+			 count : {$sum : 1}
+		}}
+     	).exec(function(err,major){
+	    if(err){
+	     res.status(500).send({err: err});
+		
+		} else {
+		    Major.find().exec(function(err, majors){
+	      	if(err) console.log(err);
+			if(majors){
+					
+						majors.forEach(function(m,i){
+							var ind = IndInObjArr(major, m._id, '_id')
+							if(ind.length > 0){
+								//res.status(200).send({ })
+								majNames.push({name: m.major_name, value: major[ind[0]].count})
+							}
+						})
+					//	console.log(majNames)
+						
+						res.status(200).send({majNames:majNames})
+
+					}
+			})
+
+  		    
+		}
+
+	})
+    	
 })
 
 module.exports = router;

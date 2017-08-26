@@ -6,86 +6,14 @@ import Auth from '../modules/Auth';
 import Progress from 'react-progressbar';
 import { Line, Circle } from 'rc-progress';
 import PropTypes from 'prop-types';
-import {  PieChart, Pie, Sector, Cell,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar} from 'recharts';
 import AdminEditMajorModal from './AdminEditMajorModal.jsx';
 
+const { PieChart, Pie, Sector, Cell , BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar } = require('recharts')// Recharts;
+const data= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {name: 'МКМ', value: 500}, {name: 'sfsdf', value: 500}];
 
-const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
 const COLORS = ['#0B9EAF', '#FFC31D ', '#F05254 ', '#3A4240 '];
 
-const RADIAN = Math.PI / 180;
 
-var renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
- // setTimeout(function(){
-  // console.log('adsdad')
-// },1000)
-  return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'}  dominantBaseline="central">
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
-
-//legend
-const renderLegend = (props) => {
-  const { payload } = props;
-
-  return (
-    <ul className="hr">{
-        payload.map((entry, index) => (
-          <li key={`item-${index}`}>{entry.value}</li>
-        ))
-      }
-
-    </ul>
-  );
-}
-
-
-const CustomTooltip  = React.createClass({
-  propTypes: {
-    type: PropTypes.string,
-    payload: PropTypes.array,
-    label: PropTypes.string,
-  },
-
-  getIntroOfPage(label) {
-    if (label === '2011') {
-      return "2011";
-    } else if (label === '2012') {
-      return "2012";
-    } else if (label === '2013') {
-      return "2013";
-    } else if (label === '2014') {
-      return "2014";
-    } else if (label === '2015') {
-      return "2015";
-    } else if (label === '2016') {
-      return "2016";
-    }
-  },
-
-  render() {
-    const { active } = this.props;
-
-    if (active) {
-      const { payload, label } = this.props;
-      return (
-        <div className="custom-tooltip">
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-          <p className="intro">{this.getIntroOfPage(label)}</p>
-          <p className="desc">Anything you want can be displayed here.</p>
-        </div>
-      );
-    }
-
-    return null;
-  }
-});
 
 const SimpleBarChart = React.createClass({
   render () {
@@ -156,7 +84,8 @@ class AdminHome extends React.Component {
       subject2: {},
       subject3: {},
       girls:'',
-      all:''
+      all:'',
+      majNames:[]
     };
     this.openSubject = this.openSubject.bind(this);
 
@@ -194,7 +123,7 @@ class AdminHome extends React.Component {
       })
 
 
-      axios.get('/api/gender_all', {
+    axios.get('/api/gender_all', {
       	responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -207,6 +136,20 @@ class AdminHome extends React.Component {
       	})
       
       })
+    axios.get('/api/count_majors', {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+
+      })
+      .then(res => {
+        this.setState({
+            majNames: res.data.majNames
+        })
+      
+     })
+
 
 
       axios.get('/api/getsubjects',  {
@@ -226,10 +169,6 @@ class AdminHome extends React.Component {
           });
           this.randomSubjects();
         });
-
-        // displayedSubjects.push(this.state.subject1);
-        // displayedSubjects.push(this.state.subject2);
-        // displayedSubjects.push(this.state.subject3);
         const value1 = parseInt(Math.random() * 100, 10);
         const value2 = parseInt(Math.random() * 100, 10);
         const value3 = parseInt(Math.random() * 100, 10);
@@ -256,7 +195,7 @@ class AdminHome extends React.Component {
 
   }
   render() {
-
+    //console.log(this.state.majNames,'maaajnames')
 
     data[0].name= this.state.subject1.subject_name;
     data[1].name= this.state.subject2.subject_name;
@@ -279,10 +218,16 @@ const data1 = [
       {name: '2016', ВсеПоступившие: 23, black: 38, Девушки: 25,Парни: 50, number:60},
       {name: '2017', ВсеПоступившие: 34, black: 43, Девушки: girls,Парни: boys, number:100},
 ];
+   // console.log(this.state.majNames.name,'maaajnames')
+
+
+
+const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {name: 'МКМ', value: 500}, {name: 'sfsdf', value: 500}];
 
 
 
     return (
+
       <div className="container clearfix">
         <div className="bg-title">
           <h4>Главная админа</h4>
@@ -342,7 +287,6 @@ const data1 = [
                 <div className="pie_text">
 	                <p className="pie_title">Статистика Поступивших</p>
 	                <p className="pie_subtext">Количество студентов за семестр</p>
-
                 </div>
 		          <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
 		          <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
@@ -362,38 +306,33 @@ const data1 = [
                 </div>
                 <div style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
                   <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
-                        <PieChart className="pie_chart" width={370} height={185} onMouseEnter={this.onPieEnter}>
-                            <Pie
-                                data={data} 
-                                cx={280} 
-                                cy={100} 
-                                labelLine={false}
-                                label={renderCustomizedLabel}
-                                outerRadius={80} 
-                                fill="#8884d8"
-                            >
 
-                                          {
-                                            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
-                                          }
-                            </Pie>
-                        </PieChart>
+
+                             <PieChart className="pie_chart"  width={600} height={185}>
+        <Pie isAnimationActive={false} data={this.state.majNames} cx={200} cy={100} outerRadius={68} fill="#0B9EAF " label>
+        {
+            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+          }
+        </Pie>
+        <Tooltip/>
+       </PieChart>
+                  
+
                   <div className="pie_menu">
 
 	                  <ul>
-		                  <li><img src="./img/blue.png" className="mini_png"  />ИС</li>
-		                  <li><img src="./img/red.png" className="mini_png"  />ВТиПО</li>   
+		                  <li><img src="./img/blue.png" className="mini_png"  />ВТиПО</li>
+		                  <li><img src="./img/red.png" className="mini_png"  />ТВиМС</li>   
 	                  </ul>
 
                   </div>
-                  <p className="letniki_text">Статистика летников 2017 года</p>
+                  <p className="letniki_text">Статистика Специальностей 2017 года</p>
                   </div>
                   <div className ="mini_stat">
                        <p className = "time_stat">До конца учебного года осталось:</p>
                        <div className="mini_row">
-
                          <span className ="number_big"> <Counter val={20} /></span> 
-                         <span className ="day_big">дня</span>
+                         <span className ="day_big">дней</span>
                         </div>
 
                   </div>

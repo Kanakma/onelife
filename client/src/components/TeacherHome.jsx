@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+const { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } = require('recharts')// Recharts;
 
+
+const data01 = [{name: 'Page A', uv: 590, pv: 800, amt: 1400},
+              {name: 'Page B', uv: 868, pv: 967, amt: 1506},
+              {name: 'Page C', uv: 1397, pv: 1098, amt: 989},
+              {name: 'Page D', uv: 1480, pv: 1200, amt: 1228},
+              {name: 'Page E', uv: 1520, pv: 1108, amt: 1100},
+              {name: 'Page F', uv: 1400, pv: 680, amt: 1700}];
 class TeacherHome extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -68,6 +76,17 @@ class TeacherHome extends React.Component {
             <div className="teacher-common-statistic ">
               <div className="white-box" style={{height: '100%'}}>
                 <p className="teacher-common-statistic-text">Общая статистика</p>
+                  <ComposedChart width={600} height={400} data={data01}
+            margin={{top: 20, right: 80, bottom: 20, left: 20}}>
+          <XAxis dataKey="name" label="Pages"/>
+          <YAxis label="Index"/>
+          <Tooltip/>
+          <Legend/>
+          <CartesianGrid stroke='#f5f5f5'/>
+          <Area type='monotone' dataKey='amt' fill='#8884d8' stroke='#8884d8'/>
+          <Bar dataKey='pv' barSize={20} fill='#413ea0'/>
+          <Line type='monotone' dataKey='uv' stroke='#ff7300'/>
+       </ComposedChart>
               </div>
             </div>
             <div className="teacher-number-statistic">

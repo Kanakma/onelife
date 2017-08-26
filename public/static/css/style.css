@@ -932,8 +932,8 @@ ul.hr li {
   background-color: red;
   }
 .pie_chart{
-     top: -12px;
-  margin-left: -180px;
+    top:-10px;
+  margin-left: -90px;
 }
 .pie_text{
   float:left;
