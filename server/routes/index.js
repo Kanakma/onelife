@@ -2191,10 +2191,45 @@ router.post('/updatestudentsformark',(req,res)=> {
     				attendances: attendances,
     				message: 'Ничего не найдено'
     			})
+
     		}
     	}
     })
-})
 
+
+
+})
+router.get('/gender_girl',(req,res)=>{
+	console.log('girls')
+	User.count({
+		gender: 'Женщина',
+		status: 'student'
+	}).exec(function(err,girls){
+		if(err){
+			res.status(500).send({err: err});
+		} else {
+			res.status(200).send({girls: girls});
+			console.log(girls)
+
+		}
+	})
+
+
+})
+router.get('/gender_all',(req,res)=>{
+	console.log('all')
+
+	User.count({
+		status: 'student'
+	}).exec(function(err,all){
+	    if(err){
+			res.status(500).send({err: err});
+		} else {
+			res.status(200).send({all: all});
+			console.log(all)
+
+		}
+	})
+})
 
 module.exports = router;
