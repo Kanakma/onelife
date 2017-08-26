@@ -21,11 +21,9 @@ class AdminTeachers extends React.Component {
       teacherId: '',
       checkFilter: false
     };
-    this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
     this.openTeacherProfile = this.openTeacherProfile.bind(this);
-
   }
   openTeacherProfile(event){
     this.context.router.history.push('/teacherprofile', {teacherId: event.target.id})
@@ -42,18 +40,6 @@ class AdminTeachers extends React.Component {
           teachers: res.data.allTchrs
         });
       });
-  }
-
-  changeFilter(event){
-    if(event.target.id == 'list'){
-      this.setState({
-        checkFilter: true
-      })
-    } else {
-      this.setState({
-        checkFilter: false
-      })
-    }
   }
 
   getStatus(){
@@ -87,11 +73,6 @@ class AdminTeachers extends React.Component {
         <div className="row">
           <div className="col-md-9">
             <h4>Все преподаватели</h4>
-          </div>
-          <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
-            <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-th-large fa-lg" aria-hidden="true" id="block" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-filter fa-lg" aria-hidden="true" style={{color: '#00c292'}}></i>
           </div>
         </div>
       </div>
@@ -144,66 +125,6 @@ class AdminTeachers extends React.Component {
         }
       </div>
       </div>
-      <div className="my-content"  hidden={!this.state.checkFilter}>
-      <div className="table-responsive">
-
-          <table id="myTable" className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>№</th>
-                      <th>Имя</th>
-                      <th>Степень</th>
-                      <th>Факультет</th>
-                      <th>Телефон</th>
-                      <th>E-mail</th>
-                      {(this.state.status == "admin") ?(
-                        <th><center>Опиции</center></th>
-                      ):(
-                        <th></th>
-                      )}
-                  </tr>
-              </thead>
-              <tbody>
-              {
-                this.state.teachers ? (
-                  this.state.teachers.map((teacher, t) =>{
-                    return(
-                    <tr key={t}>
-                        <td>{t+1}</td>
-                        <td>{teacher.name} {teacher.lastname}</td>
-                        <td>{teacher.degree}</td>
-                        <td>{teacher.faculty_name}</td>
-                        <td>{teacher.phone}</td>
-                        <td>{teacher.email}</td>
-                        {(this.state.status == "admin") ?(
-                          <td className="text-center ">
-                            <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
-                              <i className="fa fa-pencil" style={{color: '#717171'}}></i>
-                            </button>
-                          </td>
-                        ):(
-                          <td></td>
-                        )}
-                    </tr>
-                    )
-                })
-                  ):(
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  )
-              }
-              </tbody>
-
-          </table>
-        </div>
-        </div>
           <AdminEditTeacherModal
             show={this.state.isOpen}
             onClose={this.toggleModalClose}

@@ -212,6 +212,7 @@ router.post('/adddepartment', (req, res) => {
 })
 
 router.post('/addsubject', (req, res) => {
+	console.log(req.body)
 	var s = JSON.parse(req.body.data);
 	var subjectData = {
 		subject_code: s.subject_code,
@@ -1774,7 +1775,7 @@ router.get('/getforsubject', (req, res) => {
 											users.forEach(function(user){
 												if(teacher.user_id.toString() == user._id.toString()){
 													myTeacher = {
-														_id: teacher._id,
+														teacher_id: teacher._id,
 														name: user.name,
 														lastname: user.lastname,
 														faculty_id: teacher.faculty_id
