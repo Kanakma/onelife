@@ -487,10 +487,10 @@ router.post('/addhomeworkfile', (req, res) => {
 								}
 								else {
 									Teacher.findOne({user_id: fields.user_id}, (err, teacher) => {
-										if(err) console.log(err) 
+										if(err) console.log(err)
 										if (teacher){
 											Homework.find((err, homework) => {
-												if(err) console.log(err) 
+												if(err) console.log(err)
 												if(homework) {
 													var newHomework = {
 														message: fields.description,
@@ -995,6 +995,7 @@ router.get('/getfacultiesmajors', (req, res) => {
 		}
 	})
 });
+
 
 router.post('/editdepartment', (req, res) =>{
 	var editedDep = JSON.parse(req.body.department);
