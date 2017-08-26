@@ -1408,7 +1408,7 @@ router.get('/getsubjects', (req, res) => {
 														users.forEach(function(user){
 															if(teacher.user_id.toString() == user._id.toString()){
 																var temp = user.lastname + ' ' + user.name;
-																var remained = subject.max_students - subject.students.length;
+																// var remained = subject.max_students - subject.groups.length;
 																mySubject = {
 																	_id: subject._id,
 																	user_id: teacher.user_id,
@@ -1422,7 +1422,7 @@ router.get('/getsubjects', (req, res) => {
 																	course_number: subject.course_number,
 																	credit_number: subject.credit_number,
 																	max_students: subject.max_students,
-																	remained: remained,
+																	// remained: remained,
 																	img: subject.img
 																}
 																mySubjects.push(mySubject);
@@ -2220,7 +2220,7 @@ router.post('/updatestudentsformark',(req,res)=> {
 
     		if(attendances.length!=0){
     			res.status(200).send({attendances:attendances})
-    		
+
     		} else{
     			res.send({
     				attendances: attendances,
@@ -2274,12 +2274,12 @@ router.get('/count_majors',(req,res) =>{
      	).exec(function(err,major){
 	    if(err){
 	     res.status(500).send({err: err});
-		
+
 		} else {
 		    Major.find().exec(function(err, majors){
 	      	if(err) console.log(err);
 			if(majors){
-					
+
 						majors.forEach(function(m,i){
 							var ind = IndInObjArr(major, m._id, '_id')
 							if(ind.length > 0){
@@ -2288,17 +2288,17 @@ router.get('/count_majors',(req,res) =>{
 							}
 						})
 					//	console.log(majNames)
-						
+
 						res.status(200).send({majNames:majNames})
 
 					}
 			})
 
-  		    
+
 		}
 
 	})
-    	
+
 })
 
 module.exports = router;
