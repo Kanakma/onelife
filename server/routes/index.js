@@ -141,19 +141,22 @@ router.post('/deletemajor', (req, res) =>{
 })
 //This route will add new faculty
 router.post('/addfaculty', (req, res) => {
+  // console.log(req.body.faculty)
 	var faculty = JSON.parse(req.body.faculty);
+  console.log(faculty.faculty_dean.length)
 	var facultyData = {
 		faculty_code: faculty.faculty_code,
 		faculty_name: faculty.faculty_name,
-		faculty_dean: faculty.faculty_dean,
 		faculty_email: faculty.faculty_email,
 		faculty_phone: faculty.faculty_phone,
 		departments: JSON.parse(req.body.departments)
 	}
-
-	Faculty.findOne({faculty_code: facultyData.faculty_code}, (err, faculty) => {
+  if(faculty.faculty_dean.length>0){
+    facultyData.faculty_dean = faculty.faculty_dean
+  }
+	Faculty.findOne({faculty_code: facultyData.faculty_code}, (err, dfaculty) => {
 		if(err) {console.log(err) }
-		else if (faculty){
+		else if (dfaculty){
 			res.status(409).send({
 				message: 'Этот факультет уже есть в списке'
 			})
@@ -917,90 +920,90 @@ router.get('/getmajors', (req, res) => {
 // 	}
 // }
 
-// router.get('/getfaculties', (req, res) => {
-// 	Faculty.find().populate('major_department').exec(function(err, majors){
-// 		if(err) {console.log(err) }
-// 		else {
-// 				  res.send({
-// 						faculties: faculties
-// 					})
-// 		}
-// 	})
-// });
-// This route will load all faculties
 router.get('/getfaculties', (req, res) => {
-	getFaculties()
-		.then(function(faculties){
-			var arrayOfFaculties = facFunction(faculties)
-				async.waterfall(arrayOfFaculties, function(err, allFclts){
-				if(err) console.log("error");
-				res.status(200).send({allFclts})
-			})
-		})
-});
-//This func for collecting all faculties from DBs
-var getFaculties = function(){
-	return new Promise(function(resolve, reject){
-		return Faculty.find(function(err, faculties){
-			if (err) reject(err);
-			else if(faculties){
-				resolve(faculties);
-			}
-		})
-	})
-}
-// This func for iterating each element in faculties array
-var facFunction = function(faculties){
-	return faculties.map(function(faculty){
-		var oneFclty = constructFclty(faculty);
-		return oneFclty;
-	})
-}
-// This func for defining each faculty's fields
-var constructFclty = function(faculty){
-	return function(allFclts, callback){
-		var myFaculty = {};
-		var callBack = (typeof allFclts === 'function') ? allFclts : callback;
-		var allFclts = (typeof allFclts === 'function') ? [] : allFclts;
-		if(faculty.faculty_dean !=''){
-			Teacher.findOne({_id:faculty.faculty_dean}, function(err, teacher){
-				if(err) console.log(err);
-				if(teacher){
-					User.findOne({_id:teacher.user_id}, function(err, user){
-						if(err) console.log(err);
-						if(user){
-								myFaculty = {
-								_id: faculty._id,
-								faculty_code: faculty.faculty_code,
-								faculty_name: faculty.faculty_name,
-								faculty_dean: user.lastname + ' ' + user.name,
-								faculty_email: faculty.faculty_email,
-								faculty_phone: faculty.faculty_phone,
-								departments: faculty.departments
-							}
-							allFclts.push(myFaculty)
-						}
-						callBack(null, allFclts)
+	Faculty.find().populate('departments').populate({path: 'faculty_dean', populate: {path: 'user_id'}}).exec(function(err, faculties){
+		if(err) {console.log(err) }
+		else {
+				  res.send({
+						faculties: faculties
 					})
-				}
-			})
 		}
-		else{
-			myFaculty = {
-					_id: faculty._id,
-					faculty_code: faculty.faculty_code,
-					faculty_name: faculty.faculty_name,
-					faculty_dean: 'Декан еще не назначен!!!',
-					faculty_email: faculty.faculty_email,
-					faculty_phone: faculty.faculty_phone,
-					departments: faculty.departments
-				}
-			allFclts.push(myFaculty)
-
-			callBack(null, allFclts)
-		}
-	}
-}
+	})
+});
+// This route will load all faculties
+// router.get('/getfaculties', (req, res) => {
+// 	getFaculties()
+// 		.then(function(faculties){
+// 			var arrayOfFaculties = facFunction(faculties)
+// 				async.waterfall(arrayOfFaculties, function(err, allFclts){
+// 				if(err) console.log("error");
+// 				res.status(200).send({allFclts})
+// 			})
+// 		})
+// });
+// //This func for collecting all faculties from DBs
+// var getFaculties = function(){
+// 	return new Promise(function(resolve, reject){
+// 		return Faculty.find(function(err, faculties){
+// 			if (err) reject(err);
+// 			else if(faculties){
+// 				resolve(faculties);
+// 			}
+// 		})
+// 	})
+// }
+// // This func for iterating each element in faculties array
+// var facFunction = function(faculties){
+// 	return faculties.map(function(faculty){
+// 		var oneFclty = constructFclty(faculty);
+// 		return oneFclty;
+// 	})
+// }
+// // This func for defining each faculty's fields
+// var constructFclty = function(faculty){
+// 	return function(allFclts, callback){
+// 		var myFaculty = {};
+// 		var callBack = (typeof allFclts === 'function') ? allFclts : callback;
+// 		var allFclts = (typeof allFclts === 'function') ? [] : allFclts;
+// 		if(faculty.faculty_dean !=''){
+// 			Teacher.findOne({_id:faculty.faculty_dean}, function(err, teacher){
+// 				if(err) console.log(err);
+// 				if(teacher){
+// 					User.findOne({_id:teacher.user_id}, function(err, user){
+// 						if(err) console.log(err);
+// 						if(user){
+// 								myFaculty = {
+// 								_id: faculty._id,
+// 								faculty_code: faculty.faculty_code,
+// 								faculty_name: faculty.faculty_name,
+// 								faculty_dean: user.lastname + ' ' + user.name,
+// 								faculty_email: faculty.faculty_email,
+// 								faculty_phone: faculty.faculty_phone,
+// 								departments: faculty.departments
+// 							}
+// 							allFclts.push(myFaculty)
+// 						}
+// 						callBack(null, allFclts)
+// 					})
+// 				}
+// 			})
+// 		}
+// 		else{
+// 			myFaculty = {
+// 					_id: faculty._id,
+// 					faculty_code: faculty.faculty_code,
+// 					faculty_name: faculty.faculty_name,
+// 					faculty_dean: 'Декан еще не назначен!!!',
+// 					faculty_email: faculty.faculty_email,
+// 					faculty_phone: faculty.faculty_phone,
+// 					departments: faculty.departments
+// 				}
+// 			allFclts.push(myFaculty)
+//
+// 			callBack(null, allFclts)
+// 		}
+// 	}
+// }
 // router.get('/getdepartments', (req, res) => {
 // 	Department.find().populate('')
 // 				if(err) console.log("error");
@@ -1008,71 +1011,82 @@ var constructFclty = function(faculty){
 // 			})
 // 		})
 // })
-// This route will load all departments info
+
 router.get('/getdepartments', (req, res) => {
-	getDepartments()
-		.then(function(departments){
-			var arrayOfDepartments = depFunction(departments);
-			async.waterfall(arrayOfDepartments, function(err, allDprtmnts){
-				if(err) console.log("error");
-				res.status(200).send({allDprtmnts})
-			})
-		})
+  Department.find().populate({path: 'department_director', populate: {path: 'user_id'}}).populate('department_faculty').exec(function(err, departments){
+    if(err) {console.log(err) }
+    else {
+          res.send({
+            departments: departments
+          })
+    }
+  })
 })
-// Func for collecting all departments from DBs
-var getDepartments = function(){
-	return new Promise(function(resolve, reject){
-		return Department.find({}, function(err, departments){
-			if (err) reject(err);
-			else if(departments){
-				resolve(departments);
-			}
-		})
-	})
-}
-// This func for iterating each element in departments array
-var depFunction = function(departments){
-	return departments.map(function(department){
-		var oneDprtmnt = constructDeps(department);
-		return oneDprtmnt;
-	})
-}
-// This func for defining each department's fields
-var constructDeps = function(department){
-	return function(allDprtmnts, callback){
-		var myDepartment = {};
-		var callBack = (typeof allDprtmnts === 'function') ? allDprtmnts : callback;
-		var allDprtmnts = (typeof allDprtmnts === 'function') ? [] : allDprtmnts;
-		Faculty.findOne({_id:department.department_faculty}, function(err, faculty){
-			if(err) console.log(err);
-			if(faculty){
-				Teacher.findOne({_id:department.department_director}, function(err, teacher){
-					if(err) console.log(err);
-					if(teacher){
-						User.findOne({_id:teacher.user_id}, function(err, user){
-							if(err) console.log(err);
-							if(user){
-								myDepartment = {
-									_id: department._id,
-									department_code: department.department_code,
-									department_name: department.department_name,
-								  department_director: user.lastname + ' ' + user.name,
-								  department_email: department.department_email,
-								  department_phone: department.department_phone,
-								  department_faculty_name:faculty.faculty_name,
-								  department_faculty:department.department_faculty,
-								  majors: department.majors
-								}
-								allDprtmnts.push(myDepartment)
-							}
-								callBack(null, allDprtmnts)
-						})
-					}
-				})
-			}
-		})
-	}
-}
+// This route will load all departments info
+// router.get('/getdepartments', (req, res) => {
+// 	getDepartments()
+// 		.then(function(departments){
+// 			var arrayOfDepartments = depFunction(departments);
+// 			async.waterfall(arrayOfDepartments, function(err, allDprtmnts){
+// 				if(err) console.log("error");
+// 				res.status(200).send({allDprtmnts})
+// 			})
+// 		})
+// })
+// // Func for collecting all departments from DBs
+// var getDepartments = function(){
+// 	return new Promise(function(resolve, reject){
+// 		return Department.find({}, function(err, departments){
+// 			if (err) reject(err);
+// 			else if(departments){
+// 				resolve(departments);
+// 			}
+// 		})
+// 	})
+// }
+// // This func for iterating each element in departments array
+// var depFunction = function(departments){
+// 	return departments.map(function(department){
+// 		var oneDprtmnt = constructDeps(department);
+// 		return oneDprtmnt;
+// 	})
+// }
+// // This func for defining each department's fields
+// var constructDeps = function(department){
+// 	return function(allDprtmnts, callback){
+// 		var myDepartment = {};
+// 		var callBack = (typeof allDprtmnts === 'function') ? allDprtmnts : callback;
+// 		var allDprtmnts = (typeof allDprtmnts === 'function') ? [] : allDprtmnts;
+// 		Faculty.findOne({_id:department.department_faculty}, function(err, faculty){
+// 			if(err) console.log(err);
+// 			if(faculty){
+// 				Teacher.findOne({_id:department.department_director}, function(err, teacher){
+// 					if(err) console.log(err);
+// 					if(teacher){
+// 						User.findOne({_id:teacher.user_id}, function(err, user){
+// 							if(err) console.log(err);
+// 							if(user){
+// 								myDepartment = {
+// 									_id: department._id,
+// 									department_code: department.department_code,
+// 									department_name: department.department_name,
+// 								  department_director: user.lastname + ' ' + user.name,
+// 								  department_email: department.department_email,
+// 								  department_phone: department.department_phone,
+// 								  department_faculty_name:faculty.faculty_name,
+// 								  department_faculty:department.department_faculty,
+// 								  majors: department.majors
+// 								}
+// 								allDprtmnts.push(myDepartment)
+// 							}
+// 								callBack(null, allDprtmnts)
+// 						})
+// 					}
+// 				})
+// 			}
+// 		})
+// 	}
+// }
 router.get('/getfacultiesmajors', (req, res) => {
 	Faculty.find((err, faculties) => {
 		if(err) {console.log(err) }
@@ -1490,135 +1504,6 @@ router.post('/addtest', (req, res) => {
 	})
 });
 
-// router.get('/getsubjects', (req, res) => {
-// 	var mySubjects = [];
-// 	var subjectNames = [];
-// 	var mySubject = {};
-// 	Subject.find((err, subjects) => {
-// 		if(err) {console.log(err) }
-// 		else {
-// 			Major.find((err, majors) => {
-// 				if(err) {console.log(err) }
-// 				else {
-// 					Teacher.find((err, teachers) => {
-// 						if(err) {console.log(err) }
-// 						else {
-// 							User.find((err, users) => {
-// 								if(err) {console.log(err) }
-// 								else {
-// 									subjects.forEach(function(subject){
-// 										majors.forEach(function(major){
-// 											if(subject.major_id.toString() == major._id.toString()){
-// 												teachers.forEach(function(teacher){
-// 													if(subject.teacher_id.toString() == teacher._id.toString()){
-// 														users.forEach(function(user){
-// 															if(teacher.user_id.toString() == user._id.toString()){
-// 																var temp = user.lastname + ' ' + user.name;
-// 																var remained = subject.max_students - subject.students.length;
-// 																mySubject = {
-// 																	_id: subject._id,
-// 																	user_id: teacher.user_id,
-// 																	subject_name: subject.subject_name,
-// 																	subject_code: subject.subject_code,
-// 																	description: subject.description,
-// 																	major_name: major.major_name,
-// 																	teacher_name: temp,
-// 																	teacher_id: subject.teacher_id,
-// 																	period: subject.period,
-// 																	course_number: subject.course_number,
-// 																	credit_number: subject.credit_number,
-// 																	max_students: subject.max_students,
-// 																	remained: remained,
-// 																	img: subject.img
-// 																}
-// 																mySubjects.push(mySubject);
-// 																subjectNames.push(mySubject.subject_name);
-// 															}
-// 														})
-// 													}
-// 												})
-// 											}
-// 										})
-// 									})
-// 									res.send({
-// 										subjects: mySubjects,
-// 										subject_names: subjectNames
-// 									})
-// 								}
-// 							})
-// 						}
-// 					})
-// 				}
-// 			})
-
-// 		}
-// 	})
-// });
-
-// router.get('/getsubjects', (req, res) => {
-// 	var mySubjects = [];
-// 	var subjectNames = [];
-// 	var mySubject = {};
-// 	Subject.find((err, subjects) => {
-// 		if(err) {console.log(err) }
-// 		else {
-// 			Major.find((err, majors) => {
-// 				if(err) {console.log(err) }
-// 				else {
-// 					Teacher.find((err, teachers) => {
-// 						if(err) {console.log(err) }
-// 						else {
-// 							User.find((err, users) => {
-// 								if(err) {console.log(err) }
-// 								else {
-// 									subjects.forEach(function(subject){
-// 										majors.forEach(function(major){
-// 											if(subject.major_id.toString() == major._id.toString()){
-// 												teachers.forEach(function(teacher){
-// 													if(subject.teacher_id.toString() == teacher._id.toString()){
-// 														users.forEach(function(user){
-// 															if(teacher.user_id.toString() == user._id.toString()){
-// 																var temp = user.lastname + ' ' + user.name;
-// 																// var remained = subject.max_students - subject.groups.length;
-// 																mySubject = {
-// 																	_id: subject._id,
-// 																	user_id: teacher.user_id,
-// 																	subject_name: subject.subject_name,
-// 																	subject_code: subject.subject_code,
-// 																	description: subject.description,
-// 																	major_name: major.major_name,
-// 																	teacher_name: temp,
-// 																	teacher_id: subject.teacher_id,
-// 																	period: subject.period,
-// 																	course_number: subject.course_number,
-// 																	credit_number: subject.credit_number,
-// 																	max_students: subject.max_students,
-// 																	// remained: remained,
-// 																	img: subject.img
-// 																}
-// 																mySubjects.push(mySubject);
-// 																subjectNames.push(mySubject.subject_name);
-// 															}
-// 														})
-// 													}
-// 												})
-// 											}
-// 										})
-// 									})
-// 									res.send({
-// 										subjects: mySubjects,
-// 										subject_names: subjectNames
-// 									})
-// 								}
-// 							})
-// 						}
-// 					})
-// 				}
-// 			})
-//
-// 		}
-// 	})
-// });
 router.get('/getsubjects', (req, res) => {
 	Subject.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
 		if(err) {console.log(err) }
@@ -1966,69 +1851,17 @@ router.get('/getstudents', (req, res) =>{
 		}
 	})
 })
-
-router.get('/getgroups', (req, res) => {
-	getGroups()
-		.then(function(groups){
-				var arrayOfGroups = groupFunction(groups)
-				async.waterfall(arrayOfGroups, function(err, allGroups){
-				if(err) console.log("error");
-				res.status(200).send({allGroups})
-			})
-		})
-});
-
-var getGroups = function(){
-	return new Promise(function(resolve, reject){
-		return Group.find(function(err, groups){
-			if (err) reject(err);
-			else if(groups){
-				resolve(groups);
-			}
-		})
-	})
-}
-// This func for iterating each element in majors array
-var groupFunction = function(groups){
-	return groups.map(function(group){
-		var oneGroup = constructGroup(group);
-		return oneGroup;
-	})
-}
-// This func for defining each major's fields
-var constructGroup = function(group){
-	return function(allGroups, callback){
-		var myGroup = {};
-		var callBack = (typeof allGroups === 'function') ? allGroups : callback;
-		var allGroups = (typeof allGroups === 'function') ? [] : allGroups;
-		if(group.major!=''){
-			Major.findOne({_id:group.major}).populate('major_department').exec(function(err, major){
-				if(err) console.log(err);
-				if(major){
-
-					Teacher.findOne({_id:group.curator}).populate('user_id').exec(function(err, teacher){
-						if(err) console.log(err);
-						if(teacher){
-					myGroup = {
-						group_id:group._id,
-						group_name:group.group_name,
-						course_number:group.course_number,
-						major:group.major,
-						major_name: major.major_name,
-						curator_name: teacher.user_id.name,
-						curator_lastname: teacher.user_id.lastname,
-						group_department: major.major_department.department_name,
-						students: group.students
-					}
-				allGroups.push(myGroup);
-			}
-			callBack(null, allGroups)
-		})
-				}
+router.get('/getgroups', (req, res) =>{
+	Group.find().populate({path: 'curator', populate: {path: 'user_id'}}).populate({path: 'major', populate: {path: 'major_department'}}).exec(function(err, groups){
+		if(err) console.log(err);
+		if(groups){
+			res.send({
+				groups: groups
 			})
 		}
-	}
-}
+	})
+})
+
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {
 		if(err) {console.log(err) }
@@ -2249,35 +2082,40 @@ router.post('/deletesubject', (req, res)=>{
 	})
 })
 
-router.post('/addgroup',(req, res) =>{
-	var group = JSON.parse(req.body.group);
+router.post('/addgroup', (req, res) => {
+  var group = JSON.parse(req.body.group);
 	Group.findOne({group_name: group.group_name}, function(err, dgroup){
-		if(err) {
-			console.log(err);
-		}
-		else if(dgroup){
+		if(err) {console.log(err) }
+		else if (dgroup){
 			res.status(409).send({
 				message: 'Эта группа уже есть в списке'
 			})
 		} else {
-			var groupData = {
-				group_name: group.group_name,
-				curator: group.curator,
-				major: group.major,
-				course_number: group.course_number
-			}
-					const newGroup = new Group(groupData);
-					newGroup.save((err) => {
-						if (err) { console.log(err); }
-						else {
-							res.send({
-								message: 'Группа удачно добавлена'
+			const newGroup = new Group(group);
+		  newGroup.save(function(err, savedGroup){
+		    if(err) console.log(err);
+				if(savedGroup) {
+          console.log(savedGroup)
+					Major.findOne({_id:group.major}, function(err, major){
+						if(err) console.log(err);
+						if(major){
+              console.log(major)
+							major.groups.push(savedGroup._id)
+							major.save(function(err, savedMajor){
+								if(err) console.log(err);
+								if(savedMajor){
+									res.send({
+										message: 'Группа удачно добавлена'
+									})
+								}
 							})
 						}
-					});
+					})
+				}
+		  });
 		}
 	})
-})
+});
 router.post('/editgroup', (req, res) => {
 	var editedGroup = JSON.parse(req.body.editedGroup);
 		Group.findOne({_id: req.body.group_id}, function(err, group){

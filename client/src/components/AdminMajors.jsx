@@ -45,7 +45,6 @@ class AdminMajors extends React.Component {
   }
 
   render() {
-
     return (
       <div className="container clearfix">
       <div className="bg-title">
