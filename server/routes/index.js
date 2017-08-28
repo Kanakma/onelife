@@ -809,74 +809,95 @@ router.post('/editstudent', (req, res) =>{
 })
 
 
+router.get('/getmajors', (req, res) => {
+	Major.find().populate('major_department').exec(function(err, majors){
+		if(err) {console.log(err) }
+		else {
+				  res.send({
+						majors: majors
+					})
+		}
+	})
+});
 
 //This route will load all majors
-router.get('/getmajors', (req, res) => {
-	getMajors()
-		.then(function(majors){
-				var arrayOfMajors = majFunction(majors)
-				async.waterfall(arrayOfMajors, function(err, allMjrs){
-				if(err) console.log("error");
-				res.status(200).send({allMjrs})
-			})
-		})
-});
-//This func for collecting all majors from DBs
-var getMajors = function(){
-	return new Promise(function(resolve, reject){
-		return Major.find(function(err, majors){
-			if (err) reject(err);
-			else if(majors){
-				resolve(majors);
-			}
-		})
-	})
-}
-// This func for iterating each element in majors array
-var majFunction = function(majors){
-	return majors.map(function(major){
-		var oneMjr = constructMjr(major);
-		return oneMjr;
-	})
-}
-// This func for defining each major's fields
-var constructMjr = function(major){
-	return function(allMjrs, callback){
-		var myMajor = {};
-		var callBack = (typeof allMjrs === 'function') ? allMjrs : callback;
-		var allMjrs = (typeof allMjrs === 'function') ? [] : allMjrs;
-		if(major.major_department!=''){
-			Department.findOne({_id:major.major_department}, function(err, department){
-				if(err) console.log(err);
-				if(department){
-					myMajor = {
-						major_id:major._id,
-						major_name:major.major_name,
-						major_code:major.major_code,
-						major_group:major.major_group,
-						major_departmentId:major.major_department,
-						major_departmentName:department.department_name
-					}
-				allMjrs.push(myMajor);
-				}
-				callBack(null, allMjrs)
-			})
-		}
-		else{
-			myMajor = {
-						major_id:major._id,
-						major_name:major.major_name,
-						major_code:major.major_code,
-						major_group:major.major_group,
-						major_departmentId:'Нет Департамента',
-						major_departmentName:'Нет Департамента'
-			}
-			allMjrs.push(myMajor);
-			callBack(null, allMjrs)
-		}
-	}
-}
-//This route will load all faculties
+// router.get('/getmajors', (req, res) => {
+// 	getMajors()
+// 		.then(function(majors){
+// 				var arrayOfMajors = majFunction(majors)
+// 				async.waterfall(arrayOfMajors, function(err, allMjrs){
+// 				if(err) console.log("error");
+// 				res.status(200).send({allMjrs})
+// 			})
+// 		})
+// });
+// //This func for collecting all majors from DBs
+// var getMajors = function(){
+// 	return new Promise(function(resolve, reject){
+// 		return Major.find(function(err, majors){
+// 			if (err) reject(err);
+// 			else if(majors){
+// 				resolve(majors);
+// 			}
+// 		})
+// 	})
+// }
+// // This func for iterating each element in majors array
+// var majFunction = function(majors){
+// 	return majors.map(function(major){
+// 		var oneMjr = constructMjr(major);
+// 		return oneMjr;
+// 	})
+// }
+// // This func for defining each major's fields
+// var constructMjr = function(major){
+// 	return function(allMjrs, callback){
+// 		var myMajor = {};
+// 		var callBack = (typeof allMjrs === 'function') ? allMjrs : callback;
+// 		var allMjrs = (typeof allMjrs === 'function') ? [] : allMjrs;
+// 		if(major.major_department!=''){
+// 			Department.findOne({_id:major.major_department}, function(err, department){
+// 				if(err) console.log(err);
+// 				if(department){
+// 					myMajor = {
+// 						major_id:major._id,
+// 						major_name:major.major_name,
+// 						major_code:major.major_code,
+// 						major_group:major.major_group,
+// 						major_departmentId:major.major_department,
+// 						major_departmentName:department.department_name
+// 					}
+// 				allMjrs.push(myMajor);
+// 				}
+// 				callBack(null, allMjrs)
+// 			})
+// 		}
+// 		else{
+// 			myMajor = {
+// 						major_id:major._id,
+// 						major_name:major.major_name,
+// 						major_code:major.major_code,
+// 						major_group:major.major_group,
+// 						major_departmentId:'Нет Департамента',
+// 						major_departmentName:'Нет Департамента'
+// 			}
+// 			allMjrs.push(myMajor);
+// 			callBack(null, allMjrs)
+// 		}
+// 	}
+// }
+
+// router.get('/getfaculties', (req, res) => {
+// 	Faculty.find().populate('major_department').exec(function(err, majors){
+// 		if(err) {console.log(err) }
+// 		else {
+// 				  res.send({
+// 						faculties: faculties
+// 					})
+// 		}
+// 	})
+// });
+// This route will load all faculties
 router.get('/getfaculties', (req, res) => {
 	getFaculties()
 		.then(function(faculties){
@@ -950,7 +971,14 @@ var constructFclty = function(faculty){
 		}
 	}
 }
-//This route will load all departments info
+// router.get('/getdepartments', (req, res) => {
+// 	Department.find().populate('')
+// 				if(err) console.log("error");
+// 				res.status(200).send({allDprtmnts})
+// 			})
+// 		})
+// })
+// This route will load all departments info
 router.get('/getdepartments', (req, res) => {
 	getDepartments()
 		.then(function(departments){
@@ -1201,6 +1229,55 @@ router.get('/getonetest', (req, res) => {
 
 });
 
+// router.get('/gettests', (req, res) => {
+// 	var myTest = {};
+// 	var myTests = [];
+// 	Quiz.find((err, tests) => {
+// 		if(err)  { console.log(err) }
+// 		else {
+// 			Subject.find((err, subjects) => {
+// 				if(err)  { console.log(err) }
+// 				else {
+// 					Teacher.find((err, teachers) => {
+// 						if(err)  { console.log(err) }
+// 						else {
+// 							User.find((err, users) => {
+// 								if(err)  { console.log(err) }
+// 								else {
+// 									tests.forEach(function(t){
+// 										subjects.forEach(function(s){
+// 											if(t.subject_id.toString() == s._id.toString()){
+// 												teachers.forEach(function(tt){
+// 													if(t.teacher_id.toString() == tt._id.toString()){
+// 														users.forEach(function(u){
+// 															if(tt.user_id.toString() == u._id.toString()){
+// 																myTest = {
+// 																	_id: t._id,
+// 																	subject_name: s.subject_name,
+// 																	q_number: t.q_number,
+// 																	teacher_name: u.lastname + ' ' + u.name,
+// 																	status: t.status
+// 																}
+// 																myTests.push(myTest);
+// 															}
+// 														})
+// 													}
+// 												})
+// 											}
+// 										})
+// 									})
+// 									res.send({
+// 										tests: myTests
+// 									})
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
+// 		}
+// 	})
+// });
 router.get('/gettests', (req, res) => {
 	var myTest = {};
 	var myTests = [];
@@ -1384,70 +1461,81 @@ router.post('/addtest', (req, res) => {
 });
 
 
+// router.get('/getsubjects', (req, res) => {
+// 	var mySubjects = [];
+// 	var subjectNames = [];
+// 	var mySubject = {};
+// 	Subject.find((err, subjects) => {
+// 		if(err) {console.log(err) }
+// 		else {
+// 			Major.find((err, majors) => {
+// 				if(err) {console.log(err) }
+// 				else {
+// 					Teacher.find((err, teachers) => {
+// 						if(err) {console.log(err) }
+// 						else {
+// 							User.find((err, users) => {
+// 								if(err) {console.log(err) }
+// 								else {
+// 									subjects.forEach(function(subject){
+// 										majors.forEach(function(major){
+// 											if(subject.major_id.toString() == major._id.toString()){
+// 												teachers.forEach(function(teacher){
+// 													if(subject.teacher_id.toString() == teacher._id.toString()){
+// 														users.forEach(function(user){
+// 															if(teacher.user_id.toString() == user._id.toString()){
+// 																var temp = user.lastname + ' ' + user.name;
+// 																// var remained = subject.max_students - subject.groups.length;
+// 																mySubject = {
+// 																	_id: subject._id,
+// 																	user_id: teacher.user_id,
+// 																	subject_name: subject.subject_name,
+// 																	subject_code: subject.subject_code,
+// 																	description: subject.description,
+// 																	major_name: major.major_name,
+// 																	teacher_name: temp,
+// 																	teacher_id: subject.teacher_id,
+// 																	period: subject.period,
+// 																	course_number: subject.course_number,
+// 																	credit_number: subject.credit_number,
+// 																	max_students: subject.max_students,
+// 																	// remained: remained,
+// 																	img: subject.img
+// 																}
+// 																mySubjects.push(mySubject);
+// 																subjectNames.push(mySubject.subject_name);
+// 															}
+// 														})
+// 													}
+// 												})
+// 											}
+// 										})
+// 									})
+// 									res.send({
+// 										subjects: mySubjects,
+// 										subject_names: subjectNames
+// 									})
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
+//
+// 		}
+// 	})
+// });
 router.get('/getsubjects', (req, res) => {
-	var mySubjects = [];
-	var subjectNames = [];
-	var mySubject = {};
-	Subject.find((err, subjects) => {
+	Subject.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
 		if(err) {console.log(err) }
 		else {
-			Major.find((err, majors) => {
-				if(err) {console.log(err) }
-				else {
-					Teacher.find((err, teachers) => {
-						if(err) {console.log(err) }
-						else {
-							User.find((err, users) => {
-								if(err) {console.log(err) }
-								else {
-									subjects.forEach(function(subject){
-										majors.forEach(function(major){
-											if(subject.major_id.toString() == major._id.toString()){
-												teachers.forEach(function(teacher){
-													if(subject.teacher_id.toString() == teacher._id.toString()){
-														users.forEach(function(user){
-															if(teacher.user_id.toString() == user._id.toString()){
-																var temp = user.lastname + ' ' + user.name;
-																// var remained = subject.max_students - subject.groups.length;
-																mySubject = {
-																	_id: subject._id,
-																	user_id: teacher.user_id,
-																	subject_name: subject.subject_name,
-																	subject_code: subject.subject_code,
-																	description: subject.description,
-																	major_name: major.major_name,
-																	teacher_name: temp,
-																	teacher_id: subject.teacher_id,
-																	period: subject.period,
-																	course_number: subject.course_number,
-																	credit_number: subject.credit_number,
-																	max_students: subject.max_students,
-																	// remained: remained,
-																	img: subject.img
-																}
-																mySubjects.push(mySubject);
-																subjectNames.push(mySubject.subject_name);
-															}
-														})
-													}
-												})
-											}
-										})
-									})
-									res.send({
-										subjects: mySubjects,
-										subject_names: subjectNames
-									})
-								}
-							})
-						}
+				  res.send({
+						subjects: subjects
 					})
-				}
-			})
-
 		}
 	})
 });
+
 router.get('/getsubject', (req, res) => {
 	var subjectId = req.query.subjectId;
 	var mySubject = {};
@@ -1472,74 +1560,129 @@ router.get('/getonesubject', (req, res) => {
 	var token = req.headers.authorization.split(' ')[1];
 	var decoded = jwtDecode(token);
 	var already = false;
-	Subject.findOne({_id: subjectId}, (err, subject) => {
+	Subject.findOne({_id: subjectId}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
 		if(err) { console.log(err) }
 		else {
-			Major.findOne({_id: subject.major_id}, (err, major) => {
-				if(err) { console.log(err) }
-				else {
-					Teacher.findOne({_id: subject.teacher_id}, (err, teacher) => {
-						if(err) { console.log(err) }
-						else {
-							User.findOne({_id: teacher.user_id}, (err, user) => {
-								if(err) { console.log(err) }
-								else {
-									Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
-										if(err) console.log(err);
-										else{
-											mySubject = {
-												_id: subject._id,
-												subject_name: subject.subject_name,
-												subject_code: subject.subject_code,
-												description: subject.description,
-												major_name: major.major_name,
-												teacher_name: user.lastname + ' ' + user.name,
-												period: subject.period,
-												course_number: subject.course_number,
-												credit_number: subject.credit_number,
-												max_students: subject.max_students,
-												remained: subject.max_students - subject.students.length,
-												img: subject.img
-											}
-											if(subject.students.length < subject.max_students){
-												subject.students.forEach(function(s){
-
-													if(s.toString() == studentSSS._id.toString()){
-														already = true;
-													}
-												})
-												if(already){
-													res.send({
-														subject: mySubject,
-														message: "Вы записаны на этот предмет",
-														already: already
-													})
-												} else {
-													res.send({
-														subject: mySubject,
-														message: "",
-														already: already
-													})
-												}
-											} else {
+									// Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
+									// 	if(err) console.log(err);
+									// 	else{
+									// 		mySubject = {
+									// 			_id: subject._id,
+									// 			subject_name: subject.subject_name,
+									// 			subject_code: subject.subject_code,
+									// 			description: subject.description,
+									// 			major_name: major.major_name,
+									// 			teacher_name: user.lastname + ' ' + user.name,
+									// 			period: subject.period,
+									// 			course_number: subject.course_number,
+									// 			credit_number: subject.credit_number,
+									// 			max_students: subject.max_students,
+									// 			remained: subject.max_students - subject.students.length,
+									// 			img: subject.img
+									// 		}
+									// 		if(subject.students.length < subject.max_students){
+									// 			subject.students.forEach(function(s){
+                  //
+									// 				if(s.toString() == studentSSS._id.toString()){
+									// 					already = true;
+									// 				}
+									// 			})
+									// 			if(already){
+									// 				res.send({
+									// 					subject: mySubject,
+									// 					message: "Вы записаны на этот предмет",
+									// 					already: already
+									// 				})
+									// 			} else {
+									// 				res.send({
+									// 					subject: mySubject,
+									// 					message: "",
+									// 					already: already
+									// 				})
+									// 			}
+									// 		} else {
 												res.send({
-													subject: mySubject,
-													message: "Достигнуто максимальное количество студентов",
-													already: true
+													subject: subject
+													// message: "Достигнуто максимальное количество студентов",
+													// already: true
 												})
-											}
-										}
-									})
-
-								}
-							})
-						}
-					})
-				}
-			})
 		}
 	})
 })
+// router.get('/getonesubject', (req, res) => {
+// 	var subjectId = req.query.subjectId;
+// 	var mySubject = {};
+// 	var token = req.headers.authorization.split(' ')[1];
+// 	var decoded = jwtDecode(token);
+// 	var already = false;
+// 	Subject.findOne({_id: subjectId}, (err, subject) => {
+// 		if(err) { console.log(err) }
+// 		else {
+// 			Major.findOne({_id: subject.major_id}, (err, major) => {
+// 				if(err) { console.log(err) }
+// 				else {
+// 					Teacher.findOne({_id: subject.teacher_id}, (err, teacher) => {
+// 						if(err) { console.log(err) }
+// 						else {
+// 							User.findOne({_id: teacher.user_id}, (err, user) => {
+// 								if(err) { console.log(err) }
+// 								else {
+// 									Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
+// 										if(err) console.log(err);
+// 										else{
+// 											mySubject = {
+// 												_id: subject._id,
+// 												subject_name: subject.subject_name,
+// 												subject_code: subject.subject_code,
+// 												description: subject.description,
+// 												major_name: major.major_name,
+// 												teacher_name: user.lastname + ' ' + user.name,
+// 												period: subject.period,
+// 												course_number: subject.course_number,
+// 												credit_number: subject.credit_number,
+// 												max_students: subject.max_students,
+// 												remained: subject.max_students - subject.students.length,
+// 												img: subject.img
+// 											}
+// 											if(subject.students.length < subject.max_students){
+// 												subject.students.forEach(function(s){
+//
+// 													if(s.toString() == studentSSS._id.toString()){
+// 														already = true;
+// 													}
+// 												})
+// 												if(already){
+// 													res.send({
+// 														subject: mySubject,
+// 														message: "Вы записаны на этот предмет",
+// 														already: already
+// 													})
+// 												} else {
+// 													res.send({
+// 														subject: mySubject,
+// 														message: "",
+// 														already: already
+// 													})
+// 												}
+// 											} else {
+// 												res.send({
+// 													subject: mySubject,
+// 													message: "Достигнуто максимальное количество студентов",
+// 													already: true
+// 												})
+// 											}
+// 										}
+// 									})
+//
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
+// 		}
+// 	})
+// })
 
 router.get('/getteachersubjects', (req, res) => {
 	var userId = req.query.teacherId;

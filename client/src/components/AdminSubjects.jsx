@@ -70,7 +70,7 @@ class AdminSubjects extends React.Component {
           </div>
         </div>
           { this.state.subjects.length>0 ? (
-              <div className=" my-content"> 
+              <div className=" my-content">
                 <div className="row"  >
                   {
                     this.state.subjects.map((subject, s) =>
@@ -82,9 +82,8 @@ class AdminSubjects extends React.Component {
                               <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
                           </div>
                           <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
-                          <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_name}</span></p>
-                          <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_name}</span></p>
-                          <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
+                          <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_id.major_name}</span></p>
+                          <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
                             <div>
                               <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                               <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
