@@ -247,8 +247,7 @@ router.post('/adddepartment', (req, res) => {
 })
 
 router.post('/addsubject', (req, res) => {
-	if(req.query.withimage){
-		console.log("With image")
+	if(req.query.image){
 		let form = new multiparty.Form();
 		form.parse(req, (err, fields, files) => {
 		  var tempPath = files.imageFile[0].path;
@@ -261,48 +260,50 @@ router.post('/addsubject', (req, res) => {
 					fs.unlink(tempPath, () => {
 						if(err) {return res.status(401).end();}
 						else {
+							var info = JSON.parse(fields.data)
+							var optional = JSON.parse(fields.optional)
+							var faculty_id = JSON.parse(fields.faculty_id)
 							var subjectData = {
-								subject_code: s.subject_code,
-								subject_name: s.subject_name,
-								teacher_id: s.teacher_id,
-								faculty_id: s.major_id,
-								period: s.period,
-								course_number: s.course_number,
-								credit_number: s.credit_number,
-								max_students: s.max_students,
-								description: s.description,
-								optional:s.optional
+								subject_code: info.subject_code,
+								subject_name: info.subject_name,
+								teacher_id: info.teacher_id,
+								period: info.period,
+								course_number: info.course_number,
+								credit_number: info.credit_number,
+								max_students: info.max_students,
+								description: info.description,
+								optional: fields.optional,
+								img: fileName
 							}
-							console.log(fields)
-							// Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
-							// 	if(err)console.log(err);
-							// 	 else if(subject){
-							// 		res.status(409).send({
-							// 			message: 'Этот предмет уже есть в списке'
-							// 		})
-							// 	} else {
-							// 		const newSubject = new Subject(subjectData);
-							// 	  newSubject.save((err, subject) => {
-							// 	    if (err) { return done(err); }
-							// 			else {
-							// 				res.send({
-							// 					subject: subject,
-							// 					message:'Предмет удачно добавлен'
-							// 				})
-							// 			}
-							// 	  });
-							// 	}
-							// })
+							if(faculty_id.length>0){
+								subjectData.faculty_id = faculty_id
+							}
+							Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
+								if(err) console.log(err);
+								else if (subject){
+									res.status(409).send({
+										message: 'Этот предмет уже есть в списке'
+									})
+								} else {
+									const newSubject = new Subject(subjectData);
+								  newSubject.save((err, subject) => {
+								    if (err) console.log(err);
+										else {
+											res.send({
+												subject: subject,
+												message:'Предмет удачно добавлен'
+											})
+										}
+								  });
+								}
+							})
 						}
 					})
 				})
 			})
 		})
-
 	} else {
-		console.log("With no image")
 		var s = JSON.parse(req.body.data);
-		console.log(req.body)
 		var subjectData = {
 			subject_code: s.subject_code,
 			subject_name: s.subject_name,

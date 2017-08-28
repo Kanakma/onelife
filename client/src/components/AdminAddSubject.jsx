@@ -43,7 +43,10 @@ class AdminAddSubject extends React.Component {
       checkMajor: false,
       checkContent: false,
       checkFaculty: false,
-      checkTeacher:false
+      checkTeacher:false,
+      typeValue:'Общеобразовательный',
+      optionalValue:'Факультативный'
+
     };
     this.changeSubject = this.changeSubject.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -158,9 +161,9 @@ class AdminAddSubject extends React.Component {
         let imageFormData = new FormData();
         imageFormData.append('imageFile', this.state.file);
         imageFormData.append('data', JSON.stringify(this.state.subject));
-        imageFormData.append('faculty_id', this.state.faculty_name);
-        imageFormData.append('optional', this.state.optional);
-        axios.post('/api/addsubject?withimage='+this.state.filename, imageFormData, {
+        imageFormData.append('optional', JSON.stringify(this.state.optional));
+        imageFormData.append('faculty_id', JSON.stringify(this.state.faculty_name));
+        axios.post('/api/addsubject?image='+this.state.filename, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -184,6 +187,7 @@ class AdminAddSubject extends React.Component {
           'Content-type': 'application/x-www-form-urlencoded'}
       })
         .then(res => {
+          this.clearContent()
           this.setState({
             message:res.data.message
           })
@@ -217,7 +221,12 @@ class AdminAddSubject extends React.Component {
       filename: '',
       checkMajor: false,
       checkContent: false,
-      checkFaculty: false
+      checkFaculty: false,
+      checkElective:true,
+      optional:false,
+      faculty_name:'',
+      typeValue:'Общеобразовательный',
+      optionalValue:'Факультативный'
     })
   }
 
@@ -257,35 +266,51 @@ class AdminAddSubject extends React.Component {
       });
     }
   }
+   // && (this.state.checkElective==false) ? (this.state.faculty_name.length>0): true
   changeElective(event){
     if(event.target.value=='Общеобразовательный'){
+      var temp = this.state.subject;
+      temp.teacher_id='';
       this.getTeachers();
       this.setState({
         checkElective: true,
         optional:false,
-        checkTeacher:false
+        checkTeacher:false,
+        subject:temp,
+        faculty_name:'',
+        typeValue:event.target.value,
+        optionalValue:'Факультативный'
       })
+      this.checkContent()
     }else if(event.target.value=='Специализированный'){
+      var temp = this.state.subject;
+      temp.teacher_id='';
       this.setState({
         checkElective: false,
         optional:true,
-        checkTeacher:true
+        checkTeacher:true,
+        subject:temp,
+        faculty_name:'',
+        typeValue:event.target.value,
+        optionalValue:'Факультативный'
       })
+      this.checkContent()
     }
   }
   changeOptional(event){
     if(event.target.value=='Обязательный'){
       this.setState({
-        optional:false
+        optional:false,
+        optionalValue:event.target.value
       })
     } else if(event.target.value=='Факультативный'){
       this.setState({
-        optional:true
+        optional:true,
+        optionalValue:event.target.value
       })
     }
   }
   render() {
-    console.log(this.state.filename)
     return (
       <div className="container clearfix">
       <div className=" bg-title">
@@ -312,7 +337,7 @@ class AdminAddSubject extends React.Component {
             <div className="form-group row">
               <div className="col-md-6">
                 <label>Тип</label>
-                <select className="form-control" onChange={this.changeElective} style={{cursor: 'pointer'}}>
+                <select className="form-control" value={this.state.typeValue} onChange={this.changeElective} style={{cursor: 'pointer'}}>
                   <option value='Общеобразовательный'>Общеобразовательный</option>
                   <option value='Специализированный'>Специализированный</option>
                 </select>
@@ -320,19 +345,17 @@ class AdminAddSubject extends React.Component {
               </div>
               <div className="col-md-6">
                 <label>Элективный</label>
-                <select className="form-control" name="optional" disabled={this.state.checkElective} onChange={this.changeOptional} style={{cursor: 'pointer'}}>
-                  <option value=''>Выберите элективность</option>
-                  <option value='Обязательный'>Обязательный</option>
+                <select className="form-control" name="optional" disabled={this.state.checkElective} value={this.state.optionalValue} onChange={this.changeOptional} style={{cursor: 'pointer'}}>
                   <option value='Факультативный'>Факультативный</option>
+                  <option value='Обязательный'>Обязательный</option>
                 </select>
                 <span className="bar"></span>
               </div>
             </div>
             <div className="form-group row">
             <div className="col-md-6">
-              <label>Факультет</label>
               <select className="form-control" name="faculty_id" disabled={this.state.checkElective} value={this.state.faculty_name} onChange={this.changeFaculty}>
-                <option value=''>Выберите факультет</option>
+                <option value=''>Факультет</option>
                 {this.state.faculties.map((faculty, f) =>
                   <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
                 )}
@@ -340,9 +363,8 @@ class AdminAddSubject extends React.Component {
               <span className="bar"></span>
             </div>
             <div className="col-md-6">
-              <label>Преподаватель</label>
               <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
-                <option value='dvdv'>Выберите преподавателя</option>
+                <option value=''>Преподаватель</option>
                 {this.state.teachers.map((teacher, t) =>
                   <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
                 )}
