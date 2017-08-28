@@ -1087,22 +1087,6 @@ router.get('/getdepartments', (req, res) => {
 // 		})
 // 	}
 // }
-router.get('/getfacultiesmajors', (req, res) => {
-	Faculty.find((err, faculties) => {
-		if(err) {console.log(err) }
-		else {
-			Major.find((err, majors) => {
-				if(err) {console.log(err) }
-				else {
-					res.send({
-						faculties: faculties,
-						majors: majors
-					})
-				}
-			})
-		}
-	})
-});
 
 
 router.post('/editdepartment', (req, res) =>{
@@ -1272,53 +1256,13 @@ router.get('/getonetest', (req, res) => {
 	})
 
 });
-
 // router.get('/gettests', (req, res) => {
-// 	var myTest = {};
-// 	var myTests = [];
-// 	Quiz.find((err, tests) => {
-// 		if(err)  { console.log(err) }
+//   Quiz.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('subject_id').exec(function(err, quizes){
+// 		if(err) {console.log(err) }
 // 		else {
-// 			Subject.find((err, subjects) => {
-// 				if(err)  { console.log(err) }
-// 				else {
-// 					Teacher.find((err, teachers) => {
-// 						if(err)  { console.log(err) }
-// 						else {
-// 							User.find((err, users) => {
-// 								if(err)  { console.log(err) }
-// 								else {
-// 									tests.forEach(function(t){
-// 										subjects.forEach(function(s){
-// 											if(t.subject_id.toString() == s._id.toString()){
-// 												teachers.forEach(function(tt){
-// 													if(t.teacher_id.toString() == tt._id.toString()){
-// 														users.forEach(function(u){
-// 															if(tt.user_id.toString() == u._id.toString()){
-// 																myTest = {
-// 																	_id: t._id,
-// 																	subject_name: s.subject_name,
-// 																	q_number: t.q_number,
-// 																	teacher_name: u.lastname + ' ' + u.name,
-// 																	status: t.status
-// 																}
-// 																myTests.push(myTest);
-// 															}
-// 														})
-// 													}
-// 												})
-// 											}
-// 										})
-// 									})
-// 									res.send({
-// 										tests: myTests
-// 									})
-// 								}
-// 							})
-// 						}
+// 				  res.send({
+// 						quizes: quizes
 // 					})
-// 				}
-// 			})
 // 		}
 // 	})
 // });
@@ -1861,6 +1805,18 @@ router.get('/getgroups', (req, res) =>{
 		}
 	})
 })
+
+ // router.get('/getforsubject', (req, res) => {
+ //   Faculty.find()..populate({path: 'faculty_dean', populate: {path: 'user_id'}}).populate('departments').exec(function(err, faculties){
+ // 		if(err) console.log(err);
+ // 		if(groups){
+ // 			res.send({
+ // 				faculties: faculties,
+ //        teachers:
+ // 			})
+ // 		}
+ // 	})
+ // });
 
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {

@@ -36,7 +36,7 @@ class AdminEditMajorModal extends React.Component {
 
   editMajorFunc(){
     event.preventDefault();
-    const major_id = this.props.major.major_id;
+    const major_id = this.props.major._id;
     const old_depId = this.props.major.major_departmentId;
     const formData = `editedMajor=${JSON.stringify(this.state.editedMajor)}&major_id=${major_id}&old_depId=${old_depId}`;
     axios.post('/api/editmajor', formData, {
@@ -49,7 +49,7 @@ class AdminEditMajorModal extends React.Component {
   }
 
   deleteMajor(){
-    var major_id = this.props.major.major_id;
+    var major_id = this.props.major._id;
     const formData = `major_id=${major_id}`;
     axios.post('/api/deletemajor', formData, {
       responseType: 'json',

@@ -26,7 +26,6 @@ class AdminAddSubject extends React.Component {
       file: '',
       filename: '',
       major_group: '',
-      main_majors: [],
       majors: [],
       faculty_name: '',
       faculties: [{
@@ -75,7 +74,6 @@ class AdminAddSubject extends React.Component {
     })
       .then(res => {
         this.setState({
-          main_majors: res.data.majors,
           faculties: res.data.faculties,
           main_teachers: res.data.teachers
         });
@@ -114,10 +112,7 @@ class AdminAddSubject extends React.Component {
         major_group: event.target.value,
         checkMajor: true,
         message: '',
-        errors: {},
-        majors: this.state.main_majors.filter(function(major) {
-                            return major.major_group.indexOf(event.target.value) > -1;
-                        })
+        errors: {}
       })
     } else {
       this.setState({

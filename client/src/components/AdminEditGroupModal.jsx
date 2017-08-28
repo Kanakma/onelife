@@ -50,7 +50,7 @@ class AdminEditGroupModal extends React.Component {
 
   editGroupFunc(){
     event.preventDefault();
-    const group_id = this.props.group.group_id;
+    const group_id = this.props.group._id;
     const formData = `editedGroup=${JSON.stringify(this.state.editedGroup)}&group_id=${group_id}`;
     axios.post('/api/editgroup', formData, {
       responseType: 'json',
@@ -62,7 +62,7 @@ class AdminEditGroupModal extends React.Component {
   }
 
   deleteGroup(){
-    const formData = `group_id=${JSON.stringify(this.props.group.group_id)}`;
+    const formData = `group_id=${JSON.stringify(this.props.group._id)}`;
     axios.post('/api/deletegroup', formData, {
       responseType: 'json',
       headers: {
