@@ -661,7 +661,9 @@ active state
   background-image: url( /img/background-image.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding:
+  display: flex;
+  padding: 40px 0;
+  /*flex-flow: row wrap;*/
 }
 .profile-heading:after{
 
@@ -932,8 +934,8 @@ ul.hr li {
   background-color: red;
   }
 .pie_chart{
-     top: -12px;
-  margin-left: -180px;
+    top:-10px;
+  margin-left: -90px;
 }
 .pie_text{
   float:left;
@@ -1029,7 +1031,9 @@ ul.hr li {
     margin-left: 163px;
 }
 .teacher-progress-bar{
-
+  width: 33%;
+  height: 100%;
+  padding: 40px 113px 40px 40px;
 }
 .teacher-common-statistic{
   height: 450px;
@@ -1055,16 +1059,26 @@ ul.hr li {
   height: 340px;
   width: 68%;
   margin: 0 10px;
+  background-color: #0b9eaf;
+  padding: 30px 44px;
 }
 .teacher-progress-statistic{
   width: 28%;
   height: 340px;
   margin: 0 10px;
+  background-color: #f6ce72;
+  padding: 30px 44px;
 }
-.teacher-number-statistic-text{
+.number-statistic-title{
   color: #000000;
   font-family: "gothic";
   font-size: 20px;
+  font-weight: 400;
+}
+.number-statistic-text{
+  font-family: "gothic";
+  color: #808080;
+  font-size: 14px;
   font-weight: 400;
 }
 .teacher-common-statistic-text{
@@ -1072,4 +1086,60 @@ ul.hr li {
   font-family: "gothic";
   font-size: 16px;
   font-weight: 400;
+}
+.teacher-heading-icons{
+  width: 35px;
+  height: 34px;
+  float: left;
+}
+.teacher-heading-text{
+  opacity: 0.7;
+  color: #ffffff;
+  font-family: "gothic";
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+}
+.teacher-heading-number{
+  font-family: "gothic";
+  font-size: 60px;
+  font-weight: 400;
+  color: #0f71bc;
+  float: left;
+}
+.courses-statistic-text{
+  color: #ffffff;
+  font-family: "gothic";
+  font-size: 14px;
+  font-weight: 400;
+}
+.courses-statistic-title{
+  color: #ffffff;
+  font-family: "gothic";
+  font-size: 20px;
+  font-weight: 700;
+}
+.number-statistic-number{
+  color: #cf4a4c;
+  font-family: "gothic";
+  font-size: 60px;
+  font-weight: 400;
+}
+.number-statistic-percent{
+  color: #303030;
+  font-family: "gothic";
+  font-size: 16px;
+  font-weight: 400;
+}
+.students-number-color{
+  width: 14px;
+  height: 10px;
+  margin: auto 0;
+}
+.number-subject-text{
+  color: #ffffff;
+  font-family: "gothic";
+  font-size: 12px;
+  font-weight: 400;
+  margin: auto;
 }

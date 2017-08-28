@@ -26,7 +26,7 @@ class AdminMajors extends React.Component {
     })
       .then(res => {
         this.setState({
-          majors: res.data.allMjrs
+          majors: res.data.majors
         });
       });
   }
@@ -79,7 +79,7 @@ class AdminMajors extends React.Component {
                             <td>{m+1}</td>
                             <td>{major.major_code}</td>
                             <td>{major.major_name}</td>
-                            <td>{major.major_departmentName}</td>
+                            <td>{major.major_department.department_name}</td>
                             <td>{major.major_group}</td>
                             <td>
                                 <center>

@@ -18,7 +18,7 @@ class TeacherProfile extends React.Component {
       teacher:{},
       oneTeach:{},
       isOpen:false,
-      myImg:'599127fbc44d450ebb874450-default_avatar.png',
+      myImg:'default.jpg',
       status: '',
       checkFilter: false
     };
