@@ -100,7 +100,6 @@ class TeacherAddHomework extends React.Component{
                           <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
                       </div>
                       <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
-                      <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_id.major_name}</span></p>
                       <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
                       <p><span><i className="fa fa-user-plus"></i> Количество возможных студентов: {subject.max_students}</span></p>
                       {(this.state.status == "admin") ?(
@@ -150,7 +149,6 @@ class TeacherAddHomework extends React.Component{
                     <tr key={s}>
                         <td>{s+1}</td>
                         <td>{subject.subject_name}</td>
-                        <td>{subject.major_id.major_name}</td>
                         <td>{subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</td>
                         <td><center>{subject.course_number}</center></td>
                         <td><center>{subject.max_students}</center></td>

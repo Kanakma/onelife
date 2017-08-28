@@ -44,7 +44,7 @@ class AdminEditStudentModal extends React.Component {
       })
         .then(res => {
           this.setState({
-            majors: res.data.allMjrs
+            majors: res.data.majors
           });
         });
         axios.get('/api/getgroups',  {
@@ -55,7 +55,7 @@ class AdminEditStudentModal extends React.Component {
         })
           .then(res => {
             this.setState({
-              groups: res.data.allGroups
+              groups: res.data.groups
             });
           });
     }

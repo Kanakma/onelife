@@ -115,7 +115,7 @@ class AdminParrents extends React.Component {
                 </thead>
                 <tbody>
                 {
-                  this.state.parrents>0 ? (
+                  this.state.parrents.length>0 ? (
                     this.state.parrents.map((parrent, t) =>{
                       return(
                       <tr key={t}>
