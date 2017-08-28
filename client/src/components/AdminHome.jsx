@@ -13,7 +13,36 @@ const data= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {name
 
 const COLORS = ['#0B9EAF', '#FFC31D ', '#F05254 ', '#3A4240 '];
 
+const RADIAN = Math.PI / 180;
 
+var renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+ // setTimeout(function(){
+  // console.log('adsdad')
+// },1000)
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'}  dominantBaseline="central">
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
+//legend
+const renderLegend = (props) => {
+  const { payload } = props;
+
+  return (
+    <ul className="hr">{
+        payload.map((entry, index) => (
+          <li key={`item-${index}`}>{entry.value}</li>
+        ))
+      }
+
+    </ul>
+  );
+}
 
 const SimpleBarChart = React.createClass({
   render () {
@@ -296,7 +325,6 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                          <XAxis dataKey="name"/>
                          <YAxis dataKey="number" />
                          <CartesianGrid strokeDasharray="3 3"/>
-
                          <Tooltip />
                          <Bar dataKey="Парни" stackId="a" fill="#F05254" />
                          <Bar dataKey="Девушки" stackId="a" fill="#0B9EAF " />
@@ -316,9 +344,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
         </Pie>
         <Tooltip/>
        </PieChart>
-                  
-
-                  <div className="pie_menu">
+                 <div className="pie_menu">
 
 	                  <ul>
 		                  <li><img src="./img/blue.png" className="mini_png"  />ВТиПО</li>
