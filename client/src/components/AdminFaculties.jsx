@@ -28,7 +28,7 @@ class AdminFaculties extends React.Component {
       })
         .then(res => {
           this.setState({
-            faculties: res.data.allFclts
+            faculties: res.data.faculties
           });
         });
     }

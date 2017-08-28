@@ -24,7 +24,7 @@ class AdminDepartments extends React.Component {
       })
         .then(res => {
           this.setState({
-            departments: res.data.allDprtmnts
+            departments: res.data.departments
           });
         });
     }
@@ -76,9 +76,9 @@ class AdminDepartments extends React.Component {
                       <tr>
                         <td>{d+1}</td>
                         <td>{department.department_code}</td>
-                        <td>{department.department_faculty_name}</td>
+                        <td>{department.department_faculty.faculty_name}</td>
                         <td>{department.department_name}</td>
-                        <td>{department.department_director}</td>
+                        <td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
                         <td>{department.department_phone}</td>
                         <td>{department.department_email}</td>
                         <td>

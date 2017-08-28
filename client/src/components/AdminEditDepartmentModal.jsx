@@ -35,7 +35,7 @@ class AdminEditDepartmentModal extends React.Component {
     })
       .then(res => {
         this.setState({
-          faculties: res.data.allFclts
+          faculties: res.data.faculties
         });
       });
     axios.get('/api/getteachers',  {
@@ -49,7 +49,7 @@ class AdminEditDepartmentModal extends React.Component {
           teachers: res.data.allTchrs
         });
       });
-    } 
+    }
 
   dateFormat(date){
     var fDate = new Date(date);
@@ -119,7 +119,7 @@ class AdminEditDepartmentModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
-    
+
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>

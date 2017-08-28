@@ -35,7 +35,7 @@ class AdminAddGroups extends React.Component {
       })
         .then(res => {
           this.setState({
-            majors: res.data.allMjrs
+            majors: res.data.majors
           });
         });
     axios.get('/api/getteachers',  {
@@ -115,6 +115,7 @@ class AdminAddGroups extends React.Component {
     })
   }
   render() {
+    console.log(this.state.majors)
     return (
       <div>{
         this.state.majors ?(
@@ -141,7 +142,7 @@ class AdminAddGroups extends React.Component {
           <select className="form-control" name="major" value={this.state.group.major} onChange={this.changeGroup}>
             <option value=''>Выберите специальность</option>
             {this.state.majors.map((major, m) =>
-              <option key={m} value={major.major_id}>{major.major_name}</option>
+              <option key={m} value={major._id}>{major.major_name}</option>
             )}
           </select>
           <span className="bar"></span>

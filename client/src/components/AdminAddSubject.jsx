@@ -285,7 +285,7 @@ class AdminAddSubject extends React.Component {
     }
   }
   render() {
-    console.log(this.state.filename)
+    console.log(this.state.main_teachers)
     return (
       <div className="container clearfix">
       <div className=" bg-title">

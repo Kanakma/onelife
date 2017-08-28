@@ -43,7 +43,7 @@ class AdminEditGroupModal extends React.Component {
         })
           .then(res => {
             this.setState({
-              majors: res.data.allMjrs
+              majors: res.data.majors
             });
           });
   }

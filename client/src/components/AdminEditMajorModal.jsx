@@ -29,7 +29,7 @@ class AdminEditMajorModal extends React.Component {
     })
       .then(res => {
         this.setState({
-          departments: res.data.allDprtmnts
+          departments: res.data.departments
         });
       });
   }

@@ -25,7 +25,7 @@ class AdminGroups extends React.Component {
     })
       .then(res => {
         this.setState({
-          groups: res.data.allGroups
+          groups: res.data.groups
         });
       });
   }
@@ -77,10 +77,10 @@ class AdminGroups extends React.Component {
                         <tr>
                             <td>{g+1}</td>
                             <td>{group.group_name}</td>
-                            <td>{group.major_name}</td>
-                            <td>{group.group_department}</td>
+                            <td>{group.major.major_name}</td>
+                            <td>{group.major.major_department.department_name}</td>
                             <td style={{textAlign: 'center'}}>{group.course_number}</td>
-                            <td>{group.curator_name} {group.curator_lastname}</td>
+                            <td>{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
                             <td style={{textAlign: 'center'}}>{group.students.length}</td>
                             <td style={{padding: '10px 20px'}}>
                                 <button onClick={this.toggleModal.bind(this, group)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
