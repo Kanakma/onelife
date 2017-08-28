@@ -45,48 +45,6 @@ const renderLegend = (props) => {
   );
 }
 
-
-const CustomTooltip  = React.createClass({
-  propTypes: {
-    type: PropTypes.string,
-    payload: PropTypes.array,
-    label: PropTypes.string,
-  },
-
-  getIntroOfPage(label) {
-    if (label === '2011') {
-      return "2011";
-    } else if (label === '2012') {
-      return "2012";
-    } else if (label === '2013') {
-      return "2013";
-    } else if (label === '2014') {
-      return "2014";
-    } else if (label === '2015') {
-      return "2015";
-    } else if (label === '2016') {
-      return "2016";
-    }
-  },
-
-  render() {
-    const { active } = this.props;
-
-    if (active) {
-      const { payload, label } = this.props;
-      return (
-        <div className="custom-tooltip">
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-          <p className="intro">{this.getIntroOfPage(label)}</p>
-          <p className="desc">Anything you want can be displayed here.</p>
-        </div>
-      );
-    }
-
-    return null;
-  }
-});
-
 const SimpleBarChart = React.createClass({
   render () {
     return (
@@ -352,7 +310,6 @@ const data1 = [
                          <XAxis dataKey="name"/>
                          <YAxis dataKey="number" />
                          <CartesianGrid strokeDasharray="3 3"/>
-
                          <Tooltip />
                          <Bar dataKey="Парни" stackId="a" fill="#F05254" />
                          <Bar dataKey="Девушки" stackId="a" fill="#0B9EAF " />
@@ -370,11 +327,12 @@ const data1 = [
                                 labelLine={false}
                                 label={renderCustomizedLabel}
                                 outerRadius={80} 
+                                dataKey='string'
                                 fill="#8884d8"
                             >
 
                                           {
-                                            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+                                            data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
                                           }
                             </Pie>
                         </PieChart>

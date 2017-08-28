@@ -212,68 +212,97 @@ router.post('/adddepartment', (req, res) => {
 })
 
 router.post('/addsubject', (req, res) => {
-	console.log(req.body)
-	var s = JSON.parse(req.body.data);
-	var subjectData = {
-		subject_code: s.subject_code,
-		subject_name: s.subject_name,
-		teacher_id: s.teacher_id,
-		major_id: s.major_id,
-		period: s.period,
-		course_number: s.course_number,
-		credit_number: s.credit_number,
-		max_students: s.max_students,
-		description: s.description,
-		optional:s.optional
-	}
-	Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
-		if(err) {console.log(err) }
-		else if (subject){
-			res.status(409).send({
-				message: 'Этот предмет уже есть в списке'
-			})
-		} else {
-			const newSubject = new Subject(subjectData);
-		  newSubject.save((err, subject) => {
-		    if (err) { return done(err); }
-				else {
-					res.send({
-						subject: subject
-					})
-				}
-		  });
-		}
-	})
-});
-
-router.post('/addsubjectimg', (req, res) => {
-	let form = new multiparty.Form();
-	var subject_id = req.query.subject_id;
-	form.parse(req, (err, fields, files) => {
-	  var tempPath = files.imageFile[0].path;
-		var fileName = files.imageFile[0].originalFilename;
-		let copyToPath = "public/subject-img/" + subject_id +'-'+ fileName;
-		fs.readFile(tempPath, (err, data) => {
-			// make copy of image to new location
-			fs.writeFile(copyToPath, data, (err) => {
-				// delete temp image
-				fs.unlink(tempPath, () => {
+	if(req.query.withimage){
+		console.log("With image")
+		let form = new multiparty.Form();
+		form.parse(req, (err, fields, files) => {
+		  var tempPath = files.imageFile[0].path;
+			var fileName = files.imageFile[0].originalFilename;
+			let copyToPath = "public/subject-img/" + fileName;
+			fs.readFile(tempPath, (err, data) => {
+				// make copy of image to new location
+				fs.writeFile(copyToPath, data, (err) => {
+					// delete temp image
+					fs.unlink(tempPath, () => {
 						if(err) {return res.status(401).end();}
 						else {
-							Subject.findOneAndUpdate({_id: subject_id}, { $set: {img: subject_id +'-'+ fileName}}, { new: true }, (err) => {
-								if(err) { console.log(err) }
-	              else {
-									res.send({
-										message: 'Предмет удачно добавлен'
-									})
-								}
-							})
+							var subjectData = {
+								subject_code: s.subject_code,
+								subject_name: s.subject_name,
+								teacher_id: s.teacher_id,
+								faculty_id: s.major_id,
+								period: s.period,
+								course_number: s.course_number,
+								credit_number: s.credit_number,
+								max_students: s.max_students,
+								description: s.description,
+								optional:s.optional
+							}
+							console.log(fields)
+							// Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
+							// 	if(err)console.log(err);
+							// 	 else if(subject){
+							// 		res.status(409).send({
+							// 			message: 'Этот предмет уже есть в списке'
+							// 		})
+							// 	} else {
+							// 		const newSubject = new Subject(subjectData);
+							// 	  newSubject.save((err, subject) => {
+							// 	    if (err) { return done(err); }
+							// 			else {
+							// 				res.send({
+							// 					subject: subject,
+							// 					message:'Предмет удачно добавлен'
+							// 				})
+							// 			}
+							// 	  });
+							// 	}
+							// })
 						}
-				});
-			});
-		});
-	})
-})
+					})
+				})
+			})
+		})
+
+	} else {
+		console.log("With no image")
+		var s = JSON.parse(req.body.data);
+		console.log(req.body)
+		var subjectData = {
+			subject_code: s.subject_code,
+			subject_name: s.subject_name,
+			teacher_id: s.teacher_id,
+			period: s.period,
+			course_number: s.course_number,
+			credit_number: s.credit_number,
+			max_students: s.max_students,
+			description: s.description,
+			optional:req.body.optional
+		}
+		if(req.body.faculty_id){
+			subjectData.faculty_id = req.body.faculty_id
+		}
+		Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
+			if(err) {console.log(err) }
+			else if (subject){
+				res.status(409).send({
+					message: 'Этот предмет уже есть в списке'
+				})
+			} else {
+				const newSubject = new Subject(subjectData);
+			  newSubject.save((err, subject) => {
+			    if (err) console.log(err);
+					else {
+						res.send({
+							subject: subject,
+							message:'Предмет удачно добавлен'
+						})
+					}
+			  });
+			}
+		})
+	}
+});
 
 router.post('/editsubject', (req, res) =>{
 	var subject_id = req.query.subject_id
@@ -1347,71 +1376,71 @@ router.post('/addtest', (req, res) => {
 	})
 });
 
+// router.get('/getsubjects', (req, res) => {
+// 	var mySubjects = [];
+// 	var subjectNames = [];
+// 	var mySubject = {};
+// 	Subject.find((err, subjects) => {
+// 		if(err) {console.log(err) }
+// 		else {
+// 			Major.find((err, majors) => {
+// 				if(err) {console.log(err) }
+// 				else {
+// 					Teacher.find((err, teachers) => {
+// 						if(err) {console.log(err) }
+// 						else {
+// 							User.find((err, users) => {
+// 								if(err) {console.log(err) }
+// 								else {
+// 									subjects.forEach(function(subject){
+// 										majors.forEach(function(major){
+// 											if(subject.major_id.toString() == major._id.toString()){
+// 												teachers.forEach(function(teacher){
+// 													if(subject.teacher_id.toString() == teacher._id.toString()){
+// 														users.forEach(function(user){
+// 															if(teacher.user_id.toString() == user._id.toString()){
+// 																var temp = user.lastname + ' ' + user.name;
+// 																var remained = subject.max_students - subject.students.length;
+// 																mySubject = {
+// 																	_id: subject._id,
+// 																	user_id: teacher.user_id,
+// 																	subject_name: subject.subject_name,
+// 																	subject_code: subject.subject_code,
+// 																	description: subject.description,
+// 																	major_name: major.major_name,
+// 																	teacher_name: temp,
+// 																	teacher_id: subject.teacher_id,
+// 																	period: subject.period,
+// 																	course_number: subject.course_number,
+// 																	credit_number: subject.credit_number,
+// 																	max_students: subject.max_students,
+// 																	remained: remained,
+// 																	img: subject.img
+// 																}
+// 																mySubjects.push(mySubject);
+// 																subjectNames.push(mySubject.subject_name);
+// 															}
+// 														})
+// 													}
+// 												})
+// 											}
+// 										})
+// 									})
+// 									res.send({
+// 										subjects: mySubjects,
+// 										subject_names: subjectNames
+// 									})
+// 								}
+// 							})
+// 						}
+// 					})
+// 				}
+// 			})
 
-router.get('/getsubjects', (req, res) => {
-	var mySubjects = [];
-	var subjectNames = [];
-	var mySubject = {};
-	Subject.find((err, subjects) => {
-		if(err) {console.log(err) }
-		else {
-			Major.find((err, majors) => {
-				if(err) {console.log(err) }
-				else {
-					Teacher.find((err, teachers) => {
-						if(err) {console.log(err) }
-						else {
-							User.find((err, users) => {
-								if(err) {console.log(err) }
-								else {
-									subjects.forEach(function(subject){
-										majors.forEach(function(major){
-											if(subject.major_id.toString() == major._id.toString()){
-												teachers.forEach(function(teacher){
-													if(subject.teacher_id.toString() == teacher._id.toString()){
-														users.forEach(function(user){
-															if(teacher.user_id.toString() == user._id.toString()){
-																var temp = user.lastname + ' ' + user.name;
-																var remained = subject.max_students - subject.students.length;
-																mySubject = {
-																	_id: subject._id,
-																	user_id: teacher.user_id,
-																	subject_name: subject.subject_name,
-																	subject_code: subject.subject_code,
-																	description: subject.description,
-																	major_name: major.major_name,
-																	teacher_name: temp,
-																	teacher_id: subject.teacher_id,
-																	period: subject.period,
-																	course_number: subject.course_number,
-																	credit_number: subject.credit_number,
-																	max_students: subject.max_students,
-																	remained: remained,
-																	img: subject.img
-																}
-																mySubjects.push(mySubject);
-																subjectNames.push(mySubject.subject_name);
-															}
-														})
-													}
-												})
-											}
-										})
-									})
-									res.send({
-										subjects: mySubjects,
-										subject_names: subjectNames
-									})
-								}
-							})
-						}
-					})
-				}
-			})
+// 		}
+// 	})
+// });
 
-		}
-	})
-});
 router.get('/getsubject', (req, res) => {
 	var subjectId = req.query.subjectId;
 	var mySubject = {};

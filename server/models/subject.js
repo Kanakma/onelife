@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const SubjectSchema = new mongoose.Schema({
   subject_code: String,
   subject_name: String,
-  major_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Major'},
+  faculty_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Faculty'},
   teacher_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Teacher'},
   period: Number,
   course_number: Number,

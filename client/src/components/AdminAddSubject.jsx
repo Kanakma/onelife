@@ -14,7 +14,6 @@ class AdminAddSubject extends React.Component {
       subject: {
         subject_code: '',
         subject_name: '',
-        major_id: '',
         teacher_id: '',
         period: 0,
         course_number: 0,
@@ -30,7 +29,15 @@ class AdminAddSubject extends React.Component {
       main_majors: [],
       majors: [],
       faculty_name: '',
-      faculties: [],
+      faculties: [{
+        departmnets:[{
+          majors:[{
+            major_name:'',
+            major_code:'',
+            major_group:''
+          }]
+        }]
+      }],
       main_teachers: [],
       teachers: [],
       checkMajor: false,
@@ -48,6 +55,7 @@ class AdminAddSubject extends React.Component {
     this.changeElective = this.changeElective.bind(this);
     this.getTeachers = this.getTeachers.bind(this);
     this.getForSubjects = this.getForSubjects.bind(this);
+    this.changeOptional = this.changeOptional.bind(this);
   }
 
   componentDidMount() {
@@ -145,43 +153,51 @@ class AdminAddSubject extends React.Component {
 
   addSubject(event){
     event.preventDefault();
-    const formData = `data=${JSON.stringify(this.state.subject)}&optional=${this.state.optional}`;
-    axios.post('/api/addsubject', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'}
-    })
-      .then(res => {
-        var subject_id = res.data.subject._id;
-        return new Promise((resolve, reject) => {
-          let imageFormData = new FormData();
-          imageFormData.append('imageFile', this.state.file);
-          axios.post('/api/addsubjectimg?subject_id='+subject_id, imageFormData, {
-            responseType: 'json',
-            headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
-            }
-          })
-            .then(response => {
-                this.setState({
-                  message: response.data.message,
-                  errors: {},
-                  major_group: '',
-                  faculty_name: ''
-                });
-                this.clearContent()
-            });
-        });
-      })
-        .catch(err => {
-          if (err.response) {
-            const errors = err.response ? err.response : {};
-            errors.summary = err.response.data.message;
-            this.setState({
-              errors
-            });
+    if(this.state.filename.length>0){
+      return new Promise((resolve, reject) => {
+        let imageFormData = new FormData();
+        imageFormData.append('imageFile', this.state.file);
+        imageFormData.append('data', JSON.stringify(this.state.subject));
+        imageFormData.append('faculty_id', this.state.faculty_name);
+        imageFormData.append('optional', this.state.optional);
+        axios.post('/api/addsubject?withimage='+this.state.filename, imageFormData, {
+          responseType: 'json',
+          headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
           }
-        });
+        })
+          .then(response => {
+              this.setState({
+                message: response.data.message,
+                errors: {},
+                major_group: '',
+                faculty_name: ''
+              });
+              this.clearContent()
+          });
+      });
+    } else{
+      const formData = `data=${JSON.stringify(this.state.subject)}&optional=${this.state.optional}&faculty_id=${this.state.faculty_name}`;
+      axios.post('/api/addsubject', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+      })
+        .then(res => {
+          this.setState({
+            message:res.data.message
+          })
+        })
+          .catch(err => {
+            if (err.response) {
+              const errors = err.response ? err.response : {};
+              errors.summary = err.response.data.message;
+              this.setState({
+                errors
+              });
+            }
+          });
+        }
   }
 
   clearContent(){
@@ -231,7 +247,7 @@ class AdminAddSubject extends React.Component {
   checkContent(){
     if((this.state.subject.description.length > 0) && (this.state.subject.subject_code.length > 0) && (this.state.subject.subject_name.length > 0)
     && (this.state.subject.teacher_id.length > 0) && (this.state.subject.period > 0) && (this.state.subject.course_number > 0) && (this.state.subject.credit_number > 0)
-    && (this.state.subject.max_students > 0) && (this.state.major_group.length > 0)){
+    && (this.state.subject.max_students > 0)){
       this.setState({
         checkContent: true
       });
@@ -257,7 +273,19 @@ class AdminAddSubject extends React.Component {
       })
     }
   }
+  changeOptional(event){
+    if(event.target.value=='Обязательный'){
+      this.setState({
+        optional:false
+      })
+    } else if(event.target.value=='Факультативный'){
+      this.setState({
+        optional:true
+      })
+    }
+  }
   render() {
+    console.log(this.state.filename)
     return (
       <div className="container clearfix">
       <div className=" bg-title">
@@ -292,43 +320,13 @@ class AdminAddSubject extends React.Component {
               </div>
               <div className="col-md-6">
                 <label>Элективный</label>
-                <select className="form-control" name="optional" disabled={this.state.checkElective} style={{cursor: 'pointer'}}>
+                <select className="form-control" name="optional" disabled={this.state.checkElective} onChange={this.changeOptional} style={{cursor: 'pointer'}}>
                   <option value=''>Выберите элективность</option>
-                  <option value=''>Обязательный</option>
-                  <option value=''>Факультативный</option>
+                  <option value='Обязательный'>Обязательный</option>
+                  <option value='Факультативный'>Факультативный</option>
                 </select>
                 <span className="bar"></span>
               </div>
-            </div>
-            <div className="form-group row">
-            <div className="col-md-6">
-              <label>Наименование групп специальностей</label>
-              <select className="form-control" name="major_group" value={this.state.major_group} disabled={this.state.checkElective} onChange={this.changeMajorGroup}>
-                <option value="">Наименование групп специальностей</option>
-                <option value="Образование">Образование</option>
-                <option value="Гуманитарные науки">Гуманитарные науки</option>
-                <option value="Право">Право</option>
-                <option value="Искусство">Искусство</option>
-                <option value="Социальные науки, экономика и бизнес">Социальные науки, экономика и бизнес</option>
-                <option value="Естественные науки">Естественные науки</option>
-                <option value="Технические науки и технологии">Технические науки и технологии</option>
-                <option value="Сельскохозяйственные науки">Сельскохозяйственные науки</option>
-                <option value="Услуги">Услуги</option>
-                <option value="Военное дело и безопасность">Военное дело и безопасность</option>
-                <option value="Здравоохранение и социальное обеспечение (медицина)">Здравоохранение и социальное обеспечение (медицина)</option>
-              </select>
-              <span className="bar"></span>
-            </div>
-            <div className="col-md-6">
-              <label>Специальность</label>
-              <select className="form-control" name="major_id" value={this.state.subject.major_id} disabled={this.state.checkElective} onChange={this.changeSubject} disabled={!this.state.checkMajor}>
-                <option value=''>Выберите специальность</option>
-                {this.state.majors.map((major, m) =>
-                  <option key={m} value={major._id}>{major.major_name}</option>
-                )}
-              </select>
-              <span className="bar"></span>
-            </div>
             </div>
             <div className="form-group row">
             <div className="col-md-6">
