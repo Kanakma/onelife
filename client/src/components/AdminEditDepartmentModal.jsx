@@ -24,7 +24,7 @@ class AdminEditDepartmentModal extends React.Component {
     this.changeDepartment=this.changeDepartment.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
     this.deleteDepartment=this.deleteDepartment.bind(this);
-  };
+  }; 
 
   componentDidMount() {
     axios.get('/api/getfaculties',  {
@@ -73,14 +73,18 @@ class AdminEditDepartmentModal extends React.Component {
   }
 
   deleteDepartment(){
-    const formData = `department_id=${JSON.stringify(this.props.department._id)}&faculty_id=${JSON.stringify(this.props.department.department_faculty)}`;
-    axios.post('/api/deletedepartment', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
+    if(this.props.department.majors.length>0){
+      alert("Вы не можете удалить кафедру пока не удалите или не переопределите все специальности департамента!")
+    }else{
+      const formData = `department_id=${JSON.stringify(this.props.department._id)}&faculty_id=${JSON.stringify(this.props.department.department_faculty)}`;
+      axios.post('/api/deletedepartment', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Authorization': `bearer ${Auth.getToken()}`
+        }
+      })
+    }
   }
 
   changeDepartment(event){
@@ -93,6 +97,8 @@ class AdminEditDepartmentModal extends React.Component {
   }
 
   render(){
+        console.log(this.props.department)
+
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;

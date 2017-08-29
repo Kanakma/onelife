@@ -38,6 +38,7 @@ class AdminAddGroups extends React.Component {
             majors: res.data.majors
           });
         });
+        
     axios.get('/api/getteachers',  {
         responseType: 'json',
         headers: {

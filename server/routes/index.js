@@ -665,7 +665,7 @@ router.post('/addstudent', (req, res) => {
 											}
 											const newUser = new User(userData);
 										  newUser.save((err, savedUser) => {
-										    if (err) { console.log(err); }
+										    if (err) console.log(err);
 												else {
 													var studentData = {
 														user_id: savedUser._id,
@@ -678,8 +678,8 @@ router.post('/addstudent', (req, res) => {
 														graduation_year: req.body.graduation_year.trim()
 													}
 													const newStudent = new Student(studentData);
-												  	newStudent.save(function(err, savedStudent){
-														if (err) { console.log(err) }
+												  	newStudent.save((err, savedStudent) => {
+														if (err) console.log(err)
 														else {
                             Group.findOne({_id:req.body.group_id}, function(err, group){
             									if(err) console.log(err);
