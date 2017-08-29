@@ -345,10 +345,12 @@ router.post('/editsubject', (req, res) =>{
 	if(subject_id){
 		let form = new multiparty.Form();
 		form.parse(req, (err, fields, files) => {
-			var dataD = JSON.parse(fields.data)
+			var dataD = JSON.parse(fields.data);
+			var optional = JSON.parse(fields.optional);
+			var faculty_id = JSON.parse(fields.faculty_id);
 		  var tempPath = files.imageFile[0].path;
 			var fileName = files.imageFile[0].originalFilename;
-			let copyToPath = "public/subject-img/" + subject_id +'-'+ fileName;
+			let copyToPath = "public/subject-img/" + fileName;
 			fs.readFile(tempPath, (err, data) => {
 				// make copy of image to new location
 				fs.writeFile(copyToPath, data, (err) => {
@@ -361,15 +363,15 @@ router.post('/editsubject', (req, res) =>{
 								if(subject){
 									subject.subject_code = (dataD.subject_code!='')?dataD.subject_code:subject.subject_code;
 									subject.subject_name =(dataD.subject_name!='')?dataD.subject_name:subject.subject_name;
-									subject.major_id =(dataD.major_id!='')?dataD.major_id:subject.major_id;
+									subject.faculty_id =(faculty_id === ' ') ? null : (faculty_id === '') ? subject.faculty_id : faculty_id;
 									subject.teacher_id =(dataD.teacher_id!='')?dataD.teacher_id:subject.teacher_id;
 									subject.period =(dataD.period!='')?dataD.period:subject.period;
 									subject.course_number =(dataD.course_number!='')?dataD.course_number:subject.course_number;
 									subject.credit_number =(dataD.credit_number!='')?dataD.credit_number:subject.credit_number;
 									subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;
 									subject.description =(dataD.description!='')?dataD.description:subject.description;
-									subject.optional =(dataD.optional!='')?dataD.optional:subject.optional;
-									subject.img = subject_id +'-'+ fileName;
+									subject.optional = optional;
+									subject.img = fileName;
 									subject.save(function(err, saved){
 										if(err) console.log(err)
 										else{
@@ -387,19 +389,21 @@ router.post('/editsubject', (req, res) =>{
 		})
 	} else{
 		var dataD = JSON.parse(req.body.data)
+		var faculty_id = req.body.faculty_id;
+		var optional = req.body.optional;
 		Subject.findOne({_id: req.body.subject_id}, function(err, subject){
 			if(err) console.log(err);
 			if(subject){
 				subject.subject_code = (dataD.subject_code!='')?dataD.subject_code:subject.subject_code;
 				subject.subject_name =(dataD.subject_name!='')?dataD.subject_name:subject.subject_name;
-				subject.major_id =(dataD.major_id!='')?dataD.major_id:subject.major_id;
+				subject.faculty_id =(faculty_id === ' ') ? null : (faculty_id === '') ? subject.faculty_id : faculty_id;
 				subject.teacher_id =(dataD.teacher_id!='')?dataD.teacher_id:subject.teacher_id;
 				subject.period =(dataD.period!='')?dataD.period:subject.period;
 				subject.course_number =(dataD.course_number!='')?dataD.course_number:subject.course_number;
 				subject.credit_number =(dataD.credit_number!='')?dataD.credit_number:subject.credit_number;
 				subject.max_students =(dataD.max_students!='')?dataD.max_students:subject.max_students;
 				subject.description =(dataD.description!='')?dataD.description:subject.description;
-				subject.optional =(dataD.optional!='')?dataD.optional:subject.optional;
+				subject.optional = optional;
 				subject.img = subject.img;
 				subject.save(function(err, saved){
 					if(err) console.log(err)
@@ -412,17 +416,6 @@ router.post('/editsubject', (req, res) =>{
 			}
 		})
 	}
-})
-
-router.post('/deletesubject', (req, res) =>{
-	Subject.findOneAndRemove({_id:req.body.subject_id}, function(err, subject){
-		if(err) console.log(err)
-		if(subject){
-			res.send({
-				message:"Удалено"
-			})
-		}
-	})
 })
 
 router.post('/addteacher', (req, res) => {
@@ -1620,8 +1613,8 @@ router.post('/addtest', (req, res) => {
 // 	})
 // });
 router.get('/getsubjects', (req, res) => {
-	Subject.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
-		if(err) {console.log(err) }
+	Subject.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjects){
+		if(err) console.log(err)
 		else {
 				  res.send({
 						subjects: subjects
@@ -2216,29 +2209,7 @@ router.post('/deleteparrent', (req, res)=>{
 })
 
 
-router.post('/editsubject', (req, res)=>{
-	console.log(req.body.editedSubject)
-	var editedSubject = JSON.parse(req.body.editedSubject);
-	Subject.findOne({_id:req.body.subject_id}, function(err, subject){
-		if(err) console.log(err);
-		if(subject){
-			subject.subject_name = (editedSubject.name!='')?editedSubject.subject_name:subject.subject_name;
-			subject.subject_code = (editedSubject.code!='')?editedSubject.subject_code:subject.subject_code;
-			subject.course_number = (editedSubject.course_number!=0)?editedSubject.course_number:subject.course_number;
-			subject.credits_number = (editedSubject.credits_number!=0)?editedSubject.credits_number:subject.credits_number;
-			subject.description = (editedSubject.description!='')?editedSubject.description:subject.description;
-			subject.save(function(err, savedSubject){
-				if(err) console.log(err);
-				if(savedSubject){
-				}
-			})
-		}
-	})
-})
-
-
 router.post('/deletesubject', (req, res)=>{
-	console.log(req.body.subject_id)
 	Subject.findOneAndRemove({_id:req.body.subject_id}, function(err, subject){
 		if(err) console.log(err);
 		if(subject){

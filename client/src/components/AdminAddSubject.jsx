@@ -297,6 +297,7 @@ class AdminAddSubject extends React.Component {
       this.checkContent()
     }
   }
+
   changeOptional(event){
     if(event.target.value=='Обязательный'){
       this.setState({
@@ -310,6 +311,7 @@ class AdminAddSubject extends React.Component {
       })
     }
   }
+
   render() {
     return (
       <div className="container clearfix">

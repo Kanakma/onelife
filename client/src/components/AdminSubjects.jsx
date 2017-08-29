@@ -18,7 +18,6 @@ class AdminSubjects extends React.Component {
       subject:{}
     };
     this.openSubject = this.openSubject.bind(this);
-    this.getStatus = this.getStatus.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
   }
@@ -33,32 +32,26 @@ class AdminSubjects extends React.Component {
           this.setState({
             subjects: res.data.subjects
           });
-          this.getStatus();
         });
     }
-    getStatus(){
-      if(Auth.isUserAuthenticated()){
-        var token = Auth.getToken();
-        var decoded = jwtDecode(token);
-        this.setState({
-          status: decoded.userstatus
-        });
-      }
-    }
+
     openSubject(event){
       this.context.router.history.push('/subjectinfo', {subject: event.target.id})
     }
+
     toggleModal(subject) {
         this.setState({
           isOpen: !this.state.isOpen,
           subject:subject
       });
     }
+
     toggleModalClose() {
         this.setState({
           isOpen: !this.state.isOpen
         });
     }
+
   render() {
     return (
       <div className="container clearfix">
@@ -82,7 +75,13 @@ class AdminSubjects extends React.Component {
                               <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
                           </div>
                           <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
-                          <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_id.major_name}</span></p>
+                          {
+                            subject.faculty_id ? (
+                              <p><span><i className="fa fa-graduation-cap"></i> Факультет: {subject.faculty_id.faculty_name}</span></p>
+                            ):(
+                              <p><span><i className="fa fa-graduation-cap"></i>Предмет общеобразовательный</span></p>
+                            )
+                          }
                           <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
                             <div>
                               <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
