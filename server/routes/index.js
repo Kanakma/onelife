@@ -685,12 +685,24 @@ router.post('/addstudent', (req, res) => {
 														graduation_year: req.body.graduation_year.trim()
 													}
 													const newStudent = new Student(studentData);
-												  	newStudent.save((err) => {
+												  	newStudent.save(function(err, savedStudent){
 														if (err) { console.log(err) }
 														else {
-															res.send({
-																newStudent:newStudent,
-															})
+                            Group.findOne({_id:req.body.group_id}, function(err, group){
+            									if(err) console.log(err);
+                              else{
+                                group.students.push(savedStudent._id)
+                                group.save(function(err, savedGroup){
+                                  if(err) console.log(err);
+                                  else{
+                                    res.send({
+                                      newStudent:newStudent,
+                                    })
+                                  }
+                                })
+
+                              }
+														})
 														}
 													})
 												}
@@ -2089,18 +2101,28 @@ router.post('/editgroup', (req, res) => {
 });
 router.post('/deletegroup', (req, res) =>{
 	var newData = JSON.parse(req.body.group_id);
-	Group.findOneAndRemove({_id:newData}, function(err, result){
+  Group.findOne({_id: newData}, function(err, group){
 		if(err)console.log(err);
-		if(result){
-			Major.findOne({group_id:newData}, function(err, major){
-				if(err) console.log(err);
-				if(major){
-					major.groups.splice(major.groups.indexOf(newData), 1);
-					major.save(function(err, result){
-						if(err) console.log(err);
-					})
-				}
-			})
+		if(group){
+      if(group.students.length!=0){
+        res.send("please move all students from this group")
+      }
+      else{
+        Group.findOneAndRemove({_id:newData}, function(err, result){
+          if(err)console.log(err);
+      		if(result){
+            Major.findOne({groups:newData}, function(err, major){
+      				if(err) console.log(err);
+      				if(major){
+      					major.groups.splice(major.groups.indexOf(newData), 1);
+      					major.save(function(err, result){
+      						if(err) console.log(err);
+      					})
+      				}
+      			})
+          }
+        })
+      }
 		}
 	})
 })

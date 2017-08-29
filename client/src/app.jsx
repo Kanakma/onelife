@@ -26,6 +26,7 @@ import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
+import TeacherEditProfile from './components/TeacherEditProfile.jsx';
 import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
 import TeacherAddMark from './components/TeacherAddMark.jsx';
 import TeacherAddHomework from './components/TeacherAddHomework.jsx';
@@ -33,6 +34,7 @@ import AdminAddParrent from './components/AdminAddParrent.jsx';
 import AdminParrents from './components/AdminParrents.jsx';
 import TeacherSubjects from './components/TeacherSubjects.jsx';
 import StudentSubjects from './components/StudentSubjects.jsx';
+import StudentEditProfile from './components/StudentEditProfile.jsx';
 import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
 import TeacherShowAttendance from './components/TeacherShowAttendance.jsx';
 import TeacherShowMarks from './components/TeacherShowMarks.jsx';
@@ -91,6 +93,8 @@ ReactDom.render((
       <Route path= "/addschedule" component={AdminAddSchedule}/>
       <Route path= "/groups" component={AdminGroups}/>
       <Route path= "/addgroups" component={AdminAddGroups}/>
+      <Route path="/editprofile" component={TeacherEditProfile}/>
+      <Route path="/editstudentprofile" component={StudentEditProfile}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
