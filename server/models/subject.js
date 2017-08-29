@@ -9,13 +9,14 @@ const SubjectSchema = new mongoose.Schema({
   course_number: Number,
   credit_number: Number,
   max_students: Number,
+  students:  [{type: mongoose.Schema.Types.ObjectId, ref: 'Student'}],
   groups:[{type: mongoose.Schema.Types.ObjectId, ref: 'Group'}],
   description: String,
   img: {
     type:String,
     default:'default.jpg'
   },
-  optional: {
+  optional: { 
     type:Boolean,
     default:true
   }

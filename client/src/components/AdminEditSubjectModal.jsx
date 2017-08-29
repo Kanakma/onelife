@@ -61,7 +61,6 @@ class AdminEditSubjectModal extends React.Component {
   componentDidMount() {
     this.getForSubjects();
     this.getTeachers();
-
   }
 
   getForSubjects(){
@@ -255,6 +254,9 @@ class AdminEditSubjectModal extends React.Component {
         'Content-type': 'application/x-www-form-urlencoded'
       }
     })
+      .then(response => {
+        window.location.reload();
+      })
   }
 
   render(){
@@ -366,7 +368,10 @@ class AdminEditSubjectModal extends React.Component {
                   <div className="col-md-3">
                     <label>Количество студентов</label>
                     <input type="number" className="form-control" placeholder="Количество студентов"
-                           name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject} />
+                           name="max_students" 
+                           value={this.state.subject.max_students}
+                           onChange={this.changeSubject}
+                           disabled={!this.state.optional} />
                     <span className="bar"></span>
                   </div>
               </div>

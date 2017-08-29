@@ -83,8 +83,7 @@ class AdminEditStudentModal extends React.Component {
     axios.post('/api/deletestudent', formData, {
       responseType: 'json',
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
+        'Content-type': 'application/x-www-form-urlencoded'
       }
     })
   }
