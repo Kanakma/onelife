@@ -681,9 +681,6 @@ router.post('/addstudent', (req, res) => {
 												  	newStudent.save(function(err, savedStudent){
 														if (err) { console.log(err) }
 														else {
-                            Group.findOne({_id:req.body.group_id}, function(err, group){
-            									if(err) console.log(err);
-                              else{
                                 group.students.push(savedStudent._id)
                                 group.save(function(err, savedGroup){
                                   if(err) console.log(err);
@@ -693,9 +690,6 @@ router.post('/addstudent', (req, res) => {
                                     })
                                   }
                                 })
-
-                              }
-														})
 														}
 													})
 												}
