@@ -45,6 +45,9 @@ class TeacherEditProfile extends React.Component {
     this.editTeacherFunc=this.editTeacherFunc.bind(this);
     this.dateFormat= this.dateFormat.bind(this);
     this.changeImg = this.changeImg.bind(this);
+    this.birthdayChange = this.birthdayChange.bind(this);
+    this.entry_yearChange = this.entry_yearChange.bind(this);
+    this.changeTeacher = this.changeTeacher.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getteacherprofileinfo?teacherId='+this.state.userId,  {
@@ -67,21 +70,26 @@ class TeacherEditProfile extends React.Component {
   }
   editTeacherFunc(){
     event.preventDefault();
-    // if(this.state.filename.length>0){
-    //   this.addImg();
-    // }
-    // const teacher_id = this.props.teacher.teacher_id;
-    // const birthday = this.state.birthday;
-    // const entry_year = this.state.entry_year;
-    // const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
-    // axios.post('/api/editteacher', formData, {
-    //   responseType: 'json',
-    //   headers: {
-    //     'Content-type': 'application/x-www-form-urlencoded',
-    //     'Authorization': `bearer ${Auth.getToken()}`
-    //   }
-    // });
+    if(this.state.filename.length>0){
+      this.addImg();
+    }
+    const teacher_id = this.state.teacher._id;
+    const birthday = this.state.birthday;
+    const entry_year = this.state.entry_year;
+    const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
+    axios.post('/api/editteacher', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
+      }
+    });
   }
+  birthdayChange(value){
+       this.setState({
+         birthday: value,
+       });
+     }
   changeImg(e){
     e.preventDefault();
 
@@ -103,12 +111,45 @@ class TeacherEditProfile extends React.Component {
       reader.readAsDataURL(file);
     }
   }
+  entry_yearChange(value){
+      this.setState({
+        entry_year: value
+      });
+  }
+  changeTeacher(event){
+    const field = event.target.name;
+    const editedTeacher = this.state.editedTeacher;
+    editedTeacher[field] = event.target.value;
+    if((this.state.editedTeacher.password.length>0) || (this.state.editedTeacher.checkpassword.length>0)){
+      if((this.state.editedTeacher.password!=this.state.editedTeacher.checkpassword)){
+        this.setState({
+          checkPass: false
+        })
+        document.getElementById('wrongpass').style.display = "block"
+      }
+      else if(this.state.editedTeacher.password===this.state.editedTeacher.checkpassword){
+        this.setState({
+          checkPass: true
+        })
+        document.getElementById('wrongpass').style.display = "none"
+      }
+    }
+    else {
+      document.getElementById('wrongpass').style.display = "none"
+      this.setState({
+        checkPass: true
+      })
+    }
+    this.setState({
+      editedTeacher
+    })
+  }
+
   render() {
-    console.log(this.state.teacher)
     return (
       <div className="container clearfix">
           <div className="bg-title" style={{marginLeft: '220px', marginBottom: '25px' }}>
-            <h4>Редактировать профиль</h4>
+            <h4>Настройки профиля</h4>
           </div>
           <div className=" my-content" >
             <div className="table-responsive">
@@ -141,13 +182,13 @@ class TeacherEditProfile extends React.Component {
               <label>День рождения</label>
               <DatePicker value={this.state.birthday}
               onChange={this.birthdayChange}
-              placeholder={this.dateFormat(this.state.teacher.user_id.birthday)}
+              placeholder={this.state.teacher.user_id.birthday}
               className="form-control mydatepicker"/>
             </div>
             <div className="form-group">
               <label>День начала работы</label>
               <DatePicker value={this.state.entry_year}
-              placeholder={this.dateFormat(this.state.teacher.entry_year)}
+              placeholder={this.state.teacher.entry_year}
               onChange={this.entry_yearChange}
               className="form-control mydatepicker"/>
             </div>
@@ -224,9 +265,6 @@ class TeacherEditProfile extends React.Component {
           </div>
             <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass}>
               Сохранить изменения
-            </button>
-            <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteTeacher}>
-              Удалить Преподователя
             </button>
           </form>
         </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import PropTypes from 'prop-types';
 import { Line as Line1,Circle } from 'rc-progress';
 import {LineChart, Line, Pie, Sector, Cell,PieChart, Legend, Tooltip,AreaChart, XAxis, YAxis, CartesianGrid, Area} from 'recharts';
 
@@ -12,18 +13,18 @@ const data03 = [{name: 'Group A', value: 80}, {name: 'Group B', value: 20},
                   {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const RADIAN = Math.PI / 180;                    
+const RADIAN = Math.PI / 180;
 
 const SimplePieChart = React.createClass({
   render () {
     return (
       <PieChart width={400} height={400} onMouseEnter={this.onPieEnter}>
         <Pie
-          data={data03} 
-          cx={250} 
-          cy={200} 
+          data={data03}
+          cx={250}
+          cy={200}
           innerRadius={60}
-          outerRadius={80} 
+          outerRadius={80}
           fill="#8884d8"
           paddingAngle={0}
         >
@@ -32,7 +33,7 @@ const SimplePieChart = React.createClass({
           }
         </Pie>
                <Tooltip/>
-     
+
       </PieChart>
     );
   }
@@ -50,7 +51,7 @@ const TinyLineChart = React.createClass({
   render () {
     return (
       <LineChart width={300} height={100} data={data05}>
-        <Line type='monotone' dataKey='pv' cx={300} 
+        <Line type='monotone' dataKey='pv' cx={300}
           cy={180}  stroke='#ffffff' strokeWidth={2} />
                <Tooltip/>
       </LineChart>
@@ -75,7 +76,7 @@ const data = [
 const SimpleAreaChart = React.createClass({
   render () {
     return (
-      <AreaChart width={900} height={400} data={data} 
+      <AreaChart width={900} height={400} data={data}
             margin={{top: 30, right: 30, left: 0, bottom: 0}}>
         <XAxis dataKey="name"/>
         <YAxis/>
@@ -92,18 +93,18 @@ const SimpleAreaChart = React.createClass({
 const data_gpa = [{name: 'Group A', value: 80}, {name: 'Group B', value: 20}];
 const COLORS1 = ['#e14e50', '#d9d9d9'];
 
-           
+
 
 const SimplePieChart1 = React.createClass({
   render () {
     return (
       <PieChart width={400} height={270} onMouseEnter={this.onPieEnter}>
         <Pie
-          data={data_gpa} 
-          cx={250} 
-          cy={170} 
+          data={data_gpa}
+          cx={250}
+          cy={170}
           innerRadius={60}
-          outerRadius={80} 
+          outerRadius={80}
           fill="#8884d8"
           paddingAngle={0}
         >
@@ -112,7 +113,7 @@ const SimplePieChart1 = React.createClass({
           }
         </Pie>
                <Tooltip/>
-     
+
       </PieChart>
     );
   }
@@ -130,7 +131,8 @@ class StudentHome extends React.Component {
          group_id:{}
        },
        img: '599c14d780239a46c51aa04b-default_avatar.png'
-    }
+    },
+    this.openProfile = this.openProfile.bind(this);
   }
   componentDidMount() {
     if(Auth.isUserAuthenticated()){
@@ -146,13 +148,15 @@ class StudentHome extends React.Component {
         }
       })
         .then(res => {
-          console.log(res.data.student)
           this.setState({
             student: res.data.student,
             img: res.data.student.img
           });
         });
     }
+  }
+  openProfile(event){
+    this.context.router.history.push('/editstudentprofile', {userId: event.target.id})
   }
   render() {
     return (
@@ -162,11 +166,11 @@ class StudentHome extends React.Component {
         <h4>Главная студента</h4>
       </div>
       <div className="profile-heading text-center ">
-      <div className="university_logo"> 
-     
+      <div className="university_logo">
+
       </div>
         <div className="profile-heading-name ">
-        
+
        Университет имени Сулеймана Демиреля
            </div>
         <div ></div>
@@ -185,7 +189,7 @@ class StudentHome extends React.Component {
               <span className="student_name_main1"> Группа:</span><span className="student_name_main"> {this.state.student.group_id.group_name}</span><br/>
               <span className="student_name_main1"> Курс:</span><span className="student_name_main"> {this.state.student.group_id.course_number}</span>
             </div>
-            <button className="profile-teacher-btn">Настройки</button>
+            <button className="profile-teacher-btn" onClick={this.openProfile} id={this.state.userId}>Настройки</button>
           </div>
         </div>
         <div className=" col-md-4">
@@ -194,7 +198,7 @@ class StudentHome extends React.Component {
             <p className="student_gpa_title">Оценка (GPA)</p>
             <div className="student_line">
               <TinyLineChart />
-            </div>  
+            </div>
           </div>
             <div className="student_gparechart_stat">
 
@@ -227,7 +231,7 @@ class StudentHome extends React.Component {
               <div className="student_gpa_main_title">
                 <p className="student_current_year">Учебный год</p>
                 <p className="student_days_left">До конца учебного года осталось:</p>
-                <div className="student_count_days_left">       
+                <div className="student_count_days_left">
                   <span className="student_number">263</span><span className="student_days">дней</span>
                   <Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" />
 
@@ -251,7 +255,7 @@ class StudentHome extends React.Component {
          <SimpleAreaChart />
         </div>
         </div>
-        
+
   <div id="main">
 
   <div >
@@ -310,7 +314,7 @@ class StudentHome extends React.Component {
 
 
   </div>
-  
+
   <div >
 
   <p className="student_today">Расписание на Завтра</p>
@@ -378,5 +382,7 @@ class StudentHome extends React.Component {
     </div>);
   }
 }
-
+StudentHome.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 export default StudentHome;

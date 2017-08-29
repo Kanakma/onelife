@@ -663,7 +663,7 @@ active state
   background-size: 100% 100%;
   display: flex;
   padding: 40px 0;
-  /*flex-flow: row wrap;*/
+  flex-flow: row wrap;
 }
 .profile-heading:after{
 
@@ -1171,7 +1171,7 @@ ul.hr li {
   height: 50%;
   width: 100%;
   background-color: white;
-  
+
 }
 .student_credits_stat{
   width: 234pxc;
@@ -1185,7 +1185,7 @@ ul.hr li {
   margin-top: 20px
 }
 .student_row{
- 
+
 }
 .student_attendance{
   margin-top: 20px;
@@ -1217,7 +1217,7 @@ ul.hr li {
   font-family: "gothic";
   font-size: 20px;
   font-weight: 400;
- 
+
 }
 .student_courses_subtitle{
   /* Style for "Количество" */
@@ -1253,7 +1253,7 @@ ul.hr li {
   }
 .stud_pie{
   margin-top: -282px;
- 
+
     margin-left: -10px;
   }
 .student_max_score{
