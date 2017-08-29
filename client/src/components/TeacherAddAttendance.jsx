@@ -16,7 +16,8 @@ class TeacherAddAttendance extends React.Component {
       groups: [],
       subject: {},
       groups: [],
-      att_students: [],
+      att_students: [
+      ],
       subject_id: '',//kogdra zarabotaet udali
       group_name:'',
       checkSubject: false,
@@ -108,7 +109,6 @@ class TeacherAddAttendance extends React.Component {
       }
     }
     var temp = this.state.attendances;
-    //console.log(event.target.name,'oldddd')
       var old = IndInObjArr(temp,event.target.name, 'name');
       if(old.length > 0){
         temp[old[0]].att_status = (event.target.value!='')?event.target.value:'был';
@@ -145,10 +145,9 @@ class TeacherAddAttendance extends React.Component {
     event.preventDefault();
     const group_name= this.state.group_name;
     const att_date=this.state.att_date;
-  //  console.log(subject_id,'att_dateeeeeeeeeeee')
     var dd= this.dateFormat1(att_date);
   
-    if(today===dd){
+    // if(today===dd){
           const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}`;
 
    axios.post('/api/addattendance', formData, {
@@ -162,17 +161,17 @@ class TeacherAddAttendance extends React.Component {
         message: res.data.message
       })
    })
-  } 
-  if(today!=dd){
-      this.setState({
-        message: 'Вы можете выставлять посещаемость только на текущую дату'
-      })
-  }
-  else{
-    this.setState({
-        message: 'Укажите пожалуйста дату'
-      })
-  }
+//  } 
+  // if(today!=dd){
+//       this.setState({
+//         message: 'Вы можете выставлять посещаемость только на текущую дату'
+//       })
+// // }
+  // else{
+  //   this.setState({
+  //       message: 'Укажите пожалуйста дату'
+  //     })
+  // }
 
   }
 
@@ -195,7 +194,6 @@ class TeacherAddAttendance extends React.Component {
         message: ''
       })
     }
-    console.log(event.target.value,'valueeeeee')
     axios.get('/api/getgroupsforstudents?group_name='+event.target.value, {
             responseType: 'json',
             headers: {
@@ -204,9 +202,8 @@ class TeacherAddAttendance extends React.Component {
     })
       .then(res => {
         this.setState({
-          att_students: res.data.att_students
+          att_students: res.data.att_students.students
         });
-     console.log(res.data.att_students,'stuuudents')
       });
 
 
@@ -258,8 +255,11 @@ class TeacherAddAttendance extends React.Component {
               {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.curator}</td>
-                    
+                    <td>{student.user_id.username}</td>
+                    <td>{student.user_id.name}  {student.user_id.lastname}</td>
+                    <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
+                    <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
+                     
               
                 </tr>
               )}
