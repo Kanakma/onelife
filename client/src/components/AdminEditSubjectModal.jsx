@@ -8,42 +8,63 @@ class AdminEditSubjectModal extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      main_majors: [],
-      faculties: [],
-      main_teachers: [],
-      editedSubject:{
+      message: '',
+      errors: {},
+      subject: {
         subject_code: '',
         subject_name: '',
         teacher_id: '',
-        major_id: '',
         period: 0,
         course_number: 0,
         credit_number: 0,
         max_students: 0,
         description: ''
       },
+      checkElective:true,
+      optional:false,
       file: '',
       filename: '',
       major_group: '',
       main_majors: [],
       majors: [],
-      faculties: [],
+      faculty_name:'',
+      faculties: [{
+        departmnets:[{
+          majors:[{
+            major_name:'',
+            major_code:'',
+            major_group:''
+          }]
+        }]
+      }],
       main_teachers: [],
       teachers: [],
       checkMajor: false,
       checkContent: false,
-      checkFaculty: false
-
+      checkFaculty: false,
+      checkTeacher:false,
+      typeValue:'Общеобразовательный',
+      optionalValue:'Факультативный'
     }
+    this.changeSubject = this.changeSubject.bind(this);
+    this.editSubjectFunc = this.editSubjectFunc.bind(this);
     this.changeMajorGroup = this.changeMajorGroup.bind(this);
     this.changeFaculty = this.changeFaculty.bind(this);
     this.changeImg = this.changeImg.bind(this);
-    this.changeSubject = this.changeSubject.bind(this);
-    this.editSubjectFunc = this.editSubjectFunc.bind(this);
+    this.changeElective = this.changeElective.bind(this);
+    this.getTeachers = this.getTeachers.bind(this);
+    this.getForSubjects = this.getForSubjects.bind(this);
+    this.changeOptional = this.changeOptional.bind(this);
     this.deleteSubject = this.deleteSubject.bind(this);
   };
 
   componentDidMount() {
+    this.getForSubjects();
+    this.getTeachers();
+
+  }
+
+  getForSubjects(){
     axios.get('/api/getforsubject',  {
       responseType: 'json',
       headers: {
@@ -58,70 +79,97 @@ class AdminEditSubjectModal extends React.Component {
         });
       });
   }
-  
-  changeMajorGroup(event){
-          if(event.target.value.length > 0){
-            this.setState({
-              major_group: event.target.value,
-              checkMajor: true,
-              message: '',
-              errors: {},
-              majors: this.state.main_majors.filter(function(major) {
-                                  return major.major_group.indexOf(event.target.value) > -1;
-                              })
-            })
-          } else {
-            this.setState({
-              major_group: event.target.value,
-              checkMajor: false,
-              message: '',
-              errors: {}
-            })
-          }
-  }
-  
-  changeFaculty(event){
-          if(event.target.value.length > 0){
-            this.setState({
-              faculty_name: event.target.value,
-              checkFaculty: true,
-              message: '',
-              errors: {},
-              teachers: this.state.main_teachers.filter(function(teacher) {
-                                  return teacher.faculty_id.indexOf(event.target.value) > -1;
-                              })
-            })
-          } else {
-            this.setState({
-              faculty_name: event.target.value,
-              checkFaculty: false,
-              message: '',
-              errors: {}
-            })
-          }
 
+  getTeachers(){
+    axios.get('/api/getteachers',  {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(res => {
+        this.setState({
+          teachers:res.data.allTchrs
+        });
+      });
   }
-  
+
+  changeSubject(event){
+    const field = event.target.name;
+    const subject = this.state.subject;
+    subject[field] = event.target.value;
+          this.setState({
+            subject: subject,
+            message: '',
+            errors: {}
+          })
+  }
+
+  changeMajorGroup(event){
+    if(event.target.value.length > 0){
+      this.setState({
+        major_group: event.target.value,
+        checkMajor: true,
+        message: '',
+        errors: {},
+        majors: this.state.main_majors.filter(function(major) {
+                            return major.major_group.indexOf(event.target.value) > -1;
+                        })
+      })
+    } else {
+      this.setState({
+        major_group: event.target.value,
+        checkMajor: false,
+        message: '',
+        errors: {}
+      })
+    }
+  }
+
+  changeFaculty(event){
+    if(event.target.value.length > 0){
+      this.setState({
+        faculty_name: event.target.value,
+        checkFaculty: true,
+        message: '',
+        errors: {},
+        checkTeacher:false,
+        teachers: this.state.main_teachers.filter(function(teacher) {
+                            return teacher.faculty_id.indexOf(event.target.value) > -1;
+                        })
+      })
+    } else {
+      this.setState({
+        faculty_name: event.target.value,
+        checkFaculty: false,
+        message: '',
+        errors: {},
+        checkTeacher:true
+      })
+    }
+  }
+
   editSubjectFunc(){
     if(this.state.filename.length>0){
       var subject_id = this.props.subject._id
       return new Promise((resolve, reject) => {
         let imageFormData = new FormData();
         imageFormData.append('imageFile', this.state.file);
-        imageFormData.append('data', JSON.stringify(this.state.editedSubject));
-        axios.post('/api/editsubject?subject_id='+subject_id, imageFormData, {
+        imageFormData.append('data', JSON.stringify(this.state.subject));
+        imageFormData.append('optional', JSON.stringify(this.state.optional));
+        imageFormData.append('faculty_id', JSON.stringify(this.state.faculty_name));
+        axios.post('/api/editsubject?subject_id=' + subject_id, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
           }
         })
-          .then(response => {
+        .then(response => {
             window.location.reload();
           });
       });
-    }
-    else{
-      const formData = `data=${JSON.stringify(this.state.editedSubject)}&subject_id=${this.props.subject._id}`;
+    } else{
+      const formData = `data=${JSON.stringify(this.state.subject)}&subject_id=${this.props.subject._id}&optional=${this.state.optional}&faculty_id=${this.state.faculty_name}`;
       axios.post('/api/editsubject', formData, {
         responseType: 'json',
         headers: {
@@ -130,60 +178,6 @@ class AdminEditSubjectModal extends React.Component {
       .then(response => {
         window.location.reload();
       });
-    }
-  }
-
-  deleteSubject(){
-    event.preventDefault();
-    const formData = `subject_id=${JSON.stringify(this.props.subject._id)}`;
-    axios.post('/api/deletesubject', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
-  }
-  changeSubject(event){
-    const field = event.target.name;
-    const editedSubject = this.state.editedSubject;
-    editedSubject[field] = event.target.value;
-      this.setState({
-        editedSubject: editedSubject
-      })
-      console.log(this.state.editedSubject)
-  }
-
-  changeMajorGroup(event){
-    if(event.target.value.length > 0){
-      this.setState({
-        major_group: event.target.value,
-        checkMajor: true,
-        majors: this.state.main_majors.filter(function(major) {
-                            return major.major_group.indexOf(event.target.value) > -1;
-                        })
-      })
-    } else {
-      this.setState({
-        major_group: event.target.value,
-        checkMajor: false
-      })
-    }
-  }
-  changeFaculty(event){
-    if(event.target.value.length > 0){
-      this.setState({
-        faculty_name: event.target.value,
-        checkFaculty: true,
-        teachers: this.state.main_teachers.filter(function(teacher) {
-                            return teacher.faculty_id.indexOf(event.target.value) > -1;
-                        })
-      })
-    } else {
-      this.setState({
-        faculty_name: event.target.value,
-        checkFaculty: false
-      })
     }
   }
 
@@ -209,8 +203,61 @@ class AdminEditSubjectModal extends React.Component {
       reader.readAsDataURL(file);
     }
   }
+   // && (this.state.checkElective==false) ? (this.state.faculty_name.length>0): true
+  changeElective(event){
+    if(event.target.value=='Общеобразовательный'){
+      var temp = this.state.subject;
+      temp.teacher_id='';
+      this.getTeachers();
+      this.setState({
+        checkElective: true,
+        optional:false,
+        checkTeacher:false,
+        subject:temp,
+        faculty_name:'',
+        typeValue:event.target.value,
+        optionalValue:'Факультативный'
+      })
+    }else if(event.target.value=='Специализированный'){
+      var temp = this.state.subject;
+      temp.teacher_id='';
+      this.setState({
+        checkElective: false,
+        optional:true,
+        checkTeacher:true,
+        subject:temp,
+        faculty_name:'',
+        typeValue:event.target.value,
+        optionalValue:'Факультативный'
+      })
+    }
+  }
+  
+  changeOptional(event){
+    if(event.target.value=='Обязательный'){
+      this.setState({
+        optional:false,
+        optionalValue:event.target.value
+      })
+    } else if(event.target.value=='Факультативный'){
+      this.setState({
+        optional:true,
+        optionalValue:event.target.value
+      })
+    }
+  }
+
+  deleteSubject(){
+    const formData = `subject_id=${this.props.subject._id}`;
+    axios.post('/api/deletesubject', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+  }
+
   render(){
-    // console.log(this.props.subject._id)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -227,7 +274,6 @@ class AdminEditSubjectModal extends React.Component {
       marginLeft: 200,
       overflow: 'auto'
     };
-
     // The modal "window"
     const modalStyle = {
       backgroundColor: '#fff',
@@ -246,134 +292,119 @@ class AdminEditSubjectModal extends React.Component {
               </button>
             <form action="/subjects" onSubmit={this.editSubjectFunc}>
               <div className="form-group">
-                <label>Код предмета</label>
-                <input type="text" className="form-control" placeholder={this.props.subject.subject_code}
-                     name="subject_code" value={this.state.editedSubject.subject_code} onChange={this.changeSubject} />
-                <span className="bar"></span>
+                  <label>Код предмета</label>
+                  <input type="text" className="form-control" placeholder="Код предмета"
+                       name="subject_code" value={this.state.subject.subject_code} onChange={this.changeSubject} />
+                  <span className="bar"></span>
               </div>
               <div className="form-group">
-                <label>Название предмета</label>
-                <input type="text" className="form-control" placeholder={this.props.subject.subject_name}
-                     name="subject_name" value={this.state.editedSubject.subject_name} onChange={this.changeSubject} />
+                  <label>Название предмета</label>
+                  <input type="text" className="form-control" placeholder="Название предмета"
+                       name="subject_name" value={this.state.subject.subject_name} onChange={this.changeSubject} />
+                  <span className="bar"></span>
+              </div>
+              <div className="form-group row">
+                <div className="col-md-6">
+                  <label>Тип</label>
+                  <select className="form-control" value={this.state.typeValue} onChange={this.changeElective} style={{cursor: 'pointer'}}>
+                    <option value='Общеобразовательный'>Общеобразовательный</option>
+                    <option value='Специализированный'>Специализированный</option>
+                  </select>
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-6">
+                  <label>Элективный</label>
+                  <select className="form-control" name="optional" disabled={this.state.checkElective} value={this.state.optionalValue} onChange={this.changeOptional} style={{cursor: 'pointer'}}>
+                    <option value='Факультативный'>Факультативный</option>
+                    <option value='Обязательный'>Обязательный</option>
+                  </select>
+                  <span className="bar"></span>
+                </div>
+              </div>
+              <div className="form-group row">
+              <div className="col-md-6">
+                <label>Факультет</label>
+                <select className="form-control" name="faculty_id" disabled={this.state.checkElective} onChange={this.changeFaculty}>
+                  <option value=''>Выберите факультета</option>
+                  <option value=' '>Без факультета</option>
+                  {this.state.faculties.map((faculty, f) =>
+                    <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
+                  )}
+                </select>
                 <span className="bar"></span>
               </div>
-            <div className="form-group">
-              <label>Тип</label>
-              <select className="form-control" name="optional" value={this.state.editedSubject.optional} onChange={this.changeSubject} style={{cursor: 'pointer'}}>
-                <option value="">Выберите тип</option>
-                <option value={false}>Обязательный</option>
-                <option value={true}>Не обязательный</option>
-              </select>
-              <span className="bar"></span>
-            </div>
-              <div className="form-group row">
-                <div className="col-md-6">
-                  <select className="form-control" name="major_group" value={this.state.major_group} onChange={this.changeMajorGroup}>
-                    <option value="">Наименование групп специальностей</option>
-                    <option value="Образование">Образование</option>
-                    <option value="Гуманитарные науки">Гуманитарные науки</option>
-                    <option value="Право">Право</option>
-                    <option value="Искусство">Искусство</option>
-                    <option value="Социальные науки, экономика и бизнес">Социальные науки, экономика и бизнес</option>
-                    <option value="Естественные науки">Естественные науки</option>
-                    <option value="Технические науки и технологии">Технические науки и технологии</option>
-                    <option value="Сельскохозяйственные науки">Сельскохозяйственные науки</option>
-                    <option value="Услуги">Услуги</option>
-                    <option value="Военное дело и безопасность">Военное дело и безопасность</option>
-                    <option value="Здравоохранение и социальное обеспечение (медицина)">Здравоохранение и социальное обеспечение (медицина)</option>
-                  </select>
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-6">
-                  <select className="form-control" name="major_id" value={this.state.editedSubject.major_id} onChange={this.changeSubject} disabled={!this.state.checkMajor}>
-                    <option value=''>Выберите специальность</option>
-                    {this.state.majors.map((major, m) =>
-                      <option key={m} value={major._id}>{major.major_name}</option>
-                    )}
-                  </select>
-                  <span className="bar"></span>
-                </div>
+              <div className="col-md-6">
+                <label>Преподаватель</label>
+                <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
+                  <option value=''>Выберите преподавателя</option>
+                  {this.state.teachers.map((teacher, t) =>
+                    <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
+                  )}
+                </select>
+                <span className="bar"></span>
+              </div>
               </div>
               <div className="form-group row">
-                <div className="col-md-6">
-                  <select className="form-control" name="faculty_id" value={this.state.editedSubject.faculty_name} onChange={this.changeFaculty}>
-                    <option value=''>Выберите факультет</option>
-                    {this.state.faculties.map((faculty, f) =>
-                      <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
-                    )}
-                  </select>
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-6">
-                  <select className="form-control" name="teacher_id" value={this.state.editedSubject.teacher_id} onChange={this.changeSubject} disabled={!this.state.checkFaculty}>
-                    <option value='dvdv'>Выберите преподавателя</option>
-                    {this.state.teachers.map((teacher, t) =>
-                      <option key={t} value={teacher._id}>{teacher.lastname} {teacher.name}</option>
-                    )}
-                  </select>
-                  <span className="bar"></span>
-                </div>
-              </div>
-              <div className="form-group row">
-                <div className="col-md-3">
-                  <label>Период (месяц)</label>
-                  <input type="number" className="form-control" placeholder={this.props.subject.period}
-                         name="period" value={this.state.editedSubject.period} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-3">
-                  <label>Курс</label>
-                  <input type="number" className="form-control" placeholder={this.props.subject.course_number}
-                         name="course_number" value={this.state.editedSubject.course_number} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-3">
-                  <label>Кредиты</label>
-                  <input type="number" className="form-control" placeholder={this.props.subject.credit_number}
-                         name="credit_number" value={this.state.editedSubject.credit_number} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-3">
-                  <label>Количество студентов</label>
-                  <input type="number" className="form-control" placeholder={this.props.subject.max_students}
-                         name="max_students" value={this.state.editedSubject.max_students} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-              </div>
-              <div className="form-group">
-                <label>Изображение</label>
-                  <div className="fileinput input-group fileinput-new" data-provides="fileinput">
-                      <div className="form-control" data-trigger="fileinput">
-                      {this.state.filename.length > 0 ?(
-                        <div>
-                        <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                        <span className="fileinput-filename">{this.state.filename}</span>
-                        </div>
-                      ):(
-                        <span></span>
-                      )}
-                      </div>
-                      <span className="input-group-addon btn btn-default btn-file">
-                      {this.state.filename.length > 0 ?(
-                        <span className="fileinput-exists">Изменить</span>
-                      ):(
-                        <span className="fileinput-new">Выбрать</span>
-                      )}
-                        <input type="hidden" value="" name="..."/>
-                        <input type="file" name="" onChange={this.changeImg} />
-                      </span>
+                  <div className="col-md-3">
+                    <label>Период (месяц)</label>
+                    <input type="number" className="form-control" placeholder="Период"
+                           name="period" value={this.state.subject.period} onChange={this.changeSubject} />
+                    <span className="bar"></span>
                   </div>
+                  <div className="col-md-3">
+                    <label>Курс</label>
+                    <input type="number" className="form-control" placeholder="Курс"
+                           name="course_number" value={this.state.subject.course_number} onChange={this.changeSubject} />
+                    <span className="bar"></span>
+                  </div>
+                  <div className="col-md-3">
+                    <label>Кредиты</label>
+                    <input type="number" className="form-control" placeholder="Кредиты"
+                           name="credit_number" value={this.state.subject.credit_number} onChange={this.changeSubject} />
+                    <span className="bar"></span>
+                  </div>
+                  <div className="col-md-3">
+                    <label>Количество студентов</label>
+                    <input type="number" className="form-control" placeholder="Количество студентов"
+                           name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject} />
+                    <span className="bar"></span>
+                  </div>
+              </div>
+              <div className="form-group">
+              <label>Изображение</label>
+                <div className="fileinput input-group fileinput-new" data-provides="fileinput">
+                    <div className="form-control" data-trigger="fileinput">
+                    {this.state.filename.length > 0 ?(
+                      <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                      </div>
+                    ):(
+                      <span></span>
+                    )}
+                    </div>
+                    <span className="input-group-addon btn btn-default btn-file">
+                    {this.state.filename.length > 0 ?(
+                      <span className="fileinput-exists">Изменить</span>
+                    ):(
+                      <span className="fileinput-new">Выбрать</span>
+                    )}
+                      <input type="hidden" value="" name="..."/>
+                      <input type="file" name="" onChange={this.changeImg} />
+                    </span>
                 </div>
-                <div className="form-group">
-                  <textarea type="text"
-                               className="form-control"
-                               value={this.state.editedSubject.description}
-                               name="description"
-                               onChange={this.changeSubject}
-                               placeholder={this.props.subject.description}
-                               rows="5"></textarea>
-                  <span className="bar"></span>
-                </div>
+              </div>
+              <div className="form-group">
+                <label>Описание</label><br/>
+                <textarea type="text"
+                             className="form-control"
+                             value={this.state.subject.description}
+                             name="description"
+                             onChange={this.changeSubject}
+                             placeholder="Введите описание предмета"
+                             rows="5"></textarea>
+                <span className="bar"></span>
+              </div>
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
                 Сохранить изменения
               </button>

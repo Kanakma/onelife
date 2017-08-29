@@ -21,6 +21,7 @@ passport.use('local-login', localLoginStrategy);
 app.use('/auth', require('./server/routes/auth'));
 app.use('/api', require('./server/routes/index'));
 
+
 app.get("/*", function(req, res) {
 	res.sendFile(__dirname + '/public/static/index.html')
 })
