@@ -12,10 +12,13 @@ class TeacherAddAttendance extends React.Component {
     this.state = {
       message: '',
       errors: {},
-      subjects: [],
+      subjects: [], //delete potom
+      groups: [],
       subject: {},
-      students: [],
-      subject_id: '',
+      groups: [],
+      att_students: [],
+      subject_id: '',//kogdra zarabotaet udali
+      group_name:'',
       checkSubject: false,
       checkQuestion: false,
       main_students: [],
@@ -35,7 +38,8 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getsubjectteacher',  {
+
+       axios.get('/api/getgroupteacher',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -44,7 +48,7 @@ class TeacherAddAttendance extends React.Component {
     })
       .then(res => {
         this.setState({
-          subjects: res.data.subjects
+          groups: res.data.groups
         });
       });
   }
@@ -139,13 +143,13 @@ class TeacherAddAttendance extends React.Component {
     var today = mm+'/'+dd+'/'+yyyy;
 
     event.preventDefault();
-    const subject_id= this.state.subject_id;
+    const group_name= this.state.group_name;
     const att_date=this.state.att_date;
   //  console.log(subject_id,'att_dateeeeeeeeeeee')
     var dd= this.dateFormat1(att_date);
   
     if(today===dd){
-          const formData = `data=${JSON.stringify(this.state.attendances)}&subject_id=${subject_id}&att_date=${att_date}`;
+          const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}`;
 
    axios.post('/api/addattendance', formData, {
 
@@ -177,7 +181,7 @@ class TeacherAddAttendance extends React.Component {
     if(event.target.value.length > 0){
 
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: true,
         message: '',
         students: this.state.main_students.filter(function(student) {
@@ -191,7 +195,8 @@ class TeacherAddAttendance extends React.Component {
         message: ''
       })
     }
-    axios.get('/api/getsubjectsforstudents?subjectId='+event.target.value, {
+    console.log(event.target.value,'valueeeeee')
+    axios.get('/api/getgroupsforstudents?group_name='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'
@@ -199,8 +204,9 @@ class TeacherAddAttendance extends React.Component {
     })
       .then(res => {
         this.setState({
-          students: res.data.students
+          att_students: res.data.att_students
         });
+     console.log(res.data.att_students,'stuuudents')
       });
 
 
@@ -221,11 +227,11 @@ class TeacherAddAttendance extends React.Component {
 
      
         <div className="form-group col-md-6">
-        <label>Выберите предмет</label>
-          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateStudents}>
+        <label>Выберите группу</label>
+          <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Выберите предмет</option>
-          {this.state.subjects.map((subject, s) =>
-            <option key={s} value={subject._id}>{subject.subject_name}</option>
+          {this.state.groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
           )}
           </select>
         </div>
@@ -249,15 +255,12 @@ class TeacherAddAttendance extends React.Component {
                   </tr>
               </thead>
                 <tbody>
-              {this.state.students.map((student, s) =>
+              {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.user_id.username}</td>
-                    <td >{student.user_id.name} {student.user_id.lastname}</td>
+                    <td>{student.curator}</td>
                     
-                    <td  ><input onClick={this.changeAttendance} className="radio" name={student._id} value="был" type="radio" ></input></td>
-                    <td  ><input onClick={this.changeAttendance} className="radio" name={student._id}  value="не был" type="radio"></input></td>
-                    
+              
                 </tr>
               )}
               </tbody>

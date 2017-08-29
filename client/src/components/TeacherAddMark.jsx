@@ -395,8 +395,8 @@ class TeacherAddMark extends React.Component {
                       <th>ID</th>
                       <th>ФИО</th>
                    
-                      <th>Был</th>
-                      <th>Не Был</th>
+                      <th>Оценка</th>
+                      <th>Комментарий</th>
                       
                   </tr>
               </thead>
