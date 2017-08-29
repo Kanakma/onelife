@@ -17,7 +17,6 @@ var Group = require('../models/group')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
-var DeepPopulate = require('mongoose-deep-populate')(mongoose);
 let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
@@ -1879,6 +1878,7 @@ router.get('/getsubjectsforstudents',(req, res)=>{
 		}
 	})
 })
+router
 
 //This route will add the parrent
 router.post('/addparrent',(req, res) =>{
@@ -2330,6 +2330,45 @@ router.get('/count_majors',(req,res) =>{
 
 	})
 
+})
+router.get('/getgroupteacher', (req, res) => {
+	var token = req.headers.authorization.split(' ')[1];
+	var decoded = jwtDecode(token);
+	Teacher.findOne({user_id: decoded.sub}, (err, teacher) => {
+		if(err) { console.log(err) }
+		else {
+			Group.find({curator: teacher._id}, (err, groups) => {
+				if(err) { console.log(err) }
+				else {
+					res.send({
+						groups: groups
+					})
+				}
+			})
+		}
+	})
+});
+
+//teacher new attendance and marks 
+
+router.get('/getgroupsforstudents',(req, res)=>{
+		var group_name=req.query.group_name;
+		console.log(group_name,'nameee')
+		Group.findOne({
+			_id:group_name
+		}).populate({
+			path:'students',
+			populate: {
+				path: 'user_id'
+			}
+		}).exec(function(err,att_students){
+		if(err) {
+			res.status(500).send({err: err});
+		} else {
+			res.status(200).send({att_students: [att_students]});
+			console.log(att_students,'array')
+		}
+	})
 })
 
 module.exports = router;
