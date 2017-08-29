@@ -64,15 +64,15 @@ class AdminEditGroupModal extends React.Component {
   deleteGroup(){
     if(this.props.group.students.length>0){
       alert("Вы не можете удалить группу пока не удалите или не переопределите всех студентов группы!")
+    }else{
+      const formData = `group_id=${JSON.stringify(this.props.group._id)}`;
+      axios.post('/api/deletegroup', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
     }
-    const formData = `group_id=${JSON.stringify(this.props.group._id)}`;
-    axios.post('/api/deletegroup', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
   }
 
   changeGroup(event){

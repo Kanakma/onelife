@@ -256,9 +256,7 @@ router.post('/addsubject', (req, res) => {
 			var fileName = files.imageFile[0].originalFilename;
 			let copyToPath = "public/subject-img/" + fileName;
 			fs.readFile(tempPath, (err, data) => {
-				// make copy of image to new location
 				fs.writeFile(copyToPath, data, (err) => {
-					// delete temp image
 					fs.unlink(tempPath, () => {
 						if(err) {return res.status(401).end();}
 						else {
@@ -272,13 +270,16 @@ router.post('/addsubject', (req, res) => {
 								period: info.period,
 								course_number: info.course_number,
 								credit_number: info.credit_number,
-								max_students: info.max_students,
 								description: info.description,
 								optional: fields.optional,
-								img: fileName
+								img: fileName,
+								groups:[]
 							}
 							if(faculty_id.length>0){
 								subjectData.faculty_id = faculty_id
+							}
+							if(info.max_students){
+								subjectData.max_students = info.max_students
 							}
 							Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
 								if(err) console.log(err);
@@ -287,16 +288,56 @@ router.post('/addsubject', (req, res) => {
 										message: 'Этот предмет уже есть в списке'
 									})
 								} else {
-									const newSubject = new Subject(subjectData);
-								  newSubject.save((err, subject) => {
-								    if (err) console.log(err);
-										else {
-											res.send({
-												subject: subject,
-												message:'Предмет удачно добавлен'
-											})
-										}
-								  });
+									if(subjectData.optional=='false'){
+										Group.find({course_number:Number(subjectData.course_number)}).populate({path: 'major', populate: {path: 'major_department', populate: {path:'department_faculty'}}}).exec(function(err, groups){
+											if(err) console.log(err);
+											if(groups){
+												if(subjectData.faculty_id){
+													var faculty_groups = groups.filter(function(group){
+														return group.major.major_department.department_faculty._id==subjectData.faculty_id
+													})
+													faculty_groups.map(function(thisGroup){
+														subjectData.groups.push(thisGroup._id)
+													})
+													const newSubject = new Subject(subjectData);
+												  newSubject.save((err, savedSubject) => {
+												    if (err) console.log(err);
+														else {
+															res.send({
+																subject: savedSubject,
+																message:'Предмет удачно добавлен'
+															})
+														}
+													})
+												} else{
+													groups.map(function(group){
+														subjectData.groups.push(group._id)
+													})
+													const newSubject = new Subject(subjectData);
+												  newSubject.save((err, savedSubject) => {
+												    if (err) console.log(err);
+														else {
+															res.send({
+																subject: savedSubject,
+																message:'Предмет удачно добавлен'
+															})
+														}
+													})
+												}
+											}
+										})
+									} else {
+										const newSubject = new Subject(subjectData);
+									  newSubject.save((err, savedSubject) => {
+									    if (err) console.log(err);
+											else {
+												res.send({
+													subject: savedSubject,
+													message:'Предмет удачно добавлен'
+												})
+											}
+										})
+									}
 								}
 							})
 						}
@@ -313,12 +354,15 @@ router.post('/addsubject', (req, res) => {
 			period: s.period,
 			course_number: s.course_number,
 			credit_number: s.credit_number,
-			max_students: s.max_students,
 			description: s.description,
-			optional:req.body.optional
+			optional:req.body.optional,
+			groups:[]
 		}
 		if(req.body.faculty_id){
 			subjectData.faculty_id = req.body.faculty_id
+		}
+		if(s.max_students){
+			subjectData.max_students = s.max_students
 		}
 		Subject.findOne({subject_code: subjectData.subject_code}, (err, subject) => {
 			if(err) {console.log(err) }
@@ -327,16 +371,56 @@ router.post('/addsubject', (req, res) => {
 					message: 'Этот предмет уже есть в списке'
 				})
 			} else {
-				const newSubject = new Subject(subjectData);
-			  newSubject.save((err, subject) => {
-			    if (err) console.log(err);
-					else {
-						res.send({
-							subject: subject,
-							message:'Предмет удачно добавлен'
-						})
-					}
-			  });
+				if(subjectData.optional=='false'){
+					Group.find({course_number:Number(subjectData.course_number)}).populate({path: 'major', populate: {path: 'major_department', populate: {path:'department_faculty'}}}).exec(function(err, groups){
+						if(err) console.log(err);
+						if(groups){
+							if(subjectData.faculty_id){
+								var faculty_groups = groups.filter(function(group){
+									return group.major.major_department.department_faculty._id==subjectData.faculty_id
+								})
+								faculty_groups.map(function(thisGroup){
+									subjectData.groups.push(thisGroup._id)
+								})
+								const newSubject = new Subject(subjectData);
+							  newSubject.save((err, savedSubject) => {
+							    if (err) console.log(err);
+									else {
+										res.send({
+											subject: savedSubject,
+											message:'Предмет удачно добавлен'
+										})
+									}
+								});
+							}else{
+								groups.map(function(group){
+									subjectData.groups.push(group._id)
+								})
+								const newSubject = new Subject(subjectData);
+							  newSubject.save((err, savedSubject) => {
+							    if (err) console.log(err);
+									else {
+										res.send({
+											subject: savedSubject,
+											message:'Предмет удачно добавлен'
+										})
+									}
+								})
+							}
+						}
+					})
+				} else{
+					const newSubject = new Subject(subjectData);
+				  newSubject.save((err, savedSubject) => {
+				    if (err) console.log(err);
+						else {
+							res.send({
+								subject: savedSubject,
+								message:'Предмет удачно добавлен'
+							})
+						}
+					})
+				}
 			}
 		})
 	}
@@ -354,11 +438,11 @@ router.post('/editsubject', (req, res) =>{
 			var fileName = files.imageFile[0].originalFilename;
 			let copyToPath = "public/subject-img/" + fileName;
 			fs.readFile(tempPath, (err, data) => {
-				// make copy of image to new location
 				fs.writeFile(copyToPath, data, (err) => {
-					// delete temp image
 					fs.unlink(tempPath, () => {
-						if(err) {return res.status(401).end();}
+						if(err) {
+							return res.status(401).end()
+						}
 						else {
 							Subject.findOne({_id: subject_id}, function(err, subject){
 								if(err) console.log(err);
@@ -374,11 +458,11 @@ router.post('/editsubject', (req, res) =>{
 									subject.description =(dataD.description!='')?dataD.description:subject.description;
 									subject.optional = optional;
 									subject.img = fileName;
-									subject.save(function(err, saved){
+									subject.save(function(err, savedSubject){
 										if(err) console.log(err)
 										else{
 											res.send({
-												saved:saved
+												saved:savedSubject
 											})
 										}
 									})
@@ -736,13 +820,26 @@ router.post('/addstudentimg', (req, res) => {
 })
 //this route will delete all student info
 router.post('/deletestudent', (req, res) =>{
-	Student.findOneAndRemove({_id:req.body.student_id}, function(err, result){
+	Student.findOneAndRemove({_id:req.body.student_id}, function(err, removedStudent){
 		if(err)console.log(err);
-		if(result){
-			User.findOneAndRemove({_id:result.user_id}, function(err, removed){
+		if(removedStudent){
+			User.findOneAndRemove({_id:removedStudent.user_id}, function(err, removedUser){
 				if(err) console.log(err);
-				if(removed){
-					console.log(removed)
+				if(removedUser){
+					Group.findOne({_id:removedStudent.group_id}, function(err, group){
+						if(err) console.log(err)
+						if(group){
+							group.students.splice(group.students.indexOf(req.body.student_id), 1)
+							group.save(function(err, saved){
+								if(err) console.log(err)
+								if(saved){
+									res.send({
+										message:"Студент удален!"
+									})
+								}
+							})
+						}
+					})
 				}
 			})
 		}
@@ -757,46 +854,45 @@ router.post('/editstudent', (req, res) =>{
 				Major.findOne({_id:student.major_id}, function(err, major){
 					if(err) console.log(err);
 					else{
-									Department.findOne({_id:major.major_department}, function(err, department){
-										if(err) console.log(err);
-										else{
-											Faculty.findOne({_id:department.department_faculty},function(err, faculty){
-												if(err) console.log(err);
-												else{
-													student.faculty_id = faculty._id;
-													student.department_id = department._id;
-													student.major_id = (editedStudent.major_id!='')?editedStudent.major_id:student.major_id;
-													student.group_id = (editedStudent.group_id!='')?editedStudent.group_id:student.group_id;
-													student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
-													student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
-													student.save(function(err, savedStudent){
-														if(err) console.log(err);
-														else{
-															console.log(savedStudent)
-															User.findOne({_id:savedStudent.user_id}, function(err, user){
-																if(err) console.log(err);
-																else{
-																	user.name = (editedStudent.name!='')?editedStudent.name:user.name;
-																	user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
-																	user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-																	user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
-																	user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
-																	user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
-																	user.save(function(err, savedUser){
-																		if(err) console.log(err);
-																		else{
-																			res.status(200).send({sms:'Yes!!!!!!!'})
-																		}
-																	})
-																}
-															})
-														}
-													})
-												}
-											})
-										}
-									})
-
+						Department.findOne({_id:major.major_department}, function(err, department){
+							if(err) console.log(err);
+							else{
+								Faculty.findOne({_id:department.department_faculty},function(err, faculty){
+									if(err) console.log(err);
+									else{
+										student.faculty_id = faculty._id;
+										student.department_id = department._id;
+										student.major_id = (editedStudent.major_id!='')?editedStudent.major_id:student.major_id;
+										student.group_id = (editedStudent.group_id!='')?editedStudent.group_id:student.group_id;
+										student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+										student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+										student.save(function(err, savedStudent){
+											if(err) console.log(err);
+											else{
+												console.log(savedStudent)
+												User.findOne({_id:savedStudent.user_id}, function(err, user){
+													if(err) console.log(err);
+													else{
+														user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+														user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+														user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+														user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+														user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+														user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+														user.save(function(err, savedUser){
+															if(err) console.log(err);
+															else{
+																res.status(200).send({})
+															}
+														})
+													}
+												})
+											}
+										})
+									}
+								})
+							}
+						})
 					}
 				})
 
@@ -2048,7 +2144,8 @@ router.post('/addgroup', (req, res) => {
 		  });
 		}
 	})
-});
+})
+
 router.post('/editgroup', (req, res) => {
 	var editedGroup = JSON.parse(req.body.editedGroup);
 		Group.findOne({_id: req.body.group_id}, function(err, group){
@@ -2063,69 +2160,44 @@ router.post('/editgroup', (req, res) => {
 				})
 			}
 		})
-});
+})
+
 router.post('/deletegroup', (req, res) =>{
 	var newData = JSON.parse(req.body.group_id);
-  Group.findOne({_id: newData}, function(err, group){
-		if(err)console.log(err);
-		if(group){
-      if(group.students.length!=0){
-        res.send("please move all students from this group")
-      }
-      else{
-        Group.findOneAndRemove({_id:newData}, function(err, result){
-          if(err)console.log(err);
-      		if(result){
-            Major.findOne({groups:newData}, function(err, major){
-      				if(err) console.log(err);
-      				if(major){
-      					major.groups.splice(major.groups.indexOf(newData), 1);
-      					major.save(function(err, result){
-      						if(err) console.log(err);
-      					})
-      				}
-      			})
-          }
-        })
-      }
+		Subject.find({},function(err, subjects){
+		if(err) console.log(err)
+		if(subjects){
+			subjects.map(function(subject){
+				subject.groups.splice(subject.groups.indexOf(newData), 1)
+				subject.save(function(err, saved){
+					if(err) console.log(err)
+					if(saved){
+						Group.findOneAndRemove({_id:newData}, function(err, group){
+							if(err) console.log(err)
+							if(group){
+								Major.findOne({_id: group.major}, function(err, major){
+									if(err) console.log(err)
+									if(major){
+										major.groups.splice(major.groups.indexOf(newData), 1)
+										major.save(function(err, savedMajor){
+											if(err) console.log(err)
+											if(savedMajor){
+												res.send({
+													massage:"Группа удалена!"
+												})
+											}
+										})
+									}
+								})
+							}
+						})
+					}
+				})
+			})
 		}
 	})
 })
 
-// router.post('/addgroup', (req, res) => {
-//   var group = JSON.parse(req.body.group);
-// 	Group.findOne({group_name: group.group_name}, function(err, dgroup){
-// 		if(err) {console.log(err) }
-// 		else if (dgroup){
-// 			res.status(409).send({
-// 				message: 'Эта группа уже есть в списке'
-// 			})
-// 		} else {
-// 			const newGroup = new Group(group);
-// 		  newGroup.save(function(err, savedGroup){
-// 		    if(err) console.log(err);
-// 				if(savedGroup) {
-//           console.log(savedGroup)
-// 					Major.findOne({_id:group.major}, function(err, major){
-// 						if(err) console.log(err);
-// 						if(major){
-//               console.log(major)
-// 							major.groups.push(savedGroup._id)
-// 							major.save(function(err, savedMajor){
-// 								if(err) console.log(err);
-// 								if(savedMajor){
-// 									res.send({
-// 										message: 'Группа удачно добавлена'
-// 									})
-// 								}
-// 							})
-// 						}
-// 					})
-// 				}
-// 		  });
-// 		}
-// 	})
-//});
 router.post('/addattendance',(req, res)=>{
  var attendances=JSON.parse(req.body.data);
  var group_name=req.body.group_name;

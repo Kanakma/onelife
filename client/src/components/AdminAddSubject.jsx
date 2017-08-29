@@ -250,8 +250,7 @@ class AdminAddSubject extends React.Component {
 
   checkContent(){
     if((this.state.subject.description.length > 0) && (this.state.subject.subject_code.length > 0) && (this.state.subject.subject_name.length > 0)
-    && (this.state.subject.teacher_id.length > 0) && (this.state.subject.period > 0) && (this.state.subject.course_number > 0) && (this.state.subject.credit_number > 0)
-    && (this.state.subject.max_students > 0)){
+    && (this.state.subject.teacher_id.length > 0) && (this.state.subject.period > 0) && (this.state.subject.course_number > 0) && (this.state.subject.credit_number > 0)){
       this.setState({
         checkContent: true
       });
@@ -391,7 +390,8 @@ class AdminAddSubject extends React.Component {
                 <div className="col-md-3">
                   <label>Количество студентов</label>
                   <input type="number" className="form-control" placeholder="Количество студентов"
-                         name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject} />
+                         name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject}
+                         disabled={!this.state.optional} />
                   <span className="bar"></span>
                 </div>
             </div>
