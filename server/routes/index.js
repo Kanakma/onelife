@@ -1807,7 +1807,7 @@ router.get('/getteachersubjects', (req, res) => {
 				})
 				router.get('/getstudentprofileinfo', (req, res) => {
 					var userId = req.query.studentId;
-							Student.findOne({user_id: userId}).populate('user_id').populate('major_id').exec(function(err, student){
+							Student.findOne({user_id: userId}).populate('user_id').populate('major_id faculty_id group_id').exec(function(err, student){
 								if(err) { console.log(err) }
 								else {
 										res.send({
