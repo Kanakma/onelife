@@ -10,12 +10,12 @@ import { Line, Circle } from 'rc-progress';
 const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
                   {name: 'Group C', value: 300}];
 const COLORS = [ '#036b77', '#ffc31d', '#ffffff'];
-const data1 = [{name: 'Page A', uv: 590, pv: 800, amt: 1400},
-              {name: 'Page B', uv: 868, pv: 967, amt: 1506},
-              {name: 'Page C', uv: 1397, pv: 1098, amt: 989},
-              {name: 'Page D', uv: 1480, pv: 1200, amt: 1228},
-              {name: 'Page E', uv: 1520, pv: 1108, amt: 1100},
-              {name: 'Page F', uv: 1400, pv: 680, amt: 1700}];
+const data1 = [{name: 'Page A', uv: 590, pv: 800, amt: 1400, h: 0},
+              {name: 'Page B', uv: 868, pv: 967, amt: 1506, h: 450},
+              {name: 'Page C', uv: 1397, pv: 1098, amt: 989, h: 900},
+              {name: 'Page D', uv: 1480, pv: 1200, amt: 1228, h: 1000},
+              {name: 'Page E', uv: 1520, pv: 1108, amt: 1100, h: 1350},
+              {name: 'Page F', uv: 1400, pv: 680, amt: 1700, h: 1800}];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -42,6 +42,7 @@ class TeacherHome extends React.Component {
 
     },
     this.creditsNumber = this.creditsNumber.bind(this);
+    this.openProfile = this.openProfile.bind(this);
     // this.maxStudents = this.maxStudents.bind(this);
   }
   componentDidMount() {
@@ -101,6 +102,9 @@ class TeacherHome extends React.Component {
       credit_number: creditsNumber
     })
   }
+  openProfile(event){
+    this.context.router.history.push('/editprofile', {userId: event.target.id})
+  }
   // maxStudents(){
   //   let max= 0;
   //
@@ -155,7 +159,7 @@ class TeacherHome extends React.Component {
                 </div>
                 <p className="profile-teacher-name">{this.state.teacher.user_id.name} {this.state.teacher.user_id.lastname}</p>
                 <p>{this.state.teacher.degree}</p>
-                <button className="profile-teacher-btn">Настройки</button>
+                <button onClick={this.openProfile} id={this.state.userId} className="profile-teacher-btn">Настройки</button>
               </div>
             </div>
             <div className="teacher-common-statistic ">
@@ -163,13 +167,13 @@ class TeacherHome extends React.Component {
                 <p className="teacher-common-statistic-text">Общая статистика</p>
                 <ComposedChart width={530} height={200} data={data1}>
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis type="number"/>
                   <Tooltip />
                   <Legend />
                   <CartesianGrid stroke="#f5f5f5" />
                   <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
                   <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-                  <Line type="monotone" dataKey="uv" stroke="#ff7300" />
+                  <line type="monotone" dataKey="uv" stroke="#ff7300" />
                 </ComposedChart>
               </div>
             </div>
@@ -235,5 +239,7 @@ class TeacherHome extends React.Component {
     );
   }
 }
-
+TeacherHome.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 export default TeacherHome;
