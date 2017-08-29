@@ -49,15 +49,19 @@ class AdminEditMajorModal extends React.Component {
   }
 
   deleteMajor(){
-    var major_id = this.props.major._id;
-    const formData = `major_id=${major_id}`;
-    axios.post('/api/deletemajor', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
+    if(this.props.major.groups.length>0){
+      alert("Вы не можете удалить специальность пока не удалите или не переопределите все группы специальности!")
+    }else{
+      var major_id = this.props.major._id;
+      const formData = `major_id=${major_id}`;
+      axios.post('/api/deletemajor', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Authorization': `bearer ${Auth.getToken()}`
+        }
+      })
+    }
   }
 
   changeMajor(event){
@@ -97,7 +101,6 @@ class AdminEditMajorModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
-
 
     return (
       <div style={backdropStyle}>

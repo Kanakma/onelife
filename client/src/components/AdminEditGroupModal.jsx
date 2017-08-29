@@ -62,6 +62,9 @@ class AdminEditGroupModal extends React.Component {
   }
 
   deleteGroup(){
+    if(this.props.group.students.length>0){
+      alert("Вы не можете удалить группу пока не удалите или не переопределите всех студентов группы!")
+    }
     const formData = `group_id=${JSON.stringify(this.props.group._id)}`;
     axios.post('/api/deletegroup', formData, {
       responseType: 'json',
@@ -82,7 +85,7 @@ class AdminEditGroupModal extends React.Component {
   }
 
   render(){
-    // console.log(this.props.group.group_id)
+    console.log(this.props.group)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;

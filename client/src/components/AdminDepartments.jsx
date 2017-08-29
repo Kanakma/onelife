@@ -10,7 +10,8 @@ class AdminDepartments extends React.Component {
 
       this.state = {
         departments: [],
-        department:{}
+        department:{},
+        isOpen:false
       };
       this.toggleModal = this.toggleModal.bind(this);
       this.toggleModalClose = this.toggleModalClose.bind(this);
@@ -47,78 +48,78 @@ class AdminDepartments extends React.Component {
         <h4>Все кафедры</h4>
       </div>
       <div className="my-content" >
-      <div className="table-responsive">
-          <table id="myTable" className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>№</th>
-                      <th>Код кафедры</th>
-                      <th>Факультет</th>
-                      <th>Наименование кафедры</th>
-                      <th>Зав. кафедры</th>
-                      <th>Телефон</th>
-                      <th>E-mail</th>
-                      <th>
-                          <center>
-                              Кол-во спец-ей
-                          </center>
-                      </th>
-                      <th>
-                          <center>Опции</center>
-                      </th>
-                  </tr>
-              </thead>
-
-              {
-                this.state.departments ? (
-                    this.state.departments.map((department, d) =>
-                    <tbody key={d}>
-                      <tr>
-                        <td>{d+1}</td>
-                        <td>{department.department_code}</td>
-                        <td>{department.department_faculty.faculty_name}</td>
-                        <td>{department.department_name}</td>
-                        <td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
-                        <td>{department.department_phone}</td>
-                        <td>{department.department_email}</td>
-                        <td>
+        <div className="table-responsive">
+            <table id="myTable" className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Код кафедры</th>
+                        <th>Факультет</th>
+                        <th>Наименование кафедры</th>
+                        <th>Зав. кафедры</th>
+                        <th>Телефон</th>
+                        <th>E-mail</th>
+                        <th>
                             <center>
-                                {department.majors.length}
+                                Кол-во спец-ей
                             </center>
-                        </td>
-                        <td style={{padding: '10px 20px'}}>
-                            <button onClick={this.toggleModal.bind(this, department)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
-                                <i className="fa fa-pencil"></i>
-                            </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  )
-                    ) : (
-                    <tbody>
-                      <tr>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>
-                            <center>
-                                --
-                            </center>
-                        </td>
-                        <td style={{padding: '10px 20px'}}>
-                            --
-                        </td>
-                      </tr>
-                    </tbody>
-                  )
+                        </th>
+                        <th>
+                            <center>Опции</center>
+                        </th>
+                    </tr>
+                </thead>
 
-}
-          </table>
-        </div>
+                {
+                  this.state.departments ? (
+                      this.state.departments.map((department, d) =>
+                      <tbody key={d}>
+                        <tr>
+                          <td>{d+1}</td>
+                          <td>{department.department_code}</td>
+                          <td>{department.department_faculty.faculty_name}</td>
+                          <td>{department.department_name}</td>
+                          <td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
+                          <td>{department.department_phone}</td>
+                          <td>{department.department_email}</td>
+                          <td>
+                              <center>
+                                  {department.majors.length}
+                              </center>
+                          </td>
+                          <td style={{padding: '10px 20px'}}>
+                              <button onClick={this.toggleModal.bind(this, department)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                  <i className="fa fa-pencil"></i>
+                              </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    )
+                      ) : (
+                      <tbody>
+                        <tr>
+                          <td>--</td>
+                          <td>--</td>
+                          <td>--</td>
+                          <td>--</td>
+                          <td>--</td>
+                          <td>--</td>
+                          <td>--</td>
+                          <td>
+                              <center>
+                                  --
+                              </center>
+                          </td>
+                          <td style={{padding: '10px 20px'}}>
+                              --
+                          </td>
+                        </tr>
+                      </tbody>
+                    )
+
+  }
+            </table>
+          </div>
         </div>
         <AdminEditDepartmentModal
           show={this.state.isOpen}

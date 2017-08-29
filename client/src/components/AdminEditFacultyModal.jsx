@@ -51,14 +51,18 @@ class AdminEditFacultyModal extends React.Component {
   }
 
   deleteFaculty(){
-    const formData = `faculty_id=${JSON.stringify(this.props.faculty._id)}`;
-    axios.post('/api/deletefaculty', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
+    if(this.props.faculty.departments.length>0){
+      alert("Вы не можете удалить факультет пока не удалите или не переопределите все кафедры факультета!")
+    } else{
+      const formData = `faculty_id=${JSON.stringify(this.props.faculty._id)}`;
+      axios.post('/api/deletefaculty', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Authorization': `bearer ${Auth.getToken()}`
+        }
+      })
+    }
   }
 
   changeFaculty(event){
@@ -98,7 +102,6 @@ class AdminEditFacultyModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
-
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>

@@ -9,10 +9,13 @@ class AdminFaculties extends React.Component {
       super(props);
       this.state = {
         faculties: [],
-        status: '',
+        faculty_dean:{
+          user_id:{
+            name:'',
+            lastname:''
+          }
+        },
         faculty:{},
-        departments: [],
-        teachers: [],
         isOpen:false
       };
       this.toggleModal = this.toggleModal.bind(this);
@@ -28,7 +31,8 @@ class AdminFaculties extends React.Component {
       })
         .then(res => {
           this.setState({
-            faculties: res.data.faculties
+            faculties: res.data.faculties,
+            faculty_dean: res.data.faculties.faculty_dean
           });
         });
     }
@@ -46,46 +50,49 @@ class AdminFaculties extends React.Component {
         });
     }
 
-
-
   render() {
+
     return (
       <div className="container clearfix">
       <div className="bg-title">
         <h4>Все факультеты</h4>
       </div>
       <div className="my-content" >
-      <div className="table-responsive">
-        <table id="myTable" className="table table-striped">
-          <thead>
-              <tr>
-                  <th>№</th>
-                  <th>Код факультета</th>
-                  <th>Название факультета</th>
-                  <th>Декан</th>
-                  <th>Телефон</th>
-                  <th>E-mail</th>
-                  <th>
-                      <center>
-                          Кафедры
-                      </center>
-                  </th>
-                  <th>
-                      <center>Опции</center>
-                  </th>
-              </tr>
-          </thead>
-            {
-              this.state.faculties ? (
-
-                this.state.faculties.map((faculty, f) =>
-
+        <div className="table-responsive">
+          <table id="myTable" className="table table-striped">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Код факультета</th>
+                    <th>Название факультета</th>
+                    <th>Декан</th>
+                    <th>Телефон</th>
+                    <th>E-mail</th>
+                    <th>
+                        <center>
+                            Кафедры
+                        </center>
+                    </th>
+                    <th>
+                        <center>Опции</center>
+                    </th>
+                </tr>
+            </thead>
+              {
+                this.state.faculties ? (
+                  this.state.faculties.map((faculty, f) =>
                     <tbody key={f}>
                       <tr>
                         <td>{f+1}</td>
                         <td>{faculty.faculty_code}</td>
                         <td>{faculty.faculty_name}</td>
-                        <td>{faculty.faculty_dean}</td>
+                        {
+                          faculty.faculty_dean ? (
+                            <td>{faculty.faculty_dean.user_id.name} {faculty.faculty_dean.user_id.lastname}</td>
+                          ):(
+                            <td>Декан не назначен!</td>
+                          )
+                        }
                         <td>{faculty.faculty_phone}</td>
                         <td>{faculty.faculty_email}</td>
                         <td>
@@ -100,28 +107,27 @@ class AdminFaculties extends React.Component {
                         </td>
                       </tr>
                     </tbody>
+                  )
+                ) : (
+                      <tbody>
+                        <tr>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>---</td>
+                          <td>
+                            <center>---</center>
+                          </td>
+                          <td style={{padding: '10px 20px'}}>---
+                          </td>
+                        </tr>
+                      </tbody>
                 )
-              ) : (
-                    <tbody>
-                      <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>
-                            <center>---
-                            </center>
-                        </td>
-                        <td style={{padding: '10px 20px'}}>---
-                        </td>
-                      </tr>
-                    </tbody>
-              )
-            }
-          </table>
-        </div>
+              }
+            </table>
+          </div>
         </div>
         <AdminEditFacultyModal
           show={this.state.isOpen}
