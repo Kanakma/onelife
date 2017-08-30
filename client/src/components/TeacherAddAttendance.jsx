@@ -71,7 +71,6 @@ class TeacherAddAttendance extends React.Component {
      this.setState({
         att_date: value
       });
-
   }
   changeAttendance(event){
     function IndInObjArr(objArray, subj, inkey, sensetive) {
@@ -231,12 +230,9 @@ else{
       <div className="container clearfix">
       <div className=" bg-title">
         <h4>Выставить посещаемость</h4>
-
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
-
-     
         <div className="form-group col-md-6">
         <label>Выберите группу</label>
           <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>

@@ -72,6 +72,9 @@ class AdminEditGroupModal extends React.Component {
           'Content-type': 'application/x-www-form-urlencoded'
         }
       })
+        .then(res =>{
+          window.location.reload()
+        })
     }
   }
 
@@ -85,7 +88,6 @@ class AdminEditGroupModal extends React.Component {
   }
 
   render(){
-    console.log(this.props.group)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -173,7 +175,7 @@ class AdminEditGroupModal extends React.Component {
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" style={{marginTop: '15px'}}>
                 Сохранить изменения
               </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{marginTop: '15px'}} onClick={this.deleteGroup}>
+              <button type="button" className="btn btn-info waves-effect waves-light m-r-10" style={{marginTop: '15px'}} onClick={this.deleteGroup}>
                 Удалить группу
               </button>
             </form>
