@@ -16,6 +16,11 @@ const data1 = [{name: 'Page A', uv: 590, pv: 800, amt: 1400, h: 0},
               {name: 'Page D', uv: 1480, pv: 1200, amt: 1228, h: 1000},
               {name: 'Page E', uv: 1520, pv: 1108, amt: 1100, h: 1350},
               {name: 'Page F', uv: 1400, pv: 680, amt: 1700, h: 1800}];
+  const data2 = [
+        {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
+        {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
+        {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
+  ];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -158,6 +163,7 @@ class TeacherHome extends React.Component {
                   <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
                 </div>
                 <p className="profile-teacher-name">{this.state.teacher.user_id.name} {this.state.teacher.user_id.lastname}</p>
+                <p className="profile-teacher-name">ID: {this.state.teacher.user_id.username}</p>
                 <p>{this.state.teacher.degree}</p>
                 <button onClick={this.openProfile} id={this.state.userId} className="profile-teacher-btn">Настройки</button>
               </div>
@@ -165,16 +171,7 @@ class TeacherHome extends React.Component {
             <div className="teacher-common-statistic ">
               <div className="white-box" style={{height: '100%'}}>
                 <p className="teacher-common-statistic-text">Общая статистика</p>
-                <ComposedChart width={530} height={200} data={data1}>
-                  <XAxis dataKey="name" />
-                  <YAxis type="number"/>
-                  <Tooltip />
-                  <Legend />
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
-                  <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-                  <line type="monotone" dataKey="uv" stroke="#ff7300" />
-                </ComposedChart>
+                
               </div>
             </div>
             <div className="teacher-number-statistic">
@@ -232,6 +229,10 @@ class TeacherHome extends React.Component {
             <div className="teacher-progress-statistic">
               <p className= "courses-statistic-title">УСПЕВАЕМОСТЬ</p>
               <p className = "courses-statistic-text">Средний бал студентов</p>
+              <span className="teacher-home-gpa">3.34</span>
+              <BarChart width={70} height={200} data={data2}>
+               <Bar dataKey='uv' fill='#ffffff'/>
+             </BarChart>
             </div>
           </div>
         </div>
