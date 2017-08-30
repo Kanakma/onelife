@@ -21,7 +21,6 @@ let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
 
-
 function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
       var found = false;
@@ -1548,9 +1547,9 @@ router.get('/getsubjects', (req, res) => {
 	Subject.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjects){
 		if(err) console.log(err)
 		else {
-				  res.send({
-						subjects: subjects
-					})
+		  res.send({
+				subjects: subjects
+			})
 		}
 	})
 });
@@ -1625,6 +1624,16 @@ router.get('/getonesubject', (req, res) => {
 													// message: "Достигнуто максимальное количество студентов",
 													// already: true
 												})
+		}
+	})
+})
+router.get('/getsubjforschedule', (req, res) =>{
+	Subject.find({groups:{"$in" :[req.query._id]}}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).exec(function(err, subjects){
+		if(err) console.log(err)
+		if(subjects){
+			res.send({
+				subjects
+			})
 		}
 	})
 })
@@ -2129,7 +2138,6 @@ router.post('/addgroup', (req, res) => {
 					Major.findOne({_id:group.major}).populate({path: 'major_department', populate: {path:'department_faculty'}}).exec(function(err, major){
 						if(err) console.log(err);
 						if(major){
-							// console.log(major.major_department.department_faculty._id)
 							major.groups.push(savedGroup._id)
 							major.save(function(err, savedMajor){
 								if(err) console.log(err)
@@ -2139,7 +2147,6 @@ router.post('/addgroup', (req, res) => {
 										if(subjects){
 											subjects.map(function(subject){
 												if(subject.faculty_id && major.major_department.department_faculty._id.toString() == subject.faculty_id.toString()){
-													// console.log( major.major_department.department_faculty._id.toString(), subject.faculty_id.toString())
 													subject.groups.push(savedGroup._id)
 													subject.save(function(err){
 														if(err) console.log(err)
@@ -2251,13 +2258,7 @@ router.post('/addattendance',(req, res)=>{
 	})
 	
 
-})//end of router
-
-
-
-var saveAtt= function(){
-
-}
+})
 router.get('/getsubjectsforstudents',(req, res)=>{
 		var subjectId=req.query.subjectId;
 		Subject.findOne({
