@@ -10,9 +10,9 @@ const StudentSchema = new mongoose.Schema({
   faculty_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Faculty'},
   department_id:{ type:mongoose.Schema.Types.ObjectId, ref:'Department'},
   major_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Major'},
+  group_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Group'},
   admission_year: Number,
-  graduation_year: Number,
-  group_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Group'}
+  graduation_year: Number
 });
 
 

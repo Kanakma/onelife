@@ -2126,24 +2126,42 @@ router.post('/addgroup', (req, res) => {
 		  newGroup.save(function(err, savedGroup){
 		    if(err) console.log(err);
 				if(savedGroup) {
-          console.log(savedGroup)
-					Major.findOne({_id:group.major}, function(err, major){
+					Major.findOne({_id:group.major}).populate({path: 'major_department', populate: {path:'department_faculty'}}).exec(function(err, major){
 						if(err) console.log(err);
 						if(major){
-              console.log(major)
+							// console.log(major.major_department.department_faculty._id)
 							major.groups.push(savedGroup._id)
 							major.save(function(err, savedMajor){
-								if(err) console.log(err);
+								if(err) console.log(err)
 								if(savedMajor){
-									res.send({
-										message: 'Группа удачно добавлена'
+									Subject.find({course_number:savedGroup.course_number, optional:false}, function(err, subjects){
+										if(err) console.log(err)
+										if(subjects){
+											subjects.map(function(subject){
+												if(subject.faculty_id && major.major_department.department_faculty._id.toString() == subject.faculty_id.toString()){
+													// console.log( major.major_department.department_faculty._id.toString(), subject.faculty_id.toString())
+													subject.groups.push(savedGroup._id)
+													subject.save(function(err){
+														if(err) console.log(err)
+													})
+												} else if(!subject.faculty_id){
+													subject.groups.push(savedGroup._id)
+													subject.save(function(err){
+														if(err) console.log(err)
+													})
+												}
+											})
+											res.send({
+												massage:"Группа создана!"
+											})
+										}
 									})
 								}
 							})
 						}
 					})
 				}
-		  });
+		  })
 		}
 	})
 })
@@ -2173,28 +2191,24 @@ router.post('/deletegroup', (req, res) =>{
 				subject.groups.splice(subject.groups.indexOf(newData), 1)
 				subject.save(function(err, saved){
 					if(err) console.log(err)
-					if(saved){
-						Group.findOneAndRemove({_id:newData}, function(err, group){
-							if(err) console.log(err)
-							if(group){
-								Major.findOne({_id: group.major}, function(err, major){
-									if(err) console.log(err)
-									if(major){
-										major.groups.splice(major.groups.indexOf(newData), 1)
-										major.save(function(err, savedMajor){
-											if(err) console.log(err)
-											if(savedMajor){
-												res.send({
-													massage:"Группа удалена!"
-												})
-											}
-										})
-									}
-								})
-							}
-						})
-					}
 				})
+			})
+			Group.findOneAndRemove({_id:newData}, function(err, group){
+				if(err) console.log(err)
+				if(group){
+					Major.findOne({_id: group.major}, function(err, major){
+						if(err) console.log(err)
+						if(major){
+							major.groups.splice(major.groups.indexOf(newData), 1)
+							major.save(function(err, savedMajor){
+								if(err) console.log(err)
+							})
+						}
+					})
+					res.send({
+						massage:"Группа удалена!"
+					})
+				}
 			})
 		}
 	})
