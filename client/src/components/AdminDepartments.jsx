@@ -61,7 +61,7 @@ class AdminDepartments extends React.Component {
                         <th>E-mail</th>
                         <th>
                             <center>
-                                Кол-во спец-ей
+                                Специальности
                             </center>
                         </th>
                         <th>
@@ -84,7 +84,9 @@ class AdminDepartments extends React.Component {
                           <td>{department.department_email}</td>
                           <td>
                               <center>
-                                  {department.majors.length}
+                                  {department.majors.map((major, m)=>
+                                    <p key= {m}>{major.major_name}</p>
+                                  )}
                               </center>
                           </td>
                           <td style={{padding: '10px 20px'}}>

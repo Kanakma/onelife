@@ -51,7 +51,7 @@ class AdminFaculties extends React.Component {
     }
 
   render() {
-
+    console.log(this.state.faculties)
     return (
       <div className="container clearfix">
       <div className="bg-title">
@@ -97,7 +97,9 @@ class AdminFaculties extends React.Component {
                         <td>{faculty.faculty_email}</td>
                         <td>
                             <center>
-                              {faculty.departments.length}
+                              {faculty.departments.map((department, d)=>
+                                <p key={d}>{department.department_name}</p>
+                              )}
                             </center>
                         </td>
                         <td style={{padding: '10px 20px'}}>

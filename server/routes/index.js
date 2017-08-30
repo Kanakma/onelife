@@ -833,11 +833,13 @@ router.post('/deletestudent', (req, res) =>{
 							group.save(function(err, saved){
 								if(err) console.log(err)
 								if(saved){
-									res.send({
-										message:"Студент удален!"
-									})
+							// 		res.send({
+							// 			message:"Студент удален!"
+							// 		})
+                            console.log(saved)
 								}
 							})
+
 						}
 					})
 				}
@@ -1107,7 +1109,7 @@ router.get('/getfaculties', (req, res) => {
 // })
 
 router.get('/getdepartments', (req, res) => {
-  Department.find().populate({path: 'department_director', populate: {path: 'user_id'}}).populate('department_faculty').exec(function(err, departments){
+  Department.find().populate({path: 'department_director', populate: {path: 'user_id'}}).populate('department_faculty majors').exec(function(err, departments){
     if(err) {console.log(err) }
     else {
           res.send({

@@ -286,7 +286,7 @@ class AdminEditStudentModal extends React.Component {
                     onChange={this.changeStudent}>
               <option value=''>Выберите специальность</option>
               {this.state.majors.map((major, m) =>
-                  <option key={m} value={major.major_id}>{major.major_name}</option>
+                  <option key={m} value={major._id}>{major.major_name}</option>
               )}
             </select>
             <span className="bar"></span>
@@ -298,7 +298,7 @@ class AdminEditStudentModal extends React.Component {
                     onChange={this.changeStudent}>
               <option value=''>Выберите группу</option>
               {this.state.groups.map((group, g) =>
-                  <option key={g} value={group.group_id}>{group.group_name}</option>
+                  <option key={g} value={group._id}>{group.group_name}</option>
               )}
             </select>
             <span className="bar"></span>
