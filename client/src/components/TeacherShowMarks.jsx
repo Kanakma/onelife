@@ -10,6 +10,8 @@ class TeacherAddAttendance extends React.Component {
     super(props);
 
     this.state = {
+        groups: [],
+      group_name:'',
       message: '',
       errors: {},
       subjects: [],
@@ -31,7 +33,7 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getsubjectteacher',  {
+  axios.get('/api/getgroupteacher',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -40,7 +42,7 @@ class TeacherAddAttendance extends React.Component {
     })
       .then(res => {
         this.setState({
-          subjects: res.data.subjects
+          groups: res.data.groups
         });
       });
   }
@@ -79,13 +81,12 @@ class TeacherAddAttendance extends React.Component {
     
 
   }
-
-    updateStudents(event){
-      console.log(event.target.value)
+ updateStudents(event){
+     // console.log(event.target.value)
       if(event.target.value.length > 0){
 
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: true,
         message: '',
         students: this.state.main_students.filter(function(student) {
@@ -94,7 +95,7 @@ class TeacherAddAttendance extends React.Component {
       })
     } else {
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: false,
         message: ''
       })
@@ -103,7 +104,7 @@ class TeacherAddAttendance extends React.Component {
 
    }
 
-  
+
 
 
   render() {
@@ -112,7 +113,7 @@ class TeacherAddAttendance extends React.Component {
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Вся посещаемость</h4>
+        <h4>Вся Успеваемость</h4>
 
       </div>
       <div className="my-content  ">
@@ -122,10 +123,10 @@ class TeacherAddAttendance extends React.Component {
         </div>
         <div className="form-group col-md-6">
         <label>Выберите предмет</label>
-          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateStudents}>
-          <option value=''>Выберите предмет</option>
-          {this.state.subjects.map((subject, s) =>
-            <option key={s} value={subject._id}>{subject.subject_name}</option>
+           <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Выберите группу</option>
+          {this.state.groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
           )}
           </select>
         </div>

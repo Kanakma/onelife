@@ -2092,105 +2092,48 @@ router.post('/deletegroup', (req, res) =>{
 	})
 })
 
-// router.post('/addgroup', (req, res) => {
-//   var group = JSON.parse(req.body.group);
-// 	Group.findOne({group_name: group.group_name}, function(err, dgroup){
-// 		if(err) {console.log(err) }
-// 		else if (dgroup){
-// 			res.status(409).send({
-// 				message: 'Эта группа уже есть в списке'
-// 			})
-// 		} else {
-// 			const newGroup = new Group(group);
-// 		  newGroup.save(function(err, savedGroup){
-// 		    if(err) console.log(err);
-// 				if(savedGroup) {
-//           console.log(savedGroup)
-// 					Major.findOne({_id:group.major}, function(err, major){
-// 						if(err) console.log(err);
-// 						if(major){
-//               console.log(major)
-// 							major.groups.push(savedGroup._id)
-// 							major.save(function(err, savedMajor){
-// 								if(err) console.log(err);
-// 								if(savedMajor){
-// 									res.send({
-// 										message: 'Группа удачно добавлена'
-// 									})
-// 								}
-// 							})
-// 						}
-// 					})
-// 				}
-// 		  });
-// 		}
-// 	})
-//});
 router.post('/addattendance',(req, res)=>{
  var attendances=JSON.parse(req.body.data);
  var group_name=req.body.group_name;
  var att_date=req.body.att_date;
- //console.log(req.body.data)
 
- attendances.map(function(attendance){
-Attendance.findOne({subject_id: group_name, date: att_date}, function(err,found){
+ Attendance.findOne({subject_id: group_name, date: att_date}, function(err,found){
 	if(err) {console.log(err)}
 		else if(found){	
-			res.status(409).send({
-				message: 'Эта группа уже есть в списке'
+			res.send({
+				message: 'Вы не можете выставлять повторную посещаемость'
 			})
-//console.log('no')
-		} else{ 
+              console.log('no')
+		} else { 
+               attendances.map(function(attendance){
+			   var newAtt= new Attendance({
+			   student:attendance.name,
+			   date: att_date,
+			   stud_attendance: attendance.att_status,
+			   subject_id:group_name
+		})
 
-  var newAtt= new Attendance({
-   student:attendance.name,
-   date: att_date,
-   stud_attendance: attendance.att_status,
-   subject_id:group_name
-  })
-
-  newAtt.save(function(err, saved){
-   if(err) console.log(err);
-   if(saved){
-    console.log(saved)
-   }
-  })
- res.send({
-   message: "Вы выставили посещаемость"
-   })
-
-			console.log('ok')
+			  newAtt.save(function(err, saved){
+			   if(err) console.log(err);
+			   if(saved){
+			    console.log(saved)
+			   }
+			  })
+			})//end of map for checkin
+            res.send({
+			   message: "Вы выставили посещаемость"
+			   })
 		}
-})
-})//end of map for checking
+	})
+	
+
+})//end of router
 
 
 
-//   var newAtt= new Attendance({
-//    student:attendance.name,
-//    date: att_date,
-//    stud_attendance: attendance.att_status,
-//    subject_id:group_name
-//   })
+var saveAtt= function(){
 
-//   newAtt.save(function(err, saved){
-//    if(err) console.log(err);
-//    if(saved){
-//     console.log(saved)
-//    }
-//   })
-//  res.send({
-//    message: "Вы выставили посещаемость"
-//    })
-
-
-// })//end of map for  saving
-
- })//end of router
-
-
-
-
+}
 router.get('/getsubjectsforstudents',(req, res)=>{
 		var subjectId=req.query.subjectId;
 		Subject.findOne({
@@ -2230,11 +2173,12 @@ router.get('/getattendanceforall',(req,res)=>{
 
 router.post('/updatestudentsforattendance',(req,res)=> {
 	//var attendances=JSON.parse(req.body.data);
-	 var subject_id=req.body.subject_id;
-	 var att_date=req.body.att_date
+	 var group_name=req.body.group_name;
+	 var att_date=req.body.att_date;
+
 
     Attendance.find({
-    	subject_name:subject_id,
+    	subject_id:group_name,
     	date:att_date
 
     }).populate({
@@ -2245,17 +2189,17 @@ router.post('/updatestudentsforattendance',(req,res)=> {
     }).exec(function(err,attendances){
     	if(err){
     		res.status(500).send({err:err});
-    		console.log('phuck u')
+    	
     	} else {
     		if(attendances.length!=0){
     			res.status(200).send({attendances:attendances})
-    		    console.log(attendances,'ok')
+    		   
     		} else{
     			res.send({
     				attendances: attendances,
     				message: 'Ничего не найдено'
     			})
-    			console.log('тут ничего')
+    			
     		}
 
     	}
@@ -2265,7 +2209,7 @@ router.post('/updatestudentsforattendance',(req,res)=> {
 
 router.post('/addmark',(req,res) =>{
 	 var marks=JSON.parse(req.body.data);
-	 var subject_id=req.body.subject_id;
+	 var group_name=req.body.group_name;
 	 var att_date=req.body.att_date;
     // console.log(marks,'maaaaaaarks')
      marks.map(function(mark){
@@ -2274,12 +2218,12 @@ router.post('/addmark',(req,res) =>{
 	     	date: att_date,
 	     	stud_mark: mark.stud_mark,
 	     	stud_comment: mark.stud_comment,
-	     	subject_name: subject_id
+	     	subject_name: group_name
      	})
      	newMark.save(function(err,saved){
      		if(err)console.log (err);
      		if(saved){
-     			//console.log(saved)
+     		console.log(saved)
      		}
      	})
      })
@@ -2290,11 +2234,11 @@ router.post('/addmark',(req,res) =>{
 
 
 router.post('/updatestudentsformark',(req,res)=> {
-	 var subject_id=req.body.subject_id;
+	 var group_name=req.body.group_name;
 	 var att_date=req.body.att_date;
 
 	 Mark.find({
-	 	subject_name:subject_id,
+	 	subject_name:group_name,
     	date:att_date
 	 }).populate({
     	path: 'student',
