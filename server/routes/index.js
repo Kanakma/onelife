@@ -937,7 +937,7 @@ router.post('/editstudent', (req, res) =>{
 
 
 router.get('/getmajors', (req, res) => {
-	Major.find().populate('major_department').exec(function(err, majors){
+	Major.find().populate('major_department groups').exec(function(err, majors){
 		if(err) {console.log(err) }
 		else {
 				  res.send({
@@ -2207,12 +2207,12 @@ router.post('/addattendance',(req, res)=>{
  attendances.map(function(attendance){
 Attendance.findOne({subject_id: group_name, date: att_date}, function(err,found){
 	if(err) {console.log(err)}
-		else if(found){	
+		else if(found){
 			res.status(409).send({
 				message: 'Эта группа уже есть в списке'
 			})
 //console.log('no')
-		} else{ 
+		} else{
 
   var newAtt= new Attendance({
    student:attendance.name,
@@ -2478,7 +2478,7 @@ router.get('/getgroupteacher', (req, res) => {
 	})
 });
 
-//teacher new attendance and marks 
+//teacher new attendance and marks
 
 router.get('/getgroupsforstudents',(req, res)=>{
 		var group_name=req.query.group_name;
@@ -2494,7 +2494,7 @@ router.get('/getgroupsforstudents',(req, res)=>{
 			res.status(500).send({err: err});
 		} else {
 			res.status(200).send({att_students: att_students});
-			
+
 		}
 	})
 })
