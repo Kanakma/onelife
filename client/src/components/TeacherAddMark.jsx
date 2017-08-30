@@ -10,6 +10,10 @@ class TeacherAddMark extends React.Component {
     super(props);
 
     this.state = {
+      groups: [],
+      group_name:'',
+      att_students: [
+      ],
       message: '',
       errors: {},
       subjects: [],
@@ -41,7 +45,8 @@ class TeacherAddMark extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getsubjectteacher',  {
+    
+       axios.get('/api/getgroupteacher',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -50,7 +55,7 @@ class TeacherAddMark extends React.Component {
     })
       .then(res => {
         this.setState({
-          subjects: res.data.subjects
+          groups: res.data.groups
         });
       });
   }
@@ -192,7 +197,7 @@ class TeacherAddMark extends React.Component {
    // console.log(event.target.id,'stud_id')
     var temp=this.state.marks;
     var old = IndInObjArr(temp,event.target.id, 'name');
-    if(event.target.value<100){
+    if(event.target.value<101){
       
       if(old.length > 0){
         temp[old[0]].stud_mark = event.target.value;
@@ -212,14 +217,6 @@ class TeacherAddMark extends React.Component {
         message: 'Ваше значение должно быть меньше 100'
       })
     }
-
-
-   
-    console.log(temp,'temp111')
-    
-
-
-
   }
   changeAttendance(event){
     function IndInObjArr(objArray, subj, inkey, sensetive) {
@@ -330,7 +327,7 @@ class TeacherAddMark extends React.Component {
     if(event.target.value.length > 0){
 
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: true,
         message: '',
         students: this.state.main_students.filter(function(student) {
@@ -344,7 +341,7 @@ class TeacherAddMark extends React.Component {
         message: ''
       })
     }
-    axios.get('/api/getsubjectsforstudents?subjectId='+event.target.value, {
+    axios.get('/api/getgroupsforstudents?group_name='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'
@@ -352,12 +349,13 @@ class TeacherAddMark extends React.Component {
     })
       .then(res => {
         this.setState({
-          students: res.data.students
+          att_students: res.data.att_students.students
         });
       });
 
 
   }
+
 
  
 
@@ -366,18 +364,18 @@ class TeacherAddMark extends React.Component {
     return (
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Выставить посещаемость</h4>
+        <h4>Выставить Успеваемость</h4>
 
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
      
         <div className="form-group col-md-6">
-        <label>Выберите предмет</label>
-          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateStudents}>
-          <option value=''>Выберите предмет</option>
-          {this.state.subjects.map((subject, s) =>
-            <option key={s} value={subject._id}>{subject.subject_name}</option>
+        <label>Выберите группу</label>
+          <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>группа не выбрана</option>
+          {this.state.groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
           )}
           </select>
         </div>
@@ -387,6 +385,8 @@ class TeacherAddMark extends React.Component {
               <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
          
+      
+
           </div>
                 <table id="myTable" className="table table-striped">
               <thead>
@@ -401,14 +401,14 @@ class TeacherAddMark extends React.Component {
                   </tr>
               </thead>
                 <tbody>
-              {this.state.students.map((student, s) =>
+              {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
                     <td>{student.user_id.username}</td>
                     <td >{student.user_id.name} {student.user_id.lastname}</td>
                     
-                    <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} placeholder="Выставите оценку" /></td>
-                    <td  ><input type="text" className="form-control " id={student._id} value={student.comment} onChange={this.changeComment} placeholder="Оставьте комментарий" name="mark"/></td>
+                    <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
+                    <td  ><input type="text" className="form-control " id={student._id} value={student.comment} onChange={this.changeComment} min="0"  placeholder="Оставьте комментарий" name="mark"/></td>
                     
                 </tr>
               )}
@@ -419,8 +419,8 @@ class TeacherAddMark extends React.Component {
 
       {
               this.state.message==='Вы можете выставлять посещаемость только на текущую дату'||
-              this.state.message==='Ваше значение должно быть меньше 100'
-
+              this.state.message==='Ваше значение должно быть меньше 100'  
+          
                ? (
                 <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
               ) : (

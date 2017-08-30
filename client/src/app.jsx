@@ -45,6 +45,7 @@ import AdminAddSchedule from './components/AdminAddSchedule.jsx';
 import AdminSchedules from './components/AdminSchedules.jsx'
 import AdminGroups from './components/AdminGroups.jsx';
 import AdminAddGroups from './components/AdminAddGroups.jsx';
+import TeacherShowAttendance1 from './components/TeacherShowAttendance1.jsx';
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -83,7 +84,7 @@ ReactDom.render((
       <Route path="/studentsubjects" component={StudentSubjects}/>
       <Route path="/subjectinfo" component={AdminSubjectInfo}/>
       <Route path="/studentprofile" component={StudentHome}/>
-      <Route path="/attendances" component={TeacherShowAttendance.jsx}/>
+      <Route path="/teacher_attendances" component={TeacherShowAttendance1}/>
       <Route path="/marks" component={TeacherShowMarks}/>
       <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
       <Route path= "/teacherhomework" component={TeacherHomework}/>

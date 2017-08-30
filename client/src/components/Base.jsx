@@ -453,7 +453,7 @@ class Base extends React.Component {
                           <span hidden={!this.state.checkAttendance} id="attendance" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
                           </Link>
                           <ul className="nav" hidden={!this.state.checkAttendance}>
-                            <li><Link to="/attendances" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
+                            <li><Link to="/teacher_attendances" className="waves-effect" style={{paddingLeft: "45px"}} >Вся посещаемость</Link></li>
                             <li><Link to="/addattendance" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить посещаемость</Link></li>
                           </ul>
                       </li>

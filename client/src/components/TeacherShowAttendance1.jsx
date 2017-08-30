@@ -4,13 +4,14 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
-class TeacherShowAttendance extends React.Component {
+class TeacherAddAttendance extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      groups:[],
+      groups: [],
+      group_name:'',
       message: '',
       errors: {},
       subjects: [],
@@ -32,6 +33,7 @@ class TeacherShowAttendance extends React.Component {
   }
 
   componentDidMount() {
+ 
        axios.get('/api/getgroupteacher',  {
       responseType: 'json',
       headers: {
@@ -59,12 +61,12 @@ class TeacherShowAttendance extends React.Component {
      this.setState({
         att_date: value
       });
-     const  subject_id =this.state.subject_id;
+     const  group_name =this.state.group_name;
      
 
     const val= value;
     
-    const formData = `subject_id=${subject_id}&att_date=${val}`;
+    const formData = `group_name=${group_name}&att_date=${val}`;
    axios.post('/api/updatestudentsforattendance', formData, {
 
     responseType: 'json',
@@ -81,8 +83,9 @@ class TeacherShowAttendance extends React.Component {
 
   }
 
- updateStudents(event){
-    if(event.target.value.length > 0){
+    updateStudents(event){
+     // console.log(event.target.value)
+      if(event.target.value.length > 0){
 
       this.setState({
         group_name: event.target.value,
@@ -94,25 +97,16 @@ class TeacherShowAttendance extends React.Component {
       })
     } else {
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: false,
         message: ''
       })
-    }
-    axios.get('/api/getgroupsforstudents?group_name='+event.target.value, {
-            responseType: 'json',
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded'
-            }
-    })
-      .then(res => {
-        this.setState({
-          att_students: res.data.att_students.students
-        });
-      });
+     }
 
 
-  }
+   }
+
+  
 
 
   render() {
@@ -126,19 +120,15 @@ class TeacherShowAttendance extends React.Component {
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
-
-        <div className="form-group col-md-12">
-<h5 style={{ fontSize: '14px', color: 'red'}}>{this.state.message}</h5>
+           <div className="form-group col-md-12">
+<h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
         </div>
-            
-      
         <div className="form-group col-md-6">
-                
-        <label>Выберите предмет</label>
-          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateStudents}>
-          <option value=''>Выберите предмет</option>
-          {this.state.subjects.map((subject, s) =>
-            <option key={s} value={subject._id}>{subject.subject_name}</option>
+        <label>Выберите группу</label>
+           <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Выберите группу</option>
+          {this.state.groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
           )}
           </select>
         </div>
@@ -156,8 +146,7 @@ class TeacherShowAttendance extends React.Component {
                       <th>ID</th>
                       <th>ФИО</th>
                    
-                      <th>Cтатус</th>
-                    
+                      <th>Статус</th>
                       
                   </tr>
               </thead>
@@ -166,10 +155,9 @@ class TeacherShowAttendance extends React.Component {
                 <tr key={s}>
                     <td>{s+1}</td>
                     <td>{student.student.user_id.username}</td>
-                    <td >{student.student.user_id.name} {student.student.user_id.lastname}</td>
+                    <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
                     <td>{student.stud_attendance}</td>
-                   
-                   
+                    
              
                     
                 </tr>
@@ -185,4 +173,4 @@ class TeacherShowAttendance extends React.Component {
   }
 }
 
-export default TeacherShowAttendance;
+export default TeacherAddAttendance;

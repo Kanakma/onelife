@@ -15,7 +15,6 @@ class TeacherAddAttendance extends React.Component {
       subjects: [], //delete potom
       groups: [],
       subject: {},
-      groups: [],
       att_students: [
       ],
       subject_id: '',//kogdra zarabotaet udali
@@ -118,14 +117,16 @@ class TeacherAddAttendance extends React.Component {
          att_status: (event.target.value!='')?event.target.value:'был'
         })
       }
+
       this.setState({
         attendances: temp,
         checkAttendance: true
       })
+
   }
 
   sendAttendance(event){
- 
+ // console.log(this.state.group_name.length,'length')
     var dd= new Date();
 
     var today = new Date();
@@ -146,32 +147,45 @@ class TeacherAddAttendance extends React.Component {
     const group_name= this.state.group_name;
     const att_date=this.state.att_date;
     var dd= this.dateFormat1(att_date);
-  
-    // if(today===dd){
-          const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}`;
+  if(this.state.group_name.length!=0){
+  if (this.state.att_students.length===this.state.attendances.length){
 
-   axios.post('/api/addattendance', formData, {
+    if(today===dd){
+    const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}`;
 
-    responseType: 'json',
-    headers: {
-          'Content-type': 'application/x-www-form-urlencoded'}
-   })
-    .then(res=>{
-      this.setState({
-        message: res.data.message
+         axios.post('/api/addattendance', formData, {
+
+          responseType: 'json',
+          headers: {
+                'Content-type': 'application/x-www-form-urlencoded'}
+         })
+          .then(res=>{
+            this.setState({
+              message: res.data.message
+            })
+         })
+    } 
+    if(today!=dd){
+          this.setState({
+            message: 'Вы можете выставлять посещаемость только на текущую дату'
+          })
+    }
+  else{
+    this.setState({
+        message: 'Укажите пожалуйста дату'
       })
-   })
-//  } 
-  // if(today!=dd){
-//       this.setState({
-//         message: 'Вы можете выставлять посещаемость только на текущую дату'
-//       })
-// // }
-  // else{
-  //   this.setState({
-  //       message: 'Укажите пожалуйста дату'
-  //     })
-  // }
+  } 
+}//end of if
+else {
+  this.setState({
+        message: 'Вы не ввели посещаемость всем студентам'
+      })
+} }
+else{
+  this.setState({
+    message:'Выберите группу'
+  })
+}
 
   }
 
@@ -226,7 +240,7 @@ class TeacherAddAttendance extends React.Component {
         <div className="form-group col-md-6">
         <label>Выберите группу</label>
           <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
-          <option value=''>Выберите предмет</option>
+          <option value=''>группа не выбрана</option>
           {this.state.groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
@@ -235,7 +249,7 @@ class TeacherAddAttendance extends React.Component {
           <div className="form-group row">
             <div className="col-md-6">
               <label>Дата проведения Пары</label>
-              <DatePicker  language="ru-ru" locale="ru-ru" onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
          
           </div>
@@ -259,8 +273,6 @@ class TeacherAddAttendance extends React.Component {
                     <td>{student.user_id.name}  {student.user_id.lastname}</td>
                     <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
                     <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
-                     
-              
                 </tr>
               )}
               </tbody>
@@ -269,7 +281,9 @@ class TeacherAddAttendance extends React.Component {
           <div className="row">
 
             {
-              this.state.message==='Вы можете выставлять посещаемость только на текущую дату' ? (
+              this.state.message==='Вы можете выставлять посещаемость только на текущую дату' || this.state.message==='Вы не можете выставлять повторную посещаемость'
+                || this.state.message ==='Вы не ввели посещаемость всем студентам' || this.state.message ==='Выберите группу'
+              ? (
                 <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
               ) : (
                 <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
