@@ -71,23 +71,38 @@ class TeacherEditProfile extends React.Component {
   editTeacherFunc(){
     event.preventDefault();
     if(this.state.filename.length>0){
-      this.addImg();
+      var student_id = this.props.student._id
+      return new Promise((resolve, reject) => {
+        let imageFormData = new FormData();
+        imageFormData.append('imageFile', this.state.file);
+        imageFormData.append('data', JSON.stringify(this.state.student));
+        imageFormData.append('birthday', JSON.stringify(this.state.birthday));
+        axios.post('/api/editstudent?student_id=' + student_id, imageFormData, {
+          responseType: 'json',
+          headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+        .then(response => {
+            window.location.reload();
+          });
+      });
+    } else{
+      const formData = `data=${JSON.stringify(this.state.student)}&student_id=${this.props.student._id}&birthday=${this.state.birthday}`;
+      axios.post('/api/editstudent', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+      })
+      .then(response => {
+        window.location.reload();
+      });
     }
-    const teacher_id = this.state.teacher._id;
-    const birthday = this.state.birthday;
-    const entry_year = this.state.entry_year;
-    const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
-    axios.post('/api/editteacher', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    });
   }
   birthdayChange(value){
        this.setState({
          birthday: value,
+         checkPass: false
        });
      }
   changeImg(e){
@@ -110,6 +125,9 @@ class TeacherEditProfile extends React.Component {
       }
       reader.readAsDataURL(file);
     }
+    this.setState({
+      checkPass: false
+    })
   }
   entry_yearChange(value){
       this.setState({
