@@ -717,107 +717,169 @@ router.post('/deleteteacher', (req, res) =>{
 })
 
 router.post('/addstudent', (req, res) => {
-	User.findOne({passport_id: req.body.passport_id.trim()}, (err, user) => {
-		if(err) { console.log(err) }
-		else if (user){
-			res.status(409).send({
-				message: 'Этот пользователь уже есть в списке'
-			})
-		} else {
-			Student.find((err, students) => {
-				if(err) { console.log(err) }
-				else {
-					Major.findOne({_id:req.body.major_id}, function(err, major){
-						if(err) console.log(err);
-						if(major){
-							Department.findOne({_id:major.major_department}, function(err, department){
-								if(err) console.log(err);
-								if(department){
-									Group.findOne({_id:req.body.group_id}, function(err, group){
-										if(err) console.log(err);
-										if(group){
-											var userData = {
-												username: 100001+students.length,
-												password: bcrypt.hashSync(req.body.password, 10),
-												passport_id: req.body.passport_id.trim(),
-												name: req.body.name.trim(),
-												gender:req.body.gender.trim(),
-												lastname: req.body.lastname.trim(),
-												birthday: req.body.birthday.trim(),
-												status: 'student'
-											}
-											const newUser = new User(userData);
-										  newUser.save((err, savedUser) => {
-										    if (err) console.log(err);
-												else {
-													var studentData = {
-														user_id: savedUser._id,
-														university_code: '195',
-														faculty_id: department.department_faculty,
-														department_id: major.major_department,
-														major_id: req.body.major_id.trim(),
-														group_id: req.body.group_id.trim(),
-														admission_year: req.body.admission_year.trim(),
-														graduation_year: req.body.graduation_year.trim()
-													}
-													const newStudent = new Student(studentData);
-												  	newStudent.save((err, savedStudent) => {
-														if (err) console.log(err)
-														else {
-                                group.students.push(savedStudent._id)
-                                group.save(function(err, savedGroup){
-                                  if(err) console.log(err);
-                                  else{
-                                    res.send({
-                                      newStudent:newStudent,
+  if(req.query.image){
+    Student.find((err, students) => {
+      if(err) { console.log(err) }
+      else {
+      let form = new multiparty.Form();
+      form.parse(req, (err, fields, files) => {
+        var tempPath = files.imageFile[0].path;
+        var fileName = files.imageFile[0].originalFilename;
+        let copyToPath = "public/student-img/" + students.length + '-' + fileName;
+        fs.readFile(tempPath, (err, data) => {
+          fs.writeFile(copyToPath, data, (err) => {
+            fs.unlink(tempPath, () => {
+              if(err) {return res.status(401).end();}
+              else {
+              var info = JSON.parse(fields.data)
+              var birthday = JSON.parse(fields.birthday)
+                User.findOne({passport_id: info.passport_id.trim()}, (err, user) => {
+              		if(err) { console.log(err) }
+              		else if (user){
+              			res.status(409).send({
+              				message: 'Этот пользователь уже есть в списке'
+              			})
+              		} else {
+                  Major.findOne({_id:info.major_id}).populate('major_department').exec(function(err, major){
+                  	if(err) console.log(err);
+                    if(major){
+                    									 Group.findOne({_id:info.group_id}, function(err, group){
+                    										if(err) console.log(err);
+                    										if(group){
+                    											var userData = {
+                    												username: 100001+students.length,
+                    												password: bcrypt.hashSync(info.password, 10),
+                    												passport_id: info.passport_id.trim(),
+                    												name: info.name.trim(),
+                    												gender:info.gender.trim(),
+                    												lastname: info.lastname.trim(),
+                      											birthday: birthday.trim(),
+                      											status: 'student'
+                      										}
+                        									const newUser = new User(userData);
+                        								  newUser.save((err, savedUser) => {
+                        								    if (err) console.log(err);
+                        										else {
+                                            //  console.log(savedUser)
+                      												var studentData = {
+                      													user_id: savedUser._id,
+                      													university_code: '195',
+                      													faculty_id: major.major_department.department_faculty,
+                      													department_id: major.major_department,
+                        												major_id: info.major_id.trim(),
+                      													group_id: info.group_id.trim(),
+                        												admission_year: info.admission_year.trim(),
+                      													graduation_year: info.graduation_year.trim(),
+                                                img: students.length+ '-' + fileName
+                      												}
+                      												const newStudent = new Student(studentData);
+                        										  	newStudent.save((err, savedStudent) => {
+                        												if (err) console.log(err)
+                        												else {
+                                                  console.log(savedStudent)
+                                                    group.students.push(savedStudent._id)
+                                                    group.save(function(err, savedGroup){
+                                                      if(err) console.log(err);
+                                                      else{
+                                                          console.log(savedGroup)
+                                                        res.send({
+                                                          newStudent:newStudent,
+                                                          message: 'Студент удачно добавлен'
+                                                        })
+                                                      }
+                                                    })
+                    														}
+                    													})
+                    												}
+                    										  });
+                    										}
+                    									})
+                              }
+                            })
+                  }
+                })
+              }
+            })
+          })
+        })
+      })
+  }
+  })
+  } else {
+    var info = JSON.parse(req.body.data);
+    console.log(req.body.data.passport_id)
+      User.findOne({passport_id: info.passport_id.trim()}, (err, user) => {
+        if(err) { console.log(err) }
+        else if (user){
+          res.status(409).send({
+            message: 'Этот пользователь уже есть в списке'
+          })
+        } else {
+        Major.findOne({_id:info.major_id}).populate('major_department').exec(function(err, major){
+          if(err) console.log(err);
+          if(major){
+            Student.find(function(err, students){
+              if(err) console.log(err);
+              else{
+                             Group.findOne({_id:info.group_id}, function(err, group){
+                              if(err) console.log(err);
+                              if(group){
+                                var userData = {
+                                  username: 100001+students.length,
+                                  password: bcrypt.hashSync(info.password, 10),
+                                  passport_id: info.passport_id.trim(),
+                                  name: info.name.trim(),
+                                  gender:info.gender.trim(),
+                                  lastname: info.lastname.trim(),
+                                  birthday: req.body.birthday.trim(),
+                                  status: 'student'
+                                }
+                                const newUser = new User(userData);
+                                newUser.save((err, savedUser) => {
+                                  if (err) console.log(err);
+                                  else {
+                                  //  console.log(savedUser)
+                                    var studentData = {
+                                      user_id: savedUser._id,
+                                      university_code: '195',
+                                      faculty_id: major.major_department.department_faculty,
+                                      department_id: major.major_department,
+                                      major_id: info.major_id.trim(),
+                                      group_id: info.group_id.trim(),
+                                      admission_year: info.admission_year.trim(),
+                                      graduation_year: info.graduation_year.trim()
+                                    }
+                                    const newStudent = new Student(studentData);
+                                      newStudent.save((err, savedStudent) => {
+                                      if (err) console.log(err)
+                                      else {
+                                          group.students.push(savedStudent._id)
+                                          group.save(function(err, savedGroup){
+                                            if(err) console.log(err);
+                                            else{
+                                                console.log(savedGroup)
+                                              res.send({
+                                                newStudent:newStudent,
+                                                message: 'Студент удачно добавлен'
+                                              })
+                                            }
+                                          })
+                                      }
                                     })
                                   }
-                                })
-														}
-													})
-												}
-										  });
-										}
-									})
-								}
-							})
-						}
-					})
-				}
-			})
-		}
-	})
+                                });
+                              }
+                            })
+                    }
+                  })
+                }
+              })
+        }
+      })
+    }
+
 })
 
-//This route will add the student img
-router.post('/addstudentimg', (req, res) => {
-		let form = new multiparty.Form();
-		var student_id = req.query.student_id;
-	form.parse(req, (err, fields, files) => {
-	  var tempPath = files.imageFile[0].path;
-		var fileName = files.imageFile[0].originalFilename;
-		let copyToPath = "public/student-img/" + student_id + '-' + fileName;
-		fs.readFile(tempPath, (err, data) => {
-			// make copy of image to new location
-			fs.writeFile(copyToPath, data, (err) => {
-				// delete temp image
-				fs.unlink(tempPath, () => {
-					if(err) {return res.status(401).end();}
-					else {
-						Student.findOneAndUpdate({_id: student_id}, { $set: {img: student_id + '-' + fileName}}, { new: true }, (err) => {
-							if(err) { console.log(err) }
-				            else {
-				            	res.status(200).send({
-									message: 'Пользователь добавлен!'
-								})
-							}
-						})
-					}
-				});
-			});
-		});
-	})
-})
 //this route will delete all student info
 router.post('/deletestudent', (req, res) =>{
 	Student.findOneAndRemove({_id:req.body.student_id}, function(err, removedStudent){
@@ -833,10 +895,9 @@ router.post('/deletestudent', (req, res) =>{
 							group.save(function(err, saved){
 								if(err) console.log(err)
 								if(saved){
-							// 		res.send({
-							// 			message:"Студент удален!"
-							// 		})
-                            console.log(saved)
+									res.send({
+										message:"Студент удален!"
+									})
 								}
 							})
 
@@ -2208,12 +2269,12 @@ router.post('/addattendance',(req, res)=>{
  Attendance.findOne({subject_id: group_name, date: att_date}, function(err,found){
 	if(err) {console.log(err)}
 
-		else if(found){	
+		else if(found){
 			res.send({
 				message: 'Вы не можете выставлять повторную посещаемость'
 			})
               console.log('no')
-		} else { 
+		} else {
                attendances.map(function(attendance){
 			   var newAtt= new Attendance({
 			   student:attendance.name,
@@ -2235,7 +2296,7 @@ router.post('/addattendance',(req, res)=>{
 			   })
 		}
 	})
-	
+
 
 })//end of router
 
@@ -2299,17 +2360,17 @@ router.post('/updatestudentsforattendance',(req,res)=> {
     }).exec(function(err,attendances){
     	if(err){
     		res.status(500).send({err:err});
-    	
+
     	} else {
     		if(attendances.length!=0){
     			res.status(200).send({attendances:attendances})
-    		   
+
     		} else{
     			res.send({
     				attendances: attendances,
     				message: 'Ничего не найдено'
     			})
-    			
+
     		}
 
     	}
@@ -2481,4 +2542,25 @@ router.get('/getgroupsforstudents',(req, res)=>{
 	})
 })
 
+router.get('/getsubjectgroups', (req, res)=>{
+  Subject.findOne({_id: req.query.subjectId}).populate('groups').exec(function(err, subject){
+    if(err) console.log(err);
+    else{
+      res.send({
+        groups: subject.groups
+      })
+    }
+  })
+})
+
+router.get('/getmajorgroups', (req, res)=>{
+  Major.findOne({_id: req.query.major_id}).populate('groups').exec(function(err, major){
+    if(err) console.log(err);
+    else{
+      res.send({
+        groups: major.groups
+      })
+    }
+  })
+})
 module.exports = router;
