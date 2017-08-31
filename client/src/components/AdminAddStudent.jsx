@@ -317,7 +317,7 @@ class AdminAddStudent extends React.Component {
                   { this.state.major_groups ? (
                     <select className="form-control" name="group_id" disabled={this.state.checkMajor} value={this.state.student.group_id} onChange={this.changeStudent}>
                       <option value=''>Выберите группу</option>
-                      {this.state.groups.map((group, g) =>
+                      {this.state.major_groups.map((group, g) =>
                         <option key={g} value={group._id}>{group.group_name}</option>
                       )}
                     </select>

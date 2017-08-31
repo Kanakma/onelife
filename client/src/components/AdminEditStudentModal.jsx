@@ -172,11 +172,15 @@ class AdminEditStudentModal extends React.Component {
         }
         reader.readAsDataURL(file);
       }
+      this.setState({
+        checkPass: true
+      })
     }
 
    birthdayChange(value){
         this.setState({
           birthday: value,
+          checkPass: true
         });
       }
       clearContent(){
@@ -200,6 +204,7 @@ class AdminEditStudentModal extends React.Component {
       }
 
   render(){
+    console.log(this.state.checkPass);
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;

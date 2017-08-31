@@ -2722,6 +2722,7 @@ router.get('/getmajorgroups', (req, res)=>{
   Major.findOne({_id: req.query.major_id}).populate('groups').exec(function(err, major){
     if(err) console.log(err);
     else{
+      console.log(major.groups)
       res.send({
         groups: major.groups
       })
