@@ -164,76 +164,6 @@ class AdminAddStudent extends React.Component {
               }
             });
           }
-      // const name = encodeURIComponent(this.state.student.name);
-      // const lastname = encodeURIComponent(this.state.student.lastname);
-      // const major_id = encodeURIComponent(this.state.student.major_id);
-      // const group_id = encodeURIComponent(this.state.student.group_id);
-      // const birthday = encodeURIComponent(this.state.birthday);
-      // const admission_year = encodeURIComponent(this.state.student.admission_year);
-      // const gender = encodeURIComponent(this.state.student.gender);
-      // const graduation_year = encodeURIComponent(this.state.student.graduation_year);
-      // const passport_id = encodeURIComponent(this.state.student.passport_id);
-      // const password = encodeURIComponent(this.state.student.password);
-      // const formData = `passport_id=${passport_id}&name=${name}&lastname=${lastname}&major_id=${major_id}&group_id=${group_id}&birthday=${birthday}&admission_year=${admission_year}&graduation_year=${graduation_year}&password=${password}&gender=${gender}`;
-      // if(this.state.filename.length>0){
-      //   axios.post('/api/addstudent', formData, {
-      //     responseType: 'json',
-      //     headers: {
-      //       'Content-type': 'application/x-www-form-urlencoded'}
-      //   })
-      //     .then(res => {
-      //           return new Promise((resolve, reject) => {
-      //             let imageFormData = new FormData();
-      //             const student_id = res.data.newStudent._id;
-      //             imageFormData.append('imageFile', this.state.file);
-      //             axios.post('/api/addstudentimg?student_id='+student_id, imageFormData, {
-      //               responseType: 'json',
-      //               headers: {
-      //               'Content-type': 'application/x-www-form-urlencoded'
-      //               }
-      //             })
-      //               .then(response => {
-      //                   this.setState({
-      //                     message: response.data.message,
-      //                     errors: {}
-      //                   });
-      //                     this.clearContent();
-      //               });
-      //             });
-      //       })
-      //         .catch(err => {
-      //           if (err.response) {
-      //             const errors = err.response ? err.response : {};
-      //             errors.summary = err.response.data.message;
-      //             this.setState({
-      //               errors
-      //             });
-      //           }
-      //         });
-      // } else{
-      //   axios.post('/api/addstudent', formData, {
-      //     responseType: 'json',
-      //     headers: {
-      //       'Content-type': 'application/x-www-form-urlencoded'}
-      //   })
-      //     .then(res => {
-      //           return new Promise((resolve, reject) => {
-      //             let imageFormData = new FormData();
-      //             const student_id = res.data.newStudent._id;
-      //             imageFormData.append('imageFile', this.state.file);
-      //             this.clearContent();
-      //             });
-      //       })
-      //         .catch(err => {
-      //           if (err.response) {
-      //             const errors = err.response ? err.response : {};
-      //             errors.summary = err.response.data.message;
-      //             this.setState({
-      //               errors
-      //             });
-      //           }
-      //         });
-      // }
 
     }
     birthdayChange(value){
@@ -384,7 +314,7 @@ class AdminAddStudent extends React.Component {
               </div>
               <div className="col-md-6">
                 <label>Группа</label>
-                  { this.state.groups ? (
+                  { this.state.major_groups ? (
                     <select className="form-control" name="group_id" disabled={this.state.checkMajor} value={this.state.student.group_id} onChange={this.changeStudent}>
                       <option value=''>Выберите группу</option>
                       {this.state.groups.map((group, g) =>
