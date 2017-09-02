@@ -177,7 +177,7 @@ class StudentHome extends React.Component {
       </div>
       <div className="page-content">
         <div className=" col-md-4">
-          <div className="white-box text-center">
+          <div className="white-box text-center" style={{height: '502px'}}>
             <div style={{width: '100%'}}>
               <img src={require("../../../public/student-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
             </div>
@@ -317,7 +317,7 @@ class StudentHome extends React.Component {
 
   <div >
 
-  <p className="student_today">Расписание на Завтра</p>
+  <p className="student_today">Расписание на ЗАВТРА</p>
 
 
 <table className="zui-table zui-table-horizontal">

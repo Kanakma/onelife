@@ -24,27 +24,29 @@ class TeacherAddAttendance extends React.Component {
       stud_attendance: {},
       checkAttendance: false,
       attendances: [],
-      att_date:''
+      att_date:'',
+      subject_groups: []
     };
   
     this.updateStudents = this.updateStudents.bind(this);
+    this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
   }
 
   componentDidMount() {
-  axios.get('/api/getgroupteacher',  {
+     axios.get('/api/getsubjectteacher', {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
         'Authorization': `bearer ${Auth.getToken()}`
       }
-    })
-      .then(res => {
+    }) .then(res => {
         this.setState({
-          groups: res.data.groups
+          subjects: res.data.subjects
         });
       });
+
   }
 
   dateFormat(date){
@@ -105,7 +107,38 @@ class TeacherAddAttendance extends React.Component {
    }
 
 
+updateGroups(event){
 
+ if(event.target.value.length > 0){
+
+      this.setState({
+        subject_id: event.target.value,
+        checkSubject: true,
+        message: '',
+        students: this.state.main_students.filter(function(student) {
+                                  return student.lastname.indexOf(event.target.value) > -1;
+                              })
+      })
+    } else {
+      this.setState({
+        subject_id: event.target.value,
+        checkSubject: false,
+        message: ''
+      })
+    }
+    axios.get('/api/getgroupsforstudents?subject_id='+event.target.value, {
+            responseType: 'json',
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded'
+            }
+    })
+      .then(res => {
+        this.setState({
+          subject_groups: res.data.subject_groups.groups
+        });
+      });
+}
+ 
 
   render() {
 
@@ -117,26 +150,42 @@ class TeacherAddAttendance extends React.Component {
 
       </div>
       <div className="my-content  ">
+
       <div className="table-responsive">
-           <div className="form-group col-md-12">
-<h5 style={{ fontSize: '14px', color: 'mark'}}>{this.state.message}</h5>
-        </div>
+            <div className="form-group col-md-6">
+
+               
+           <label>Выберите предмет</label>
+              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+              <option value=''>предмет не выбран</option>
+              {this.state.subjects.map((subject, s) =>
+                <option key={s} value={subject._id}>{subject.subject_name}</option>
+              )}
+              </select>
+         </div>    
         <div className="form-group col-md-6">
         <label>Выберите предмет</label>
-           <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+               {
+          this.state.subject_groups.length!=0 ?
+          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Выберите группу</option>
-          {this.state.groups.map((group, s) =>
+          {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
+          </select>) : 
+          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>групп не найдено</option>
           </select>
-        </div>
+          )
+        }        </div>
           <div className="form-group row">
-            <div className="col-md-6">
+            <div className="col-md-6 col-md-offset-3">
               <label>Дата проведения Пары</label>
               <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
          
           </div>
+          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
                   <tr>

@@ -371,25 +371,25 @@ class AdminAddSubject extends React.Component {
             <div className="form-group row">
                 <div className="col-md-3">
                   <label>Период (месяц)</label>
-                  <input type="number" className="form-control" placeholder="Период"
+                  <input type="number" className="form-control" placeholder="Период" min="0"
                          name="period" value={this.state.subject.period} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-3">
                   <label>Курс</label>
-                  <input type="number" className="form-control" placeholder="Курс"
+                  <input type="number" className="form-control" placeholder="Курс" min="0"
                          name="course_number" value={this.state.subject.course_number} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-3">
                   <label>Кредиты</label>
-                  <input type="number" className="form-control" placeholder="Кредиты"
+                  <input type="number" className="form-control" placeholder="Кредиты" min="0"
                          name="credit_number" value={this.state.subject.credit_number} onChange={this.changeSubject} />
                   <span className="bar"></span>
                 </div>
                 <div className="col-md-3">
                   <label>Количество студентов</label>
-                  <input type="number" className="form-control" placeholder="Количество студентов"
+                  <input type="number" className="form-control" placeholder="Количество студентов" min="0"
                          name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject}
                          disabled={!this.state.optional} />
                   <span className="bar"></span>

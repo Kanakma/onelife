@@ -17,6 +17,8 @@ class TeacherAddAttendance extends React.Component {
       subject: {},
       att_students: [
       ],
+      subject_groups: [
+      ],
       subject_id: '',//kogdra zarabotaet udali
       group_name:'',
       checkSubject: false,
@@ -31,6 +33,7 @@ class TeacherAddAttendance extends React.Component {
     };
   
     this.updateStudents = this.updateStudents.bind(this);
+    this.updateGroups=this.updateGroups.bind(this);
     this.changeAttendance = this.changeAttendance.bind(this);
     this.sendAttendance = this.sendAttendance.bind(this);
     this.changeDate=this.changeDate.bind(this);
@@ -38,19 +41,31 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-
-       axios.get('/api/getgroupteacher',  {
+    axios.get('/api/getsubjectteacher', {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
         'Authorization': `bearer ${Auth.getToken()}`
       }
-    })
-      .then(res => {
+    }) .then(res => {
         this.setState({
-          groups: res.data.groups
+          subjects: res.data.subjects
         });
       });
+
+
+    // axios.get('/api/getgroupteacher',  {
+    //   responseType: 'json',
+    //   headers: {
+    //     'Content-type': 'application/x-www-form-urlencoded',
+    //     'Authorization': `bearer ${Auth.getToken()}`
+    //   }
+    // })
+    //   .then(res => {
+    //     this.setState({
+    //       groups: res.data.groups
+    //     });
+    //   });
   }
 
 
@@ -127,6 +142,7 @@ class TeacherAddAttendance extends React.Component {
 
   sendAttendance(event){
  // console.log(this.state.group_name.length,'length')
+
     var dd= new Date();
 
     var today = new Date();
@@ -145,13 +161,15 @@ class TeacherAddAttendance extends React.Component {
 
     event.preventDefault();
     const group_name= this.state.group_name;
+    const subject_id=this.state.subject_id;
+    console.log(subject_id,'subject_id')
     const att_date=this.state.att_date;
     var dd= this.dateFormat1(att_date);
-  if(this.state.group_name.length!=0){
-  if (this.state.att_students.length===this.state.attendances.length){
+    if(this.state.group_name.length!=0){
+    if (this.state.att_students.length===this.state.attendances.length){
 
     if(today===dd){
-    const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}`;
+    const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}&subject_id=${subject_id}`;
 
          axios.post('/api/addattendance', formData, {
 
@@ -191,6 +209,7 @@ else{
 
   //update students on rabotaet bez filtracii
   updateStudents(event){
+    console.log(event.target.value,'valuuuuue')
     if(event.target.value.length > 0){
 
       this.setState({
@@ -208,7 +227,7 @@ else{
         message: ''
       })
     }
-    axios.get('/api/getgroupsforstudents?group_name='+event.target.value, {
+    axios.get('/api/getstudentsgroupsforstudents?group_name='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'
@@ -222,11 +241,43 @@ else{
 
 
   }
+//update groups
+updateGroups(event){
 
+ if(event.target.value.length > 0){
+
+      this.setState({
+        subject_id: event.target.value,
+        checkSubject: true,
+        message: '',
+        students: this.state.main_students.filter(function(student) {
+                                  return student.lastname.indexOf(event.target.value) > -1;
+                              })
+      })
+    } else {
+      this.setState({
+        subject_id: event.target.value,
+        checkSubject: false,
+        message: ''
+      })
+    }
+    axios.get('/api/getgroupsforstudents?subject_id='+event.target.value, {
+            responseType: 'json',
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded'
+            }
+    })
+      .then(res => {
+        this.setState({
+          subject_groups: res.data.subject_groups.groups
+        });
+      });
+}
  
 
 
   render() {
+    
     return (
       <div className="container clearfix">
       <div className=" bg-title">
@@ -235,19 +286,35 @@ else{
       </div>
       <div className="my-content  ">
       <div className="table-responsive">
-
+     <div className="form-group col-md-6">
+       <label>Выберите предмет</label>
+          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+          <option value=''>предмет не выбран</option>
+          {this.state.subjects.map((subject, s) =>
+            <option key={s} value={subject._id}>{subject.subject_name}</option>
+          )}
+          </select>
+     </div>
      
         <div className="form-group col-md-6">
         <label>Выберите группу</label>
-          <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
-          <option value=''>группа не выбрана</option>
-          {this.state.groups.map((group, s) =>
+        {
+          this.state.subject_groups.length!=0 ?
+          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Выберите группу</option>
+          {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
+          </select>) : 
+          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>групп не найдено</option>
           </select>
+          )
+        }
+     
         </div>
           <div className="form-group row">
-            <div className="col-md-6">
+            <div className="col-md-6 col-md-offset-3">
               <label>Дата проведения Пары</label>
               <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
@@ -265,7 +332,9 @@ else{
                       
                   </tr>
               </thead>
-                <tbody>
+              {
+                this.state.att_students.length !=0 ? 
+                ( <tbody>
               {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
@@ -275,7 +344,15 @@ else{
                     <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
                 </tr>
               )}
-              </tbody>
+              </tbody>) :(
+              <tbody>
+                  <tr>
+                  <td>Ничего не найдено</td>
+                  </tr>
+                  </tbody>
+                )
+              }
+               
                        
           </table>
           <div className="row">
