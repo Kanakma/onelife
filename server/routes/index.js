@@ -2476,7 +2476,7 @@ router.post('/updatestudentsforattendance',(req,res)=> {
 
 
     Attendance.find({
-    	subject_id:group_name,
+    	group_id:group_name,
     	date:att_date
 
     }).populate({
@@ -2536,11 +2536,11 @@ router.post('/addmark',(req,res) =>{
 
 
 router.post('/updatestudentsformark',(req,res)=> {
-	 var group_name=req.body.group_name;
+	 var subject_id=req.body.subject_id;
 	 var att_date=req.body.att_date;
-
+console.log(subject_id,'sdsdad')
 	 Mark.find({
-	 	subject_name:group_name,
+	 	subject_name:subject_id,
     	date:att_date
 	 }).populate({
     	path: 'student',
