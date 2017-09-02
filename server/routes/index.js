@@ -2746,7 +2746,8 @@ router.get('/mygroup1', (req,res) => {
 				} if(subject) {
 					res.status(200).send({
 						subject: subject,
-						student: student.group_id
+						student: student.group_id,
+						onestudent: student
 					})
 				}
 				else {
@@ -2788,6 +2789,7 @@ router.post('/updatemyattendance', (req,res) =>{
 })
 
 router.post('/updatemymark',(req,res)=> {
+	console.log(req.body)
          var userId=req.body.userId;
 		 var subjectId=req.body.subjectId
 		// console.log(userId,'user_id', subjectId,'subject')

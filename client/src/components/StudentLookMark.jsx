@@ -36,7 +36,8 @@ class TeacherAddAttendance extends React.Component {
        },
       group_name:'',
       student: '',
-      mark: []
+      mark: [],
+      onestudent: {}
 
 
     };
@@ -63,7 +64,8 @@ class TeacherAddAttendance extends React.Component {
         .then(res => {
           this.setState({
             subject: res.data.subject,
-            student: res.data.student
+            student: res.data.student,
+            onestudent: res.data.onestudent
           });
           
         });
@@ -87,7 +89,7 @@ class TeacherAddAttendance extends React.Component {
                                       })
               })
             console.log(this.state.userId, event.target.value)
-            const  userId =this.state.student.students;
+            const  userId =this.state.onestudent._id;
             const subjectId=event.target.value;
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
            
@@ -126,7 +128,7 @@ class TeacherAddAttendance extends React.Component {
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Моя успеваемость</h4>
+        <h4>Мои оценки</h4>
         <h4> Вы принадлежите к группе {this.state.student.group_name}</h4>
       </div>
       <div className="my-content  ">
