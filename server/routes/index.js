@@ -2187,7 +2187,6 @@ router.get('/getsubjectsforstudents',(req, res)=>{
 		}
 	})
 })
-router
 
 //This route will add the parrent
 router.post('/addparrent',(req, res) =>{
@@ -2430,8 +2429,9 @@ router.post('/addattendance',(req, res)=>{
  var attendances=JSON.parse(req.body.data);
  var group_name=req.body.group_name;
  var att_date=req.body.att_date;
-
- Attendance.findOne({subject_id: group_name, date: att_date}, function(err,found){
+ var subject_id=req.body.subject_id;
+ //console.log(subject_id,'sub')
+ Attendance.findOne({subject_id: subject_id, group_id: group_name, date: att_date}, function(err,found){
 	if(err) {console.log(err)}
 
 		else if(found){
@@ -2445,7 +2445,8 @@ router.post('/addattendance',(req, res)=>{
 			   student:attendance.name,
 			   date: att_date,
 			   stud_attendance: attendance.att_status,
-			   subject_id:group_name
+			   subject_id:subject_id,
+			   group_id:group_name
 		})
 
 
@@ -2467,9 +2468,7 @@ router.post('/addattendance',(req, res)=>{
 
 
 
-var saveAtt= function(){
 
-}
 router.get('/getsubjectsforstudents',(req, res)=>{
 		var subjectId=req.query.subjectId;
 		Subject.findOne({
@@ -2547,14 +2546,18 @@ router.post('/addmark',(req,res) =>{
 	 var marks=JSON.parse(req.body.data);
 	 var group_name=req.body.group_name;
 	 var att_date=req.body.att_date;
-    // console.log(marks,'maaaaaaarks')
+	 var subject_id =req.body.subject_id;
+     console.log(subject_id,'subject_id')
+     console.log(att_date,'att_')
+     console.log(group_name,'group_name')
+  
      marks.map(function(mark){
      	var newMark=  new Mark ({
      		student: mark.name,
 	     	date: att_date,
 	     	stud_mark: mark.stud_mark,
-	     	stud_comment: mark.stud_comment,
-	     	subject_name: group_name
+	     	subject_name: subject_id,
+	     	group_id: group_name
      	})
      	newMark.save(function(err,saved){
      		if(err)console.log (err);
@@ -2564,7 +2567,7 @@ router.post('/addmark',(req,res) =>{
      	})
      })
    res.status(200).send({
-   message: "Вы выставили посещаемость"
+   message: "Вы выставили успеваемость"
    })
 })
 
@@ -2689,7 +2692,24 @@ router.get('/getgroupteacher', (req, res) => {
 //teacher new attendance and marks
 
 router.get('/getgroupsforstudents',(req, res)=>{
+		var subject_id=req.query.subject_id;
+		Subject.findOne({
+			_id:subject_id
+		}).populate({
+			path:'groups'
+		}).exec(function(err,subject_groups){
+			if(err){
+				res.status(500).send({err: err});
+			} else {
+				res.status(200).send({subject_groups: subject_groups});
+			}
+		})
+
+})
+router.get('/getstudentsgroupsforstudents',(req,res) => {
+
 		var group_name=req.query.group_name;
+
 		Group.findOne({
 			_id:group_name
 		}).populate({
@@ -2706,6 +2726,161 @@ router.get('/getgroupsforstudents',(req, res)=>{
 		}
 	})
 })
+router.get('/mygroup1', (req,res) => {
+	var userId = req.query.studentId;
+
+		Student.findOne({
+			user_id:userId
+		}).populate({
+			path:'group_id',
+			
+		}).exec(function(err,student){
+		if(err) {
+			res.status(500).send({err: err});
+		} else {
+			Subject.find({
+                   groups: student.group_id
+			}).exec(function(err,subject){
+				if(err) {
+					res.status(500).send({err: err});
+				} if(subject) {
+					res.status(200).send({
+						subject: subject,
+						student: student.group_id
+					})
+				}
+				else {
+					 res.status(200).send({student: student});
+					
+				}
+
+	
+
+		})
+	}
+	})
+})
+router.post('/updatemyattendance', (req,res) =>{
+
+		 var userId=req.body.userId;
+		 var subjectId=req.body.subjectId
+		 Attendance.find({
+		 	subject_id: subjectId,
+		 	student: userId
+		 }).populate({
+		 	path: 'student ',
+		 	populate: {
+				path: 'user_id'
+			}
+		 }).exec(function(err,attendance){
+		 	if(err){
+		 		console.log('не найдено')
+		 	}
+		 	if(attendance)
+		 	{
+		 		res.send({
+		 			attendance:attendance
+		 		})
+		 	}
+		 })
+	
+
+})
+
+router.post('/updatemymark',(req,res)=> {
+         var userId=req.body.userId;
+		 var subjectId=req.body.subjectId
+		// console.log(userId,'user_id', subjectId,'subject')
+		Mark.find({
+		 	subject_name: subjectId,
+		 	student: userId
+		 }).populate({
+		 	path: 'student ',
+		 	populate: {
+				path: 'user_id'
+			}
+		 }).exec(function(err,mark){
+		 	if(err){
+		 		console.log('не найдено')
+		 	}
+		 	if(mark)
+		 	{
+
+		 		res.send({
+		 			mark:mark
+		 		})
+		 	}
+		 })
+	
+
+
+})
+
+router.get('/mychildgroup', (req,res)=> {
+     var userId=req.query.parentId;
+     console.log(userId,'userId')
+
+     Parrent.findOne({ user_id : userId
+     }).populate( {path: 'childs', populate: {path:  'group_id user_id ' }}).populate('user_id').exec(function(err,parent){
+		 	if(err) console.log('не найдено')
+		 	if(parent){
+		 		var arr =[]
+		 		parent.childs.map((baby) =>{
+					Subject.find({groups:{"$in" :[baby.group_id._id]}}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).exec(function(err, subjects){
+					    if(err) console.log(err)
+					    if(subjects){
+                           subjects.forEach(function(value){
+                           	arr.push(value)
+                           })
+					    }
+					  })
+				 	}) 
+		 		
+		 	}
+		 })
+})
+
+
+// router.get('/mygroup1', (req,res) => {
+// 	var userId = req.query.studentId;
+
+
+// 		Student.findOne({
+// 			user_id:userId
+// 		}).populate({
+// 			path:'group_id',
+			
+// 		}).exec(function(err,student){
+// 		if(err) {
+// 			res.status(500).send({err: err});
+// 						//console.log('error2')
+
+// 		} else {
+// 			Subject.find({
+//                    groups: student.group_id
+// 			}).exec(function(err,subject){
+// 				if(err) {
+// 					res.status(500).send({err: err});
+// 					//console.log('error1')
+// 				} if(subject) {
+// 					//console.log(group_name)
+// 					res.status(200).send({subject: subject,
+// 						student: student.group_id
+
+// 					})
+
+// 				}
+// 				else {
+// 					 res.status(200).send({student: student});
+					
+// 				}
+
+	
+
+// 		})
+// 	}
+// 	})
+// })
 
 router.get('/getsubjectgroups', (req, res)=>{
   Subject.findOne({_id: req.query.subjectId}).populate('groups').exec(function(err, subject){

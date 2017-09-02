@@ -524,7 +524,8 @@ class Base extends React.Component {
                         </Link>
                     </li>
                     <li><Link to="/subjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
-                    <li><Link to="/subjects" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Оценки</Link></li>
+                    <li><Link to="/student_mark" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Мои оценки</Link></li>
+                    <li><Link to="/student_attendance" className="waves-effect"><i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Моя посещаемость</Link></li>
                     <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                 </ul>
               </div>
@@ -552,6 +553,8 @@ class Base extends React.Component {
                     <div className="navbar-header">
                       <ul className="nav nav-stacked">
                         <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg icons" aria-hidden="true"></i>Главная</Link></li>
+                        <li><Link to="/student_mark" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Мои оценки</Link></li>
+                        <li><Link to="/parent_attendance" className="waves-effect"><i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Моя посещаемость</Link></li>
                         <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>
                       </ul>
                     </div>
