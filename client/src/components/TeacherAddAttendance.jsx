@@ -255,10 +255,8 @@ else{
                       <th>№</th>
                       <th>ID</th>
                       <th>ФИО</th>
-                   
                       <th>Был</th>
                       <th>Не Был</th>
-                      
                   </tr>
               </thead>
                 <tbody>
