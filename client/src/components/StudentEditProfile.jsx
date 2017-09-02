@@ -61,6 +61,7 @@ class StudentEditProfile extends React.Component {
   birthdayChange(value){
        this.setState({
          birthday: value,
+         checkPass: true
        });
      }
   dateFormat(date){
@@ -72,18 +73,33 @@ class StudentEditProfile extends React.Component {
   editStudentFunc(){
     event.preventDefault();
     if(this.state.filename.length>0){
-      this.addImg();
+      var student_id = this.state.student._id
+      return new Promise((resolve, reject) => {
+        let imageFormData = new FormData();
+        imageFormData.append('imageFile', this.state.file);
+        imageFormData.append('data', JSON.stringify(this.state.editedStudent));
+        imageFormData.append('birthday', JSON.stringify(this.state.birthday));
+        axios.post('/api/editstudent?student_id=' + student_id, imageFormData, {
+          responseType: 'json',
+          headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+        .then(response => {
+            window.location.reload();
+          });
+      });
+    } else{
+      const formData = `data=${JSON.stringify(this.state.editedStudent)}&student_id=${this.state.student._id}&birthday=${this.state.birthday}`;
+      axios.post('/api/editstudent', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+      })
+      .then(response => {
+        window.location.reload();
+      });
     }
-    const student_id = this.state.student._id;
-    const birthday =this.state.birthday;
-    const formData = `student=${JSON.stringify(this.state.editedStudent)}&student_id=${student_id}&birthday=${this.state.birthday}`;
-    axios.post('/api/editstudent', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
   }
   addImg(){
     const student_id = this.state.student._id;
@@ -147,6 +163,9 @@ class StudentEditProfile extends React.Component {
         }
         reader.readAsDataURL(file);
       }
+      this.setState({
+        checkPass: true
+      })
     }
   render() {
     return (

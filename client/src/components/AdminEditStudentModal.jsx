@@ -21,18 +21,19 @@ class AdminEditStudentModal extends React.Component {
         checkpassword:''
       },
       majors: [],
+      major_groups: [],
       groups: [],
       birthday:'',
       file: '',
       filename: '',
-      checkPass: false
+      checkPass: false,
+      checkMajor: true
     }
       this.changeStudent = this.changeStudent.bind(this);
       this.birthdayChange = this.birthdayChange.bind(this);
       this.changeImg = this.changeImg.bind(this);
       this.deleteStudent = this.deleteStudent.bind(this);
       this.editStudentFunc = this.editStudentFunc.bind(this);
-      this.addImg = this.addImg.bind(this);
       this.clearContent = this.clearContent.bind(this);
   };
     componentDidMount() {
@@ -63,18 +64,33 @@ class AdminEditStudentModal extends React.Component {
   editStudentFunc(){
     event.preventDefault();
     if(this.state.filename.length>0){
-      this.addImg();
+      var student_id = this.props.student._id
+      return new Promise((resolve, reject) => {
+        let imageFormData = new FormData();
+        imageFormData.append('imageFile', this.state.file);
+        imageFormData.append('data', JSON.stringify(this.state.student));
+        imageFormData.append('birthday', JSON.stringify(this.state.birthday));
+        axios.post('/api/editstudent?student_id=' + student_id, imageFormData, {
+          responseType: 'json',
+          headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+        .then(response => {
+            window.location.reload();
+          });
+      });
+    } else{
+      const formData = `data=${JSON.stringify(this.state.student)}&student_id=${this.props.student._id}&birthday=${this.state.birthday}`;
+      axios.post('/api/editstudent', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+      })
+      .then(response => {
+        window.location.reload();
+      });
     }
-    const student_id = this.props.student._id;
-    const birthday =this.state.birthday;
-    const formData = `student=${JSON.stringify(this.state.student)}&student_id=${student_id}&birthday=${this.state.birthday}`;
-    axios.post('/api/editstudent', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `bearer ${Auth.getToken()}`
-      }
-    })
   }
 
   deleteStudent(){
@@ -87,24 +103,30 @@ class AdminEditStudentModal extends React.Component {
       }
     })
   }
-  addImg(){
-    const student_id = this.props.student.student_id;
-    return new Promise((resolve, reject) => {
-      let imageFormData = new FormData();
-      imageFormData.append('imageFile', this.state.file);
-      axios.post('/api/addstudentimg?student_id='+student_id, imageFormData, {
-        responseType: 'json',
-        headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-        }
-      })
-    });
-  }
 
   changeStudent(event){
       const field = event.target.name;
       const student = this.state.student;
       student[field] = event.target.value;
+      if(this.state.student.major_id.length>0){
+        axios.get('/api/getmajorgroups?major_id='+this.state.student.major_id,  {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(res => {
+            this.setState({
+              major_groups: res.data.groups,
+              checkMajor: false
+            });
+          });
+      }
+      else{
+        this.setState({
+          checkMajor: true
+        })
+      }
       if((this.state.student.password.length>0) || (this.state.student.checkpassword.length>0)){
         if(this.state.student.password!=this.state.student.checkpassword){
           document.getElementById('wrongpass').style.display = "block"
@@ -150,11 +172,15 @@ class AdminEditStudentModal extends React.Component {
         }
         reader.readAsDataURL(file);
       }
+      this.setState({
+        checkPass: true
+      })
     }
 
    birthdayChange(value){
         this.setState({
           birthday: value,
+          checkPass: true
         });
       }
       clearContent(){
@@ -178,6 +204,7 @@ class AdminEditStudentModal extends React.Component {
       }
 
   render(){
+    console.log(this.state.checkPass);
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -295,9 +322,10 @@ class AdminEditStudentModal extends React.Component {
             <label>Группа</label>
             <select className="form-control" name="group_id"
                     value={this.state.student.group_id}
-                    onChange={this.changeStudent}>
+                    onChange={this.changeStudent}
+                    disabled={this.state.checkMajor}>
               <option value=''>Выберите группу</option>
-              {this.state.groups.map((group, g) =>
+              {this.state.major_groups.map((group, g) =>
                   <option key={g} value={group._id}>{group.group_name}</option>
               )}
             </select>

@@ -42,7 +42,7 @@ class TeacherAddNewHomework extends React.Component {
     this.getStatus();
   }
   getGroup(){
-    axios.get('/api/getgroups',  {
+    axios.get('/api/getsubjectgroups?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -50,7 +50,7 @@ class TeacherAddNewHomework extends React.Component {
     })
       .then(res => {
         this.setState({
-          groups:res.data.allGroups
+          groups:res.data.groups
         });
       });
   }
@@ -208,7 +208,7 @@ class TeacherAddNewHomework extends React.Component {
             </div>
           </div>
             <div className="form-group">
-              <label>Группа</label>
+              <label>Выберите группу</label>
               <select className="form-control" name="group_id" value={this.state.group_id} onChange={this.changeGroup}>
                 <option value=''>Группа</option>
                 {this.state.groups.map((group, g) =>

@@ -30,7 +30,9 @@ class AdminAddStudent extends React.Component {
         groups: [],
         checkContent: false,
         file: '',
-        filename: ''
+        filename: '',
+        checkMajor: true,
+        major_groups: []
       };
       this.changeStudent = this.changeStudent.bind(this);
       this.addStudent = this.addStudent.bind(this);
@@ -66,6 +68,25 @@ class AdminAddStudent extends React.Component {
       const field = event.target.name;
       const student = this.state.student;
       student[field] = event.target.value;
+      if(this.state.student.major_id.length>0){
+        axios.get('/api/getmajorgroups?major_id='+this.state.student.major_id,  {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(res => {
+            this.setState({
+              major_groups: res.data.groups,
+              checkMajor: false
+            });
+          });
+      }
+      else{
+        this.setState({
+          checkMajor: true
+        })
+      }
       if((this.state.student.passport_id.length > 0) && (this.state.student.name.length > 0) && (this.state.student.lastname.length > 0)
             && (this.state.student.major_id.length > 0) && (this.state.birthday.length > 0) && (this.state.student.admission_year > 0)
             && (this.state.student.graduation_year > 0) && (this.state.student.password.length > 0)
@@ -100,41 +121,38 @@ class AdminAddStudent extends React.Component {
     }
     addStudent(event){
       event.preventDefault();
-      const name = encodeURIComponent(this.state.student.name);
-      const lastname = encodeURIComponent(this.state.student.lastname);
-      const major_id = encodeURIComponent(this.state.student.major_id);
-      const group_id = encodeURIComponent(this.state.student.group_id);
-      const birthday = encodeURIComponent(this.state.birthday);
-      const admission_year = encodeURIComponent(this.state.student.admission_year);
-      const gender = encodeURIComponent(this.state.student.gender);
-      const graduation_year = encodeURIComponent(this.state.student.graduation_year);
-      const passport_id = encodeURIComponent(this.state.student.passport_id);
-      const password = encodeURIComponent(this.state.student.password);
-      const formData = `passport_id=${passport_id}&name=${name}&lastname=${lastname}&major_id=${major_id}&group_id=${group_id}&birthday=${birthday}&admission_year=${admission_year}&graduation_year=${graduation_year}&password=${password}&gender=${gender}`;
-      axios.post('/api/addstudent', formData, {
-        responseType: 'json',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded'}
-      })
-        .then(res => {
-              return new Promise((resolve, reject) => {
-                let imageFormData = new FormData();
-                const student_id = res.data.newStudent._id;
-                imageFormData.append('imageFile', this.state.file);
-                axios.post('/api/addstudentimg?student_id='+student_id, imageFormData, {
-                  responseType: 'json',
-                  headers: {
-                  'Content-type': 'application/x-www-form-urlencoded'
-                  }
-                })
-                  .then(response => {
-                      this.setState({
-                        message: response.data.message,
-                        errors: {}
-                      });
-                      this.clearContent();
-                  });
+      if(this.state.filename.length>0){
+        return new Promise((resolve, reject) => {
+          let imageFormData = new FormData();
+          imageFormData.append('imageFile', this.state.file);
+          imageFormData.append('data', JSON.stringify(this.state.student));
+          imageFormData.append('birthday', JSON.stringify(this.state.birthday));
+          axios.post('/api/addstudent?image='+this.state.filename, imageFormData, {
+            responseType: 'json',
+            headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+            }
+          })
+            .then(response => {
+                this.setState({
+                  message: response.data.message,
+                  errors: {}
                 });
+                this.clearContent()
+            });
+        });
+      }else {
+        const formData = `data=${JSON.stringify(this.state.student)}&birthday=${this.state.birthday}`;
+        axios.post('/api/addstudent', formData, {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'}
+        })
+          .then(res => {
+            this.setState({
+              message:res.data.message
+            })
+            this.clearContent()
           })
             .catch(err => {
               if (err.response) {
@@ -145,6 +163,8 @@ class AdminAddStudent extends React.Component {
                 });
               }
             });
+          }
+
     }
     birthdayChange(value){
       if((this.state.student.passport_id.length > 0) && (this.state.student.name.length > 0) && (this.state.student.lastname.length > 0)
@@ -294,10 +314,10 @@ class AdminAddStudent extends React.Component {
               </div>
               <div className="col-md-6">
                 <label>Группа</label>
-                  { this.state.groups ? (
-                    <select className="form-control" name="group_id" value={this.state.student.group_id} onChange={this.changeStudent}>
+                  { this.state.major_groups ? (
+                    <select className="form-control" name="group_id" disabled={this.state.checkMajor} value={this.state.student.group_id} onChange={this.changeStudent}>
                       <option value=''>Выберите группу</option>
-                      {this.state.groups.map((group, g) =>
+                      {this.state.major_groups.map((group, g) =>
                         <option key={g} value={group._id}>{group.group_name}</option>
                       )}
                     </select>

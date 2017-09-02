@@ -157,11 +157,15 @@ class AdminEditTeacherModal extends React.Component {
       }
       reader.readAsDataURL(file);
     }
+    this.setState({
+      checkPass: true
+    })
   }
 
   birthdayChange(value){
       this.setState({
-        birthday: value
+        birthday: value,
+        checkPass: true
       });
   }
 
