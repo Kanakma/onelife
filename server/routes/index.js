@@ -14,13 +14,13 @@ var Mark=require('../models/mark')
 var Attendance = require('../models/attendance')
 var Homework = require('../models/homework')
 var Group = require('../models/group')
-var Auditory = require('../models/auditory')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
 let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
+
 
 function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
@@ -1760,9 +1760,9 @@ router.get('/getsubjects', (req, res) => {
 	Subject.find().populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjects){
 		if(err) console.log(err)
 		else {
-		  res.send({
-				subjects: subjects
-			})
+				  res.send({
+						subjects: subjects
+					})
 		}
 	})
 });
@@ -1794,20 +1794,49 @@ router.get('/getonesubject', (req, res) => {
 	Subject.findOne({_id: subjectId}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('major_id').exec(function(err, subjects){
 		if(err) { console.log(err) }
 		else {
-			res.send({
-				subject: subject
-			})
-		}
-	})
-})
-
-router.get('/getsubjforschedule', (req, res) =>{
-	Subject.find({groups:{"$in" :[req.query._id]}}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).exec(function(err, subjects){
-		if(err) console.log(err)
-		if(subjects){
-			res.send({
-				subjects
-			})
+									// Student.findOne({user_id:decoded.sub}, function(err, studentSSS){
+									// 	if(err) console.log(err);
+									// 	else{
+									// 		mySubject = {
+									// 			_id: subject._id,
+									// 			subject_name: subject.subject_name,
+									// 			subject_code: subject.subject_code,
+									// 			description: subject.description,
+									// 			major_name: major.major_name,
+									// 			teacher_name: user.lastname + ' ' + user.name,
+									// 			period: subject.period,
+									// 			course_number: subject.course_number,
+									// 			credit_number: subject.credit_number,
+									// 			max_students: subject.max_students,
+									// 			remained: subject.max_students - subject.students.length,
+									// 			img: subject.img
+									// 		}
+									// 		if(subject.students.length < subject.max_students){
+									// 			subject.students.forEach(function(s){
+                  //
+									// 				if(s.toString() == studentSSS._id.toString()){
+									// 					already = true;
+									// 				}
+									// 			})
+									// 			if(already){
+									// 				res.send({
+									// 					subject: mySubject,
+									// 					message: "Вы записаны на этот предмет",
+									// 					already: already
+									// 				})
+									// 			} else {
+									// 				res.send({
+									// 					subject: mySubject,
+									// 					message: "",
+									// 					already: already
+									// 				})
+									// 			}
+									// 		} else {
+												res.send({
+													subject: subject
+													// message: "Достигнуто максимальное количество студентов",
+													// already: true
+												})
 		}
 	})
 })
@@ -2311,6 +2340,7 @@ router.post('/addgroup', (req, res) => {
 					Major.findOne({_id:group.major}).populate({path: 'major_department', populate: {path:'department_faculty'}}).exec(function(err, major){
 						if(err) console.log(err);
 						if(major){
+							// console.log(major.major_department.department_faculty._id)
 							major.groups.push(savedGroup._id)
 							major.save(function(err, savedMajor){
 								if(err) console.log(err)
@@ -2320,6 +2350,7 @@ router.post('/addgroup', (req, res) => {
 										if(subjects){
 											subjects.map(function(subject){
 												if(subject.faculty_id && major.major_department.department_faculty._id.toString() == subject.faculty_id.toString()){
+													// console.log( major.major_department.department_faculty._id.toString(), subject.faculty_id.toString())
 													subject.groups.push(savedGroup._id)
 													subject.save(function(err){
 														if(err) console.log(err)
@@ -2431,7 +2462,13 @@ router.post('/addattendance',(req, res)=>{
 			   })
 		}
 	})
-  
+
+
+})//end of router
+
+
+
+
 router.get('/getsubjectsforstudents',(req, res)=>{
 		var subjectId=req.query.subjectId;
 		Subject.findOne({
@@ -2691,103 +2728,6 @@ router.get('/getstudentsgroupsforstudents',(req,res) => {
 })
 router.get('/mygroup1', (req,res) => {
 	var userId = req.query.studentId;
-
-router.post('/addauditory', (req, res) =>{
-	var auditory = JSON.parse(req.body.auditory)
-
-	Auditory.findOne({auditory_name:auditory.auditory_name.toLowerCase()}, function(err, fAuditory){
-		if(err) console.log(err)
-		if(fAuditory){
-			res.status(409).send({
-				message: 'Эта аудитория уже есть в списке'
-			})
-		}else{
-			var data = {
-				auditory_name:auditory.auditory_name,
-				auditory_corp:auditory.auditory_corp,
-				auditory_level:auditory.auditory_level,
-				auditory_places:auditory.auditory_places
-			}
-			var newAuditory = new Auditory(data)
-			newAuditory.save((err, savedAuditory) =>{
-				if(err){
-					res.status(409).send({
-						message: err
-					})
-				}else if(savedAuditory){
-					res.status(200).send({message: "Аудитория добавлена"});
-				}
-			})
-		}
-	})
-})
-
-router.get('/getauditories', (req, res) =>{
-	Auditory.find({}, (err, auditories) =>{
-		if(err) console.log(err)
-		if(auditories){
-			res.send({
-				auditories
-			})
-		}
-	})
-})
-
-router.post('/deleteauditory', (req, res) =>{
-	var auditory_id = JSON.parse(req.body.auditory_id)
-	Auditory.findOneAndRemove({_id:auditory_id}, (err, deletedAuditory) =>{
-		if(err) console.log(err)
-		if(deletedAuditory){
-			res.send({
-				message:"Аудитория удалена успешно!"
-			})
-		}
-	})
-})
-
-router.post('/editauditory', (req, res) =>{
-	var newAuditory = JSON.parse(req.body.auditory)
-	Auditory.findOne({_id:req.body.auditory_id}, (err, auditory) =>{
-		if(err) console.log(err)
-		if(auditory){
-			if(newAuditory.auditory_name){
-				Auditory.findOne({auditory_name:newAuditory.auditory_name.toLowerCase()}, (err, sameAuditory) =>{
-					if(err) console.log(err)
-					else if(sameAuditory){
-						res.send({
-							err:"Аудитория с таким наименованием уже существует!"
-						})
-					} else{
-						auditory.auditory_name=(newAuditory.auditory_name!='')?newAuditory.auditory_name:auditory.auditory_name;
-						auditory.auditory_corp=(newAuditory.auditory_corp!='')?newAuditory.auditory_corp:auditory.auditory_corp;
-						auditory.auditory_level=(newAuditory.auditory_level!='')?newAuditory.auditory_level:auditory.auditory_level;
-						auditory.auditory_places=(newAuditory.auditory_places!='')?newAuditory.auditory_places:auditory.auditory_places;
-						auditory.save((err, saved) =>{
-							if(err) console.log(err)
-							if(saved){
-								res.send({
-									massage:"Аудитория изменена успешно!"
-								})
-							}
-						})
-					}
-				})
-			} else{
-				auditory.auditory_corp=(newAuditory.auditory_corp!='')?newAuditory.auditory_corp:auditory.auditory_corp;
-				auditory.auditory_level=(newAuditory.auditory_level!='')?newAuditory.auditory_level:auditory.auditory_level;
-				auditory.auditory_places=(newAuditory.auditory_places!='')?newAuditory.auditory_places:auditory.auditory_places;
-				auditory.save((err, saved) =>{
-					if(err) console.log(err)
-					if(saved){
-						res.send({
-							massage:"Аудитория изменена успешно!"
-						})
-					}
-				})
-			}
-		}
-	})
-})
 
 		Student.findOne({
 			user_id:userId
