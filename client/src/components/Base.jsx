@@ -22,6 +22,7 @@ class Base extends React.Component {
       checkHomework: false,
       checkSchedule:false,
       checkGroup: false,
+      checkAuditory:false,
       status: ''
     };
     this.changeHide = this.changeHide.bind(this);
@@ -62,7 +63,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "major") || (idDropdown == "major")){
@@ -82,7 +84,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "subject") || (idDropdown == "subject")){
@@ -102,7 +105,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "teacher") || (idDropdown == "teacher")){
@@ -122,7 +126,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "student") || (idDropdown == "student")){
@@ -142,7 +147,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "department") || (idDropdown == "department")){
@@ -162,7 +168,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
@@ -182,7 +189,8 @@ class Base extends React.Component {
             checkTest:false,
             checkHomework: false,
             checkSchedule:false,
-            checkGroup: false
+            checkGroup: false,
+            checkAuditory:false
           })
         }
     } else if((nameDropdown == "attendance") || (idDropdown == "attendance")){
@@ -202,7 +210,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "mark") || (idDropdown == "mark")){
@@ -222,7 +231,8 @@ class Base extends React.Component {
           checkTest:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "test") || (idDropdown == "test")){
@@ -242,7 +252,8 @@ class Base extends React.Component {
           checkMark:false,
           checkHomework: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "homework") || (idDropdown == "homework")){
@@ -262,7 +273,8 @@ class Base extends React.Component {
           checkMark:false,
           checkTest: false,
           checkSchedule:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     } else if((nameDropdown == "schedule") || (idDropdown == "schedule")){
@@ -282,7 +294,8 @@ class Base extends React.Component {
           checkMark:false,
           checkTest: false,
           checkHomework:false,
-          checkGroup: false
+          checkGroup: false,
+          checkAuditory:false
         })
       }
     }else if((nameDropdown == "group") || (idDropdown == "group")){
@@ -302,10 +315,31 @@ class Base extends React.Component {
           checkMark:false,
           checkTest: false,
           checkSchedule:false,
+          checkHomework: false,
+          checkAuditory:false
+        })
+      }
+    }else if((nameDropdown == "auditory") || (idDropdown == "auditory")){
+      this.setState({
+        checkAuditory: !this.state.checkAuditory
+      })
+      if(this.state.checkAuditory==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
           checkHomework: false
         })
+      }
     }
-  }
   }
 
   render() {
@@ -377,6 +411,16 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkSubject}>
                         <li><Link to="/subjects" className="waves-effect" style={{paddingLeft: '45px'}}>Все предметы</Link></li>
                         <li><Link to="/addsubjects" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить предмет</Link></li>
+                      </ul>
+                  </li>
+                  <li><Link to="#" className="waves-effect" name="auditory" onClick={this.changeHide}>
+                      <i className="fa fa-bandcamp fa-lg icons" aria-hidden="true" ></i>Аудитории
+                      <span hidden={this.state.checkAuditory} id="auditory" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkAuditory} id="auditory" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkAuditory}>
+                        <li><Link to="/auditories" className="waves-effect" style={{paddingLeft: '45px'}}>Все аудитории</Link></li>
+                        <li><Link to="/addauditories" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить аудиторию</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="schedule" onClick={this.changeHide}>

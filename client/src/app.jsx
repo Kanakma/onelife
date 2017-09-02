@@ -45,6 +45,8 @@ import AdminAddSchedule from './components/AdminAddSchedule.jsx';
 import AdminSchedules from './components/AdminSchedules.jsx'
 import AdminGroups from './components/AdminGroups.jsx';
 import AdminAddGroups from './components/AdminAddGroups.jsx';
+import AdminAuditory from './components/AdminAuditory.jsx';
+import AdminAddAuditory from './components/AdminAddAuditory.jsx';
 import TeacherShowAttendance1 from './components/TeacherShowAttendance1.jsx';
 import Auth from './modules/Auth';
 
@@ -96,6 +98,8 @@ ReactDom.render((
       <Route path= "/addgroups" component={AdminAddGroups}/>
       <Route path="/editprofile" component={TeacherEditProfile}/>
       <Route path="/editstudentprofile" component={StudentEditProfile}/>
+      <Route path="/auditories" component={AdminAuditory}/>
+      <Route path="/addauditories" component={AdminAddAuditory}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

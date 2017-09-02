@@ -9,7 +9,6 @@ module.exports.connect = (uri) => {
     console.error(`Mongoose connection error: ${err}`);
     process.exit(1);
   });
-
   require('./attendance');
   require('./department');
   require('./faculty');
@@ -25,4 +24,5 @@ module.exports.connect = (uri) => {
   require('./subject');
   require('./teacher');
   require('./user');
+  require('./auditory')
 };

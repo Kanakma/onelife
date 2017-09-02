@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import InputElement from 'react-input-mask';
 
 class AdminAddSchedule extends React.Component {
 
@@ -9,16 +10,24 @@ class AdminAddSchedule extends React.Component {
     this.state={
       groups:[],
       subjects: [],
+      auditories:[],
+      period:{
+        year:'',
+        semester:''
+      },
       group_name:''
     }
-    this.getGroup=this.getGroup.bind(this);
+    this.getGroups=this.getGroups.bind(this);
     this.getSubjects=this.getSubjects.bind(this);
     this.selectGroup=this.selectGroup.bind(this);
+    this.getAuditories=this.getAuditories.bind(this);
+    this.changePeriod=this.changePeriod.bind(this);
   }
+
   componentDidMount(){
-    this.getGroup();
   }
-  getGroup(){
+
+  getGroups(){
     axios.get('/api/getgroups',  {
       responseType: 'json',
       headers: {
@@ -31,8 +40,30 @@ class AdminAddSchedule extends React.Component {
         });
       });
   }
-  getSubjects(_id){
-    axios.get('/api/getsubjforschedule?_id=' + _id,  {
+
+  getAuditories(){
+    if(this.state.period.year.length>3 && this.state.period.semester.length>0
+      && this.state.period.year != '____' && this.state.period.semester !='_'){
+      axios.get('/api/getauditories',  {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          this.setState({
+            auditories: res.data.auditories
+          });
+        });
+    } else{
+      this.setState({
+        auditories: []
+      });
+    }
+  }
+
+  getSubjects(period){
+    axios.get('/api/getsubjforschedule?',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -44,6 +75,7 @@ class AdminAddSchedule extends React.Component {
         })
       })
   }
+
   selectGroup(event){
     event.preventDefault();
     if(event.target.value.length>0){
@@ -53,9 +85,19 @@ class AdminAddSchedule extends React.Component {
       })
     }
   }
-          
+
+  changePeriod(event){
+    var field = event.target.name
+    var period = this.state.period
+    period[field] = event.target.value
+    this.setState({
+      period: period
+    })
+        this.getAuditories()
+  }
+
   render() {
-    console.log(this.state.subjects)
+    console.log(this.state.period.year.length)
     return (
       <div className="container clearfix">
         <div className="bg-title">
@@ -64,18 +106,25 @@ class AdminAddSchedule extends React.Component {
         <div className="my-content">
           <div className="table-responsive">
             <div className="form-group col-md-6">
-              <label>Выберите группу</label>
-              <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.selectGroup}>
-              <option value=''>Выберите группу</option>
-              {this.state.groups.map((group, s) =>
-                <option key={s} value={group._id}>{group.group_name}</option>
-              )}
-              </select>
+              <label>Введите год</label>
+              <InputElement mask="****" className="form-control" placeholder="Введите год"
+                    name="year"
+                    onChange={this.changePeriod}
+                    value={this.state.period.year} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group col-md-6">
+              <label>Введите cеместр</label>
+              <InputElement mask="*" className="form-control" placeholder="Введите cеместр"
+                    name="semester"
+                    onChange={this.changePeriod}
+                    value={this.state.period.semester} />
+              <span className="bar"></span>
             </div>
             <table id="myTable" className="table table-striped">
               <thead>
                 <tr>
-                  <th>Предмет</th>
+                  <th>Аудитория</th>
                   <th>Понедельник</th>
                   <th>Вторник</th>
                   <th>Среда</th>
@@ -86,24 +135,46 @@ class AdminAddSchedule extends React.Component {
               </thead>
               <tbody>
                 {
-                  this.state.subjects.length>0? (
-                    this.state.subjects.map(function(subject, index){
+                  this.state.auditories.length>0? (
+                    this.state.auditories.map(function(auditory, index){
                       return (
                       <tr key={index}>
                         <td>
-                          <b>{subject.subject_name}</b><br/>
-                          <em>Преподаватель:</em> {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}
+                          <b>{auditory.auditory_name}</b><br/>
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <select className="form-control">
+                            <option value=''>Выберите время</option>
+                            <option value='8:00-8:50'>8:00-8:50</option>
+                            <option value='9:00-9:50'>9:00-9:50</option>
+                            <option value='10:00-10:50'>10:00-10:50</option>
+                            <option value='11:00-11:50'>11:00-11:50</option>
+                            <option value='12:00-12:50'>12:00-12:50</option>
+                            <option value='13:00-13:50'>13:00-13:50</option>
+                            <option value='14:00-14:50'>14:00-14:50</option>
+                            <option value='15:00-15:50'>15:00-15:50</option>
+                            <option value='16:00-16:50'>16:00-16:50</option>
+                            <option value='17:00-17:50'>17:00-17:50</option>
+                            <option value='18:00-18:50'>18:00-18:50</option>
+                            <option value='19:00-19:50'>19:00-19:50</option>
+                          </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>                         
+                        </td>
+                        <td>                
+                        </td>
+                        <td>                         
+                        </td>
+                        <td>                        
+                        </td>
                       </tr>
                       )
                     })
                   ) : (
                       <tr>
+                        <td>---</td>
                         <td>---</td>
                         <td>---</td>
                         <td>---</td>
