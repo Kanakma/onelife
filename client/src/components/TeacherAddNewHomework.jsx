@@ -4,6 +4,7 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import DatePicker from 'react-bootstrap-date-picker';
+import TeacherAddHomeworkModal from './TeacherAddHomeworkModal.jsx';
 
 class TeacherAddNewHomework extends React.Component {
   constructor(props) {
@@ -21,7 +22,10 @@ class TeacherAddNewHomework extends React.Component {
       data_uri: null,
       description: '',
       user_id: '',
-      message: ''
+      message: '',
+      group_students: [],
+      isOpen: false,
+      student: {}
     };
     this.addHomework = this.addHomework.bind(this);
     this.handleFile = this.handleFile.bind(this);
@@ -32,6 +36,8 @@ class TeacherAddNewHomework extends React.Component {
     this.getStatus = this.getStatus.bind(this);
     this.getGroup = this.getGroup.bind(this);
     this.changeGroup = this.changeGroup.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModalClose = this.toggleModalClose.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +46,17 @@ class TeacherAddNewHomework extends React.Component {
   }
   componentWillMount() {
     this.getStatus();
+  }
+  toggleModal(faculty) {
+      this.setState({
+        isOpen: !this.state.isOpen,
+        faculty:faculty
+    });
+  }
+  toggleModalClose() {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
   }
   getGroup(){
     axios.get('/api/getsubjectgroups?subjectId='+this.state.subjectId,  {
@@ -170,12 +187,27 @@ class TeacherAddNewHomework extends React.Component {
    })
  }
  changeGroup(event){
-   this.setState({
-      group_id: event.target.value
+  //  this.setState({
+  //     group_id: event.target.value
+  //  })
+  // event.preventDefault();
+  event.persist();
+  console.log(event.target.value)
+   axios.get('/api/getstudentsofgroup?groupId='+event.target.value,  {
+     responseType: 'json',
+     headers: {
+       'Content-type': 'application/x-www-form-urlencoded'
+     }
    })
+     .then(res => {
+       console.log(res.data.students)
+       this.setState({
+         group_students: res.data.students,
+         group_id: event.target.value
+       });
+     });
  }
  clearContent(){
-   document.getElementById('success').style = "display: block"
    this.setState({
      status: '',
      subject: {},
@@ -192,67 +224,66 @@ class TeacherAddNewHomework extends React.Component {
     return (
       <div className="container clearfix">
         <div className="bg-title">
-          <h4></h4>
+          <h4>Добавление домашних заданий</h4>
         </div>
         <div className="my-content  ">
         <div className="table-responsive" style={{minHeight: '400px'}}>
         <form action="/"  onSubmit={this.addHomework}>
-          <div className="form-group col-md-6">
-            <label>Дата проведения пары</label>
-            <DatePicker value={this.state.lesson} onChange={this.lessonChange} className="form-control mydatepicker"/>
-          </div>
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label>Дедлайн</label>
-              <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  className="form-control mydatepicker"/>
-            </div>
-          </div>
             <div className="form-group">
               <label>Выберите группу</label>
               <select className="form-control" name="group_id" value={this.state.group_id} onChange={this.changeGroup}>
                 <option value=''>Группа</option>
                 {this.state.groups.map((group, g) =>
-                  <option key={g} value={group.group_id}>{group.group_name}</option>
+                  <option key={g} value={group._id}>{group.group_name}</option>
                 )}
               </select>
+              <table id="myTable" className="table table-striped">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th><input type="checkbox" value="был" name="" />Выбрать все</th>
+                    <th>ID</th>
+                    <th>ФИО</th>
+                </tr>
+            </thead>
+            {
+              this.state.group_students.length !=0 ?
+              ( <tbody>
+            {this.state.group_students.map((student, s) =>
+              <tr key={s}>
+                  <td>{s+1}</td>
+                  <td><input type="checkbox" value="был" name={student._id} /></td>
+                  <td>{student.user_id.username}</td>
+                  <td>{student.user_id.name}  {student.user_id.lastname}</td>
+              </tr>
+            )}
+            </tbody>) :(
+            <tbody>
+                <tr>
+                <td>Ничего не найдено</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                </tbody>
+              )
+            }
+
+
+        </table>
               <span className="bar"></span>
             </div>
-          <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-            <textarea maxLength="500" type="text" value={this.state.description} placeholder="Опишите задание" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
-          </div>
-          <div  style={{textAlign: 'center'}}>
-            <label>Выберите файл</label>
-          </div>
-          <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput">
-              <div className="form-control" data-trigger="fileinput">
-              {this.state.filename.length > 0 ?(
-                <div>
-                  <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                  <span className="fileinput-filename">{this.state.filename}</span>
-                </div>
-              ):(
-                <span></span>
-              )}
-              </div>
-              <span className="input-group-addon btn btn-default btn-file">
-              {this.state.filename.length > 0 ?(
-                <span className="fileinput-exists">Изменить</span>
-              ):(
-                <span className="fileinput-new">Выбрать</span>
-              )}
-                <input type="hidden" value="" name="..."/>
-                <input type="file" name="" onChange={this.changeFile} />
-              </span>
-          </div>
-          <div id="success" >
-            Задание отправлено
-          </div>
+
           <div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
-            <button type="submit" className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} >Отправить задание</button>
+            <button type="submit" onClick={this.toggleModal} className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} >Добавить задание</button>
           </div>
           </form>
         </div>
         </div>
+        <TeacherAddHomeworkModal
+          show={this.state.isOpen}
+          onClose={this.toggleModalClose}
+        />
       </div>);
   }
 }

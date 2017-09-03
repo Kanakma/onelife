@@ -2550,7 +2550,7 @@ router.post('/addmark',(req,res) =>{
      console.log(subject_id,'subject_id')
      console.log(att_date,'att_')
      console.log(group_name,'group_name')
-  
+
      marks.map(function(mark){
      	var newMark=  new Mark ({
      		student: mark.name,
@@ -2733,7 +2733,7 @@ router.get('/mygroup1', (req,res) => {
 			user_id:userId
 		}).populate({
 			path:'group_id',
-			
+
 		}).exec(function(err,student){
 		if(err) {
 			res.status(500).send({err: err});
@@ -2752,10 +2752,10 @@ router.get('/mygroup1', (req,res) => {
 				}
 				else {
 					 res.status(200).send({student: student});
-					
+
 				}
 
-	
+
 
 		})
 	}
@@ -2784,7 +2784,7 @@ router.post('/updatemyattendance', (req,res) =>{
 		 		})
 		 	}
 		 })
-	
+
 
 })
 
@@ -2813,7 +2813,7 @@ router.post('/updatemymark',(req,res)=> {
 		 		})
 		 	}
 		 })
-	
+
 
 
 })
@@ -2836,8 +2836,8 @@ router.get('/mychildgroup', (req,res)=> {
                            })
 					    }
 					  })
-				 	}) 
-		 		
+				 	})
+
 		 	}
 		 })
 })
@@ -2851,7 +2851,7 @@ router.get('/mychildgroup', (req,res)=> {
 // 			user_id:userId
 // 		}).populate({
 // 			path:'group_id',
-			
+
 // 		}).exec(function(err,student){
 // 		if(err) {
 // 			res.status(500).send({err: err});
@@ -2874,10 +2874,10 @@ router.get('/mychildgroup', (req,res)=> {
 // 				}
 // 				else {
 // 					 res.status(200).send({student: student});
-					
+
 // 				}
 
-	
+
 
 // 		})
 // 	}
@@ -2902,6 +2902,16 @@ router.get('/getmajorgroups', (req, res)=>{
       console.log(major.groups)
       res.send({
         groups: major.groups
+      })
+    }
+  })
+})
+router.get('/getstudentsofgroup', (req, res)=>{
+  Student.find({group_id: req.query.groupId}).populate('user_id').exec(function(err, students){
+    if(err) console.log(err);
+    else{
+      res.send({
+        students: students
       })
     }
   })

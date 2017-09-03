@@ -16,7 +16,8 @@ const Homework = new mongoose.Schema({
   },
   group_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Group'},
   message: String,
-  file: String
+  file: String,
+  answer_file: String
 });
 
 
