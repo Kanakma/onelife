@@ -2453,7 +2453,7 @@ router.post('/addattendance',(req, res)=>{
 			  newAtt.save(function(err, saved){
 			   if(err) console.log(err);
 			   if(saved){
-			    console.log(saved)
+			   // console.log(saved)
 			   }
 			  })
 			})//end of map for checkin
@@ -2547,22 +2547,22 @@ router.post('/addmark',(req,res) =>{
 	 var group_name=req.body.group_name;
 	 var att_date=req.body.att_date;
 	 var subject_id =req.body.subject_id;
-     console.log(subject_id,'subject_id')
-     console.log(att_date,'att_')
-     console.log(group_name,'group_name')
-  
+	 var mark_type = req.body.mark_type;
+    // console.log(mark_type,'mark_type')
+   
      marks.map(function(mark){
      	var newMark=  new Mark ({
      		student: mark.name,
 	     	date: att_date,
 	     	stud_mark: mark.stud_mark,
 	     	subject_name: subject_id,
-	     	group_id: group_name
+	     	group_id: group_name,
+	     	mark_type: mark_type
      	})
      	newMark.save(function(err,saved){
      		if(err)console.log (err);
      		if(saved){
-     		console.log(saved)
+     		//console.log(saved)
      		}
      	})
      })
@@ -2575,7 +2575,7 @@ router.post('/addmark',(req,res) =>{
 router.post('/updatestudentsformark',(req,res)=> {
 	 var subject_id=req.body.subject_id;
 	 var att_date=req.body.att_date;
-console.log(subject_id,'sdsdad')
+
 	 Mark.find({
 	 	subject_name:subject_id,
     	date:att_date
@@ -2603,6 +2603,52 @@ console.log(subject_id,'sdsdad')
     })
 
 
+
+})
+router.post('/updatestudentsallmarks',(req,res) =>{
+	var group_name=req.body.group_name;
+     var subject_id=req.body.subject_id;
+  
+     Mark.aggregate(
+     {
+     	$group: { _id: '$mark_type', count : {$sum : 1 }}
+     }).exec(function(err, mark_count){
+     	if(err){
+    		res.status(500).send({err:err});
+    	} else {
+
+    		res.send({
+    			mark_count:mark_count
+    		})
+         
+
+    	}
+     })
+	 // Mark.find({
+	 // 	subject_name:subject_id,
+  //   	group_id:group_name
+	 // }).populate({
+  //   	path: 'student',
+  //   	populate: {
+  //   		path:'user_id'
+  //   	}
+  //   }).exec(function(err,attendances){
+  //   	if(err){
+  //   		res.status(500).send({err:err});
+  //   	} else {
+
+  //   		if(attendances.length!=0){
+  //   			res.status(200).send({attendances:attendances})
+
+  //   		} else{
+  //   			res.send({
+  //   				attendances: attendances,
+  //   				message: 'Ничего не найдено'
+  //   			})
+
+  //   		}
+  //   	}
+  //   })
 
 })
 router.get('/gender_girl',(req,res)=>{
@@ -2905,5 +2951,43 @@ router.get('/getmajorgroups', (req, res)=>{
       })
     }
   })
+})
+
+router.post('/calculateSemesterMark', (req,res) => {
+	 var markvalues=JSON.parse(req.body.data)
+	 // console.log(markvalues,'assssssssss')
+	 var group_name=req.body.group_name;
+	 var subject_id= req.body.subject_id;
+	 //console.log(group_name,subject_id,'ssssssssss')
+var array=[]
+var semesterMarks=[]
+markvalues.map(function(markvalue, index){
+ //console.log(markvalue.name + ' ' + markvalue.stud_mark)
+ Mark.find({mark_type:markvalue.name,group_id: group_name,subject_name: subject_id}, (err, marks)=>{
+ 	if(marks){
+ 		marks.map((mark)=>{
+ 		     //console.log(mark,'maaark')
+ 		     var studentSemesterMark ={
+                       student: mark.student,
+                       stud_mark: mark.stud_mark,
+                       subject_name: mark.subject_name,
+                       group_id: mark.group_id,
+                       mark_type: mark.mark_type,
+                       semester: mark.stud_mark*markvalue.stud_mark/100
+ 		     }
+ 		     semesterMarks.push(studentSemesterMark)
+
+
+ 		})
+ 		 			console.log(semesterMarks,'fullArray')
+
+ 	}
+ })
+
+})
+
+
+
+
 })
 module.exports = router;

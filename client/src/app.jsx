@@ -50,6 +50,7 @@ import TeacherShowAttendance1 from './components/TeacherShowAttendance1.jsx';
 import StudentLookAttendance from './components/StudentLookAttendance.jsx';
 import StudentLookMark from './components/StudentLookMark.jsx';
 import ParentLookAttendance from './components/ParentLookAttendance.jsx';
+import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx'
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -90,14 +91,14 @@ ReactDom.render((
       <Route path="/studentprofile" component={StudentHome}/>
       <Route path="/teacher_attendances" component={TeacherShowAttendance1}/>
       <Route path="/marks" component={TeacherShowMarks}/>
-      <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
-      <Route path= "/teacherhomework" component={TeacherHomework}/>
-      <Route path= "/newhomework" component={TeacherAddNewHomework}/>
-      <Route path= "/allhomeworks" component={TeacherAllHomeworks}/>
-      <Route path= "/schedules" component={AdminSchedules}/>
-      <Route path= "/addschedule" component={AdminAddSchedule}/>
-      <Route path= "/groups" component={AdminGroups}/>
-      <Route path= "/addgroups" component={AdminAddGroups}/>
+      <Route path="/teacheraddhomework" component={TeacherAddHomework}/>
+      <Route path="/teacherhomework" component={TeacherHomework}/>
+      <Route path="/newhomework" component={TeacherAddNewHomework}/>
+      <Route path="/allhomeworks" component={TeacherAllHomeworks}/>
+      <Route path="/schedules" component={AdminSchedules}/>
+      <Route path="/addschedule" component={AdminAddSchedule}/>
+      <Route path="/groups" component={AdminGroups}/>
+      <Route path="/addgroups" component={AdminAddGroups}/>
       <Route path="/editprofile" component={TeacherEditProfile}/>
       <Route path="/editstudentprofile" component={StudentEditProfile}/>
       <Route path="/auditories" component={AdminAuditory}/>
@@ -105,6 +106,8 @@ ReactDom.render((
       <Route path="/student_attendance" component={StudentLookAttendance}/>
       <Route path="/student_mark" component={StudentLookMark}/>
       <Route path="/parent_attendance" component={ParentLookAttendance}/>
+      <Route path="/parent_attendance" component={ParentLookAttendance}/>
+      <Route path="/teacher_final_mark" component={TeacherAddFinalMark}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

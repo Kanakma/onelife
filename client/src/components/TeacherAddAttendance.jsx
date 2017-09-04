@@ -52,20 +52,6 @@ class TeacherAddAttendance extends React.Component {
           subjects: res.data.subjects
         });
       });
-
-
-    // axios.get('/api/getgroupteacher',  {
-    //   responseType: 'json',
-    //   headers: {
-    //     'Content-type': 'application/x-www-form-urlencoded',
-    //     'Authorization': `bearer ${Auth.getToken()}`
-    //   }
-    // })
-    //   .then(res => {
-    //     this.setState({
-    //       groups: res.data.groups
-    //     });
-    //   });
   }
 
 
