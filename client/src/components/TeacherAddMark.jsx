@@ -4,6 +4,40 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
+    function IndInObjArr(objArray, subj, inkey, sensetive) {
+      var sens = ((typeof inkey) === "boolean") ? inkey : false;
+      var found = false;
+      var result = [];
+      if (objArray.length > 0) {
+        objArray.forEach(function(obj, ind) {
+          if (!sens && inkey) {
+            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
+            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
+            if (sub1 == sub2) {
+              found = true;
+              result.push(ind);
+            }
+          } else {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
+                var sub2 = sens ? subj : subj.toString().toLowerCase();
+                if (sub1 == sub2) {
+                  found = true;
+                  result.push(ind);
+                }
+              }
+            }
+          }
+        })
+      }
+      if (found) {
+        return result;
+      } else {
+        return false;
+      }
+    }
+  
 class TeacherAddMark extends React.Component {
 
   constructor(props) {
@@ -22,8 +56,6 @@ class TeacherAddMark extends React.Component {
       subject: {},
       students: [],
       subject_id: '',
-      checkSubject: false,
-      checkQuestion: false,
       main_students: [],
       stud_attendance: {},
       checkAttendance: false,
@@ -32,21 +64,23 @@ class TeacherAddMark extends React.Component {
       chk:'',
       mark:'', 
       marks: [],
-      student: [{}]
+      student: [{}],
+      marktype: ''
 
     };
   
     this.updateStudents = this.updateStudents.bind(this);
     
-    this.changeAttendance = this.changeAttendance.bind(this);
+ 
     this.updateGroups=this.updateGroups.bind(this);
     this.sendMark = this.sendMark.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.changeMark=this.changeMark.bind(this);
     this.changeComment=this.changeComment.bind(this);
+    this.changeMarkType=this.changeMarkType.bind(this);
+  
   
   }
-
   componentDidMount() {
     
       axios.get('/api/getsubjectteacher', {
@@ -86,45 +120,7 @@ class TeacherAddMark extends React.Component {
 
   
   changeComment(event){
-
-
-
-    function IndInObjArr(objArray, subj, inkey, sensetive) {
-      var sens = ((typeof inkey) === "boolean") ? inkey : false;
-      var found = false;
-      var result = [];
-      if (objArray.length > 0) {
-        objArray.forEach(function(obj, ind) {
-          if (!sens && inkey) {
-            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
-            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
-            if (sub1 == sub2) {
-              found = true;
-              result.push(ind);
-            }
-          } else {
-            for (var key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
-                var sub2 = sens ? subj : subj.toString().toLowerCase();
-                if (sub1 == sub2) {
-                  found = true;
-                  result.push(ind);
-                }
-              }
-            }
-          }
-        })
-      }
-      if (found) {
-        return result;
-      } else {
-        return false;
-      }
-    }
-  
-  
-
+    
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
@@ -150,44 +146,7 @@ class TeacherAddMark extends React.Component {
   }
  
 
-
   changeMark(event) {
-
-    function IndInObjArr(objArray, subj, inkey, sensetive) {
-      var sens = ((typeof inkey) === "boolean") ? inkey : false;
-      var found = false;
-      var result = [];
-      if (objArray.length > 0) {
-        objArray.forEach(function(obj, ind) {
-          if (!sens && inkey) {
-            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
-            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
-            if (sub1 == sub2) {
-              found = true;
-              result.push(ind);
-            }
-          } else {
-            for (var key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
-                var sub2 = sens ? subj : subj.toString().toLowerCase();
-                if (sub1 == sub2) {
-                  found = true;
-                  result.push(ind);
-                }
-              }
-            }
-          }
-        })
-      }
-      if (found) {
-        return result;
-      } else {
-        return false;
-      }
-    }
-  
-  
 
     const field = event.target.id;
     const student = this.state.student;
@@ -215,56 +174,6 @@ class TeacherAddMark extends React.Component {
       })
     }
   }
-  changeAttendance(event){
-    function IndInObjArr(objArray, subj, inkey, sensetive) {
-      var sens = ((typeof inkey) === "boolean") ? inkey : false;
-      var found = false;
-      var result = [];
-      if (objArray.length > 0) {
-        objArray.forEach(function(obj, ind) {
-          if (!sens && inkey) {
-            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
-            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
-            if (sub1 == sub2) {
-              found = true;
-              result.push(ind);
-            }
-          } else {
-            for (var key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
-                var sub2 = sens ? subj : subj.toString().toLowerCase();
-                if (sub1 == sub2) {
-                  found = true;
-                  result.push(ind);
-                }
-              }
-            }
-          }
-        })
-      }
-      if (found) {
-        return result;
-      } else {
-        return false;
-      }
-    }
-    var temp = this.state.attendances;
-    //console.log(event.target.name,'oldddd')
-      var old = IndInObjArr(temp,event.target.name, 'name');
-      if(old.length > 0){
-        temp[old[0]].att_status = (event.target.value!='')?event.target.value:'был';
-      } else {
-       temp.push({
-         name:event.target.name,
-         att_status: (event.target.value!='')?event.target.value:'был'
-        })
-      }
-      this.setState({
-        attendances: temp,
-        checkAttendance: true
-      })
-  }
 
   sendMark(event){
  
@@ -288,11 +197,12 @@ class TeacherAddMark extends React.Component {
     const subject_id= this.state.subject_id;
     const group_name=this.state.group_name;
     const att_date=this.state.att_date;
- 
+    const mark_type=this.state.marktype;
+   console.log(mark_type,'adadaas')
     var dd= this.dateFormat1(att_date);
   
     if(today===dd){
-          const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}`;
+          const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}&mark_type=${mark_type}`;
 
    axios.post('/api/addmark', formData, {
 
@@ -333,7 +243,7 @@ class TeacherAddMark extends React.Component {
       })
     } else {
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: false,
         message: ''
       })
@@ -387,10 +297,17 @@ class TeacherAddMark extends React.Component {
 }
  
 
+ changeMarkType(event){
+    //console.log('hallllo')
+    this.setState({
+      marktype:event.target.value
+    })
+
+  }
 
 
   render() {
-  
+
 
     return (
       <div className="container clearfix">
@@ -426,6 +343,13 @@ class TeacherAddMark extends React.Component {
           )
         }
         </div>
+        <div className="form-group row">
+              <div className="col-md-3"><input type="radio" name="marktype" value="laboratory_work" onChange={this.changeMarkType} />Лаборатнорная работа</div>
+              <div className="col-md-3"><input type="radio" name="marktype" value="home_work" onChange={this.changeMarkType}/>Домашнее Задание</div>
+              <div className="col-md-3"><input type="radio" name="marktype" value="practical_work" onChange={this.changeMarkType}/>Практическое задание</div>
+              <div className="col-md-3"><input type="text" className="form-control" onChange={this.changeMarkType} placeholder="Другое" /></div>
+        </div>
+
           <div className="form-group row">
             <div className="col-md-6 col-md-offset-3">
               <label>Дата проведения Пары</label>

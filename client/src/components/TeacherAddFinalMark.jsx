@@ -1,10 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Auth from '../modules/Auth'
+import Auth from '../modules/Auth';
+import AdminEditFacultyModal from './AdminEditFacultyModal.jsx';
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 
-class TeacherAddAttendance extends React.Component {
+    function IndInObjArr(objArray, subj, inkey, sensetive) {
+      var sens = ((typeof inkey) === "boolean") ? inkey : false;
+      var found = false;
+      var result = [];
+      if (objArray.length > 0) {
+        objArray.forEach(function(obj, ind) {
+          if (!sens && inkey) {
+            var sub1 = sensetive ? obj[inkey] : obj[inkey].toString().toLowerCase();
+            var sub2 = sensetive ? subj : subj.toString().toLowerCase();
+            if (sub1 == sub2) {
+              found = true;
+              result.push(ind);
+            }
+          } else {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                var sub1 = sens ? obj[key] : obj[key].toString().toLowerCase();
+                var sub2 = sens ? subj : subj.toString().toLowerCase();
+                if (sub1 == sub2) {
+                  found = true;
+                  result.push(ind);
+                }
+              }
+            }
+          }
+        })
+      }
+      if (found) {
+        return result;
+      } else {
+        return false;
+      }
+    }
+  
+class TeacherAddFinalMark extends React.Component {
 
   constructor(props) {
     super(props);
@@ -13,6 +48,7 @@ class TeacherAddAttendance extends React.Component {
         groups: [],
       group_name:'',
       message: '',
+      marks: [],
       errors: {},
       subjects: [],
       subject: {},
@@ -24,14 +60,20 @@ class TeacherAddAttendance extends React.Component {
       stud_attendance: {},
       checkAttendance: false,
       attendances: [],
-      att_date:'',
-      subject_groups: []
+      subject_groups: [],
+      mark_count:[{}],
+      markvalues:[],
+      marktype:[{}]
+
     };
   
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
+    this.changeMarkValue=this.changeMarkValue.bind(this); 
+    this.calculateSemesterMark=this.calculateSemesterMark.bind(this);
+   
   }
 
   componentDidMount() {
@@ -49,6 +91,8 @@ class TeacherAddAttendance extends React.Component {
 
   }
 
+
+
   dateFormat(date){
     var fDate = new Date(date);
     var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
@@ -61,7 +105,7 @@ class TeacherAddAttendance extends React.Component {
      this.setState({
         att_date: value
       });
-     const  subject_id =this.state.subject_id;
+    const  subject_id =this.state.subject_id;
   
     const val= value;
    
@@ -85,7 +129,7 @@ class TeacherAddAttendance extends React.Component {
   }
  updateStudents(event){
      // console.log(event.target.value)
-      if(event.target.value.length > 0){
+   if(event.target.value.length > 0){
 
       this.setState({
         group_name: event.target.value,
@@ -102,6 +146,25 @@ class TeacherAddAttendance extends React.Component {
         message: ''
       })
      }
+
+    const  subject_id =this.state.subject_id;
+    const group_name=event.target.value;
+    const formData = `subject_id=${subject_id}&group_name=${group_name}`;
+   axios.post('/api/updatestudentsallmarks', formData, {
+
+    responseType: 'json',
+    headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+   })
+       .then(res=>{
+      this.setState({
+        mark_count: res.data.mark_count,
+        message: res.data.message
+
+      })
+
+   })
+    
 
 
    }
@@ -138,12 +201,52 @@ updateGroups(event){
         });
       });
 }
+
  
+  changeMarkValue(event){
+    const field = event.target.id;
+    var marktype=this.state.marktype;
+    marktype[field] =event.target.value;
+    var temp =this.state.markvalues; 
+
+
+    var old = IndInObjArr(temp,event.target.id, 'name');
+    
+       if(old.length > 0){
+        temp[old[0]].stud_mark = event.target.value;
+      } else {
+
+         temp.push({
+         name: event.target.id
+    })
+      }
+       this.setState({
+        markvalues: temp,
+        checkAttendance: true
+      })
+
+   // console.log(this.state.markvalues, 'asda')
+  
+  }
+  calculateSemesterMark(event){
+    const group_name=this.state.group_name;
+    const subject_id=this.state.subject_id;
+    console.log(group_name,subject_id,'asdda')
+       const formData = `data=${JSON.stringify(this.state.markvalues)}&group_name=${group_name}&subject_id=${subject_id}`;
+        axios.post('/api/calculateSemesterMark', formData, {
+           responseType: 'json',
+           headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+        }) .then(res=>{
+      this.setState({
+       // message: res.data.message
+      })
+   })
+  }
 
   render() {
 
     return (
-
       <div className="container clearfix">
       <div className=" bg-title">
         <h4>Вся Успеваемость</h4>
@@ -164,7 +267,7 @@ updateGroups(event){
               </select>
          </div>    
         <div className="form-group col-md-6">
-        <label>Выберите предмет</label>
+        <label>Выберите Группу</label>
                {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -178,47 +281,39 @@ updateGroups(event){
           </select>
           )
         }        </div>
-          <div className="form-group row">
-            <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
-              <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
-            </div>
-         
-          </div>
+     
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Оценка</th>
                       <th>Тип Задания</th>
-                      
+                      <th>Его количество за семестр</th>
+                      <th>Максимальная оценка за это задание</th>
                   </tr>
               </thead>
                 <tbody>
-              {this.state.attendances.map((student, s) =>
-                <tr key={s}>
+            { this.state.mark_count.map((marktype,s)=>
+              <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
-                    <td>{student.stud_mark}</td>
-                    <td>{student.mark_type}</td>
-                    
-             
-                    
-                </tr>
-              )}
+                    <td>{marktype._id}</td>
+                    <td>{marktype.count}</td>
+                    <td> <input type="number" className="form-control "  id={marktype._id} value={marktype.mark} onChange={this.changeMarkValue} min="0" placeholder="Выставите оценку" /></td>
+
+</tr>
+                    )}
               </tbody>
-                       
           </table>
-        
+
+                 <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.calculateSemesterMark}>Посмтреть предворительные оценки</button>
+
       </div>
 
       </div>
+
+     
       </div>);
   }
 }
 
-export default TeacherAddAttendance;
+export default TeacherAddFinalMark;

@@ -35,10 +35,8 @@ class TeacherAddAttendance extends React.Component {
          user_id: {}
        },
       group_name:'',
-      student: '',
-      attendance: []
-
-
+      attendance: [],
+      onestudent: {}
     };
   
     this.updateMe = this.updateMe.bind(this);
@@ -63,7 +61,8 @@ class TeacherAddAttendance extends React.Component {
         .then(res => {
           this.setState({
             subject: res.data.subject,
-            student: res.data.student
+            student: res.data.student,
+            onestudent: res.data.onestudent
           });
           
         });
@@ -87,8 +86,9 @@ class TeacherAddAttendance extends React.Component {
                                           return student.lastname.indexOf(event.target.value) > -1;
                                       })
               })
-            console.log(this.state.userId, event.target.value)
-            const  userId =this.state.student.students;
+            // console.log(this.state.userId, event.target.value)
+            const  userId =this.state.onestudent._id;
+            console.log(this.state.onestudent,'asdad')
             const subjectId=event.target.value;
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
            

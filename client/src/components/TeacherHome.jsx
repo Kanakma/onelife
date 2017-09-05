@@ -230,9 +230,10 @@ class TeacherHome extends React.Component {
               <p className= "courses-statistic-title">УСПЕВАЕМОСТЬ</p>
               <p className = "courses-statistic-text">Средний бал студентов</p>
               <span className="teacher-home-gpa">3.34</span>
-              <BarChart width={70} height={200} data={data2}>
+              <div style={{float: 'right'}}><BarChart width={70} height={200} data={data2}>
                <Bar dataKey='uv' fill='#ffffff'/>
              </BarChart>
+             </div>
             </div>
           </div>
         </div>

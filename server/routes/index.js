@@ -2454,7 +2454,7 @@ router.post('/addattendance',(req, res)=>{
 			  newAtt.save(function(err, saved){
 			   if(err) console.log(err);
 			   if(saved){
-			    console.log(saved)
+			   // console.log(saved)
 			   }
 			  })
 			})//end of map for checkin
@@ -2714,7 +2714,8 @@ router.get('/mygroup1', (req,res) => {
 				} if(subject) {
 					res.status(200).send({
 						subject: subject,
-						student: student.group_id
+						student: student.group_id,
+						onestudent: student
 					})
 				}
 				else {
@@ -2756,6 +2757,7 @@ router.post('/updatemyattendance', (req,res) =>{
 })
 
 router.post('/updatemymark',(req,res)=> {
+	console.log(req.body)
          var userId=req.body.userId;
 		 var subjectId=req.body.subjectId
 		// console.log(userId,'user_id', subjectId,'subject')
@@ -2939,4 +2941,41 @@ router.post('/editauditory', (req, res) =>{
 	})
 })
 
+router.post('/calculateSemesterMark', (req,res) => {
+	 var markvalues=JSON.parse(req.body.data)
+	 // console.log(markvalues,'assssssssss')
+	 var group_name=req.body.group_name;
+	 var subject_id= req.body.subject_id;
+	 //console.log(group_name,subject_id,'ssssssssss')
+var array=[]
+var semesterMarks=[]
+markvalues.map(function(markvalue, index){
+ //console.log(markvalue.name + ' ' + markvalue.stud_mark)
+ Mark.find({mark_type:markvalue.name,group_id: group_name,subject_name: subject_id}, (err, marks)=>{
+ 	if(marks){
+ 		marks.map((mark)=>{
+ 		     //console.log(mark,'maaark')
+ 		     var studentSemesterMark ={
+                       student: mark.student,
+                       stud_mark: mark.stud_mark,
+                       subject_name: mark.subject_name,
+                       group_id: mark.group_id,
+                       mark_type: mark.mark_type,
+                       semester: mark.stud_mark*markvalue.stud_mark/100
+ 		     }
+ 		     semesterMarks.push(studentSemesterMark)
+
+
+ 		})
+ 		 			console.log(semesterMarks,'fullArray')
+
+ 	}
+ })
+
+})
+
+
+
+
+})
 module.exports = router;
