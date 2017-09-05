@@ -213,7 +213,7 @@ class TeacherHomeworks extends React.Component{
                       <td>Нет файлов</td>
                     )
                     }
-                    <td > <button  className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                    <td > <button onClick={this.toggleModal.bind(this, homework)}  className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                           <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
                       </button></td>
                 </tr>
@@ -247,6 +247,7 @@ class TeacherHomeworks extends React.Component{
       <TeacherEditHomeworkModal
         show={this.state.isOpen}
         onClose={this.toggleModalClose}
+        homework = {this.state.homework}
       />
     </div>);
   }

@@ -25,8 +25,15 @@ class TeacherEditHomeworkModal extends React.Component {
       this.changeFile = this.changeFile.bind(this);
       this.changeHomework = this.changeHomework.bind(this);
       this.deleteHomework = this.deleteHomework.bind(this);
+      this.dateFormat = this.dateFormat.bind(this);
   };
     componentDidMount() {
+    }
+    dateFormat(date){
+      var fDate = new Date(date);
+      var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+      var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+      return m + "/" + d + "/" + fDate.getFullYear()
     }
     changeFile(e){
       e.preventDefault();
@@ -126,6 +133,7 @@ class TeacherEditHomeworkModal extends React.Component {
         })
       }
   render(){
+    console.log(this.props.homework)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -153,6 +161,7 @@ class TeacherEditHomeworkModal extends React.Component {
       margin: '35px auto',
       padding: 30
     };
+
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
@@ -165,16 +174,16 @@ class TeacherEditHomeworkModal extends React.Component {
           <form action="/"  >
             <div className="form-group col-md-6">
               <label>Дата проведения пары</label>
-              <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} className="form-control mydatepicker"/>
+              <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} placeholder={this.dateFormat(this.props.homework.lessonDate)} className="form-control mydatepicker"/>
             </div>
             <div className="form-group row">
               <div className="col-md-6">
                 <label>Дедлайн</label>
-                <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  className="form-control mydatepicker"/>
+                <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  placeholder={this.dateFormat(this.props.homework.deadline)} className="form-control mydatepicker"/>
               </div>
             </div>
             <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.description} placeholder="Опишите задание" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
+              <textarea maxLength="500" type="text" value={this.state.description} placeholder={this.props.homework.message} rows="6" className="homework-message" onChange={this.handleChange}></textarea>
             </div>
             <div  style={{textAlign: 'center'}}>
               <label>Выберите файл</label>

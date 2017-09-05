@@ -604,7 +604,7 @@ router.post('/addhomework', (req, res) => {
          var students =  JSON.parse(fields.students)
          console.log(students)
               var homeworkData = {
-                description: fields.description,
+                message: fields.description,
                 deadline: fields.deadline,
                 subject_id: fields.subject_id,
                 lessonDate: fields.lessonDate,
@@ -632,7 +632,7 @@ router.post('/addhomework', (req, res) => {
 	} else {
     var students = JSON.parse(req.body.students);
     var homeworkData = {
-      description: req.body.description,
+      message: req.body.description,
       deadline: req.body.deadline,
       subject_id: req.body.subject_id,
       lessonDate: req.body.lessonDate,
@@ -2222,23 +2222,7 @@ router.get('/getforsubject', (req, res) => {
 });
 
 
-router.get('/getsubjectsforstudents',(req, res)=>{
-		var subjectId=req.query.subjectId;
-		Subject.findOne({
-			_id:subjectId
-		}).populate({
-			path:'students teacher_id ',
-			populate: {
-				path: 'user_id'
-			}
-		}).exec(function(err,subject){
-		if(err) {
-			res.status(500).send({err: err});
-		} else {
-			res.status(200).send({students: subject.students});
-		}
-	})
-})
+
 
 //This route will add the parrent
 router.post('/addparrent',(req, res) =>{
