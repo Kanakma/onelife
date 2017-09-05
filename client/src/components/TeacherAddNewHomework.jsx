@@ -194,7 +194,7 @@ class TeacherAddNewHomework extends React.Component {
         <div className="bg-title">
           <h4></h4>
         </div>
-        <div className="my-content  ">
+        <div className="my-content">
         <div className="table-responsive" style={{minHeight: '400px'}}>
         <form action="/"  onSubmit={this.addHomework}>
           <div className="form-group col-md-6">
@@ -256,4 +256,5 @@ class TeacherAddNewHomework extends React.Component {
       </div>);
   }
 }
+
 export default TeacherAddNewHomework;

@@ -36,7 +36,6 @@ import TeacherSubjects from './components/TeacherSubjects.jsx';
 import StudentSubjects from './components/StudentSubjects.jsx';
 import StudentEditProfile from './components/StudentEditProfile.jsx';
 import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
-import TeacherShowAttendance from './components/TeacherShowAttendance.jsx';
 import TeacherShowMarks from './components/TeacherShowMarks.jsx';
 import TeacherHomework from './components/TeacherHomework.jsx';
 import TeacherAddNewHomework from './components/TeacherAddNewHomework.jsx';
@@ -48,6 +47,9 @@ import AdminAddGroups from './components/AdminAddGroups.jsx';
 import AdminAuditory from './components/AdminAuditory.jsx';
 import AdminAddAuditory from './components/AdminAddAuditory.jsx';
 import TeacherShowAttendance1 from './components/TeacherShowAttendance1.jsx';
+import StudentLookAttendance from './components/StudentLookAttendance.jsx';
+import StudentLookMark from './components/StudentLookMark.jsx';
+import ParentLookAttendance from './components/ParentLookAttendance.jsx';
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -100,6 +102,9 @@ ReactDom.render((
       <Route path="/editstudentprofile" component={StudentEditProfile}/>
       <Route path="/auditories" component={AdminAuditory}/>
       <Route path="/addauditories" component={AdminAddAuditory}/>
+      <Route path="/student_attendance" component={StudentLookAttendance}/>
+      <Route path="/student_mark" component={StudentLookMark}/>
+      <Route path="/parent_attendance" component={ParentLookAttendance}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
