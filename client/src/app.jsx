@@ -37,9 +37,8 @@ import StudentSubjects from './components/StudentSubjects.jsx';
 import StudentEditProfile from './components/StudentEditProfile.jsx';
 import AdminSubjectInfo from './components/AdminSubjectInfo.jsx';
 import TeacherShowMarks from './components/TeacherShowMarks.jsx';
-import TeacherHomework from './components/TeacherHomework.jsx';
+import TeacherHomeworks from './components/TeacherHomeworks.jsx';
 import TeacherAddNewHomework from './components/TeacherAddNewHomework.jsx';
-import TeacherAllHomeworks from './components/TeacherAllHomeworks.jsx';
 import AdminAddSchedule from './components/AdminAddSchedule.jsx';
 import AdminSchedules from './components/AdminSchedules.jsx'
 import AdminGroups from './components/AdminGroups.jsx';
@@ -91,14 +90,13 @@ ReactDom.render((
       <Route path="/studentprofile" component={StudentHome}/>
       <Route path="/teacher_attendances" component={TeacherShowAttendance1}/>
       <Route path="/marks" component={TeacherShowMarks}/>
-      <Route path="/teacheraddhomework" component={TeacherAddHomework}/>
-      <Route path="/teacherhomework" component={TeacherHomework}/>
-      <Route path="/newhomework" component={TeacherAddNewHomework}/>
-      <Route path="/allhomeworks" component={TeacherAllHomeworks}/>
-      <Route path="/schedules" component={AdminSchedules}/>
-      <Route path="/addschedule" component={AdminAddSchedule}/>
-      <Route path="/groups" component={AdminGroups}/>
-      <Route path="/addgroups" component={AdminAddGroups}/>
+      <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
+      <Route path= "/teacherhomeworks" component={TeacherHomeworks}/>
+      <Route path= "/newhomework" component={TeacherAddNewHomework}/>
+      <Route path= "/schedules" component={AdminSchedules}/>
+      <Route path= "/addschedule" component={AdminAddSchedule}/>
+      <Route path= "/groups" component={AdminGroups}/>
+      <Route path= "/addgroups" component={AdminAddGroups}/>
       <Route path="/editprofile" component={TeacherEditProfile}/>
       <Route path="/editstudentprofile" component={StudentEditProfile}/>
       <Route path="/auditories" component={AdminAuditory}/>

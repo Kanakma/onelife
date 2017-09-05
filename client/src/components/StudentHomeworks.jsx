@@ -5,7 +5,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import DatePicker from 'react-bootstrap-date-picker';
 
-class TeacherAllHomeworks extends React.Component {
+class StudentHomeworks extends React.Component {
 
   constructor(props) {
     super(props);
@@ -232,4 +232,4 @@ class TeacherAllHomeworks extends React.Component {
       </div>);
   }
 }
-export default TeacherAllHomeworks;
+export default StudentHomeworks;
