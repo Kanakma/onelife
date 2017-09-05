@@ -31,13 +31,13 @@ class TeacherAddAttendance extends React.Component {
       chk:''
 
     };
-  
+
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups=this.updateGroups.bind(this);
     this.changeAttendance = this.changeAttendance.bind(this);
     this.sendAttendance = this.sendAttendance.bind(this);
     this.changeDate=this.changeDate.bind(this);
-  
+
   }
 
   componentDidMount() {
@@ -151,14 +151,14 @@ class TeacherAddAttendance extends React.Component {
     var yyyy = today.getFullYear();
     if(dd<10){
       dd='0'+dd;
-    } 
+    }
     if(mm<10){
       mm='0'+mm;
-    } 
+    }
 
     var today = mm+'/'+dd+'/'+yyyy;
 
-    event.preventDefault();
+  event.preventDefault();
     const group_name= this.state.group_name;
     const subject_id=this.state.subject_id;
     console.log(subject_id,'subject_id')
@@ -181,7 +181,7 @@ class TeacherAddAttendance extends React.Component {
               message: res.data.message
             })
          })
-    } 
+    }
     if(today!=dd){
           this.setState({
             message: 'Вы можете выставлять посещаемость только на текущую дату'
@@ -191,7 +191,7 @@ class TeacherAddAttendance extends React.Component {
     this.setState({
         message: 'Укажите пожалуйста дату'
       })
-  } 
+  }
 }//end of if
 else {
   this.setState({
@@ -272,11 +272,10 @@ updateGroups(event){
         });
       });
 }
- 
+
 
 
   render() {
-    
     return (
       <div className="container clearfix">
       <div className=" bg-title">
@@ -302,20 +301,20 @@ updateGroups(event){
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
           )
         }
-     
+
         </div>
           <div className="form-group row">
             <div className="col-md-6 col-md-offset-3">
               <label>Дата проведения Пары</label>
               <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
-         
+
           </div>
                 <table id="myTable" className="table table-striped">
               <thead>
@@ -328,7 +327,7 @@ updateGroups(event){
                   </tr>
               </thead>
               {
-                this.state.att_students.length !=0 ? 
+                this.state.att_students.length !=0 ?
                 ( <tbody>
               {this.state.att_students.map((student, s) =>
                 <tr key={s}>
@@ -347,8 +346,8 @@ updateGroups(event){
                   </tbody>
                 )
               }
-               
-                       
+
+
           </table>
           <div className="row">
 
@@ -361,7 +360,7 @@ updateGroups(event){
                 <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
               )
             }
-          
+
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendAttendance}>Выставить посещаемость</button>
            </div>
       </div>

@@ -9,152 +9,27 @@ class TeacherAddHomeworkModal extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      student: {
-        name: '',
-        lastname: '',
-        major_id: '',
-        group_id: '',
-        passport_id: '',
-        admission_year: '',
-        graduation_year: '',
-        password:'',
-        checkpassword:''
-      },
-      majors: [],
-      major_groups: [],
-      groups: [],
-      birthday:'',
       file: '',
       filename: '',
-      checkPass: false,
-      checkMajor: true
+      description: '',
+      students: this.props.students,
+      subject_id: this.props.subject_id,
+      lessonDate: '',
+      deadline: ''
+
     }
-      this.changeStudent = this.changeStudent.bind(this);
-      this.birthdayChange = this.birthdayChange.bind(this);
-      this.changeImg = this.changeImg.bind(this);
-      this.deleteStudent = this.deleteStudent.bind(this);
-      this.editStudentFunc = this.editStudentFunc.bind(this);
       this.clearContent = this.clearContent.bind(this);
+      this.handleFile = this.handleFile.bind(this);
+      this.lessonChange = this.lessonChange.bind(this);
+      this.deadlineChange = this.deadlineChange.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.changeFile = this.changeFile.bind(this);
+      this.addHomework = this.addHomework.bind(this);
   };
     componentDidMount() {
-      axios.get('/api/getmajors',  {
-        responseType: 'json',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded'
-        }
-      })
-        .then(res => {
-          this.setState({
-            majors: res.data.majors
-          });
-        });
-        axios.get('/api/getgroups',  {
-          responseType: 'json',
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
-          }
-        })
-          .then(res => {
-            this.setState({
-              groups: res.data.groups
-            });
-          });
     }
-
-  editStudentFunc(){
-    event.preventDefault();
-    if(this.state.filename.length>0){
-      var student_id = this.props.student._id
-      return new Promise((resolve, reject) => {
-        let imageFormData = new FormData();
-        imageFormData.append('imageFile', this.state.file);
-        imageFormData.append('data', JSON.stringify(this.state.student));
-        imageFormData.append('birthday', JSON.stringify(this.state.birthday));
-        axios.post('/api/editstudent?student_id=' + student_id, imageFormData, {
-          responseType: 'json',
-          headers: {
-          'Content-type': 'application/x-www-form-urlencoded'
-          }
-        })
-        .then(response => {
-            window.location.reload();
-          });
-      });
-    } else{
-      const formData = `data=${JSON.stringify(this.state.student)}&student_id=${this.props.student._id}&birthday=${this.state.birthday}`;
-      axios.post('/api/editstudent', formData, {
-        responseType: 'json',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded'}
-      })
-      .then(response => {
-        window.location.reload();
-      });
-    }
-  }
-
-  deleteStudent(){
-    var student_id = this.props.student._id;
-    const formData = `student_id=${student_id}`;
-    axios.post('/api/deletestudent', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-  }
-
-  changeStudent(event){
-      const field = event.target.name;
-      const student = this.state.student;
-      student[field] = event.target.value;
-      if(this.state.student.major_id.length>0){
-        axios.get('/api/getmajorgroups?major_id='+this.state.student.major_id,  {
-          responseType: 'json',
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
-          }
-        })
-          .then(res => {
-            this.setState({
-              major_groups: res.data.groups,
-              checkMajor: false
-            });
-          });
-      }
-      else{
-        this.setState({
-          checkMajor: true
-        })
-      }
-      if((this.state.student.password.length>0) || (this.state.student.checkpassword.length>0)){
-        if(this.state.student.password!=this.state.student.checkpassword){
-          document.getElementById('wrongpass').style.display = "block"
-          this.setState({
-            checkPass: false
-          })
-        } else if(this.state.student.password === this.state.student.checkpassword){
-          this.setState({
-            checkPass: true
-          })
-          document.getElementById('wrongpass').style.display = "none"
-        }
-      }
-      else {
-        document.getElementById('wrongpass').style.display = "none"
-        this.setState({
-          checkPass: true
-        })
-      }
-      this.setState({
-          student: student
-        })
-
-      }
-
-  changeImg(e){
+    changeFile(e){
       e.preventDefault();
-
       let reader = new FileReader();
       let file = e.target.files[0];
       if(file.size>1000000){
@@ -172,39 +47,82 @@ class TeacherAddHomeworkModal extends React.Component {
         }
         reader.readAsDataURL(file);
       }
+    }
+    lessonChange(value){
       this.setState({
-        checkPass: true
+        lessonDate: value
+      });
+    }
+    deadlineChange(value){
+      this.setState({
+        deadline: value
+      });
+    }
+    handleChange(event){
+      this.setState({
+         description: event.target.value
       })
     }
-
-   birthdayChange(value){
-        this.setState({
-          birthday: value,
-          checkPass: true
-        });
+      handleFile(e) {
+        var self = this;
+        var reader = new FileReader();
+        var file = e.target.files[0];
+        reader.onload = function(upload) {
+          self.setState({
+            data_uri: upload.target.result,
+          });
+        }
+        reader.readAsDataURL(file);
+      }
+      addHomework(event){
+        event.preventDefault();
+        if(this.state.filename.length>0){
+          let fileFormData = new FormData();
+          fileFormData.append('file', this.state.file);
+          fileFormData.append('lessonDate', this.state.lessonDate);
+          fileFormData.append('deadline', this.state.deadline);
+          fileFormData.append('description', this.state.description);
+          fileFormData.append('subject_id', this.props.subject_id);
+          fileFormData.append('group_id', this.props.group_id);
+          fileFormData.append('students', JSON.stringify(this.props.students));
+          axios.post('/api/addhomework?filename='+this.state.filename, fileFormData, {
+            responseType: 'json',
+            headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+            }
+          })
+            .then(response => {
+                this.setState({
+                  message: response.data.message
+                });
+                this.clearContent();
+            });
+        }
+        else{
+          const formData = `lessonDate=${this.state.lessonDate}&deadline=${this.state.deadline}&description=${this.state.description}&subject_id=${this.props.subject_id}&students=${JSON.stringify(this.props.students)}&group_id=${this.props.group_id}`;
+          axios.post('/api/addhomework', formData, {
+            responseType: 'json',
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded'}
+          })
+          .then(res =>{
+            this.setState({
+              message: res.data.message
+            });
+            this.clearContent();
+          })
+        }
       }
       clearContent(){
         this.setState({
-          student: {
-            name: '',
-            lastname: '',
-            major_id: '',
-            group_id: '',
-            passport_id: '',
-            admission_year: '',
-            graduation_year: '',
-            password:'',
-            checkpassword:''
-          },
-          birthday: '',
-          checkContent: false,
           file: '',
-          filename: ''
+          filename: '',
+          description: '',
+          lessonDate: '',
+          deadline: ''
         })
       }
-
   render(){
-    console.log(this.state.checkPass);
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -244,7 +162,7 @@ class TeacherAddHomeworkModal extends React.Component {
           <form action="/"  >
             <div className="form-group col-md-6">
               <label>Дата проведения пары</label>
-              <DatePicker value={this.state.lesson} onChange={this.lessonChange} className="form-control mydatepicker"/>
+              <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} className="form-control mydatepicker"/>
             </div>
             <div className="form-group row">
               <div className="col-md-6">
@@ -279,10 +197,10 @@ class TeacherAddHomeworkModal extends React.Component {
                   <input type="file" name="" onChange={this.changeFile} />
                 </span>
             </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" >
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" onClick={this.addHomework}>
               Отправить задание
               </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" >
+              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>
               Отмена
               </button>
             </form>
