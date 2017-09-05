@@ -529,7 +529,7 @@ class Base extends React.Component {
                         <span hidden={!this.state.checkHomework} id="homework" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
                         </Link>
                         <ul className="nav" hidden={!this.state.checkHomework}>
-                          <li><Link to="/teacherhomework" className="waves-effect" style={{paddingLeft: "45px"}} >Все задания</Link></li>
+                          <li><Link to="/teacherhomeworks" className="waves-effect" style={{paddingLeft: "45px"}} >Все задания</Link></li>
                           <li><Link to="/teacheraddhomework" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить задание</Link></li>
                         </ul>
                       </li>

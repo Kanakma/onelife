@@ -651,6 +651,70 @@ router.post('/addhomework', (req, res) => {
 
 });
 
+router.post('/edithomework', (req, res) => {
+  if(req.query.filename){
+    let form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+		  	var tempPath = files.file[0].path;
+				var fileName = files.file[0].originalFilename;
+				let copyToPath = "public/teacher-homeworks/" + fileName;
+				fs.readFile(tempPath, (err, data) => {
+					// make copy of image to new location
+					fs.writeFile(copyToPath, data, (err) => {
+						// delete temp image
+						fs.unlink(tempPath, () => {
+							if(err) console.log(err);
+							else {
+         var students =  JSON.parse(fields.students)
+         console.log(students)
+              var homeworkData = {
+                description: fields.description,
+                deadline: fields.deadline,
+                subject_id: fields.subject_id,
+                lessonDate: fields.lessonDate,
+                answer: students,
+                group_id: fields.group_id,
+                file: fileName
+              }
+              const newHomework = new Homework(homeworkData);
+            newHomework.save((err, savedhomework) => {
+            if (err) console.log(err);
+            else {
+              // fields.students.map((student)=>{
+              //   console.log(typeof student)
+              //   // savedhomework.answer.push(student)
+              // })
+              console.log(savedhomework)
+            }
+            })
+
+						}
+					})
+				})
+			})
+		})
+	} else {
+    var students = JSON.parse(req.body.students);
+    var homeworkData = {
+      description: req.body.description,
+      deadline: req.body.deadline,
+      subject_id: req.body.subject_id,
+      lessonDate: req.body.lessonDate,
+      answer: students,
+      group_id: req.body.group_id
+    }
+    const newHomework = new Homework(homeworkData);
+                newHomework.save((err, savedhomework) => {
+                  if (err) console.log(err);
+                  else {
+                    res.send({
+                      message:'дз удачно добавлено'
+                    })
+                  }
+                })
+	}
+
+});
 
 
 
@@ -2903,4 +2967,15 @@ router.get('/getstudentsofgroup', (req, res)=>{
     }
   })
 })
+router.post('/getsubjectandgrouphomeworks', (req, res)=>{
+  Homework.find({group_id: req.body.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworks){
+    if(err) console.log(err);
+    else{
+      res.send({
+        homeworks: homeworks
+      })
+    }
+  })
+})
+
 module.exports = router;
