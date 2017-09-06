@@ -74,8 +74,7 @@ class TeacherAddHomeworkModal extends React.Component {
         }
         reader.readAsDataURL(file);
       }
-      addHomework(event){
-        event.preventDefault();
+      addHomework(){
         if(this.state.filename.length>0){
           let fileFormData = new FormData();
           fileFormData.append('file', this.state.file);
@@ -159,7 +158,7 @@ class TeacherAddHomeworkModal extends React.Component {
               </button>
             </div>
           <div>
-          <form action="/newhomework"  >
+          <form action="/teacheraddhomework" onSubmit={this.addHomework}  >
             <div className="form-group col-md-6">
               <label>Дата проведения пары</label>
               <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} className="form-control mydatepicker"/>
@@ -197,7 +196,7 @@ class TeacherAddHomeworkModal extends React.Component {
                   <input type="file" name="" onChange={this.changeFile} />
                 </span>
             </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" onClick={this.addHomework}>
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
               Отправить задание
               </button>
               <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>

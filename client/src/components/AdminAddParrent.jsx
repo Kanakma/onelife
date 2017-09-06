@@ -161,12 +161,6 @@ class AdminAddParrent extends React.Component {
       })
       this.checkContent();
   }
-
-    onChange(values) {
-      this.setState({
-        selectedValues: values
-      });
-    }
   handleSelectChange (value) {
     this.setState({ value });
     this.checkContent();
