@@ -602,7 +602,6 @@ router.post('/addhomework', (req, res) => {
 							if(err) console.log(err);
 							else {
          var students =  JSON.parse(fields.students)
-         console.log(students)
               var homeworkData = {
                 message: fields.description,
                 deadline: fields.deadline,
@@ -616,11 +615,9 @@ router.post('/addhomework', (req, res) => {
             newHomework.save((err, savedhomework) => {
             if (err) console.log(err);
             else {
-              // fields.students.map((student)=>{
-              //   console.log(typeof student)
-              //   // savedhomework.answer.push(student)
-              // })
-              console.log(savedhomework)
+              res.send({
+                mеssage: 'Домашнее задание отправлено'
+              })
             }
             })
 
@@ -666,59 +663,63 @@ router.post('/edithomework', (req, res) => {
 						fs.unlink(tempPath, () => {
 							if(err) console.log(err);
 							else {
-         var students =  JSON.parse(fields.students)
-         console.log(students)
-              var homeworkData = {
-                description: fields.description,
-                deadline: fields.deadline,
-                subject_id: fields.subject_id,
-                lessonDate: fields.lessonDate,
-                answer: students,
-                group_id: fields.group_id,
-                file: fileName
-              }
-              const newHomework = new Homework(homeworkData);
-            newHomework.save((err, savedhomework) => {
-            if (err) console.log(err);
-            else {
-              // fields.students.map((student)=>{
-              //   console.log(typeof student)
-              //   // savedhomework.answer.push(student)
-              // })
-              console.log(savedhomework)
-            }
-            })
-
+              Homework.findOne({subject_id: fields.subject_id, group_id: fields.group_id}, function(err, homework){
+                if(err) console.log(err);
+                if(homework){
+                  homework.message = (fields.description!='')?fields.description:homework.message;
+            			homework.deadline = (fields.deadline!='')?fields.deadline:homework.deadline;
+            			homework.lessonDate = (fields.lessonDate!='')?fields.lessonDate:homework.lessonDate;
+            			homework.subject_id = (fields.subject_id!='')?fields.subject_id:homework.subject_id;
+            			homework.group_id = (fields.group_id!='')?fields.group_id:homework.group_id;
+                  homework.file = fileName;
+            			homework.save(function(err, savedhomework){
+            				if(err) console.log(err);
+            				if(savedhomework){
+                      console.log('fjhkjfdh')
+                      res.send({
+                        message: 'ДЗ сохранено'
+                      })
+                }
+              })
 						}
 					})
+        }
 				})
 			})
 		})
+  })
 	} else {
-    var students = JSON.parse(req.body.students);
-    var homeworkData = {
-      description: req.body.description,
-      deadline: req.body.deadline,
-      subject_id: req.body.subject_id,
-      lessonDate: req.body.lessonDate,
-      answer: students,
-      group_id: req.body.group_id
-    }
-    const newHomework = new Homework(homeworkData);
-                newHomework.save((err, savedhomework) => {
-                  if (err) console.log(err);
-                  else {
-                    res.send({
-                      message:'дз удачно добавлено'
-                    })
-                  }
+        Homework.findOne({subject_id: req.body.subject_id, group_id: req.body.group_id}, function(err, homework){
+          if(err) console.log(err);
+          if(homework){
+            homework.message = (req.body.description!='')?req.body.description:homework.message;
+            homework.deadline = (req.body.deadline!='')?req.body.deadline:homework.deadline;
+            homework.lessonDate = (req.body.lessonDate!='')?req.body.lessonDate:homework.lessonDate;
+            homework.subject_id = (req.body.subject_id!='')?req.body.subject_id:homework.subject_id;
+            homework.group_id = (req.body.group_id!='')?req.body.group_id:homework.group_id;
+            homework.save(function(err, savedhomework){
+              if(err) console.log(err);
+              if(savedhomework){
+                res.send({
+                  message: 'ДЗ сохранено'
                 })
+          }
+        })
+
+      }
+    })
 	}
-
 });
-
-
-
+router.post('/deletehomework', (req, res)=>{
+	Homework.findOneAndRemove({subject_id:req.body.subject_id, group_id: req.body.group_id}, function(err, homework){
+		if(err) console.log(err);
+		if(homework){
+			res.send({
+				message:"Удалено"
+			})
+		}
+	})
+})
 router.post('/editteacher', (req, res) =>{
 	const editedTeacher = JSON.parse(req.body.editedTeacher);
 	console.log()

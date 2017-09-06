@@ -65,7 +65,8 @@ class TeacherHomeworks extends React.Component{
       this.setState({
         checkSubject: false,
         groupValue:'',
-        subjectId: event.target.value
+        subjectId: event.target.value,
+        homeworks: []
       })
       axios.get('/api/getsubjectgroups?subjectId='+event.target.value,  {
         responseType: 'json',
@@ -82,7 +83,8 @@ class TeacherHomeworks extends React.Component{
       this.setState({
         checkSubject: true,
         subjectId: event.target.value,
-        groupValue: ''
+        groupValue: '',
+        homeworks: []
       })
       axios.get('/api/getsubjectgroups?subjectId='+event.target.value,  {
         responseType: 'json',

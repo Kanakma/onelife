@@ -159,7 +159,7 @@ class TeacherAddHomeworkModal extends React.Component {
               </button>
             </div>
           <div>
-          <form action="/"  >
+          <form action="/newhomework"  >
             <div className="form-group col-md-6">
               <label>Дата проведения пары</label>
               <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} className="form-control mydatepicker"/>
