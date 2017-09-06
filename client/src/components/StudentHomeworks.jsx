@@ -10,80 +10,28 @@ class StudentHomeworks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: '',
-      subject: {},
-      subjectId: this.props.location.state.subject,
-      filename: '',
-      file: '',
-      lesson: '',
-      deadline: '',
-      data_uri: null,
-      description: '',
-      user_id: '',
-      message: ''
+      homeworks: [],
+      subjects: [],
+      user_id: ''
     };
-    this.addHomework = this.addHomework.bind(this);
-    this.handleFile = this.handleFile.bind(this);
-    this.changeFile = this.changeFile.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.lessonChange = this.lessonChange.bind(this);
-    this.deadlineChange = this.deadlineChange.bind(this);
     this.getStatus = this.getStatus.bind(this);
+    this.getHomeworks = this.getHomeworks.bind(this);
+    this.chooseSubject = this.chooseSubject.bind(this);
+    this.dateFormat = this.dateFormat.bind(this);
   }
   componentDidMount() {
     this.getStatus();
-    // this.getSubject();
   }
   componentWillMount() {
-
   }
-  addHomework(event){
-    event.preventDefault();
-    const lesson = encodeURIComponent(this.state.lesson);
-    const deadline = encodeURIComponent(this.state.deadline);
-    const description = encodeURIComponent(this.state.description);
-    const subjectId = encodeURIComponent(this.state.subjectId);
-    const user_id = encodeURIComponent(this.state.user_id);
-    if(this.state.filename.length>0){
-      let fileFormData = new FormData();
-      fileFormData.append('file', this.state.file);
-      fileFormData.append('lesson', this.state.lesson);
-      fileFormData.append('deadline', this.state.deadline);
-      fileFormData.append('description', this.state.description);
-      fileFormData.append('subjectId', this.state.subjectId);
-      fileFormData.append('user_id', this.state.user_id);
-      axios.post('/api/addhomeworkfile', fileFormData, {
-        responseType: 'json',
-        headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-        }
-      })
-        .then(response => {
-            this.setState({
-              message: response.data.message
-            });
-              console.log(response.data)
-            this.clearContent();
-        });
-    }
-    else{
-      const formData = `lesson=${lesson}&deadline=${deadline}&description=${description}&subject_id=${subjectId}&user_id=${user_id}`;
-      axios.post('/api/addhomework', formData, {
-        responseType: 'json',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded'}
-      })
-      .then(res =>{
-        this.setState({
-          message: res.data.message
-        });
-        console.log(res.data)
-        this.clearContent();
-      })
-    }
+  dateFormat(date){
+    var fDate = new Date(date);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
   }
-  getSubject(){
-    axios.get('/api/getonesubject?subjectId='+this.state.subjectId,  {
+  getHomeworks(){
+    axios.get('/api/gethomeworks',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -91,9 +39,8 @@ class StudentHomeworks extends React.Component {
       }
     })
       .then(res => {
-        console.log(res.data)
         this.setState({
-          subject: res.data
+          homeworks: res.data.homeworks
         });
       });
   }
@@ -105,129 +52,109 @@ class StudentHomeworks extends React.Component {
         status: decoded.userstatus,
         user_id: decoded.sub
       });
-    }
-  }
-  changeFile(e){
-    e.preventDefault();
-
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    if(file.size>1000000){
-      this.setState({
-        file: '',
-        filename: ''
+      axios.get('/api/getsubjectsofstudent?user_id='+decoded.sub,  {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+          'Authorization': `bearer ${Auth.getToken()}`
+        }
       })
-      alert("Размер файла не должен превышать 1 Мб!")
-    } else{
-      reader.onloadend = () => {
-        this.setState({
-          file: file,
-          filename: file.name
+        .then(res => {
+          this.setState({
+            subjects: res.data.subjects
+          });
         });
-      }
-      reader.readAsDataURL(file);
     }
   }
-  handleSubmit(e) {
-   e.preventDefault();
- }
+  chooseSubject(event){
+    const formData = `user_id=${this.state.user_id}&subject_id=${event.target.value}`;
+      axios.post('/api/gethomeworksofsubject', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          this.setState({
+            homeworks: res.data.homeworks
+          });
+        });
 
- handleFile(e) {
-   var self = this;
-   var reader = new FileReader();
-   var file = e.target.files[0];
-
-   reader.onload = function(upload) {
-     self.setState({
-       data_uri: upload.target.result,
-     });
-   }
-
-   reader.readAsDataURL(file);
- }
- lessonChange(value){
-   this.setState({
-     lesson: value
-   });
- }
- deadlineChange(value){
-   this.setState({
-     deadline: value
-   });
- }
- handleChange(event){
-   this.setState({
-      description: event.target.value
-   })
- }
+  }
  clearContent(){
-   document.getElementById('success').style = "display: block"
    this.setState({
-     status: '',
-     subject: {},
-     filename: '',
-     file: '',
-     lesson: '',
-     deadline: '',
-     data_uri: null,
-     description: ''
    })
  }
   render() {
     return (
       <div className="container clearfix">
         <div className="bg-title">
-          <h4></h4>
+          <h4>Все домашние задания</h4>
         </div>
-        <div className="my-content  ">
-        <div className="table-responsive" style={{minHeight: '400px'}}>
-        <form action="/"  onSubmit={this.addHomework}>
-          <div className="form-group col-md-6">
-            <label>Дата проведения Пары</label>
-            <DatePicker value={this.state.lesson} onChange={this.lessonChange} className="form-control mydatepicker"/>
+        <div className="my-content">
+          <div className="table-responsive" style={{minHeight: '400px'}}>
+          <div className="form-group">
+            <label>Выберите предмет</label>
+            <select className="form-control"  onChange={this.chooseSubject} >
+              <option >Выберите предмет</option>
+                {this.state.subjects.map((subject, s) =>
+                  <option key={s} value={subject._id} name={subject.subject_name}>{subject.subject_name}</option>
+                )}
+            </select>
           </div>
-            <div className="form-group row">
-              <div className="col-md-6">
-                <label>Дедлайн</label>
-                <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  className="form-control mydatepicker"/>
-              </div>
+          {
+            this.state.homeworks.length !=0 ?
+          (
+          <table id="myTable" className="table table-striped">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Начало</th>
+                    <th>Дедлайн</th>
+                    <th>Файл</th>
+                    <th>Редактировать</th>
+                </tr>
+            </thead>
+            <tbody>
+              {this.state.homeworks.map((homework, h) =>
+                <tr key={h}>
+                    <td>{h+1}</td>
+                    <td>{this.dateFormat(homework.lessonDate)}</td>
+                    <td>{this.dateFormat(homework.deadline)}</td>
+                    {homework.file?(
+                      <td>{homework.file}</td>
+                    ):(
+                      <td>Нет файлов</td>
+                    )
+                    }
 
-            </div>
-            <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.description} placeholder="Опишите задание" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
-            </div>
-            <div  style={{textAlign: 'center'}}>
-              <label>Выберите файл</label>
-            </div>
-            <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput">
-                <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                  </div>
-                ):(
-                  <span></span>
-                )}
-                </div>
-                <span className="input-group-addon btn btn-default btn-file">
-                {this.state.filename.length > 0 ?(
-                  <span className="fileinput-exists">Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
-                  <input type="hidden" value="" name="..."/>
-                  <input type="file" name="" onChange={this.changeFile} />
-                </span>
-            </div>
-            <div id="success" >
-              Задание отправлено
-            </div>
-            <div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
-             <button type="submit" className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} >Отправить задание</button>
-             </div>
-          </form>
-        </div>
+                </tr>
+              )}
+            </tbody>
+          </table>) :(
+          <table id="myTable" className="table table-striped">
+            <thead>
+                <tr>
+                  <th>№</th>
+                  <th>Начало</th>
+                  <th>Дедлайн</th>
+                  <th>Файл</th>
+                  <th>Редактировать</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Ничего не найдено</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+            </tbody>
+          </table>
+            )
+          }
+          </div>
         </div>
       </div>);
   }

@@ -3025,6 +3025,72 @@ router.get('/getstudentsofgroup', (req, res)=>{
     }
   })
 })
+
+router.get('/getsubjectsofstudent', (req, res)=>{
+  Student.findOne({user_id: req.query.user_id}, (err, student)=>{
+    if(err) console.log(err);
+    if(student){
+      Subject.find({groups: student.group_id, students:student._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjects){
+        if(err) console.log(err);
+        if(subjects){
+          if(subjects = []){
+                Subject.find({groups: student.group_id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjectss){
+                  if(err) console.log(err);
+                  else{
+                    Subject.find({students: student._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjectsS){
+                              if(err) console.log(err);
+                              if(subjectsS){
+                                var newSubjects = subjectss.concat(subjectsS);
+                                res.send({
+                                  subjects: newSubjects
+                                })
+                              }
+                            })
+                  }
+                })
+          }else {
+            res.send({
+              subjects: subjects
+            })
+          }
+        }
+    })
+    }
+  })
+
+})
+
+router.post('/gethomeworksofsubject', (req, res)=>{
+  Student.findOne({user_id: req.body.user_id}, (err, student)=>{
+    Homework.find({group_id: student.group_id, subject_id: req.body.subject_id, students: student._id}).populate('group_id answers').exec(function(err, homeworks){
+      if(err) console.log(err);
+      else{
+        if(homeworks=[]){
+          Homework.find({group_id: student.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworkss){
+            if(err) console.log(err);
+            else{
+              Homework.find({students: student.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworksS){
+                if(err) console.log(err);
+                else{
+                  var newHomeworks= homeworkss.concat(homeworksS);
+                  res.send({
+                    homeworks: newHomeworks
+                  })
+                }
+
+              })
+            }
+        })
+      }else {
+        res.send({
+          homeworks: homeworks
+        })
+      }
+      }
+    })
+  })
+})
+
 router.post('/getsubjectandgrouphomeworks', (req, res)=>{
   Homework.find({group_id: req.body.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworks){
     if(err) console.log(err);

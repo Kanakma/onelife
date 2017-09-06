@@ -16,11 +16,9 @@ const SubjectSchema = new mongoose.Schema({
     type:String,
     default:'default.jpg'
   },
-  optional: { 
+  optional: {
     type:Boolean,
     default:true
   }
 });
-
-
 module.exports = mongoose.model('Subject', SubjectSchema);

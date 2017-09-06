@@ -49,7 +49,9 @@ import TeacherShowAttendance1 from './components/TeacherShowAttendance1.jsx';
 import StudentLookAttendance from './components/StudentLookAttendance.jsx';
 import StudentLookMark from './components/StudentLookMark.jsx';
 import ParentLookAttendance from './components/ParentLookAttendance.jsx';
-import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx'
+import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx';
+import StudentAddHomework from './components/StudentAddHomework.jsx';
+import StudentHomeworks from './components/StudentHomeworks.jsx';
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -106,6 +108,8 @@ ReactDom.render((
       <Route path="/parent_attendance" component={ParentLookAttendance}/>
       <Route path="/parent_attendance" component={ParentLookAttendance}/>
       <Route path="/teacher_final_mark" component={TeacherAddFinalMark}/>
+      <Route path="/studentaddhomework" component={StudentAddHomework}/>
+      <Route path="/studenthomeworks" component={StudentHomeworks}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
