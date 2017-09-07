@@ -20,7 +20,7 @@ passport.use('local-login', localLoginStrategy);
 
 app.use('/auth', require('./server/routes/auth'));
 app.use('/api', require('./server/routes/index'));
-
+app.use('/reports', require('./server/routes/reports'));
 
 app.get("/*", function(req, res) {
 	res.sendFile(__dirname + '/public/static/index.html')

@@ -25,6 +25,7 @@ import TeacherAddTest from './components/TeacherAddTest.jsx';
 import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
+import AdminReports from './components/AdminReports.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
 import TeacherEditProfile from './components/TeacherEditProfile.jsx';
 import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
@@ -97,6 +98,7 @@ ReactDom.render((
       <Route path="/allhomeworks" component={TeacherAllHomeworks}/>
       <Route path="/schedules" component={AdminSchedules}/>
       <Route path="/addschedule" component={AdminAddSchedule}/>
+      <Route path="/reports" component={AdminReports}/>
       <Route path="/groups" component={AdminGroups}/>
       <Route path="/addgroups" component={AdminAddGroups}/>
       <Route path="/editprofile" component={TeacherEditProfile}/>

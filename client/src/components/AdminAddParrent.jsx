@@ -4,13 +4,8 @@ import Auth from '../modules/Auth'
 import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
 import Select from 'react-select';
-var options = [
-  { value: 'one', label: 'One' },
-  { value: 'two', label: 'Two' }
-];
-function logChange(val) {
-  console.log("Selected: " + JSON.stringify(val));
-}
+
+
 class AdminAddParrent extends React.Component {
 
   constructor(props) {
@@ -35,12 +30,6 @@ class AdminAddParrent extends React.Component {
       },
       birthday: '',
       value: [],
-      products: [
-        { label: "Foo", value: 1},
-        { label: "Bar", value: 2},
-        { label: "Baz", value: 3},
-        { label: "Fuz", value: 4},
-      ],
       selectedValues: [],
       checkContent: false
     };

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import InputElement from 'react-input-mask';
+import Select from 'react-select';
 
 class AdminAddSchedule extends React.Component {
 
@@ -9,7 +10,6 @@ class AdminAddSchedule extends React.Component {
     super(props);
     this.state={
       groups:[],
-      subject:{},
       subjects: [{
         course_number:'',
         credit_number:'',
@@ -28,24 +28,28 @@ class AdminAddSchedule extends React.Component {
         subject_name:'',
         teacher_id:''
       }],
+      subjValue:'',
+      selectedGroups:[],
       auditories:[],
       period:{
         year:'',
         semester:''
-      }
+      },
+      value:[]
     }
     this.getGroups=this.getGroups.bind(this);
     this.getSubjects=this.getSubjects.bind(this);
     this.getAuditories=this.getAuditories.bind(this);
     this.changePeriod=this.changePeriod.bind(this);
     this.selectSubj=this.selectSubj.bind(this);
+    this.handleSelectChange=this.handleSelectChange.bind(this);
   }
 
   componentDidMount(){
   }
 
-  getGroups(){
-    axios.get('/api/getgroups',  {
+  getGroups(_id){
+    axios.get('/api/getsubjectgroups?subjectId='+_id,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -118,17 +122,35 @@ class AdminAddSchedule extends React.Component {
   }
 
   selectSubj(event){
-    console.log(event.target.name, event.target.id, event.target.value, event.target.className)
-    this.setState({
-      subject: this.state.subjects.filter(function(subject) {
-                            return subject._id.indexOf(event.target.value) > -1;
-                        })
-    })
+    if(event.target.value==''){
+      this.setState({
+        subjValue:'',
+        groups:[]
+      })
+    } else{
+      this.getGroups(event.target.value)
+      this.setState({
+        subjValue:event.target.value
+      })
+    }
+    console.log('Day:' + event.target.name, 'Time:' + event.target.id, 'Subject._id:' + event.target.value,'Auditory:' + event.target.className)
   }
-  
-  render() {
-    var subjects = this.state.subjects
 
+  handleSelectChange (value) {
+    this.setState({ value });
+  }
+
+
+  render() {
+    
+    var subjects = this.state.subjects
+    var subject_groups = this.state.groups
+
+    function valueProp(group){
+      return { label:group.group_name, value:group._id  }
+    }
+
+    var options = this.state.groups.map(valueProp)
     return (
       <div className="container clearfix">
         <div className="bg-title">
@@ -173,18 +195,34 @@ class AdminAddSchedule extends React.Component {
                           <b>{auditory.auditory_name}</b><br/>
                         </td>
                         <td>
-                          <p>8:00-8:50
-                              <select className={auditory._id} id='8:00-8:50' name='monday' onChange={this.selectSubj}>
+                          <p><b>8:00-8:50</b>
+                              <select className={auditory._id} id='8:00-8:50' value={this.state.subjValue} name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
                                  subjects.map((subject, index)=>
                                     <option key={index} value={subject._id}>{subject.subject_name}</option>
                                   )
                                 }
-                              </select>
+                              </select><br/>
+                                <b>Группы:</b><br/>
+                              {
+                                subject_groups.length>0 ?(
+                                  <em>
+                                    <Select className="parentStudents"
+                                      options={options}
+                                      onChange={this.handleSelectChange}
+                                      multi={true}
+                                      multiSelectAll={true}
+                                      value={this.state.value}
+                                      placeholder=" "
+                                    />
+                                  </em>
+                                ) : (
+                                  <b> нет</b>
+                                )
+                              }
                           </p>
-                          <p>9:00-9:50
-                            {
+                          <p><b>9:00-9:50</b>
                               <select className={auditory._id} id='9:00-9:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -193,10 +231,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>10:00-10:50
-                            {
+                          <p><b>10:00-10:50</b>
                               <select className={auditory._id} id='10:00-10:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -205,10 +241,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>11:00-11:50
-                            {
+                          <p><b>11:00-11:50</b>
                               <select className={auditory._id} id='11:00-11:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -217,10 +251,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>12:00-12:50
-                            {
+                          <p><b>12:00-12:50</b>
                               <select className={auditory._id} id='12:00-12:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -229,10 +261,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>13:00-13:50
-                            {
+                          <p><b>13:00-13:50</b>
                               <select className={auditory._id} id='13:00-13:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -241,10 +271,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>14:00-14:50
-                            {
+                          <p><b>14:00-14:50</b>
                               <select className={auditory._id} id='14:00-14:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -253,10 +281,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>15:00-15:50
-                            {
+                          <p><b>15:00-15:50</b>
                               <select className={auditory._id} id='15:00-15:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -265,10 +291,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>16:00-16:50
-                            {
+                          <p><b>16:00-16:50</b>
                               <select className={auditory._id} id='16:00-16:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -277,10 +301,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>17:00-17:50
-                            {
+                          <p><b>17:00-17:50</b>
                               <select className={auditory._id} id='17:00-17:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -289,10 +311,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>18:00-18:50
-                            {
+                          <p><b>18:00-18:50</b>
                               <select className={auditory._id} id='18:00-18:50' name='monday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -301,11 +321,10 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
                         </td>
 <td>
-                          <p>8:00-8:50
+                          <p><b>8:00-8:50</b>
                               <select className={auditory._id} id='8:00-8:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -315,8 +334,7 @@ class AdminAddSchedule extends React.Component {
                                 }
                               </select>
                           </p>
-                          <p>9:00-9:50
-                            {
+                          <p><b>9:00-9:50</b>
                               <select className={auditory._id} id='9:00-9:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -325,10 +343,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>10:00-10:50
-                            {
+                          <p><b>10:00-10:50</b>
                               <select className={auditory._id} id='10:00-10:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -337,10 +353,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>11:00-11:50
-                            {
+                          <p><b>11:00-11:50</b>
                               <select className={auditory._id} id='11:00-11:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -349,10 +363,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>12:00-12:50
-                            {
+                          <p><b>12:00-12:50</b>
                               <select className={auditory._id} id='12:00-12:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -361,10 +373,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>13:00-13:50
-                            {
+                          <p><b>13:00-13:50</b>
                               <select className={auditory._id} id='13:00-13:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -373,10 +383,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>14:00-14:50
-                            {
+                          <p><b>14:00-14:50</b>
                               <select className={auditory._id} id='14:00-14:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -385,10 +393,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>15:00-15:50
-                            {
+                          <p><b>15:00-15:50</b>
                               <select className={auditory._id} id='15:00-15:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -397,10 +403,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>16:00-16:50
-                            {
+                          <p><b>16:00-16:50</b>
                               <select className={auditory._id} id='16:00-16:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -409,10 +413,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>17:00-17:50
-                            {
+                          <p><b>17:00-17:50</b>
                               <select className={auditory._id} id='17:00-17:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -421,10 +423,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>18:00-18:50
-                            {
+                          <p><b>18:00-18:50</b>
                               <select className={auditory._id} id='18:00-18:50' name='tuesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -433,11 +433,10 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
                         </td>
 <td>
-                          <p>8:00-8:50
+                          <p><b>8:00-8:50</b>
                               <select className={auditory._id} id='8:00-8:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -447,8 +446,7 @@ class AdminAddSchedule extends React.Component {
                                 }
                               </select>
                           </p>
-                          <p>9:00-9:50
-                            {
+                          <p><b>9:00-9:50</b>
                               <select className={auditory._id} id='9:00-9:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -457,10 +455,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>10:00-10:50
-                            {
+                          <p><b>10:00-10:50</b>
                               <select className={auditory._id} id='10:00-10:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -469,10 +465,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>11:00-11:50
-                            {
+                          <p><b>11:00-11:50</b>
                               <select className={auditory._id} id='11:00-11:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -481,10 +475,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>12:00-12:50
-                            {
+                          <p><b>12:00-12:50</b>
                               <select className={auditory._id} id='12:00-12:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -493,10 +485,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>13:00-13:50
-                            {
+                          <p><b>13:00-13:50</b>
                               <select className={auditory._id} id='13:00-13:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -505,10 +495,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>14:00-14:50
-                            {
+                          <p><b>14:00-14:50</b>
                               <select className={auditory._id} id='14:00-14:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -517,10 +505,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>15:00-15:50
-                            {
+                          <p><b>15:00-15:50</b>
                               <select className={auditory._id} id='15:00-15:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -529,10 +515,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>16:00-16:50
-                            {
+                          <p><b>16:00-16:50</b>
                               <select className={auditory._id} id='16:00-16:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -541,10 +525,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>17:00-17:50
-                            {
+                          <p><b>17:00-17:50</b>
                               <select className={auditory._id} id='17:00-17:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -553,10 +535,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>18:00-18:50
-                            {
+                          <p><b>18:00-18:50</b>
                               <select className={auditory._id} id='18:00-18:50' name='wednesday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -565,11 +545,10 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
                         </td>
 <td>
-                          <p>8:00-8:50
+                          <p><b>8:00-8:50</b>
                               <select className={auditory._id} id='8:00-8:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -579,8 +558,7 @@ class AdminAddSchedule extends React.Component {
                                 }
                               </select>
                           </p>
-                          <p>9:00-9:50
-                            {
+                          <p><b>9:00-9:50</b>
                               <select className={auditory._id} id='9:00-9:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -589,10 +567,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>10:00-10:50
-                            {
+                          <p><b>10:00-10:50</b>
                               <select className={auditory._id} id='10:00-10:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -601,10 +577,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>11:00-11:50
-                            {
+                          <p><b>11:00-11:50</b>
                               <select className={auditory._id} id='11:00-11:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -613,10 +587,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>12:00-12:50
-                            {
+                          <p><b>12:00-12:50</b>
                               <select className={auditory._id} id='12:00-12:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -625,10 +597,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>13:00-13:50
-                            {
+                          <p><b>13:00-13:50</b>
                               <select className={auditory._id} id='13:00-13:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -637,10 +607,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>14:00-14:50
-                            {
+                          <p><b>14:00-14:50</b>
                               <select className={auditory._id} id='14:00-14:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -649,10 +617,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>15:00-15:50
-                            {
+                          <p><b>15:00-15:50</b>
                               <select className={auditory._id} id='15:00-15:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -661,10 +627,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>16:00-16:50
-                            {
+                          <p><b>16:00-16:50</b>
                               <select className={auditory._id} id='16:00-16:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -673,10 +637,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>17:00-17:50
-                            {
+                          <p><b>17:00-17:50</b>
                               <select className={auditory._id} id='17:00-17:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -685,10 +647,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>18:00-18:50
-                            {
+                          <p><b>18:00-18:50</b>
                               <select className={auditory._id} id='18:00-18:50' name='thursday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -697,11 +657,10 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
                         </td>
 <td>
-                          <p>8:00-8:50
+                          <p><b>8:00-8:50</b>
                               <select className={auditory._id} id='8:00-8:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -711,8 +670,7 @@ class AdminAddSchedule extends React.Component {
                                 }
                               </select>
                           </p>
-                          <p>9:00-9:50
-                            {
+                          <p><b>9:00-9:50</b>
                               <select className={auditory._id} id='9:00-9:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -721,10 +679,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>10:00-10:50
-                            {
+                          <p><b>10:00-10:50</b>
                               <select className={auditory._id} id='10:00-10:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -733,10 +689,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>11:00-11:50
-                            {
+                          <p><b>11:00-11:50</b>
                               <select className={auditory._id} id='11:00-11:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -745,10 +699,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>12:00-12:50
-                            {
+                          <p><b>12:00-12:50</b>
                               <select className={auditory._id} id='12:00-12:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -757,10 +709,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>13:00-13:50
-                            {
+                          <p><b>13:00-13:50</b>
                               <select className={auditory._id} id='13:00-13:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -769,10 +719,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>14:00-14:50
-                            {
+                          <p><b>14:00-14:50</b>
                               <select className={auditory._id} id='14:00-14:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -781,10 +729,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>15:00-15:50
-                            {
+                          <p><b>15:00-15:50</b>
                               <select className={auditory._id} id='15:00-15:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -793,10 +739,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>16:00-16:50
-                            {
+                          <p><b>16:00-16:50</b>
                               <select className={auditory._id} id='16:00-16:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -805,10 +749,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>17:00-17:50
-                            {
+                          <p><b>17:00-17:50</b>
                               <select className={auditory._id} id='17:00-17:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -817,10 +759,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>18:00-18:50
-                            {
+                          <p><b>18:00-18:50</b>
                               <select className={auditory._id} id='18:00-18:50' name='friday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -829,11 +769,10 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
                         </td>
 <td>
-                          <p>8:00-8:50
+                          <p><b>8:00-8:50</b>
                               <select className={auditory._id} id='8:00-8:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -843,8 +782,7 @@ class AdminAddSchedule extends React.Component {
                                 }
                               </select>
                           </p>
-                          <p>9:00-9:50
-                            {
+                          <p><b>9:00-9:50</b>
                               <select className={auditory._id} id='9:00-9:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -853,10 +791,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>10:00-10:50
-                            {
+                          <p><b>10:00-10:50</b>
                               <select className={auditory._id} id='10:00-10:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -865,10 +801,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>11:00-11:50
-                            {
+                          <p><b>11:00-11:50</b>
                               <select className={auditory._id} id='11:00-11:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -877,10 +811,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>12:00-12:50
-                            {
+                          <p><b>12:00-12:50</b>
                               <select className={auditory._id} id='12:00-12:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -889,10 +821,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>13:00-13:50
-                            {
+                          <p><b>13:00-13:50</b>
                               <select className={auditory._id} id='13:00-13:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -901,10 +831,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>14:00-14:50
-                            {
+                          <p><b>14:00-14:50</b>
                               <select className={auditory._id} id='14:00-14:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -913,10 +841,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>15:00-15:50
-                            {
+                          <p><b>15:00-15:50</b>
                               <select className={auditory._id} id='15:00-15:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -925,10 +851,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>16:00-16:50
-                            {
+                          <p><b>16:00-16:50</b>
                               <select className={auditory._id} id='16:00-16:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -937,10 +861,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>17:00-17:50
-                            {
+                          <p><b>17:00-17:50</b>
                               <select className={auditory._id} id='17:00-17:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -949,10 +871,8 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
-                          <p>18:00-18:50
-                            {
+                          <p><b>18:00-18:50</b>
                               <select className={auditory._id} id='18:00-18:50' name='saturday' onChange={this.selectSubj}>
                                 <option value=''>Выберите предмет</option>
                                 {
@@ -961,7 +881,6 @@ class AdminAddSchedule extends React.Component {
                                   )
                                 }
                               </select>
-                            }
                           </p>
                         </td>
                       </tr>
