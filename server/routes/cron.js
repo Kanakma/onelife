@@ -17,7 +17,6 @@ var Group = require('../models/group')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
-var DeepPopulate = require('mongoose-deep-populate')(mongoose);
 let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');

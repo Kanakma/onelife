@@ -25,6 +25,7 @@ import TeacherAddTest from './components/TeacherAddTest.jsx';
 import StudentPassTest from './components/StudentPassTest.jsx';
 import AdminAddDepartment from './components/AdminAddDepartment.jsx';
 import AdminDepartments from './components/AdminDepartments.jsx';
+import AdminReports from './components/AdminReports.jsx';
 import TeacherProfile from './components/TeacherProfile.jsx';
 import TeacherEditProfile from './components/TeacherEditProfile.jsx';
 import TeacherAddAttendance from './components/TeacherAddAttendance.jsx'
@@ -90,13 +91,14 @@ ReactDom.render((
       <Route path="/studentprofile" component={StudentHome}/>
       <Route path="/teacher_attendances" component={TeacherShowAttendance1}/>
       <Route path="/marks" component={TeacherShowMarks}/>
-      <Route path= "/teacheraddhomework" component={TeacherAddHomework}/>
-      <Route path= "/teacherhomeworks" component={TeacherHomeworks}/>
-      <Route path= "/newhomework" component={TeacherAddNewHomework}/>
-      <Route path= "/schedules" component={AdminSchedules}/>
-      <Route path= "/addschedule" component={AdminAddSchedule}/>
-      <Route path= "/groups" component={AdminGroups}/>
-      <Route path= "/addgroups" component={AdminAddGroups}/>
+      <Route path="/teacheraddhomework" component={TeacherAddHomework}/>
+      <Route path="/teacherhomeworks" component={TeacherHomeworks}/>
+      <Route path="/newhomework" component={TeacherAddNewHomework}/>
+      <Route path="/schedules" component={AdminSchedules}/>
+      <Route path="/addschedule" component={AdminAddSchedule}/>
+      <Route path="/reports" component={AdminReports}/>
+      <Route path="/groups" component={AdminGroups}/>
+      <Route path="/addgroups" component={AdminAddGroups}/>
       <Route path="/editprofile" component={TeacherEditProfile}/>
       <Route path="/editstudentprofile" component={StudentEditProfile}/>
       <Route path="/auditories" component={AdminAuditory}/>

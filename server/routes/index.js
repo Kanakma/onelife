@@ -21,7 +21,7 @@ var mongoose = require('mongoose');
 let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
-
+var xl = require('excel4node');
 
 function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
@@ -56,6 +56,8 @@ function IndInObjArr(objArray, subj, inkey, sensetive) {
         return false;
       }
     }
+
+
 
 //This route will add new major
 router.post('/addmajor', (req, res) => {
@@ -2503,27 +2505,6 @@ router.post('/addattendance',(req, res)=>{
 
 })//end of router
 
-
-
-
-router.get('/getsubjectsforstudents',(req, res)=>{
-		var subjectId=req.query.subjectId;
-		Subject.findOne({
-			_id:subjectId
-		}).populate({
-			path:'students teacher_id ',
-			populate: {
-				path: 'user_id'
-			}
-		}).exec(function(err,subject){
-		if(err) {
-			res.status(500).send({err: err});
-		} else {
-			res.status(200).send({students: subject.students});
-		}
-	})
-})
-
 router.get('/getattendanceforall',(req,res)=>{
 	var subjectId=req.query.subjectId;
 	Attendance.find({
@@ -2817,9 +2798,6 @@ router.post('/updatemymark',(req,res)=> {
 		 		})
 		 	}
 		 })
-
-
-
 })
 
 router.get('/mychildgroup', (req,res)=> {
@@ -2874,8 +2852,7 @@ router.get('/getsubjforschedule', (req, res) =>{
 		if(err) console.log(err)
 		if(subjects){
 			res.send({
-				subjects:subjects,
-				groups: subjects.groups
+				subjects:subjects
 			})
 		}
 	})
