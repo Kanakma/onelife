@@ -31,6 +31,7 @@ class TeacherHomeworks extends React.Component{
     this.toggleModalClose = this.toggleModalClose.bind(this);
     this.getHomeworks = this.getHomeworks.bind(this);
     this.dateFormat = this.dateFormat.bind(this);
+    this.checkAnswers = this.checkAnswers.bind(this);
   }
   componentDidMount() {
     this.getStatus();
@@ -46,6 +47,9 @@ class TeacherHomeworks extends React.Component{
       this.setState({
         isOpen: !this.state.isOpen
       });
+  }
+  checkAnswers(event){
+      this.context.router.history.push('/checkanswers', {homework_id: event.target.id})
   }
   getGroups(){
     axios.get('/api/getsubjectgroups?subjectId='+this.state.subjectId,  {
@@ -200,6 +204,7 @@ class TeacherHomeworks extends React.Component{
                     <th>Начало</th>
                     <th>Дедлайн</th>
                     <th>Файл</th>
+                    <th>Ответы</th>
                     <th>Редактировать</th>
                 </tr>
             </thead>
@@ -215,7 +220,8 @@ class TeacherHomeworks extends React.Component{
                       <td>Нет файлов</td>
                     )
                     }
-                    <td > <button onClick={this.toggleModal.bind(this, homework)}  className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                    <td><button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} id={homework._id}  onClick={this.checkAnswers}>Проверить</button></td>
+                    <td> <button onClick={this.toggleModal.bind(this, homework)}  className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                           <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
                       </button></td>
                 </tr>
@@ -229,12 +235,14 @@ class TeacherHomeworks extends React.Component{
                   <th>Начало</th>
                   <th>Дедлайн</th>
                   <th>Файл</th>
+                  <th>Ответы</th>
                   <th>Редактировать</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                 <td>Ничего не найдено</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -254,4 +262,7 @@ class TeacherHomeworks extends React.Component{
     </div>);
   }
 }
+TeacherHomeworks.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 export default TeacherHomeworks;

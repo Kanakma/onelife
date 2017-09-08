@@ -54,6 +54,7 @@ import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx';
 import StudentAddHomework from './components/StudentAddHomework.jsx';
 import StudentHomeworks from './components/StudentHomeworks.jsx';
 import Auth from './modules/Auth';
+import TeacherCheckHomeworks from './components/TeacherCheckHomeworks.jsx';
 
 ReactDom.render((
   <BrowserRouter>
@@ -112,6 +113,7 @@ ReactDom.render((
       <Route path="/teacher_final_mark" component={TeacherAddFinalMark}/>
       <Route path="/studentaddhomework" component={StudentAddHomework}/>
       <Route path="/studenthomeworks" component={StudentHomeworks}/>
+      <Route path="/checkanswers" component={TeacherCheckHomeworks}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

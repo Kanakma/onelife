@@ -181,7 +181,7 @@ class StudentAddHomework extends React.Component {
             </thead>
             <tbody>
                 <tr>
-                <td>Ничего не найдено</td>
+                <td>Нет новых домашних заданий</td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -1264,7 +1264,45 @@ router.post('/editstudent', (req, res) =>{
 	}
 })
 
-
+router.get('/gethomework', (req, res) => {
+	Homework.findOne({_id: req.query.homework_id}).populate({path: 'answer', populate: {path:'student_id', populate: {path:'user_id'}}}).exec(function(err, homework){
+		if(err) {console.log(err) }
+		if(homework){
+      var students_name = [];
+      var students_lastname = [];
+      // var students_name  = function(){
+      // 	return new Promise(function(resolve, reject){
+      // 		return   homework.answer.map((ans, a)=>{
+      //         Student.findOne({_id: ans.student_id}).populate('user_id').exec(function(err, student){
+      //           if(err) reject(err);
+      //           if(student){
+      //             resolve(student.user_id.name)
+      //             // students_name.push(student.user_id.name);
+      //             // students_lastname.push(student.user_id.lastname);
+      //           }
+      //         })
+      //       })
+      // 	})
+      // }
+      homework.answer.map((ans, a)=>{
+        Student.findOne({_id: ans.student_id}).populate('user_id').exec(function(err, student){
+          if(err) console.log(err);
+          if(student){
+            students_name.push(student.user_id.name);
+            students_lastname.push(student.user_id.lastname);
+          }
+        })
+      })
+      // console.log(students_name())
+          res.send({
+            homework: homework,
+            answer: homework.answer,
+            students_name: students_name,
+            students_lastname: students_lastname
+          })
+		}
+	})
+});
 router.get('/getmajors', (req, res) => {
 	Major.find().populate('major_department groups').exec(function(err, majors){
 		if(err) {console.log(err) }
@@ -1764,8 +1802,6 @@ router.post('/choosesubject', (req, res) => {
 			})
 		}
 	})
-
-
 });
 
 router.post('/sendanswer', (req, res) => {
@@ -3207,7 +3243,18 @@ router.get('/downloadhw/:homework', (req, res) =>{
     if(homework){
       res.sendFile(path.join(__dirname,'../../public/teacher-homeworks/'+homework.file))
     } else {
-      res.send('kk')
+      res.send('Не найдено')
+    }
+  })
+})
+router.get('/downloadanswer/:answer', (req, res) =>{
+  console.log(req.query.homework_id)
+  Homework.findOne({_id: req.query.id}, (err, homework)=>{
+    if(err) console.log(err);
+    if(homework){
+      res.sendFile(path.join(__dirname,'../../public/student-homeworks/'+homework.file))
+    } else {
+      res.send('Не найдено')
     }
   })
 })
