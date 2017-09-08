@@ -24,18 +24,7 @@ class StudentSubjects extends React.Component {
     this.toggleModalClose = this.toggleModalClose.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getsubjects',  {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(res => {
-        this.setState({
-          subjects: res.data.subjects
-        });
-        this.getStatus();
-      });
+    this.getStatus();
   }
   getStatus(){
     if(Auth.isUserAuthenticated()){
@@ -44,6 +33,17 @@ class StudentSubjects extends React.Component {
       this.setState({
         status: decoded.userstatus
       });
+      axios.get('/api/getsubjectsofstudent?user_id='+decoded.sub,  {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          this.setState({
+            subjects: res.data.subjects
+          });
+        });
     }
   }
   openSubject(event){
@@ -72,6 +72,7 @@ class StudentSubjects extends React.Component {
         });
     }
   render() {
+    console.log(this.state.subjects)
     return (
       <div className="container clearfix">
       <div className="bg-title" style={{paddingRight: '3%'}}>
@@ -99,8 +100,8 @@ class StudentSubjects extends React.Component {
                           <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
                       </div>
                       <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
-                      <p><span><i className="fa fa-graduation-cap"></i> Специальность: {subject.major_name}</span></p>
-                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_name}</span></p>
+                      <p><span><i className="fa fa-graduation-cap"></i> Специальность: </span></p>
+                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name}</span></p>
                       <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
                       {(this.state.status == "admin") ?(
                         <div>

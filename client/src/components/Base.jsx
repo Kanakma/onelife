@@ -569,7 +569,15 @@ class Base extends React.Component {
                         <i className="fa fa-book fa-lg icons" aria-hidden="true" ></i>Тесты
                         </Link>
                     </li>
-                    <li><Link to="/subjects" className="waves-effect"><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание</Link></li>
+                    <li><Link to="#" className="waves-effect" name="homework" onClick={this.changeHide}><i className="fa fa-pencil-square-o fa-lg icons" aria-hidden="true" ></i>Домашнее задание
+                      <span hidden={this.state.checkHomework} id="homework" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true"  ></i></span>
+                      <span hidden={!this.state.checkHomework} id="homework" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true"  ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkHomework}>
+                        <li><Link to="/studenthomeworks" className="waves-effect" style={{paddingLeft: "45px"}} >Все задания</Link></li>
+                        <li><Link to="/studentaddhomework" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить задание</Link></li>
+                      </ul>
+                    </li>
                     <li><Link to="/student_mark" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Мои оценки</Link></li>
                     <li><Link to="/student_attendance" className="waves-effect"><i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>Моя посещаемость</Link></li>
                     <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>Выход</Link></li>

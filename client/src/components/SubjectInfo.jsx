@@ -71,7 +71,6 @@ class SubjectInfo extends React.Component {
       });
   }
   render() {
-    // console.log(this.state.subjectId)
     return (
       <div className="container clearfix">
         <div className="bg-title">
