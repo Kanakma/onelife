@@ -4,25 +4,49 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import DatePicker from 'react-bootstrap-date-picker';
+import StudentAddHomeworkModal from './StudentAddHomeworkModal.jsx';
 
 class StudentHomeworks extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       homeworks: [],
       subjects: [],
-      user_id: ''
+      user_id: '',
+      filename: '',
+      homework_id: '',
+      studenthomeworks: [],
+      homework: []
     };
     this.getStatus = this.getStatus.bind(this);
     this.getHomeworks = this.getHomeworks.bind(this);
     this.chooseSubject = this.chooseSubject.bind(this);
     this.dateFormat = this.dateFormat.bind(this);
+    this.changeHW = this.changeHW.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModalClose = this.toggleModalClose.bind(this);
   }
   componentDidMount() {
     this.getStatus();
   }
   componentWillMount() {
+  }
+  toggleModal(homework) {
+    this.setState({
+      isOpen: !this.state.isOpen,
+      homework:homework
+    });
+  }
+  toggleModalClose() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+  changeHW(homework){
+    this.setState({
+      filename: homework.file,
+      homework_id: homework._id
+    })
   }
   dateFormat(date){
     var fDate = new Date(date);
@@ -76,15 +100,17 @@ class StudentHomeworks extends React.Component {
       })
         .then(res => {
           this.setState({
-            homeworks: res.data.homeworks
-          });
-        });
+            homeworks: res.data.homeworks,
+            student_id: res.data.student_id
 
+          })
+        })
   }
  clearContent(){
    this.setState({
    })
  }
+
   render() {
     return (
       <div className="container clearfix">
@@ -111,8 +137,8 @@ class StudentHomeworks extends React.Component {
                     <th>№</th>
                     <th>Начало</th>
                     <th>Дедлайн</th>
-                    <th>Файл</th>
-                    <th>Редактировать</th>
+                    <th>Статус</th>
+                    <th>Выполнить</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,14 +147,25 @@ class StudentHomeworks extends React.Component {
                     <td>{h+1}</td>
                     <td>{this.dateFormat(homework.lessonDate)}</td>
                     <td>{this.dateFormat(homework.deadline)}</td>
-                    {homework.file?(
-                      <td>{homework.file}</td>
-                    ):(
-                      <td>Нет файлов</td>
-                    )
+                    <td>{homework.answer.map((ans, a)=>{
+                      if(ans.student_id.indexOf(this.state.student_id)!=-1){
+                        if(ans.status==false)
+                        return (<p key={a} style={{color: 'red'}}>Не выполнено</p>)
+                        else{
+                          return (<p key={a}>Выполнено</p>)
+                        }
+                      }
+                      else{
+                        return (<div></div>)
+                      }
+                    })
                     }
-
+                    </td>
+                    <td><div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
+                      <button type="submit" onClick={this.toggleModal.bind(this, homework)} className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}}  >Добавить ответ</button>
+                    </div></td>
                 </tr>
+
               )}
             </tbody>
           </table>) :(
@@ -138,8 +175,8 @@ class StudentHomeworks extends React.Component {
                   <th>№</th>
                   <th>Начало</th>
                   <th>Дедлайн</th>
-                  <th>Файл</th>
-                  <th>Редактировать</th>
+                  <th>Статус</th>
+                  <th>Выполнить</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,6 +193,12 @@ class StudentHomeworks extends React.Component {
           }
           </div>
         </div>
+        <StudentAddHomeworkModal
+          show={this.state.isOpen}
+          onClose={this.toggleModalClose}
+          homework={this.state.homework}
+          student_id={this.state.student_id}
+        />
       </div>);
   }
 }

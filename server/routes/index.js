@@ -21,6 +21,7 @@ var mongoose = require('mongoose');
 let multiparty = require('multiparty');
 let fs = require('fs');
 var async = require('async');
+var path= require('path');
 
 
 function IndInObjArr(objArray, subj, inkey, sensetive) {
@@ -706,6 +707,64 @@ router.post('/edithomework', (req, res) => {
           }
         })
 
+      }
+    })
+	}
+});
+router.post('/addanswer', (req, res) => {
+  if(req.query.filename){
+    let form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+		  	var tempPath = files.file[0].path;
+				var fileName = files.file[0].originalFilename;
+				let copyToPath = "public/student-homeworks/" + fileName;
+				fs.readFile(tempPath, (err, data) => {
+					// make copy of image to new location
+					fs.writeFile(copyToPath, data, (err) => {
+						// delete temp image
+						fs.unlink(tempPath, () => {
+							if(err) console.log(err);
+							else {
+              Homework.findOne({_id: fields.homework_id}).populate('answer').exec(function(err, homework){
+                if(err) console.log(err);
+                if(homework){
+                  homework.answer.forEach((item, index) => {
+                    if(item.student_id.toString() === fields.student_id.toString()) {
+                      homework.answer[index].answer_message = (fields.answer_message!='') ? fields.answer_message : item.answer_message;
+                      homework.answer[index].answer_file = fileName;
+                      homework.answer[index].status = true;
+                    }
+                  })
+                  homework.save((err, newHomework) => {
+                    if(err)
+                      console.log(err)
+                    res.status(200).send({
+                      message: 'ДЗ сохранено'})
+                  })
+						}
+					})
+        }
+				})
+			})
+		})
+  })
+	} else {
+    console.log(req.body.homework_id)
+        Homework.findOne({_id: req.body.homework_id}).populate('answer').exec(function(err, homework){
+          if(err) console.log(err);
+          if(homework){
+              homework.answer.forEach((item, index) => {
+                if(item.student_id.toString() === req.body.student_id) {
+                  homework.answer[index].answer_message = (req.body.answer_message!='') ? req.body.answer_message : item.answer_message;
+                  homework.answer[index].status = true;
+                }
+              })
+              homework.save((err, newHomework) => {
+                if(err)
+                  console.log(err)
+                res.status(200).send({
+                  message: 'ДЗ сохранено'})
+              })
       }
     })
 	}
@@ -3060,6 +3119,58 @@ router.get('/getsubjectsofstudent', (req, res)=>{
 
 })
 
+router.get('/getsubjectswithhw', (req, res)=>{
+  var allSubjects = [];
+  Student.findOne({user_id: req.query.user_id}, (err, student)=>{
+    if(err) console.log(err);
+    if(student){
+      Subject.find({groups: student.group_id, optional:true}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjects){
+        if(err) console.log(err);
+           if(subjects){
+             subjects.map((subject, index)=>{
+               console.log(subject._id)
+               Homework.find({subject_id: subject._id}, (err, homeworks)=>{
+                 homeworks.map((homework, i)=>{
+                   homework.answer.forEach((item, key)=>{
+                     if(item.student_id.toString() === student._id.toString() && allSubjects.indexOf(subject)==-1){
+                       allSubjects.push(subject);
+                     }
+                   })
+                 })
+
+               })
+
+             })
+             Subject.find({optional: false, students: student._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjectss){
+               if(err) console.log(err);
+               if(subjectss){
+                 subjectss.map((subject, index)=>{
+                   console.log(subject._id)
+                   Homework.find({subject_id: subject._id}, (err, homeworks)=>{
+                     homeworks.map((homework, i)=>{
+                       homework.answer.forEach((item, key)=>{
+                         if(item.student_id.toString() === student._id.toString() && allSubjects.indexOf(subject)==-1){
+                           allSubjects.push(subject);
+                         }
+                       })
+                     })
+
+                   })
+
+                 })
+                   res.send({
+                     subjects: allSubjects
+                   })
+               }
+             })
+           }
+      })
+    }
+  })
+
+})
+
+
 router.post('/gethomeworksofsubject', (req, res)=>{
   Student.findOne({user_id: req.body.user_id}, (err, student)=>{
     Homework.find({group_id: student.group_id, subject_id: req.body.subject_id, students: student._id}).populate('group_id answers').exec(function(err, homeworks){
@@ -3074,7 +3185,8 @@ router.post('/gethomeworksofsubject', (req, res)=>{
                 else{
                   var newHomeworks= homeworkss.concat(homeworksS);
                   res.send({
-                    homeworks: newHomeworks
+                    homeworks: newHomeworks,
+                    student_id: student._id
                   })
                 }
 
@@ -3090,7 +3202,37 @@ router.post('/gethomeworksofsubject', (req, res)=>{
     })
   })
 })
-
+router.post('/gethomeworksofsubjectwithstatus', (req, res)=>{
+  var allHomeworks = [];
+  Student.findOne({user_id: req.body.user_id}, (err, student)=>{
+      Homework.find({group_id: student.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworkss){
+        if(err) console.log(err);
+        if(homeworkss){
+          homeworkss.map((homework, h)=>{
+            homework.answer.map((ans, a)=>{
+              if(ans.student_id.toString()===student._id.toString() && ans.status == false){
+                allHomeworks.push(homework);
+              }
+            })
+          })
+          res.send({
+            homeworks: allHomeworks,
+            student_id: student._id
+          })
+        }
+    })
+  })
+})
+router.get('/downloadhw/:homework', (req, res) =>{
+  Homework.findOne({_id: req.query.id}, (err, homework)=>{
+    if(err) console.log(err);
+    if(homework){
+      res.sendFile(path.join(__dirname,'../../public/teacher-homeworks/'+homework.file))
+    } else {
+      res.send('kk')
+    }
+  })
+})
 router.post('/getsubjectandgrouphomeworks', (req, res)=>{
   Homework.find({group_id: req.body.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworks){
     if(err) console.log(err);
