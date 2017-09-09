@@ -89,22 +89,30 @@ class TeacherCheckHomeworks extends React.Component{
                     <th>Студент</th>
                     <th>Файл</th>
                     <th>Сообщение</th>
-                    <th>Редактировать</th>
+                    <th>Статус</th>
                 </tr>
             </thead>
             <tbody>
             {this.state.answer.map((ans, a) =>
-              <tr key={a}>
-                  <td>{a+1}</td>
-                  <td>{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
-                  {ans.answer_file?(
-                    <td><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
-                  ):(
-                    <td>Нет файлов</td>
-                  )
-                  }
-                  <td>{ans.answer_message}</td>
-                  <td> </td>
+                <tr key={a}>
+                <td>{a+1}</td>
+                <td>{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
+                {ans.answer_file?(
+                  <td><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
+                ):(
+                  <td>Нет файлов</td>
+                )
+              }
+              {ans.answer_message?(
+                <td>{ans.answer_message}</td>
+              ):(
+                <td>Нет сообщений</td>
+              )}
+              <td> {ans.status?(
+                <p>Выполнено</p>
+              ):(
+                <p style={{color: 'red'}}>Не выполнено</p>
+              )}</td>
               </tr>
             )}
             </tbody>
@@ -116,7 +124,7 @@ class TeacherCheckHomeworks extends React.Component{
                   <th>Начало</th>
                   <th>Файл</th>
                   <th>Ответы</th>
-                  <th>Редактировать</th>
+                  <th>Статус</th>
                 </tr>
             </thead>
             <tbody>
