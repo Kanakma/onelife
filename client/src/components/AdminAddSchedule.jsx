@@ -9,19 +9,36 @@ class AdminAddSchedule extends React.Component {
     super(props);
     this.state={
       groups:[],
-      subjects: [],
+      subject:{},
+      subjects: [{
+        course_number:'',
+        credit_number:'',
+        description:'',
+        groups:[{
+          course_number:'',
+          curator:'',
+          group_name:'',
+          major:'',
+          students:[]
+        }],
+        optional:'',
+        period:'',
+        students:[],
+        subject_code:'',
+        subject_name:'',
+        teacher_id:''
+      }],
       auditories:[],
       period:{
         year:'',
         semester:''
-      },
-      group_name:''
+      }
     }
     this.getGroups=this.getGroups.bind(this);
     this.getSubjects=this.getSubjects.bind(this);
-    this.selectGroup=this.selectGroup.bind(this);
     this.getAuditories=this.getAuditories.bind(this);
     this.changePeriod=this.changePeriod.bind(this);
+    this.selectSubj=this.selectSubj.bind(this);
   }
 
   componentDidMount(){
@@ -43,7 +60,7 @@ class AdminAddSchedule extends React.Component {
 
   getAuditories(){
     if(this.state.period.year.length>3 && this.state.period.semester.length>0
-      && this.state.period.year != '____' && this.state.period.semester !='_'){
+      && this.state.period.year != '____' && this.state.period.semester != '_'){
       axios.get('/api/getauditories',  {
         responseType: 'json',
         headers: {
@@ -62,28 +79,29 @@ class AdminAddSchedule extends React.Component {
     }
   }
 
-  getSubjects(period){
-    axios.get('/api/getsubjforschedule?',  {
+  getSubjects(_period){
+    axios.get('/api/getsubjforschedule?period='+_period, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
       }
     })
       .then(res => {
-        this.setState({
-          subjects: res.data.subjects
-        })
+        if(res.data.subjects.length>0){
+          this.setState({
+            subjects: res.data.subjects
+          })
+        } else{
+          var period = {
+            semester:'',
+            year:''
+          }
+          this.setState({
+            period: period
+          })
+          alert("В этом периоде нет предметов!")
+        }
       })
-  }
-
-  selectGroup(event){
-    event.preventDefault();
-    if(event.target.value.length>0){
-      this.getSubjects(event.target.value)
-      this.setState({
-        group_name:event.target.value
-      })
-    }
   }
 
   changePeriod(event){
@@ -93,11 +111,24 @@ class AdminAddSchedule extends React.Component {
     this.setState({
       period: period
     })
-        this.getAuditories()
+    this.getAuditories()
+    if(this.state.period.semester.length>0 && this.state.period.semester!='_'){
+      this.getSubjects(this.state.period.semester)
+    }
   }
 
+  selectSubj(event){
+    console.log(event.target.name, event.target.id, event.target.value, event.target.className)
+    this.setState({
+      subject: this.state.subjects.filter(function(subject) {
+                            return subject._id.indexOf(event.target.value) > -1;
+                        })
+    })
+  }
+  
   render() {
-    console.log(this.state.period.year.length)
+    var subjects = this.state.subjects
+
     return (
       <div className="container clearfix">
         <div className="bg-title">
@@ -135,43 +166,806 @@ class AdminAddSchedule extends React.Component {
               </thead>
               <tbody>
                 {
-                  this.state.auditories.length>0? (
-                    this.state.auditories.map(function(auditory, index){
-                      return (
+                  this.state.auditories.length>0?(
+                    this.state.auditories.map((auditory, index) =>
                       <tr key={index}>
                         <td>
                           <b>{auditory.auditory_name}</b><br/>
                         </td>
                         <td>
-                          <select className="form-control">
-                            <option value=''>Выберите время</option>
-                            <option value='8:00-8:50'>8:00-8:50</option>
-                            <option value='9:00-9:50'>9:00-9:50</option>
-                            <option value='10:00-10:50'>10:00-10:50</option>
-                            <option value='11:00-11:50'>11:00-11:50</option>
-                            <option value='12:00-12:50'>12:00-12:50</option>
-                            <option value='13:00-13:50'>13:00-13:50</option>
-                            <option value='14:00-14:50'>14:00-14:50</option>
-                            <option value='15:00-15:50'>15:00-15:50</option>
-                            <option value='16:00-16:50'>16:00-16:50</option>
-                            <option value='17:00-17:50'>17:00-17:50</option>
-                            <option value='18:00-18:50'>18:00-18:50</option>
-                            <option value='19:00-19:50'>19:00-19:50</option>
-                          </select>
+                          <p>8:00-8:50
+                              <select className={auditory._id} id='8:00-8:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                          </p>
+                          <p>9:00-9:50
+                            {
+                              <select className={auditory._id} id='9:00-9:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>10:00-10:50
+                            {
+                              <select className={auditory._id} id='10:00-10:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>11:00-11:50
+                            {
+                              <select className={auditory._id} id='11:00-11:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>12:00-12:50
+                            {
+                              <select className={auditory._id} id='12:00-12:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>13:00-13:50
+                            {
+                              <select className={auditory._id} id='13:00-13:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>14:00-14:50
+                            {
+                              <select className={auditory._id} id='14:00-14:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>15:00-15:50
+                            {
+                              <select className={auditory._id} id='15:00-15:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>16:00-16:50
+                            {
+                              <select className={auditory._id} id='16:00-16:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>17:00-17:50
+                            {
+                              <select className={auditory._id} id='17:00-17:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>18:00-18:50
+                            {
+                              <select className={auditory._id} id='18:00-18:50' name='monday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
                         </td>
-                        <td>
+<td>
+                          <p>8:00-8:50
+                              <select className={auditory._id} id='8:00-8:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                          </p>
+                          <p>9:00-9:50
+                            {
+                              <select className={auditory._id} id='9:00-9:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>10:00-10:50
+                            {
+                              <select className={auditory._id} id='10:00-10:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>11:00-11:50
+                            {
+                              <select className={auditory._id} id='11:00-11:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>12:00-12:50
+                            {
+                              <select className={auditory._id} id='12:00-12:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>13:00-13:50
+                            {
+                              <select className={auditory._id} id='13:00-13:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>14:00-14:50
+                            {
+                              <select className={auditory._id} id='14:00-14:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>15:00-15:50
+                            {
+                              <select className={auditory._id} id='15:00-15:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>16:00-16:50
+                            {
+                              <select className={auditory._id} id='16:00-16:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>17:00-17:50
+                            {
+                              <select className={auditory._id} id='17:00-17:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>18:00-18:50
+                            {
+                              <select className={auditory._id} id='18:00-18:50' name='tuesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
                         </td>
-                        <td>                         
+<td>
+                          <p>8:00-8:50
+                              <select className={auditory._id} id='8:00-8:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                          </p>
+                          <p>9:00-9:50
+                            {
+                              <select className={auditory._id} id='9:00-9:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>10:00-10:50
+                            {
+                              <select className={auditory._id} id='10:00-10:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>11:00-11:50
+                            {
+                              <select className={auditory._id} id='11:00-11:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>12:00-12:50
+                            {
+                              <select className={auditory._id} id='12:00-12:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>13:00-13:50
+                            {
+                              <select className={auditory._id} id='13:00-13:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>14:00-14:50
+                            {
+                              <select className={auditory._id} id='14:00-14:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>15:00-15:50
+                            {
+                              <select className={auditory._id} id='15:00-15:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>16:00-16:50
+                            {
+                              <select className={auditory._id} id='16:00-16:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>17:00-17:50
+                            {
+                              <select className={auditory._id} id='17:00-17:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>18:00-18:50
+                            {
+                              <select className={auditory._id} id='18:00-18:50' name='wednesday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
                         </td>
-                        <td>                
+<td>
+                          <p>8:00-8:50
+                              <select className={auditory._id} id='8:00-8:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                          </p>
+                          <p>9:00-9:50
+                            {
+                              <select className={auditory._id} id='9:00-9:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>10:00-10:50
+                            {
+                              <select className={auditory._id} id='10:00-10:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>11:00-11:50
+                            {
+                              <select className={auditory._id} id='11:00-11:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>12:00-12:50
+                            {
+                              <select className={auditory._id} id='12:00-12:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>13:00-13:50
+                            {
+                              <select className={auditory._id} id='13:00-13:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>14:00-14:50
+                            {
+                              <select className={auditory._id} id='14:00-14:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>15:00-15:50
+                            {
+                              <select className={auditory._id} id='15:00-15:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>16:00-16:50
+                            {
+                              <select className={auditory._id} id='16:00-16:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>17:00-17:50
+                            {
+                              <select className={auditory._id} id='17:00-17:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>18:00-18:50
+                            {
+                              <select className={auditory._id} id='18:00-18:50' name='thursday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
                         </td>
-                        <td>                         
+<td>
+                          <p>8:00-8:50
+                              <select className={auditory._id} id='8:00-8:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                          </p>
+                          <p>9:00-9:50
+                            {
+                              <select className={auditory._id} id='9:00-9:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>10:00-10:50
+                            {
+                              <select className={auditory._id} id='10:00-10:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>11:00-11:50
+                            {
+                              <select className={auditory._id} id='11:00-11:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>12:00-12:50
+                            {
+                              <select className={auditory._id} id='12:00-12:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>13:00-13:50
+                            {
+                              <select className={auditory._id} id='13:00-13:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>14:00-14:50
+                            {
+                              <select className={auditory._id} id='14:00-14:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>15:00-15:50
+                            {
+                              <select className={auditory._id} id='15:00-15:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>16:00-16:50
+                            {
+                              <select className={auditory._id} id='16:00-16:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>17:00-17:50
+                            {
+                              <select className={auditory._id} id='17:00-17:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>18:00-18:50
+                            {
+                              <select className={auditory._id} id='18:00-18:50' name='friday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
                         </td>
-                        <td>                        
+<td>
+                          <p>8:00-8:50
+                              <select className={auditory._id} id='8:00-8:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                          </p>
+                          <p>9:00-9:50
+                            {
+                              <select className={auditory._id} id='9:00-9:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>10:00-10:50
+                            {
+                              <select className={auditory._id} id='10:00-10:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>11:00-11:50
+                            {
+                              <select className={auditory._id} id='11:00-11:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>12:00-12:50
+                            {
+                              <select className={auditory._id} id='12:00-12:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>13:00-13:50
+                            {
+                              <select className={auditory._id} id='13:00-13:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>14:00-14:50
+                            {
+                              <select className={auditory._id} id='14:00-14:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>15:00-15:50
+                            {
+                              <select className={auditory._id} id='15:00-15:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>16:00-16:50
+                            {
+                              <select className={auditory._id} id='16:00-16:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>17:00-17:50
+                            {
+                              <select className={auditory._id} id='17:00-17:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
+                          <p>18:00-18:50
+                            {
+                              <select className={auditory._id} id='18:00-18:50' name='saturday' onChange={this.selectSubj}>
+                                <option value=''>Выберите предмет</option>
+                                {
+                                 subjects.map((subject, index)=>
+                                    <option key={index} value={subject._id}>{subject.subject_name}</option>
+                                  )
+                                }
+                              </select>
+                            }
+                          </p>
                         </td>
                       </tr>
-                      )
-                    })
+                    )
                   ) : (
                       <tr>
                         <td>---</td>

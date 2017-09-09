@@ -54,20 +54,20 @@ class AdminGroups extends React.Component {
           <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>Название группы</th>
-                      <th>Специальность</th>
-                      <th>Кафедра</th>
-                      <th>Курс</th>
-                      <th>Куратор</th>
-                      <th>
-                          <center>
-                              Кол-во студентов
-                          </center>
-                      </th>
-                      <th>
-                          <center>Опции</center>
-                      </th>
+                    <th>№</th>
+                    <th>Название группы</th>
+                    <th>Специальность</th>
+                    <th>Кафедра</th>
+                    <th>Курс</th>
+                    <th>Куратор</th>
+                    <th>
+                      <center>
+                          Кол-во студентов
+                      </center>
+                    </th>
+                    <th>
+                      <center>Опции</center>
+                    </th>
                   </tr>
               </thead>
               {
@@ -75,35 +75,35 @@ class AdminGroups extends React.Component {
                     this.state.groups.map((group, g) =>
                       <tbody key={g}>
                         <tr>
-                            <td>{g+1}</td>
-                            <td>{group.group_name}</td>
-                            <td>{group.major.major_name}</td>
-                            <td>{group.major.major_department.department_name}</td>
-                            <td style={{textAlign: 'center'}}>{group.course_number}</td>
-                            <td>{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
-                            <td style={{textAlign: 'center'}}>{group.students.length}</td>
-                            <td style={{padding: '10px 20px'}}>
-                                <button onClick={this.toggleModal.bind(this, group)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
-                                    <i className="fa fa-pencil"></i>
-                                </button>
-                            </td>
+                          <td>{g+1}</td>
+                          <td>{group.group_name}</td>
+                          <td>{group.major.major_name}</td>
+                          <td>{group.major.major_department.department_name}</td>
+                          <td style={{textAlign: 'center'}}>{group.course_number}</td>
+                          <td>{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
+                          <td style={{textAlign: 'center'}}>{group.students.length}</td>
+                          <td style={{padding: '10px 20px'}}>
+                            <button onClick={this.toggleModal.bind(this, group)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                <i className="fa fa-pencil"></i>
+                            </button>
+                          </td>
                         </tr>
                       </tbody>
                     )
                 ) : (
                   <tbody>
                       <tr>
-                          <td>---</td>
-                          <td>---</td>
-                          <td>---</td>
-                          <td>---</td>
-                          <td>---</td>
-                          <td>
-                              <center>---
-                              </center>
-                          </td>
-                          <td style={{padding: '10px 20px'}}>---
-                          </td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>
+                          <center>---
+                          </center>
+                        </td>
+                        <td style={{padding: '10px 20px'}}>---
+                        </td>
                       </tr>
                   </tbody>
                 )

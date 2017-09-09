@@ -51,7 +51,6 @@ class AdminFaculties extends React.Component {
     }
 
   render() {
-    console.log(this.state.faculties)
     return (
       <div className="container clearfix">
       <div className="bg-title">

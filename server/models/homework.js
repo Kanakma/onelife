@@ -1,22 +1,29 @@
 const mongoose = require('mongoose');
 
 const Homework = new mongoose.Schema({
-  student_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Student'},
-  lessonDate: Date,
-  checked: {
-    type:Boolean,
-    default:false
+  answer: [{
+    student_id:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Student'
+    },
+    checked:{
+      type:Boolean,
+      default:false
   },
+    status: {
+      type:Boolean,
+      default:false
+    },
+    answer_file: String,
+    answer_message:String
+}],
+  lessonDate: Date,
   deadline: Date,
   subject_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Subject'},
   teacher_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Teacher'},
-  status: {
-    type:Boolean,
-    default:false
-  },
   group_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Group'},
   message: String,
-  file: String
+  file: String,
 });
 
 

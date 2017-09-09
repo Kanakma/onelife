@@ -204,7 +204,6 @@ class AdminEditStudentModal extends React.Component {
       }
 
   render(){
-    console.log(this.state.checkPass);
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;

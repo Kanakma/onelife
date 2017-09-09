@@ -15,6 +15,7 @@ var FinalMark=require('../models/finalmark')
 var Attendance = require('../models/attendance')
 var Homework = require('../models/homework')
 var Group = require('../models/group')
+var Auditory = require ('../models/auditory')
 const bcrypt = require('bcryptjs');
 var jwtDecode = require('jwt-decode');
 var mongoose = require('mongoose');
@@ -588,84 +589,135 @@ router.post('/addteacherimg', (req, res) => {
 })
 
 router.post('/addhomework', (req, res) => {
-Teacher.findOne({user_id: req.body.user_id}, (err, teacher) => {
-	if(err)console.log(err);
-  if (teacher){
-		Homework.find((err, homework) => {
-			if(err) console.log(err);
-			if(homework) {
-				var newHomework = {
-					message: req.body.description,
-					deadline: req.body.deadline,
-					lessonDate: req.body.lesson,
-					subject_id: req.body.subject_id,
-					teacher_id: teacher._id,
-					group_id:req.body.group_id
-				}
-				const newWork = new Homework(newHomework);
-		  	newWork.save((err, savedhomework) => {
-			  	if (err) console.log(err);
-					if (savedhomework){
-							res.send({
-								homework: savedhomework
-							})
+  if(req.query.filename){
+    let form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+		  	var tempPath = files.file[0].path;
+				var fileName = files.file[0].originalFilename;
+				let copyToPath = "public/teacher-homeworks/" + fileName;
+				fs.readFile(tempPath, (err, data) => {
+					// make copy of image to new location
+					fs.writeFile(copyToPath, data, (err) => {
+						// delete temp image
+						fs.unlink(tempPath, () => {
+							if(err) console.log(err);
+							else {
+         var students =  JSON.parse(fields.students)
+         console.log(students)
+              var homeworkData = {
+                description: fields.description,
+                deadline: fields.deadline,
+                subject_id: fields.subject_id,
+                lessonDate: fields.lessonDate,
+                answer: students,
+                group_id: fields.group_id,
+                file: fileName
+              }
+              const newHomework = new Homework(homeworkData);
+            newHomework.save((err, savedhomework) => {
+            if (err) console.log(err);
+            else {
+              // fields.students.map((student)=>{
+              //   console.log(typeof student)
+              //   // savedhomework.answer.push(student)
+              // })
+              console.log(savedhomework)
+            }
+            })
+
 						}
 					})
-				}
-		  })
-		}
-	})
+				})
+			})
+		})
+	} else {
+    var students = JSON.parse(req.body.students);
+    var homeworkData = {
+      description: req.body.description,
+      deadline: req.body.deadline,
+      subject_id: req.body.subject_id,
+      lessonDate: req.body.lessonDate,
+      answer: students,
+      group_id: req.body.group_id
+    }
+    const newHomework = new Homework(homeworkData);
+                newHomework.save((err, savedhomework) => {
+                  if (err) console.log(err);
+                  else {
+                    res.send({
+                      message:'дз удачно добавлено'
+                    })
+                  }
+                })
+	}
+
 });
 
-router.post('/addhomeworkfile', (req, res) => {
-		let form = new multiparty.Form();
-				form.parse(req, (err, fields, files) => {
-			  	var tempPath = files.file[0].path;
-					var fileName = files.file[0].originalFilename;
-					let copyToPath = "public/teacher-homeworks/" + fields.subjectId +'-'+ fileName;
-					fs.readFile(tempPath, (err, data) => {
-						// make copy of image to new location
-						fs.writeFile(copyToPath, data, (err) => {
-							// delete temp image
-							fs.unlink(tempPath, () => {
-								if(err) {
-									console.log(err)
-								}
-								else {
-									Teacher.findOne({user_id: fields.user_id}, (err, teacher) => {
-										if(err) console.log(err)
-										if (teacher){
-											Homework.find((err, homework) => {
-												if(err) console.log(err)
-												if(homework) {
-													var newHomework = {
-														message: fields.description,
-														deadline: fields.deadline,
-														lessonDate: fields.lesson,
-														subject_id: fields.subjectId,
-														teacher_id: teacher._id,
-														file: fields.subjectId +'-'+ fileName,
-														group_id:fields.group_id
-													}
-													const newWork = new Homework(newHomework);
-												  	newWork.save((err, savedhomework) => {
-													    if (err) console.log(err);
-															if(savedhomework){
-																	res.send({
-																		homework: savedhomework
-																	})
-																}
-															})
-														}
-												  })
-												}
-											})
-								}
-							});
-						});
-					});
+router.post('/edithomework', (req, res) => {
+  if(req.query.filename){
+    let form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+		  	var tempPath = files.file[0].path;
+				var fileName = files.file[0].originalFilename;
+				let copyToPath = "public/teacher-homeworks/" + fileName;
+				fs.readFile(tempPath, (err, data) => {
+					// make copy of image to new location
+					fs.writeFile(copyToPath, data, (err) => {
+						// delete temp image
+						fs.unlink(tempPath, () => {
+							if(err) console.log(err);
+							else {
+         var students =  JSON.parse(fields.students)
+         console.log(students)
+              var homeworkData = {
+                description: fields.description,
+                deadline: fields.deadline,
+                subject_id: fields.subject_id,
+                lessonDate: fields.lessonDate,
+                answer: students,
+                group_id: fields.group_id,
+                file: fileName
+              }
+              const newHomework = new Homework(homeworkData);
+            newHomework.save((err, savedhomework) => {
+            if (err) console.log(err);
+            else {
+              // fields.students.map((student)=>{
+              //   console.log(typeof student)
+              //   // savedhomework.answer.push(student)
+              // })
+              console.log(savedhomework)
+            }
+            })
+
+						}
+					})
 				})
-})
+			})
+		})
+	} else {
+    var students = JSON.parse(req.body.students);
+    var homeworkData = {
+      description: req.body.description,
+      deadline: req.body.deadline,
+      subject_id: req.body.subject_id,
+      lessonDate: req.body.lessonDate,
+      answer: students,
+      group_id: req.body.group_id
+    }
+    const newHomework = new Homework(homeworkData);
+                newHomework.save((err, savedhomework) => {
+                  if (err) console.log(err);
+                  else {
+                    res.send({
+                      message:'дз удачно добавлено'
+                    })
+                  }
+                })
+	}
+
+});
+
 
 
 router.post('/editteacher', (req, res) =>{
@@ -2508,39 +2560,30 @@ router.get('/getattendanceforall',(req,res)=>{
 })
 
 router.post('/updatestudentsforattendance',(req,res)=> {
-	//var attendances=JSON.parse(req.body.data);
-	 var group_name=req.body.group_name;
-	 var att_date=req.body.att_date;
-
-
-    Attendance.find({
-    	group_id:group_name,
-    	date:att_date
-
-    }).populate({
-    	path: 'student',
-    	populate: {
-    		path:'user_id'
-    	}
-    }).exec(function(err,attendances){
-    	if(err){
-    		res.status(500).send({err:err});
-
-    	} else {
-    		if(attendances.length!=0){
-    			res.status(200).send({attendances:attendances})
-
-    		} else{
-    			res.send({
-    				attendances: attendances,
-    				message: 'Ничего не найдено'
-    			})
-
-    		}
-
-    	}
-    })
-
+ 	var group_name=req.body.group_name;
+ 	var att_date=req.body.att_date;
+  Attendance.find({
+  	group_id:group_name,
+  	date:att_date
+  }).populate({
+  	path: 'student',
+  	populate: {
+  		path:'user_id'
+  	}
+  }).exec(function(err,attendances){
+  	if(err){
+  		res.status(500).send({err:err});
+  	} else {
+  		if(attendances.length!=0){
+  			res.status(200).send({attendances:attendances})
+  		} else{
+  			res.send({
+  				attendances: attendances,
+  				message: 'Ничего не найдено'
+  			})
+  		}
+  	}
+  })
 })
 router.post('/updatestudentsforattendance_easy',(req,res)=> {
 	//var attendances=JSON.parse(req.body.data);
@@ -2579,33 +2622,33 @@ router.post('/updatestudentsforattendance_easy',(req,res)=> {
 })
 
 router.post('/addmark',(req,res) =>{
-	 var marks=JSON.parse(req.body.data);
-	 var group_name=req.body.group_name;
-	 var att_date=req.body.att_date;
-	 var subject_id =req.body.subject_id;
-	 var mark_type = req.body.mark_type;
-    // console.log(mark_type,'mark_type')
-   
-     marks.map(function(mark){
-     	var newMark=  new Mark ({
-     		student: mark.name,
-	     	date: att_date,
-	     	stud_mark: mark.stud_mark,
-	     	subject_name: subject_id,
-	     	group_id: group_name,
-	     	mark_type: mark_type
-     	})
-     	newMark.save(function(err,saved){
-     		if(err)console.log (err);
-     		if(saved){
-     		//console.log(saved)
-     		}
-     	})
-     })
-   res.status(200).send({
-   message: "Вы выставили успеваемость"
-   })
+	var marks=JSON.parse(req.body.data);
+	var group_name=req.body.group_name;
+	var att_date=req.body.att_date;
+	var subject_id =req.body.subject_id;
+	console.log(subject_id,'subject_id')
+	console.log(att_date,'att_')
+	console.log(group_name,'group_name')
+	marks.map(function(mark){
+		var newMark=  new Mark({
+			student: mark.name,
+			date: att_date,
+			stud_mark: mark.stud_mark,
+			subject_name: subject_id,
+			group_id: group_name
+		})
+		newMark.save(function(err,saved){
+			if(err)console.log (err);
+			if(saved){
+				console.log(saved)
+			}
+		})
+	})
+	res.status(200).send({
+		message: "Вы выставили успеваемость"
+	})
 })
+
 
 router.post('/addfinalmark',(req,res) =>{
 	 var marks=JSON.parse(req.body.data);
@@ -2828,9 +2871,9 @@ router.post('/updatestudentsallmarks',(req,res) =>{
 
     	}
      })
+  })
 
 
-})
 router.get('/gender_girl',(req,res)=>{
 	User.count({
 		gender: 'Женщина',
@@ -2842,11 +2885,9 @@ router.get('/gender_girl',(req,res)=>{
 			res.status(200).send({girls: girls});
 		}
 	})
-
-
 })
-router.get('/gender_all',(req,res)=>{
 
+router.get('/gender_all',(req,res)=>{
 	User.count({
 		status: 'student'
 	}).exec(function(err,all){
@@ -2854,7 +2895,6 @@ router.get('/gender_all',(req,res)=>{
 			res.status(500).send({err: err});
 		} else {
 			res.status(200).send({all: all});
-
 		}
 	})
 })
@@ -2884,19 +2924,13 @@ router.get('/count_majors',(req,res) =>{
 								majNames.push({name: m.major_name, value: major[ind[0]].count})
 							}
 						})
-					//	console.log(majNames)
-
 						res.status(200).send({majNames:majNames})
-
 					}
 			})
-
-
 		}
-
 	})
-
 })
+
 router.get('/getgroupteacher', (req, res) => {
 	var token = req.headers.authorization.split(' ')[1];
 	var decoded = jwtDecode(token);
@@ -2959,7 +2993,7 @@ router.get('/mygroup1', (req,res) => {
 			user_id:userId
 		}).populate({
 			path:'group_id',
-			
+
 		}).exec(function(err,student){
 		if(err) {
 			res.status(500).send({err: err});
@@ -2978,10 +3012,10 @@ router.get('/mygroup1', (req,res) => {
 				}
 				else {
 					 res.status(200).send({student: student});
-					
+
 				}
 
-	
+
 
 		})
 	}
@@ -3010,7 +3044,7 @@ router.post('/updatemyattendance', (req,res) =>{
 		 		})
 		 	}
 		 })
-	
+
 
 })
 router.post('/updatemychildattendance', (req,res)=>{
@@ -3103,7 +3137,7 @@ router.post('/updatemymark',(req,res)=> {
 		 		})
 		 	}
 		 })
-	
+
 
 
 })
@@ -3129,11 +3163,12 @@ router.get('/mychildgroup', (req,res)=> {
                            })
 					    }
 					  })
-				 	}) 
-		 		
+				 	})
+
 		 	}
 		 })
 })
+
 router.get('/myfinalmarks', (req,res)=> {
 	var student_id=req.query.student_id
 	//console.log(student_id,'adasd')
@@ -3187,6 +3222,7 @@ res.send({fm:arr, final_gpa:final_gpa})
 	})
 })
 
+
 router.get('/getsubjectgroups', (req, res)=>{
   Subject.findOne({_id: req.query.subjectId}).populate('groups').exec(function(err, subject){
     if(err) console.log(err);
@@ -3208,6 +3244,114 @@ router.get('/getmajorgroups', (req, res)=>{
       })
     }
   })
+})
+
+router.get('/getsubjforschedule', (req, res) =>{
+	Subject.find({period:Number(req.query.period)}).populate('faculty_id teacher_id groups').exec(function(err, subjects){
+		if(err) console.log(err)
+		if(subjects){
+			res.send({
+				subjects:subjects,
+				groups: subjects.groups
+			})
+		}
+	})
+})
+
+router.post('/addauditory', (req, res) =>{
+	var auditory = JSON.parse(req.body.auditory)
+	Auditory.findOne({auditory_name:auditory.auditory_name.toLowerCase()}, function(err, fAuditory){
+		if(err) console.log(err)
+		if(fAuditory){
+			res.status(409).send({
+				message: 'Эта аудитория уже есть в списке'
+			})
+		}else{
+			var data = {
+				auditory_name:auditory.auditory_name,
+				auditory_corp:auditory.auditory_corp,
+				auditory_level:auditory.auditory_level,
+				auditory_places:auditory.auditory_places
+			}
+			var newAuditory = new Auditory(data)
+			newAuditory.save((err, savedAuditory) =>{
+				if(err){
+					res.status(409).send({
+						message: err
+					})
+				}else if(savedAuditory){
+					res.status(200).send({message: "Аудитория добавлена"});
+				}
+			})
+		}
+	})
+})
+
+router.get('/getauditories', (req, res) =>{
+	Auditory.find({}, (err, auditories) =>{
+		if(err) console.log(err)
+		if(auditories){
+			res.send({
+				auditories
+			})
+		}
+	})
+})
+
+router.post('/deleteauditory', (req, res) =>{
+	var auditory_id = JSON.parse(req.body.auditory_id)
+	Auditory.findOneAndRemove({_id:auditory_id}, (err, deletedAuditory) =>{
+		if(err) console.log(err)
+		if(deletedAuditory){
+			res.send({
+				message:"Аудитория удалена успешно!"
+			})
+		}
+	})
+})
+
+router.post('/editauditory', (req, res) =>{
+	var newAuditory = JSON.parse(req.body.auditory)
+	Auditory.findOne({_id:req.body.auditory_id}, (err, auditory) =>{
+		if(err) console.log(err)
+		if(auditory){
+			if(newAuditory.auditory_name){
+				Auditory.findOne({auditory_name:newAuditory.auditory_name.toLowerCase()}, (err, sameAuditory) =>{
+					if(err) console.log(err)
+					else if(sameAuditory){
+						res.send({
+							err:"Аудитория с таким наименованием уже существует!"
+						})
+					} else{
+						auditory.auditory_name=(newAuditory.auditory_name!='')?newAuditory.auditory_name:auditory.auditory_name;
+						auditory.auditory_corp=(newAuditory.auditory_corp!='')?newAuditory.auditory_corp:auditory.auditory_corp;
+						auditory.auditory_level=(newAuditory.auditory_level!='')?newAuditory.auditory_level:auditory.auditory_level;
+						auditory.auditory_places=(newAuditory.auditory_places!='')?newAuditory.auditory_places:auditory.auditory_places;
+						auditory.save((err, saved) =>{
+							if(err) console.log(err)
+							if(saved){
+								res.send({
+									massage:"Аудитория изменена успешно!"
+								})
+							}
+						})
+					}
+				})
+			} else{
+				auditory.auditory_corp=(newAuditory.auditory_corp!='')?newAuditory.auditory_corp:auditory.auditory_corp;
+				auditory.auditory_level=(newAuditory.auditory_level!='')?newAuditory.auditory_level:auditory.auditory_level;
+				auditory.auditory_places=(newAuditory.auditory_places!='')?newAuditory.auditory_places:auditory.auditory_places;
+				auditory.save((err, saved) =>{
+					if(err) console.log(err)
+					if(saved){
+						res.send({
+							massage:"Аудитория изменена успешно!"
+						})
+					}
+				})
+			}
+		}
+	})
 })
 
 router.post('/calculateSemesterMark', (req,res) => {
@@ -3253,4 +3397,26 @@ Promise.all(promises).then(function(results) {
 
 
 })
+
+router.get('/getstudentsofgroup', (req, res)=>{
+  Student.find({group_id: req.query.groupId}).populate('user_id').exec(function(err, students){
+    if(err) console.log(err);
+    else{
+      res.send({
+        students: students
+      })
+    }
+  })
+})
+router.post('/getsubjectandgrouphomeworks', (req, res)=>{
+  Homework.find({group_id: req.body.group_id, subject_id: req.body.subject_id}).populate('group_id answers').exec(function(err, homeworks){
+    if(err) console.log(err);
+    else{
+      res.send({
+        homeworks: homeworks
+      })
+    }
+  })
+})
+
 module.exports = router;
