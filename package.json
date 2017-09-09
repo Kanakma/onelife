@@ -38,6 +38,7 @@
     "react-bootstrap-date-picker": "^5.0.1",
     "react-d3-basic": "^1.6.11",
     "react-dom": "^15.4.1",
+    "react-drag-and-drop": "^2.4.0",
     "react-dragula": "^1.1.17",
     "react-input-mask": "^0.8.2",
     "react-progressbar": "^15.4.1",
