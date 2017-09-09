@@ -1482,3 +1482,51 @@ ul.hr li {
   font-size: 67px;
   font-weight: 400;
 }
+.projectCard-1{
+  background:#F0FFF0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: 15px;
+  font-size: 13px;
+  text-align: left;
+  min-height: 25px;
+}
+.project{
+  line-height: 100%;
+  margin: auto;
+  text-align: center;
+  font-size: 1.2em;
+  width: 15%;
+}
+.ondrop-subject{
+  width: 100%;
+  height:50px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  background: #FFFAF0;
+}
+.ondrop-group{
+  width: 100%;
+  height:50px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  background: #F0FFFF;
+}
+.dragable{
+  background: #FA8072;
+  border-radius: 5px;
+  text-align: center;
+}
+.PowderBlue{
+  background: #B0E0E6;
+}
+.SkyBlue {
+  background: #87CEEB;
+}
+.Violet {
+  background: #EE82EE;
+}
+.Orchid {
+  background: #DA70D6;
+}

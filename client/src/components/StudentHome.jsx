@@ -29,7 +29,7 @@ const SimplePieChart = React.createClass({
           paddingAngle={0}
         >
           {
-            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+            data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
           }
         </Pie>
                <Tooltip/>
@@ -109,7 +109,7 @@ const SimplePieChart1 = React.createClass({
           paddingAngle={0}
         >
           {
-            data.map((entry, index) => <Cell fill={COLORS1[index % COLORS1.length]}/>)
+            data.map((entry, index) => <Cell key={index} fill={COLORS1[index % COLORS1.length]}/>)
           }
         </Pie>
                <Tooltip/>

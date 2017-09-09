@@ -337,7 +337,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
 
 
                              <PieChart className="pie_chart"  width={600} height={185}>
-        <Pie dataKey="" isAnimationActive={false} data={this.state.majNames} cx={200} cy={100} outerRadius={68} fill="#0B9EAF " label>
+        <Pie isAnimationActive={false} data={this.state.majNames} cx={200} cy={100} outerRadius={68} fill="#0B9EAF " label>
         {
             data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
           }
