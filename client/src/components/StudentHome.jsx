@@ -128,7 +128,8 @@ class StudentHome extends React.Component {
          user_id: {},
          major_id: {},
          faculty_id: {},
-         group_id:{}
+         group_id:{},
+         gpa: ''
        },
        img: '599c14d780239a46c51aa04b-default_avatar.png'
     },
@@ -150,6 +151,7 @@ class StudentHome extends React.Component {
         .then(res => {
           this.setState({
             student: res.data.student,
+            gpa: res.data.gpa,
             img: res.data.student.img
           });
         });
@@ -159,6 +161,7 @@ class StudentHome extends React.Component {
     this.context.router.history.push('/editstudentprofile', {userId: event.target.id})
   }
   render() {
+    console.log(this.state.gpa)
     return (
     <div className="container clearfix" style={{height:"1800px"}}>
     <div className="page-wrapper">
@@ -217,10 +220,10 @@ class StudentHome extends React.Component {
             <div className="student_credits_stat">
               <div className="students_courses_titles">
                 <p className="student_courses_title">Курсы</p>
-                <p className="student_courses_subtitle">Количество кредитов</p>
+                <p className="student_courses_subtitle">Количество предметов</p>
               </div>
               <div className="students_total_numbers">
-                <p className="student_total_courses_title">ВСЕГО КРЕДИТОВ</p>
+                <p className="student_total_courses_title">ВСЕГО ПРЕДМЕТОВ</p>
                 <p className="student_total_courses_subtitle">18</p>
               </div>
               <div className="stud_pie">
