@@ -1294,6 +1294,61 @@ router.get('/gethomework', (req, res) => {
       }
 	})
 });
+
+router.get('/getmaxstudents', (req, res) => {
+	Teacher.findOne({user_id: req.query.user_id}).populate('').exec(function(err, teacher){
+		if(err) {console.log(err) }
+		else {
+      var subStudents = [];
+      var pieData=[];
+      var s= new Promise(function(resolve, reject){
+        Subject.find({teacher_id: teacher._id}).populate({path: 'groups', populate: {path: 'students', populate: {path: 'user_id'}}}).exec(function(err, subjects){
+          if(err) console.log(err);
+          if(subjects){
+            subjects.map((sub, s)=>{
+              var length = 0;
+              sub.groups.map((gr, g)=>{
+                length+=gr.students.length;
+              })
+              subStudents.push({
+                name: sub.subject_name,
+                value: length
+              })
+              resolve('Success')
+            })
+          }
+        })
+      })
+      s.then(function(){
+        var end = new Promise(function(resolve, reject){
+          for(var i=0; i<3; i++){
+            var max = 0;
+            var index=0;
+            var f = new Promise (function(resolve, reject){
+              subStudents.map((len, l)=>{
+                if(len.value>max){
+                  max=len.value;
+                  index=l-1;
+                }
+              })
+              resolve('success')
+            })
+            f.then(function(){
+              pieData.push(subStudents.splice(index,1)[0]);
+            })
+            resolve('success')
+          }
+        })
+        end.then(function(){
+          res.send({
+            piedata: pieData
+          })
+        })
+      })
+		}
+	})
+});
+
 router.get('/getmajors', (req, res) => {
 	Major.find().populate('major_department groups').exec(function(err, majors){
 		if(err) {console.log(err) }
@@ -2736,13 +2791,13 @@ finalmark+=mark.stud_mark*0.3
     	  	 newFinalMark.save(function(err,saved){
      		if(err)console.log (err);
      		if(saved){
-    
+
      		//console.log(saved)
      		}
      	})
 
     		}
-    	 
+
 
     	} else {
 
@@ -2765,7 +2820,7 @@ var rk2= stud.stud_final_mark.stud_final+mark.stud_mark*0.3
           }).exec(function(err,s) {
           	if(err) console.log(err)
           		if(s) console.log(s)
-          }) 
+          })
 
 
 }
@@ -2805,7 +2860,7 @@ var sess= stud.stud_final_mark.stud_final+mark.stud_mark*0.4
  			  res.status(200).send({
    message: "Вы выставили Рубежный Контроль"
    })
-  
+
 })
 router.post('/updatestudentsforfinalmark', (req,res)=> {
 	 var subject_id=req.body.subject_id;
@@ -2907,7 +2962,7 @@ router.post('/updatestudentsformark_easy',(req,res)=> {
 router.post('/updatestudentsallmarks',(req,res) =>{
 	var group_name=req.body.group_name;
      var subject_id=req.body.subject_id;
-  
+
      Mark.aggregate(
      {
      	$group: { _id: '$mark_type', count : {$sum : 1 }}
@@ -2919,7 +2974,7 @@ router.post('/updatestudentsallmarks',(req,res) =>{
     		res.send({
     			mark_count:mark_count
     		})
-         
+
 
     	}
      })
@@ -3103,9 +3158,9 @@ router.post('/updatemychildattendance', (req,res)=>{
 
 		 var userId=req.body.userId;
 		 var subjectId=req.body.subjectId
-		 
+
 		 Parrent.findOne({ user_id : userId
-     }).populate( {path: 'childs', 
+     }).populate( {path: 'childs',
      populate: {path:  'group_id user_id ' }}).populate('user_id').exec(function(err,parent){
 if(err) console.log('не найдено')
  if(parent){
@@ -3135,9 +3190,9 @@ router.post('/updatemychildmark', (req,res)=>{
 
 		 var userId=req.body.userId;
 		 var subjectId=req.body.subjectId
-		
+
 		 Parrent.findOne({ user_id : userId
-     }).populate( {path: 'childs', 
+     }).populate( {path: 'childs',
      populate: {path:  'group_id user_id ' }}).populate('user_id').exec(function(err,parent){
 if(err) console.log('не найдено')
  if(parent){
@@ -3227,7 +3282,7 @@ router.get('/myfinalmarks', (req,res)=> {
 	}).exec(function(err, stud){
 		if(err) console.log(err);
 		else{
-		
+
 			FinalMark.find({student:stud._id}).populate('subject_name ').exec(function(err,fm){
 				    if(err) console.log(err);
 				    else{
@@ -3239,7 +3294,7 @@ router.get('/myfinalmarks', (req,res)=> {
 				    		i++
 				    		final_gpa+=v.stud_final_mark.stud_final
 				    		final_gpa=final_gpa/i
-				    		
+
 				    		resolve('Success!');
 
 				    	})
@@ -3264,7 +3319,7 @@ router.get('/myfinalmarks', (req,res)=> {
         //   })
 
 res.send({fm:arr, final_gpa:final_gpa})
-				    	})  //end of then  
+				    	})  //end of then
 				    }
 			})
 		}
@@ -3440,8 +3495,8 @@ Promise.all(promises).then(function(results) {
  	}
 
  })
- 	
-})  
+
+})
 
 
 })

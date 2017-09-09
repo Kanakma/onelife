@@ -6,9 +6,6 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import {ComposedChart, Area, PieChart, Pie, Sector, Cell,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar} from 'recharts';
 import { Line, Circle } from 'rc-progress';
-
-const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                  {name: 'Group C', value: 300}];
 const COLORS = [ '#036b77', '#ffc31d', '#ffffff'];
 const data1 = [{name: 'Page A', uv: 590, pv: 800, amt: 1400, h: 0},
               {name: 'Page B', uv: 868, pv: 967, amt: 1506, h: 450},
@@ -43,7 +40,11 @@ class TeacherHome extends React.Component {
        credit_number: 0,
        subject1: {},
        subject2: {},
-       subject3: {}
+       subject3: {},
+       piedata: [{
+         name: '',
+         value: Number
+       }]
 
     },
     this.creditsNumber = this.creditsNumber.bind(this);
@@ -82,6 +83,17 @@ class TeacherHome extends React.Component {
             });
             this.creditsNumber();
           });
+          axios.get('/api/getmaxstudents?user_id='+decoded.sub,  {
+            responseType: 'json',
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded'
+            }
+          })
+            .then(res => {
+              this.setState({
+                piedata: res.data.piedata
+              });
+            });
 
     }
     axios.get('/api/getstudents',  {
@@ -110,23 +122,9 @@ class TeacherHome extends React.Component {
   openProfile(event){
     this.context.router.history.push('/editprofile', {userId: event.target.id})
   }
-  // maxStudents(){
-  //   let max= 0;
-  //
-  //   this.state.subjects.map(function(subject, s){
-  //     if(subject.students.length>max){
-  //       max = subject.students.length;
-  //     }
-  //     return subject;
-  //   })
-  //   let subject1= {};
-  //   this.state.subjects.map(function(subject, s){
-  //     if(subject.students.length==max){
-  //       subject1 == subject;
-  //     }
-  //   })
-  // }
+
   render() {
+    console.log(this.state.piedata)
     return (
       <div className="container clearfix">
         <div className="page-wrapper">
@@ -171,7 +169,7 @@ class TeacherHome extends React.Component {
             <div className="teacher-common-statistic ">
               <div className="white-box" style={{height: '100%'}}>
                 <p className="teacher-common-statistic-text">Общая статистика</p>
-                
+
               </div>
             </div>
             <div className="teacher-number-statistic">
@@ -197,7 +195,7 @@ class TeacherHome extends React.Component {
               <div style={{display: 'flex'}}>
                 <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
                   <Pie
-                    data={data}
+                    data={this.state.piedata}
                     cx={300}
                     cy={100}
                     labelLine={false}
@@ -206,22 +204,22 @@ class TeacherHome extends React.Component {
                     fill="#8884d8"
                   >
                   	{
-                    	data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+                    	this.state.piedata.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
                     }
                   </Pie>
                 </PieChart>
                 <div style={{display: 'table-column', padding: '50px 0'}}>
                   <div style={{display: 'flex', margin: 'auto'}}>
                     <div className="students-number-color" style={{backgroundColor: '#ffffff'}}></div>
-                    <p className="number-subject-text"></p>
+                    <p className="number-subject-text">{this.state.piedata[0].name}</p>
                   </div>
                   <div style={{display: 'flex', margin: 'auto'}}>
                     <div className="students-number-color" style={{backgroundColor: '#ffc31d'}}></div>
-                    <p className="number-subject-text"></p>
+                    <p className="number-subject-text">{this.state.piedata[0].name}</p>
                   </div>
                   <div style={{display: 'flex', margin: 'auto'}}>
                     <div className="students-number-color" style={{backgroundColor: '#036b77'}}></div>
-                    <p className="number-subject-text"></p>
+                    <p className="number-subject-text">{this.state.piedata[0].name}</p>
                   </div>
                 </div>
               </div>
