@@ -66,7 +66,6 @@ class TeacherCheckHomeworks extends React.Component{
   }
 
   render() {
-    console.log(this.state.students_name)
     return (
       <div className="container clearfix">
       <div className="bg-title" style={{paddingRight: '3%'}}>
@@ -97,9 +96,9 @@ class TeacherCheckHomeworks extends React.Component{
             {this.state.answer.map((ans, a) =>
               <tr key={a}>
                   <td>{a+1}</td>
-                  <td>{this.state.students_name[a-1]} {this.state.students_lastname[a-1]}</td>
+                  <td>{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
                   {ans.answer_file?(
-                    <td><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id}>{ans.answer_file}</a></td>
+                    <td><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
                   ):(
                     <td>Нет файлов</td>
                   )
