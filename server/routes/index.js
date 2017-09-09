@@ -11,6 +11,7 @@ var QuizPoint = require('../models/quiz_point');
 var Department = require('../models/department');
 var Parrent = require('../models/parrent');
 var Mark=require('../models/mark')
+var FinalMark=require('../models/finalmark')
 var Attendance = require('../models/attendance')
 var Homework = require('../models/homework')
 var Group = require('../models/group')
@@ -2541,6 +2542,41 @@ router.post('/updatestudentsforattendance',(req,res)=> {
     })
 
 })
+router.post('/updatestudentsforattendance_easy',(req,res)=> {
+	//var attendances=JSON.parse(req.body.data);
+	 var group_name=req.body.group_name;
+	 var subject_id=req.body.subject_id;
+
+
+    Attendance.find({
+    	group_id:group_name,
+    	subject_id:subject_id
+
+    }).populate({
+    	path: 'student',
+    	populate: {
+    		path:'user_id'
+    	}
+    }).exec(function(err,attendances){
+    	if(err){
+    		res.status(500).send({err:err});
+
+    	} else {
+    		if(attendances.length!=0){
+    			res.status(200).send({attendances:attendances})
+
+    		} else{
+    			res.send({
+    				attendances: attendances,
+    				message: 'Ничего не найдено'
+    			})
+
+    		}
+
+    	}
+    })
+
+})
 
 router.post('/addmark',(req,res) =>{
 	 var marks=JSON.parse(req.body.data);
@@ -2571,14 +2607,182 @@ router.post('/addmark',(req,res) =>{
    })
 })
 
+router.post('/addfinalmark',(req,res) =>{
+	 var marks=JSON.parse(req.body.data);
+	 var group_name=req.body.group_name;
+	 var att_date=req.body.att_date;
+	 var subject_id =req.body.subject_id;
+	 var mark_type = req.body.mark_type;
+	 console.log(mark_type,'type')
+ var finalmark=0;
 
+
+      marks.map(function(mark){
+ var finalmark=0;
+finalmark+=mark.stud_mark*0.3
+
+      FinalMark.findOne({
+     	student:  mark.name,
+     	subject_name: subject_id,
+	    group_id: group_name,
+     }).exec(function(err,stud){
+    	if(!stud || err){
+
+    		if(mark_type==="Рубежный Контроль1"){
+    		var newFinalMark= new FinalMark({
+    			student: mark.name,
+    		   	date: att_date,
+	     		stud_mark: mark.stud_mark,
+	     		subject_name: subject_id,
+	  		 	group_id: group_name,
+	     	 	final_mark: {rk1: mark.stud_mark },
+	     	 	stud_final_mark: { stud_final: finalmark}
+    	  	})
+    	  	 newFinalMark.save(function(err,saved){
+     		if(err)console.log (err);
+     		if(saved){
+    
+     		//console.log(saved)
+     		}
+     	})
+
+    		}
+    	 
+
+    	} else {
+
+if(mark_type==="Рубежный Контроль2"){
+//	console.log(stud.stud_final_mark.stud_final,'maaark')
+var rk2= stud.stud_final_mark.stud_final+mark.stud_mark*0.3
+	       FinalMark.findOneAndUpdate({
+              	 student:  mark.name,
+              	 subject_name: subject_id,
+	  		 	 group_id: group_name,
+              } ,
+          {
+          	$set : {
+          		"final_mark.rk2": mark.stud_mark,
+          		"stud_final_mark.stud_final":rk2
+          	}
+          },
+          {
+          	upsert:true
+          }).exec(function(err,s) {
+          	if(err) console.log(err)
+          		if(s) console.log(s)
+          }) 
+
+
+}
+
+
+if(mark_type==="Сессия"){
+
+var sess= stud.stud_final_mark.stud_final+mark.stud_mark*0.4
+	              FinalMark.findOneAndUpdate({
+              	 student:  mark.name,
+              	 subject_name: subject_id,
+	  		 	 group_id: group_name,
+              } ,
+          {
+          	$set : {
+          		"final_mark.final_m": mark.stud_mark,
+          		"stud_final_mark.stud_final":sess
+          	}
+          },
+          {
+          	upsert:true
+          }).exec( function(err,s) {
+          	if(err) console.log(err)
+          		else  console.log(s)
+          })
+
+
+}
+
+
+      }
+  })
+
+
+
+  })
+ 			  res.status(200).send({
+   message: "Вы выставили Рубежный Контроль"
+   })
+  
+})
+router.post('/updatestudentsforfinalmark', (req,res)=> {
+	 var subject_id=req.body.subject_id;
+	 var group_name=req.body.group_name;
+	 	 FinalMark.find({
+	 	subject_name:subject_id,
+    	group_id:group_name
+	 }).populate({
+    	path: 'student',
+    	populate: {
+    		path:'user_id'
+    	}
+    }).exec(function(err,attendances){
+    	if(err){
+    		res.status(500).send({err:err});
+    	} else {
+
+    		if(attendances.length!=0){
+    			res.status(200).send({attendances:attendances})
+
+    		} else{
+    			res.send({
+    				attendances: attendances,
+    				message: 'Ничего не найдено'
+    			})
+
+    		}
+    	}
+    })
+
+})
 router.post('/updatestudentsformark',(req,res)=> {
 	 var subject_id=req.body.subject_id;
 	 var att_date=req.body.att_date;
 
+
 	 Mark.find({
 	 	subject_name:subject_id,
     	date:att_date
+	 }).populate({
+    	path: 'student',
+    	populate: {
+    		path:'user_id'
+    	}
+    }).exec(function(err,attendances){
+    	if(err){
+    		res.status(500).send({err:err});
+    	} else {
+
+    		if(attendances.length!=0){
+    			res.status(200).send({attendances:attendances})
+
+    		} else{
+    			res.send({
+    				attendances: attendances,
+    				message: 'Ничего не найдено'
+    			})
+
+    		}
+    	}
+    })
+
+
+
+})
+router.post('/updatestudentsformark_easy',(req,res)=> {
+	 var subject_id=req.body.subject_id;
+	 var group_name=req.body.group_name
+
+	 Mark.find({
+	 	subject_name:subject_id,
+	 	group_id: group_name
 	 }).populate({
     	path: 'student',
     	populate: {
@@ -2624,31 +2828,7 @@ router.post('/updatestudentsallmarks',(req,res) =>{
 
     	}
      })
-	 // Mark.find({
-	 // 	subject_name:subject_id,
-  //   	group_id:group_name
-	 // }).populate({
-  //   	path: 'student',
-  //   	populate: {
-  //   		path:'user_id'
-  //   	}
-  //   }).exec(function(err,attendances){
-  //   	if(err){
-  //   		res.status(500).send({err:err});
-  //   	} else {
 
-  //   		if(attendances.length!=0){
-  //   			res.status(200).send({attendances:attendances})
-
-  //   		} else{
-  //   			res.send({
-  //   				attendances: attendances,
-  //   				message: 'Ничего не найдено'
-  //   			})
-
-  //   		}
-  //   	}
-  //   })
 
 })
 router.get('/gender_girl',(req,res)=>{
@@ -2833,6 +3013,70 @@ router.post('/updatemyattendance', (req,res) =>{
 	
 
 })
+router.post('/updatemychildattendance', (req,res)=>{
+
+		 var userId=req.body.userId;
+		 var subjectId=req.body.subjectId
+		 
+		 Parrent.findOne({ user_id : userId
+     }).populate( {path: 'childs', 
+     populate: {path:  'group_id user_id ' }}).populate('user_id').exec(function(err,parent){
+if(err) console.log('не найдено')
+ if(parent){
+ 	//console.log(parent.childs._id,'sdfsd')
+
+ 	parent.childs.forEach( function(p){
+console.log(p._id, subjectId)
+
+Attendance.find({student: p._id, subject_id: subjectId}).populate({
+	path: 'student subject_id',
+		 	populate: {
+				path: 'user_id'
+			}
+}).exec(function(err,attendance){
+	if (err) console.log(err)
+		else
+				res.send({attendance:attendance})
+})
+
+ 	})
+
+  }
+
+})
+ })
+router.post('/updatemychildmark', (req,res)=>{
+
+		 var userId=req.body.userId;
+		 var subjectId=req.body.subjectId
+		
+		 Parrent.findOne({ user_id : userId
+     }).populate( {path: 'childs', 
+     populate: {path:  'group_id user_id ' }}).populate('user_id').exec(function(err,parent){
+if(err) console.log('не найдено')
+ if(parent){
+ 	//console.log(parent.childs._id,'sdfsd')
+
+ 	parent.childs.forEach( function(p){
+console.log(p._id, subjectId)
+Mark.find({student: p._id, subject_name: subjectId}).populate({
+	path: 'student subject_name',
+		 	populate: {
+				path: 'user_id'
+			}
+}).exec(function(err,attendance){
+	if (err) console.log(err)
+		else  console.log(attendance)
+				res.send({attendance:attendance})
+})
+
+ 	})
+
+  }
+
+})
+ })
+
 
 router.post('/updatemymark',(req,res)=> {
 	console.log(req.body)
@@ -2866,7 +3110,7 @@ router.post('/updatemymark',(req,res)=> {
 
 router.get('/mychildgroup', (req,res)=> {
      var userId=req.query.parentId;
-     console.log(userId,'userId')
+    //console.log(userId,'userId')
 
      Parrent.findOne({ user_id : userId
      }).populate( {path: 'childs', populate: {path:  'group_id user_id ' }}).populate('user_id').exec(function(err,parent){
@@ -2880,6 +3124,9 @@ router.get('/mychildgroup', (req,res)=> {
                            subjects.forEach(function(value){
                            	arr.push(value)
                            })
+                           res.send({
+                           	childs: arr
+                           })
 					    }
 					  })
 				 	}) 
@@ -2887,48 +3134,58 @@ router.get('/mychildgroup', (req,res)=> {
 		 	}
 		 })
 })
+router.get('/myfinalmarks', (req,res)=> {
+	var student_id=req.query.student_id
+	//console.log(student_id,'adasd')
+	var arr =[]
+	Student.findOne({
+		user_id:student_id
+	}).exec(function(err, stud){
+		if(err) console.log(err);
+		else{
+		
+			FinalMark.find({student:stud._id}).populate('subject_name ').exec(function(err,fm){
+				    if(err) console.log(err);
+				    else{
+				    	var arr=[]
+				    	var final_gpa=0
+				    	var promise = new Promise(function(resolve, reject) {
+				    		fm.forEach(function(v,i){
+				    		arr.push(v)
+				    		i++
+				    		final_gpa+=v.stud_final_mark.stud_final
+				    		final_gpa=final_gpa/i
+				    		
+				    		resolve('Success!');
 
+				    	})
+                             })
+				    	promise.then( function(){
+				    // 		console.log(fm)
+				    // 		FinalMark.findOneAndUpdate({
+        //         student:  fm.student,
+        //         subject_name: fm.subject_name,
+        // group_id: fm.group_name,
+        //       } ,
+        //   {
+        //    $set : {
+        //     "current_gpa.stud_gpa": final_gpa
+        //    }
+        //   },
+        //   {
+        //    upsert:true
+        //   }).exec( function(err,s) {
+        //    if(err) console.log(err)
+        //     else  console.log(s)
+        //   })
 
-// router.get('/mygroup1', (req,res) => {
-// 	var userId = req.query.studentId;
-
-
-// 		Student.findOne({
-// 			user_id:userId
-// 		}).populate({
-// 			path:'group_id',
-			
-// 		}).exec(function(err,student){
-// 		if(err) {
-// 			res.status(500).send({err: err});
-// 						//console.log('error2')
-
-// 		} else {
-// 			Subject.find({
-//                    groups: student.group_id
-// 			}).exec(function(err,subject){
-// 				if(err) {
-// 					res.status(500).send({err: err});
-// 					//console.log('error1')
-// 				} if(subject) {
-// 					//console.log(group_name)
-// 					res.status(200).send({subject: subject,
-// 						student: student.group_id
-
-// 					})
-
-// 				}
-// 				else {
-// 					 res.status(200).send({student: student});
-					
-// 				}
-
-	
-
-// 		})
-// 	}
-// 	})
-// })
+res.send({fm:arr, final_gpa:final_gpa})
+				    	})  //end of then  
+				    }
+			})
+		}
+	})
+})
 
 router.get('/getsubjectgroups', (req, res)=>{
   Subject.findOne({_id: req.query.subjectId}).populate('groups').exec(function(err, subject){
@@ -2954,18 +3211,19 @@ router.get('/getmajorgroups', (req, res)=>{
 })
 
 router.post('/calculateSemesterMark', (req,res) => {
-	 var markvalues=JSON.parse(req.body.data)
-	 // console.log(markvalues,'assssssssss')
-	 var group_name=req.body.group_name;
-	 var subject_id= req.body.subject_id;
-	 //console.log(group_name,subject_id,'ssssssssss')
-var array=[]
-var semesterMarks=[]
-markvalues.map(function(markvalue, index){
+	var markvalues=JSON.parse(req.body.data)
+	var group_name=req.body.group_name;
+	var subject_id= req.body.subject_id;
+	var array=[]
+	var semesterMarks=[]
+
+	markvalues.map(function(markvalue, index){
  //console.log(markvalue.name + ' ' + markvalue.stud_mark)
  Mark.find({mark_type:markvalue.name,group_id: group_name,subject_name: subject_id}, (err, marks)=>{
+
+
  	if(marks){
- 		marks.map((mark)=>{
+ 		var promises=marks.map((mark)=>{
  		     //console.log(mark,'maaark')
  		     var studentSemesterMark ={
                        student: mark.student,
@@ -2977,16 +3235,21 @@ markvalues.map(function(markvalue, index){
  		     }
  		     semesterMarks.push(studentSemesterMark)
 
-
  		})
- 		 			console.log(semesterMarks,'fullArray')
 
- 	}
- })
+Promise.all(promises).then(function(results) {
+    console.log(results)
+     		 			console.log(semesterMarks,'fullArray')
 
 })
 
+ 		 		//	console.log(semesterMarks,'fullArray')
 
+ 	}
+
+ })
+ 	
+})  
 
 
 })

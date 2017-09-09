@@ -10,13 +10,12 @@ class TeacherAddAttendance extends React.Component {
     super(props);
 
     this.state = {
-      groups: [],
+        groups: [],
       group_name:'',
       message: '',
       errors: {},
       subjects: [],
       subject: {},
-      subject_groups: [],
       students: [],
       subject_id: '',
       checkSubject: false,
@@ -26,7 +25,7 @@ class TeacherAddAttendance extends React.Component {
       checkAttendance: false,
       attendances: [],
       att_date:'',
-      att_students: []
+      subject_groups: []
     };
   
     this.updateStudents = this.updateStudents.bind(this);
@@ -59,17 +58,15 @@ class TeacherAddAttendance extends React.Component {
 
   changeDate(value){
    var date = this.dateFormat(value)
-  
      this.setState({
         att_date: value
       });
-     const  group_name =this.state.group_name;
-     
-
+     const  subject_id =this.state.subject_id;
+  
     const val= value;
-    
-    const formData = `group_name=${group_name}&att_date=${val}`;
-   axios.post('/api/updatestudentsforattendance', formData, {
+   
+    const formData = `subject_id=${subject_id}&att_date=${val}`;
+   axios.post('/api/updatestudentsformark', formData, {
 
     responseType: 'json',
     headers: {
@@ -79,15 +76,16 @@ class TeacherAddAttendance extends React.Component {
       this.setState({
         attendances: res.data.attendances,
         message: res.data.message
+
       })
+
    })
     
 
   }
-   //update students on rabotaet bez filtracii
-  updateStudents(event){
-    console.log(event.target.value,'valuuuuue')
-    if(event.target.value.length > 0){
+ updateStudents(event){
+     // console.log(event.target.value)
+      if(event.target.value.length > 0){
 
       this.setState({
         group_name: event.target.value,
@@ -99,16 +97,19 @@ class TeacherAddAttendance extends React.Component {
       })
     } else {
       this.setState({
-        subject_id: event.target.value,
+        group_name: event.target.value,
         checkSubject: false,
         message: ''
       })
-    }
-    const  group_name =event.target.value;
-    const subject_id= this.state.subject_id;
-    
-    const formData = `group_name=${group_name}&subject_id=${subject_id}`;
-   axios.post('/api/updatestudentsforattendance_easy', formData, {
+     }
+
+        
+    const  subject_id =this.state.subject_id;
+    const group_name=event.target.value;
+
+   
+    const formData = `subject_id=${subject_id}&group_name=${group_name}`;
+   axios.post('/api/updatestudentsforfinalmark', formData, {
 
     responseType: 'json',
     headers: {
@@ -118,12 +119,16 @@ class TeacherAddAttendance extends React.Component {
       this.setState({
         attendances: res.data.attendances,
         message: res.data.message
+
       })
+
    })
+    
 
 
-  }
-//update groups
+   }
+
+
 updateGroups(event){
 
  if(event.target.value.length > 0){
@@ -157,25 +162,21 @@ updateGroups(event){
 }
  
 
-
-  
-
-
   render() {
-console.log(this.state.attendances,'adadads')
+console.log(this.state.attendances)
     return (
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Вся посещаемость</h4>
+        <h4>Вся Успеваемость</h4>
 
       </div>
       <div className="my-content  ">
 
       <div className="table-responsive">
+            <div className="form-group col-md-6">
 
-          <div className="form-group col-md-6">
-
+               
            <label>Выберите предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
@@ -184,10 +185,9 @@ console.log(this.state.attendances,'adadads')
               )}
               </select>
          </div>    
-
         <div className="form-group col-md-6">
-        <label>Выберите группу</label>
-             {
+        <label>Выберите предмет</label>
+               {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Выберите группу</option>
@@ -199,36 +199,36 @@ console.log(this.state.attendances,'adadads')
           <option value=''>групп не найдено</option>
           </select>
           )
-        }
-        </div>
-          <div className="form-group row">
-            <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
-              <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
-            </div>
-         
-          </div>
-               <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+        }        </div>
+ 
+          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
                       <th>ID</th>
                       <th>ФИО</th>
-                      <th>Статус</th>
-                      <th>Дата</th>
+                      <th>РК1</th>
+                      <th>РК2</th>
+                      <th>Сессия</th>
+                      <th>Итог</th>
+                      
                   </tr>
               </thead>
-                  <tbody>
+                <tbody>
               {this.state.attendances.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
                     <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    <td> {student.stud_attendance}</td>
-                    <td> {this.dateFormat(student.date)}</td>
-
-           
+                    <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
+            
+                    <td>{student.final_mark.rk1}</td>
+                    <td>{student.final_mark.rk2}</td>
+                    <td>{student.final_mark.final_m}</td>
+                    <td>{student.stud_final_mark.stud_final}</td>
+                    
+             
+                    
                 </tr>
               )}
               </tbody>

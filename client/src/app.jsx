@@ -49,8 +49,15 @@ import AdminAddAuditory from './components/AdminAddAuditory.jsx';
 import TeacherShowAttendance1 from './components/TeacherShowAttendance1.jsx';
 import StudentLookAttendance from './components/StudentLookAttendance.jsx';
 import StudentLookMark from './components/StudentLookMark.jsx';
-import ParentLookAttendance from './components/ParentLookAttendance.jsx';
-import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx'
+import ParentLookAttendance from './components/ParentLookAttendance1.jsx';
+import ParentLookMark from './components/ParentLookMark.jsx';
+import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx';
+import TeacherSetFinalMark from './components/TeacherSetFinalMark.jsx';
+import TeacherGetFinalMark from './components/TeacherGetFinalMark.jsx';
+import StudentGetFinalMark from './components/StudentGetFinalMark.jsx';
+
+
+
 import Auth from './modules/Auth';
 
 ReactDom.render((
@@ -106,8 +113,11 @@ ReactDom.render((
       <Route path="/student_attendance" component={StudentLookAttendance}/>
       <Route path="/student_mark" component={StudentLookMark}/>
       <Route path="/parent_attendance" component={ParentLookAttendance}/>
-      <Route path="/parent_attendance" component={ParentLookAttendance}/>
+      <Route path="/parent_mark" component={ParentLookMark}/>
       <Route path="/teacher_final_mark" component={TeacherAddFinalMark}/>
+      <Route path="/teacher_set_final_mark" component={TeacherSetFinalMark}/>
+      <Route path="/teacher_get_final_mark" component={TeacherGetFinalMark}/>
+      <Route path="/student_get_final_mark" component={StudentGetFinalMark}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

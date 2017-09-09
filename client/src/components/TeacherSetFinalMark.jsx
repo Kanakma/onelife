@@ -74,10 +74,10 @@ class TeacherAddMark extends React.Component {
  
     this.updateGroups=this.updateGroups.bind(this);
     this.sendMark = this.sendMark.bind(this);
-    this.changeDate=this.changeDate.bind(this);
     this.changeMark=this.changeMark.bind(this);
-    this.changeComment=this.changeComment.bind(this);
     this.changeMarkType=this.changeMarkType.bind(this);
+    this.changeDate=this.changeDate.bind(this);
+
   
   
   }
@@ -98,52 +98,7 @@ class TeacherAddMark extends React.Component {
   }
 
 
-  dateFormat(date){
-    var fDate = new Date(date);
-    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
-    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
-    return m + "/" + d + "/" + fDate.getFullYear()
-  }
-
-  dateFormat1(dd){
-    var fDate = new Date(dd);
-    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
-    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
-    return m + "/" + d + "/" + fDate.getFullYear()
-  }
-  changeDate(value){
-     this.setState({
-        att_date: value
-      });
-
-  }
-
   
-  changeComment(event){
-    
-    const field = event.target.id;
-    const student = this.state.student;
-    student[field] = event.target.value;
-    console.log(event.target.value,'value')
-    console.log(event.target.id,'comments')
-    var temp=this.state.marks;
-    var old = IndInObjArr(temp,event.target.id, 'name');
-      if(old.length > 0){
-        temp[old[0]].stud_comment = event.target.value;
-      } else {
-
-         temp.push({
-         name: event.target.id
-    })
-      }
-       this.setState({
-        comments: temp,
-        checkAttendance: true
-      })
-   
-   //console.log(temp,'temp')
-
-  }
  
 
   changeMark(event) {
@@ -177,35 +132,19 @@ class TeacherAddMark extends React.Component {
 
   sendMark(event){
  
-    var dd= new Date();
-
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-
-    var yyyy = today.getFullYear();
-    if(dd<10){
-      dd='0'+dd;
-    } 
-    if(mm<10){
-      mm='0'+mm;
-    } 
-
-    var today = mm+'/'+dd+'/'+yyyy;
+    
 
     event.preventDefault();
     const subject_id= this.state.subject_id;
     const group_name=this.state.group_name;
     const att_date=this.state.att_date;
     const mark_type=this.state.marktype;
-   console.log(mark_type,'adadaas')
-    var dd= this.dateFormat1(att_date);
-    console.log(dd);
-  
-  // if(today===dd){
-          const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}&mark_type=${mark_type}`;
 
-   axios.post('/api/addmark', formData, {
+
+
+    const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}&mark_type=${mark_type}`;
+
+   axios.post('/api/addfinalmark', formData, {
 
     responseType: 'json',
     headers: {
@@ -216,17 +155,7 @@ class TeacherAddMark extends React.Component {
         message: res.data.message
       })
    })
-  //} 
-  // if(today!=dd){
-  //     this.setState({
-  //       message: 'Вы можете выставлять успеваемость только на текущую дату'
-  //     })
-  // }
-  // else{
-  //   this.setState({
-  //       message: 'Укажите пожалуйста дату'
-  //     })
-  // }
+  
 
   }
 
@@ -299,13 +228,17 @@ class TeacherAddMark extends React.Component {
  
 
  changeMarkType(event){
-      this.setState({
+    this.setState({
       marktype:event.target.value
     })
 
   }
 
-
+  changeDate(value){
+     this.setState({
+        att_date: value
+      });
+  }
   render() {
 
 
@@ -343,28 +276,34 @@ class TeacherAddMark extends React.Component {
           )
         }
         </div>
-        <div className="form-group row">
-              <div className="col-md-3"><input type="radio" name="marktype" value="laboratory_work" onChange={this.changeMarkType} />Лаборатнорная работа</div>
-              <div className="col-md-3"><input type="radio" name="marktype" value="home_work" onChange={this.changeMarkType}/>Домашнее Задание</div>
-              <div className="col-md-3"><input type="radio" name="marktype" value="practical_work" onChange={this.changeMarkType}/>Практическое задание</div>
-              <div className="col-md-3"><input type="text" className="form-control" onChange={this.changeMarkType} placeholder="Другое" /></div>
+
+
+        <div className="form-group col-md-6 ">
+        <label>Выберите рк</label>
+          <select className="form-control " onChange={this.changeMarkType} >
+           
+          <option value=''>предмет не выбран</option>
+          <option value="Рубежный Контроль1">РК1</option>
+          <option value="Рубежный Контроль2">РК2</option>
+          <option value="Сессия">Сессия</option>
+          </select>
+        </div>
+         <div className="form-group col-md-6">
+          
+              <label>Дата проведения Пары</label>
+              <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
+            
         </div>
 
-          <div className="form-group row">
-            <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
-              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
-            </div>
-         
-      
+     
 
-          </div>
                 <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
                       <th>ID</th>
                       <th>ФИО</th>
+                   
                       <th>Оценка</th>
             
                       
@@ -407,7 +346,7 @@ class TeacherAddMark extends React.Component {
               )
             }
           
-           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
+           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить Рубежный Контроль</button>
            </div>
       </div>
 
