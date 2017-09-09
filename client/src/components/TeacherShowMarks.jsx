@@ -102,6 +102,23 @@ class TeacherAddAttendance extends React.Component {
         message: ''
       })
      }
+        const  subject_id =this.state.subject_id;
+        const group_name=event.target.value;
+        const formData = `subject_id=${subject_id}&group_name=${group_name}`;
+   axios.post('/api/updatestudentsformark_easy', formData, {
+
+    responseType: 'json',
+    headers: {
+          'Content-type': 'application/x-www-form-urlencoded'}
+   })
+       .then(res=>{
+      this.setState({
+        attendances: res.data.attendances,
+        message: res.data.message
+
+      })
+
+   })
 
 
    }
@@ -194,6 +211,7 @@ updateGroups(event){
                       <th>ФИО</th>
                       <th>Оценка</th>
                       <th>Тип Задания</th>
+                      <th>Дата</th>
                       
                   </tr>
               </thead>
@@ -204,10 +222,8 @@ updateGroups(event){
                     <td>{student.student.user_id.username}</td>
                     <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
                     <td>{student.stud_mark}</td>
-                    <td>{student.mark_type}</td>
-                    
-             
-                    
+                    <td>{student.mark_type}</td>  
+                    <td>{this.dateFormat(student.date)}</td>         
                 </tr>
               )}
               </tbody>

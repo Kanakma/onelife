@@ -6,31 +6,55 @@ import DatePicker from 'react-bootstrap-date-picker';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
 
-class ParentLookAttendance extends React.Component {
+class ParentCheckAttendance extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-   
-      childs : []
-
-
+      groups: [],
+      group_name:'',
+      message: '',
+      errors: {},
+      subjects: [],
+      subject: [],
+      subject_groups: [],
+      students: [],
+      subject_id: '',
+      checkSubject: false,
+      checkQuestion: false,
+      main_students: [],
+      stud_attendance: {},
+      checkAttendance: false,
+      attendances: [],
+      att_date:'',
+      att_students: [],
+      mygroup:'',
+      userId:'',
+      student: {
+         user_id: {}
+       },
+      group_name:'',
+      attendance: [],
+      onestudent: {},
+      childs: []
     };
   
-    this.updateMe = this.updateMe.bind(this);
+   this.updateAtt = this.updateAtt.bind(this);
+   this.dateFormat=this.dateFormat.bind(this);
+
  
   }
 
   componentDidMount() {
 
-        if(Auth.isUserAuthenticated()){
+      if(Auth.isUserAuthenticated()){
       var token = Auth.getToken();
       var decoded = jwtDecode(token);
       this.setState({
         userId: decoded.sub
       });
-      console.log(decoded.sub,'suuub')
+    //  console.log(decoded.sub,'suuub')
       axios.get('/api/mychildgroup?parentId='+decoded.sub,  {
         responseType: 'json',
         headers: {
@@ -49,70 +73,62 @@ class ParentLookAttendance extends React.Component {
 )}
       
 
-
 }
 
+ 
+ 
+ dateFormat(date){
+    var fDate = new Date(date);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
 
 
-        updateMe(event){
-
-         if(event.target.value.length > 0){
+updateAtt(event){
+  if(event.target.value.length > 0){
               this.setState({
                 subject_id: event.target.value,
-                checkSubject: true,
-                message: '',
-                students: this.state.main_students.filter(function(student) {
-                                          return student.lastname.indexOf(event.target.value) > -1;
-                                      })
               })
-          //  console.log(this.state.userId, event.target.value)
-            const  userId =this.state.student.students;
+
+            const  userId =this.state.userId;
             const subjectId=event.target.value;
+            //console.log(subjectId,'asas')
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
-           
-            axios.post('/api/updatemyattendance', formData, {
+              axios.post('/api/updatemychildattendance', formData, {
                     responseType: 'json',
                     headers: {
                       'Content-type': 'application/x-www-form-urlencoded'
                     }
             })
-              .then(res => {
+                 .then(res => {
                 this.setState({
                   //subject_groups: res.data.subject_groups.groups
                   attendance: res.data.attendance
                 });
               });
-            } else {
+           
+            }  else {
               this.setState({
                 subject_id: event.target.value,
                 checkSubject: false,
                 message: ''
               })
             }
-
-          
-
-        }
-         
-
-
+            
+}
+ 
   
 
 
   render() {
-   console.log(this.state.childs,'childdd')
-
-   //{this.state.child.childs.group_id.group_name} 
+   //console.log(  this.state.attendance)
 
     return (
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Посещаемость Студента</h4>
-        <h4>  {this.state.childs.map((sub, s) =>
-                <p key={s} value={sub._id}>{sub.user_id.name} {sub.user_id.lastname}</p>
-              )}
-        </h4>
+        <h4>Посещаемость</h4>
       </div>
       <div className="my-content  ">
 
@@ -121,7 +137,7 @@ class ParentLookAttendance extends React.Component {
           <div className="form-group col-md-6">
 
            <label>Выберите предмет</label>
-              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
+              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateAtt}>
               <option value=''>предмет не выбран</option>
               {this.state.childs.map((sub, s) =>
                 <option key={s} value={sub._id}>{sub.subject_name}</option>
@@ -152,14 +168,14 @@ class ParentLookAttendance extends React.Component {
                     <td>{student.student.user_id.username}</td>
                     <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
                     <td> {student.stud_attendance}</td>
-                    <td>{student.date}</td>
+                    <td>{this.dateFormat(student.date)}</td>
            
                 </tr>
               )}
               </tbody>) :(
               <tbody>
                   <tr>
-                  <td>У вас пока нет посещаемости</td>
+                  <td>Нет посещаемости</td>
                   </tr>
                   </tbody>
                 )
@@ -176,4 +192,4 @@ class ParentLookAttendance extends React.Component {
   }
 }
 
-export default  ParentLookAttendance;
+export default ParentCheckAttendance;
