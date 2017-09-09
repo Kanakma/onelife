@@ -57,6 +57,7 @@ import TeacherAddFinalMark from './components/TeacherAddFinalMark.jsx';
 import TeacherSetFinalMark from './components/TeacherSetFinalMark.jsx';
 import TeacherGetFinalMark from './components/TeacherGetFinalMark.jsx';
 import StudentGetFinalMark from './components/StudentGetFinalMark.jsx';
+import ParentGetFinalMark from './components/ParentGetFinalMark.jsx';
 
 import Auth from './modules/Auth';
 import TeacherCheckHomeworks from './components/TeacherCheckHomeworks.jsx';
@@ -122,6 +123,7 @@ ReactDom.render((
       <Route path="/teacher_set_final_mark" component={TeacherSetFinalMark}/>
       <Route path="/teacher_get_final_mark" component={TeacherGetFinalMark}/>
       <Route path="/student_get_final_mark" component={StudentGetFinalMark}/>
+      <Route path="/parent_get_final_mark" component={ParentGetFinalMark}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>

@@ -2142,14 +2142,66 @@ router.get('/getteachersubjects', (req, res) => {
 				})
 				router.get('/getstudentprofileinfo', (req, res) => {
 					var userId = req.query.studentId;
+				//	console.log(userId)
 							Student.findOne({user_id: userId}).populate('user_id').populate('major_id faculty_id group_id').exec(function(err, student){
 								if(err) { console.log(err) }
 								else {
+									console.log(student._id)
+									var gpa=0;
+									FinalMark.findOne({student: student._id},(err,fm) => {
+										if(err) console.log(err)
+// var promise = new Promise(function(resolve, reject) {
+// 				    		fm.forEach(function(v,i){
+// 				    		arr.push(v)
+// 				    		i++
+// 				    		final_gpa+=v.stud_final_mark.stud_final
+// 				    		final_gpa=final_gpa/i
+				    		
+// 				    		resolve('Success!');
+
+// 				    	})
+//                              })
+
+// 				    	promise.then( function(){
+// 				    		fm.forEach(function(i){
+
+	var gpa=0
+											if(fm) console.log(fm.current_gpa.stud_gpa)
+												if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
+													console.log('4.0')
+
+												} 
+												if(fm.current_gpa.stud_gpa>90 && fm.current_gpa.stud_gpa<92){console.log('3.7')} 
+												if(fm.current_gpa.stud_gpa>87 && fm.current_gpa.stud_gpa<89){console.log('3.3')}
+												if(fm.current_gpa.stud_gpa>83 && fm.current_gpa.stud_gpa<86){console.log('3.0')} 
+												if(fm.current_gpa.stud_gpa>80 && fm.current_gpa.stud_gpa<82){
+													console.log('2.7')
+													 gpa+=2.7
+
+												} 
+												if(fm.current_gpa.stud_gpa>77 && fm.current_gpa.stud_gpa<79){console.log('2.3')} 
+												if(fm.current_gpa.stud_gpa>73 && fm.current_gpa.stud_gpa<76){console.log('2.0')} 
+												if(fm.current_gpa.stud_gpa>70 && fm.current_gpa.stud_gpa<72){console.log('1.7')} 
+												if(fm.current_gpa.stud_gpa>67 && fm.current_gpa.stud_gpa<69){console.log('1.3')} 
+												if(fm.current_gpa.stud_gpa>65 && fm.current_gpa.stud_gpa<66){console.log('1.0')} 
+												if(fm.current_gpa.stud_gpa<65){console.log('0.0')} 
+
+
+ 
+									})
+
+
+
 										res.send({
-											student: student
+											student: student,
+											gpa: gpa
 										})
 								}
 							})
+
+
+
+				//console.log('hi')
 						})
 
 	router.get('/getoneteacher', (req, res) => {
@@ -3299,27 +3351,27 @@ router.get('/myfinalmarks', (req,res)=> {
 
 				    	})
                              })
-				    	promise.then( function(){
-				    // 		console.log(fm)
-				    // 		FinalMark.findOneAndUpdate({
-        //         student:  fm.student,
-        //         subject_name: fm.subject_name,
-        // group_id: fm.group_name,
-        //       } ,
-        //   {
-        //    $set : {
-        //     "current_gpa.stud_gpa": final_gpa
-        //    }
-        //   },
-        //   {
-        //    upsert:true
-        //   }).exec( function(err,s) {
-        //    if(err) console.log(err)
-        //     else  console.log(s)
-        //   })
 
-res.send({fm:arr, final_gpa:final_gpa})
-				    	})  //end of then
+				    	promise.then( function(){
+
+				    		fm.forEach(function(i){
+			    		FinalMark.findOne({
+                			student:  i.student,
+                			subject_name: i.subject_name._id,
+        					group_id: i.group_id
+         				}).exec( function(err,s) {
+          					if(err) console.log(err)
+           					if(s){
+				            	s.current_gpa.stud_gpa=final_gpa;
+				            	s.save (function(err, saved){
+				            	if(err) console.log(err)		
+				            		})
+           					}
+         				 })
+
+				    	})
+				    		res.send({fm:arr, final_gpa:final_gpa})
+				    	})  //end of then  
 				    }
 			})
 		}

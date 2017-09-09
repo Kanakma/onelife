@@ -40,6 +40,8 @@ class TeacherAddAttendance extends React.Component {
     };
   
     this.updateMe = this.updateMe.bind(this);
+    this.dateFormat=this.dateFormat.bind(this);
+
  
   }
 
@@ -73,7 +75,12 @@ class TeacherAddAttendance extends React.Component {
 
  
 
-
+ dateFormat(date){
+    var fDate = new Date(date);
+    var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+    var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+    return m + "/" + d + "/" + fDate.getFullYear()
+  }
 
         updateMe(event){
 
@@ -169,7 +176,7 @@ class TeacherAddAttendance extends React.Component {
                     <td>{student.student.user_id.username}</td>
                     <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
                     <td> {student.stud_attendance}</td>
-                    <td>{student.date}</td>
+                    <td>{this.dateFormat(student.date)}</td>
            
                 </tr>
               )}
