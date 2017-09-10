@@ -63,13 +63,13 @@ const TinyLineChart = React.createClass({
 
 //two area chart
 const data = [
-      {name: 'Январь', uv: 1500, pv: 2400, amt: 2400},
-      {name: 'Февраль', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Март', uv: 2500, pv: 9800, amt: 2290},
-      {name: 'Апрель', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Май', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Июнь', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Сентябрь', uv: 3490, pv: 4300, amt: 2100},
+      {name: 'Январь', Успеваемость: 90,Посещаемость: 53},
+      {name: 'Февраль', Успеваемость: 53, Посещаемость: 55},
+      {name: 'Март', Успеваемость: 87, Посещаемость: 77 },
+      {name: 'Апрель', Успеваемость: 76, Посещаемость: 50},
+      {name: 'Май', Успеваемость: 93, Посещаемость: 93},
+      {name: 'Июнь', Успеваемость: 83, Посещаемость: 51 },
+      {name: 'Сентябрь', Успеваемость: 70, Посещаемость: 75 },
 ];
 
 
@@ -82,8 +82,8 @@ const SimpleAreaChart = React.createClass({
         <YAxis/>
         <CartesianGrid strokeDasharray="3 3"/>
         <Tooltip/>
-        <Area type='monotone' dataKey='uv' stroke='#yellow' fill='#FFC31D' fillOpacity={0.3}/>
-        <Area type='monotone' dataKey='pv' stroke='#82ca9d' fill='#0B9EAF' fillOpacity={0.3}/>
+        <Area type='monotone' dataKey='Успеваемость' stroke='#yellow' fill='#FFC31D' fillOpacity={0.3}/>
+        <Area type='monotone' dataKey='Посещаемость' stroke='#82ca9d' fill='#0B9EAF' fillOpacity={0.3}/>
       </AreaChart>
     );
   }
@@ -129,7 +129,8 @@ class StudentHome extends React.Component {
          major_id: {},
          faculty_id: {},
          group_id:{},
-         gpa: ''
+         gpa: '',
+         procent_gpa: ''
        },
        img: '599c14d780239a46c51aa04b-default_avatar.png'
     },
@@ -152,6 +153,7 @@ class StudentHome extends React.Component {
           this.setState({
             student: res.data.student,
             gpa: res.data.gpa,
+            procent_gpa: res.data.procent_gpa,
             img: res.data.student.img
           });
         });
@@ -161,7 +163,7 @@ class StudentHome extends React.Component {
     this.context.router.history.push('/editstudentprofile', {userId: event.target.id})
   }
   render() {
-    console.log(this.state.gpa)
+
     return (
     <div className="container clearfix" style={{height:"1800px"}}>
     <div className="page-wrapper">
@@ -206,15 +208,18 @@ class StudentHome extends React.Component {
             <div className="student_gparechart_stat">
 
             <p className="student_max_score">Средний бал <br/>из максимальных 4.0</p>
-            <p className="student_gpa">3.84</p>
+            <p className="student_gpa">{this.state.gpa}</p>
             <div className="student_pie_chart">
-            <span className="student_total_gpa">80%</span>
+            <span className="student_total_gpa">{this.state.procent_gpa}</span>
              <SimplePieChart1 />
              </div>
 
             </div>
           </div>
         </div>
+
+
+      <div className="row">
         <div className=" col-md-4">
           <div className="student_courses_stat ">
             <div className="student_credits_stat">
@@ -249,7 +254,7 @@ class StudentHome extends React.Component {
         <div className="student_attendance">
         <div className="student_mixed_statistic">
           <div className="student_mixed_title">Статистика успеваемости и посещения</div>
-          <div className="student_mixed_subtitle">За 2 месяца</div>
+          <div className="student_mixed_subtitle">За 2016 год</div>
         </div>
         <div className="stud_icons">
          <img className="stud_img" src="./img/yellow1.png"/><span>Посещаемость</span>
@@ -258,6 +263,11 @@ class StudentHome extends React.Component {
          <SimpleAreaChart />
         </div>
         </div>
+    </div>
+
+
+
+
 
   <div id="main">
 
