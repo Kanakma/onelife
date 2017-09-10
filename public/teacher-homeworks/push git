@@ -1,0 +1,42 @@
+diana@diana-K53SV:~/Desktop/parser/blackhorse/server/routes$ git branch
+  feature/yousanquery
+  feauture/newsanquery
+* feauture/newsanquery1
+  master
+diana@diana-K53SV:~/Desktop/parser/blackhorse/server/routes$ git status
+On branch feauture/newsanquery1
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   index.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	"jgjg \320\270 \321\204\320\273\320\264\320\260\320\276\321\204\320\264\320\276\320\260 \320\270 \320\273\320\260\321\200\320\273\321\200\320\260) \320\270 (a \320\270\320\273\320\270 b)"
+	../../zhai
+
+no changes added to commit (use "git add" and/or "git commit -a")
+diana@diana-K53SV:~/Desktop/parser/blackhorse/server/routes$ git add index.js
+diana@diana-K53SV:~/Desktop/parser/blackhorse/server/routes$ git commit -m 'po poisku /n i pravila'
+[feauture/newsanquery1 2bace64] po poisku /n i pravila
+ 1 file changed, 250 insertions(+), 17 deletions(-)
+diana@diana-K53SV:~/Desktop/parser/blackhorse/server/routes$ git push origin feauture/newsanquery1
+Password for 'https://Dianaabv@bitbucket.org': 
+remote: Empty password
+fatal: Authentication failed for 'https://Dianaabv@bitbucket.org/gohin_kz/blackhorse.git/'
+diana@diana-K53SV:~/Desktop/parser/blackhorse/server/routes$ git push origin feauture/newsanquery1
+Password for 'https://Dianaabv@bitbucket.org': 
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 2.66 KiB | 0 bytes/s, done.
+Total 5 (delta 3), reused 0 (delta 0)
+remote: 
+remote: Create pull request for feauture/newsanquery1:
+remote:   https://bitbucket.org/gohin_kz/blackhorse/pull-requests/new?source=feauture/newsanquery1&t=1
+remote: 
+To https://Dianaabv@bitbucket.org/gohin_kz/blackhorse.git
+   d0f52da..2bace64  feauture/newsanquery1 -> feauture/newsanquery1
+
