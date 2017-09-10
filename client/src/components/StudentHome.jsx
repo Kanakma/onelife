@@ -219,7 +219,7 @@ class StudentHome extends React.Component {
         </div>
 
 
-      <div className="row">
+      
         <div className=" col-md-4">
           <div className="student_courses_stat ">
             <div className="student_credits_stat">
@@ -229,7 +229,7 @@ class StudentHome extends React.Component {
               </div>
               <div className="students_total_numbers">
                 <p className="student_total_courses_title">ВСЕГО ПРЕДМЕТОВ</p>
-                <p className="student_total_courses_subtitle">18</p>
+                <p className="student_total_courses_subtitle">4</p>
               </div>
               <div className="stud_pie">
                 <SimplePieChart />
@@ -263,7 +263,6 @@ class StudentHome extends React.Component {
          <SimpleAreaChart />
         </div>
         </div>
-    </div>
 
 
 

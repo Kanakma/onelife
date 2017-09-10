@@ -86,7 +86,7 @@ class Counter extends React.Component {
       if (counter > 0) {
         x.setState({ counter: counter - 1 });
       }
-    }, 10000);
+    }, 86400);
     return <span>{counter}</span>;
   }
 }
@@ -264,15 +264,16 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
               <div className="dashboard">
                 <div className="dash-col">
                   <div className = " first_row ">
-                    <p className = "dashboard_title">12 преподавателей онлайн</p>
+                    <p className = "dashboard_title">Кол-во преподавателей 89</p>
                   </div>
                   <div className = "second_row" >
-                    <p className = "dashboard_title">12 студентов онлайн</p>
+                    <p className = "dashboard_title">Кол-во студентов 346</p>
                   </div>
                   <div className ="courses_stat">
                     <p className="course-title"> {this.state.subject1.subject_name}</p>
                     <p className="student-number-text">Количество студентов
                     за семестр</p>
+                  <div className="admin_line"> 
                     <div style={{float: 'right', width: '100%'}}>
                       <img src='./img/pointer.png' style={{width: '25px', float:'right', height: '25px'}}/>
                       <span className="student-number">{this.state.subject1.remained}</span>
@@ -280,36 +281,46 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value1}%</span></div>
                     <Line percent={this.state.value1} strokeWidth="4" strokeColor="#0f71bc" trailColor="#D3D3D3" trailWidth='4'/>
                   </div>
+                   
+                  </div>
                   <div className ="courses_stat">
                     <p className="course-title"> {this.state.subject2.subject_name}</p>
                     <p className="student-number-text">Количество студентов
                     за семестр</p>
-                    <div style={{float: 'right', width: '100%'}}>
+                    <div className="admin_line">
+                     <div style={{float: 'right', width: '100%'}}>
                     <img src='./img/pointer2.png' style={{width: '25px', float:'right', height: '25px'}}/>
                     <span className="student-number">{this.state.subject2.remained}</span>
                     </div>
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value2}%</span></div>
                     <Line percent={this.state.value2} strokeWidth="4" strokeColor="#edd11e" trailColor="#D3D3D3" trailWidth='4'/>
+                    </div>
                   </div>
                   <div className ="courses_stat">
                     <p className="course-title"> {this.state.subject3.subject_name}</p>
                     <p className="student-number-text">Количество студентов
                     за семестр</p>
-                    <div style={{float: 'right', width: '100%'}}>
+                    <div className="admin_line">
+              <div style={{float: 'right', width: '100%'}}>
                     <img src='./img/pointer3.png' style={{width: '25px', float:'right', height: '25px'}}/>
                     <span className="student-number">{this.state.subject3.remained}</span>
                     </div>
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value3}%</span></div>
                     <Line percent={this.state.value3} strokeWidth="4" strokeColor="#ed1e40" trailColor="#D3D3D3" trailWidth='4' />
+                    </div>
                   </div>
                   <div className ="leveled_pie hidden-max-media">
+                  
                     <RadialBarChart width={500} height={300} cx={100} cy={90} innerRadius={30} outerRadius={80} barSize={5} data={data02} >
                     <RadialBar minAngle={20} label background clockWise={false} dataKey='uv'/>
                     <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='middle'/>
                     </RadialBarChart>
+   
+
                     <p className="leveled-pie-text">Успеваемость студентов (за месяц)</p>
                   </div>
                   <div className="big_stat">
+
                     <ul className="hr">
                     <div className="pie_text">
                     <p className="pie_title">Статистика Поступивших</p>
@@ -318,6 +329,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
                     <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
                     </ul>
+                    
                     <BarChart className="bar_chart" width={810} height={260} data={data1}
                     margin={{top: 20, right: 30, left: 20, bottom: 5}}>
                     <XAxis dataKey="name"/>
@@ -331,6 +343,8 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                   </div>
                   <div className="hidden-max-media" style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
                   <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
+              
+
                     <PieChart className="pie_chart"  width={600} height={185}>
                     <Pie isAnimationActive={false} data={this.state.majNames} cx={200} cy={100} outerRadius={68} fill="#0B9EAF " label>
                     {
@@ -339,6 +353,10 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     </Pie>
                     <Tooltip/>
                     </PieChart>
+
+
+
+
                     <div className="pie_menu">
 
                     <ul>
@@ -361,13 +379,18 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
               </div>
               <div className="dash-col2">
                 <div className ="leveled_pie">
+                <div className="radialBar_tv">
+
                   <RadialBarChart width={500} height={300} cx={100} cy={90} innerRadius={30} outerRadius={80} barSize={5} data={data02} >
                   <RadialBar minAngle={20} label background clockWise={false} dataKey='uv'/>
                   <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='middle'/>
                   </RadialBarChart>
+                  </div>
                   <p className="leveled-pie-text">Успеваемость студентов (за месяц)</p>
                 </div>
                 <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
+
+         <div className="tv_pie_chart">
                   <PieChart className="pie_chart"  width={600} height={185}>
                   <Pie isAnimationActive={false} data={this.state.majNames} cx={200} cy={100} outerRadius={68} fill="#0B9EAF " label>
                   {
@@ -376,6 +399,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                   </Pie>
                   <Tooltip/>
                   </PieChart>
+          </div>
                   <div className="pie_menu">
 
                   <ul>
@@ -389,7 +413,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                 <div className ="mini_stat">
                   <p className = "time_stat">До конца учебного года осталось:</p>
                   <div className="mini_row">
-                  <span className ="number_big"> <Counter val={20} /></span>
+                  <span className ="number_big"> <Counter val={250} /></span>
                   <span className ="day_big">дней</span>
                   </div>
                 </div>

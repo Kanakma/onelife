@@ -820,12 +820,10 @@ active state
  }
 
 .dashboard_title{
-    /* Style for "12 препода" */
-
   height: 33px;
+  font-size: 35px;
   color: #ffffff;
   font-family: "gothic";
-  font-size: 35px;
   font-weight: 400;
   margin:auto;
   }
@@ -859,33 +857,25 @@ active state
 
 .time_stat{
   width: 100%;
-  height: 15px;
   color: black;
   font-family: "gothic";
-  font-size: 16px;
   font-weight: 400;
-  padding-top:20px;
-  padding-left: 20px;
-/*  margin-left:21px;*/
 }
 .mini_row{
   text-align: center;
   margin-top: 20px;
 }
 .number_big{
-    height: 31px;
   color: #f05254;
   font-family: "gothic";
   font-weight: 400;
-  font-size: 40px;
+
 
 }
 .day_big{
-  height: 31px;
   color: #f05254;
   font-family: "gothic";
   font-weight: 400;
-  font-size: 14px;
 }
 .bar_chart{
   margin-top: 40px;
@@ -898,18 +888,13 @@ active state
 ul.hr {
   margin: 0; /* Обнуляем значение отступов */
   padding: 4px; /* Значение полей */
-
-
  }
 ul.hr li {
-  display: inline; /* Отображать как строчный элемент */
   margin-right: 5px; /* Отступ слева */
   padding: 15px; /* Поля вокруг текста */
   float: right;
   font-family: "gothic";
-  margin-top: 30px
-
-
+  margin-top: 30px;
   }
 .tech{
   height: 10px;
@@ -927,19 +912,13 @@ ul.hr li {
   margin-top: 22px;
 }
 .pie_title{
-  margin-left: -11px;
-  height: 15px;
   color: #000000;
   font-family: "gothic";
-  font-size: 16px;
   font-weight: 400;
 }
 .pie_subtext{
-  /* Style for "Количество" */
-  height: 11px;
   color: #808080;
   font-family: "gothic";
-  font-size: 12px;
   font-weight: 400;
 }
 
@@ -950,7 +929,6 @@ ul.hr li {
 .course-title{
   color: #000000;
   font-family: "gothic";
-  font-size: 16px;
   font-weight: 400;
 }
 .student-number-text{
@@ -972,9 +950,7 @@ ul.hr li {
 .leveled-pie-text{
   color: #000000;
   font-family: "gothic";
-  font-size: 14px;
-  font-weight: 400;
-  margin-top: -135px;
+ 
 }
 .recharts-layer path{
 
@@ -999,20 +975,17 @@ ul.hr li {
 }
 .letniki_text{
   /* Style for "Статистика" */
-  float: left;
-  height: 12px;
-  color: #000000;
   font-family: "gothic";
-  font-size: 14px;
   font-weight: 400;
-  margin: -12px;
-  margin-left: 20px;
-  margin-top: 66px;
+  color: #000000;
+  float: left;
+
+
+
 }
 .pie_menu{
   width: 200px;
-  margin-top: -126px;
-    margin-left: 163px;
+ 
 }
 .teacher-progress-bar{
   width: 33%;
