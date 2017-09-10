@@ -47,7 +47,7 @@ const SimpleAreaChart = React.createClass({
         <CartesianGrid strokeDasharray="3 3"/>
         <Tooltip/>
         <Area type='monotone' dataKey='uv' stroke='#yellow' fill='#FFC31D' fillOpacity={0.3}/>
-  
+
       </AreaChart>
     );
   }
@@ -152,117 +152,189 @@ class TeacherHome extends React.Component {
   }
 
   render() {
-    console.log(this.state.piedata)
     return (
       <div className="container clearfix">
         <div className="page-wrapper">
           <div className="bg-title" style={{margin: '0px' }}>
             <h4>Главная преподавателя</h4>
           </div>
-          <div className="profile-heading text-center vertical-align">
-            <div className="teacher-progress-bar" >
-              <div style={{width: '100%'}}><img className="teacher-heading-icons" src= "./img/graduate.png"/></div>
-              <div style={{width: '100%'}}><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО СТУДЕНТОВ</p></div>
-              <p className="teacher-heading-number" style={{color: '#cf4a4c'}}>{this.state.students.length}</p>
-              <Line percent="10" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
-            </div>
-            <div className="teacher-progress-bar" style={{borderLeft: '1px solid  #ffffff'}}>
-              <div><img className="teacher-heading-icons" src= "./img/clock.png"/></div>
-              <div><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО ЧАСОВ (МЕСЯЦ)</p></div>
-              <p className="teacher-heading-number" style={{color: '#0b9eaf'}}>{this.state.credit_number}</p>
-              <Line percent="70" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
-            </div>
-            <div className="teacher-progress-bar" style={{borderLeft: '1px solid  #ffffff'}}>
-              <div><img className="teacher-heading-icons" src= "./img/data-viewer.png"/></div>
-              <div><p className="teacher-heading-text">ЧИСЛО ПОСЕЩЕНИЙ ВАШЕЙ СТРАНИЦЫ</p></div>
-              <p className="teacher-heading-number" style={{color: '#f3ba1d'}}>120</p>
-              <Line percent="50" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#f3ba1d"/>
-            </div>
-            <div className="profile-heading-name ">
-            </div>
-            <div style={{fontSize: '20px', color: 'black'}}></div>
-          </div>
-          <div className="teacher-statistics">
-            <div className="teacher-mini-profile  text-center" >
-              <div className="white-box text-center" style={{height: '100%'}}>
-                <div style={{width: '100%'}}>
-                  <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
+          <div className="teacher-home-max">
+            <div className="teacher-col visible-max">
+              <div className="teacher-mini-profile  text-center " >
+                <div className="white-box text-center" style={{height: '100%'}}>
+                  <div style={{width: '100%'}}>
+                    <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
+                  </div>
+                  <p className="profile-teacher-name">{this.state.teacher.user_id.name} {this.state.teacher.user_id.lastname}</p>
+                  <p className="profile-teacher-name">ID: {this.state.teacher.user_id.username}</p>
+                  <p>{this.state.teacher.degree}</p>
+                  <button onClick={this.openProfile} id={this.state.userId} className="profile-teacher-btn">Настройки</button>
                 </div>
-                <p className="profile-teacher-name">{this.state.teacher.user_id.name} {this.state.teacher.user_id.lastname}</p>
-                <p className="profile-teacher-name">ID: {this.state.teacher.user_id.username}</p>
-                <p>{this.state.teacher.degree}</p>
-                <button onClick={this.openProfile} id={this.state.userId} className="profile-teacher-btn">Настройки</button>
               </div>
-            </div>
-            <div className="teacher-common-statistic ">
-              <div className="white-box" style={{height: '100%'}}>
-                <p className="teacher-common-statistic-text">Общая статистика</p>
-
-                         <SimpleAreaChart />
-
-
-              </div>
-            </div>
-            <div className="teacher-number-statistic">
-              <div className="white-box" style={{height: '100%'}}>
-                <p className="number-statistic-title">Количество студентов</p>
-                <p className="number-statistic-text">Записанные на ваши курсы</p>
-                <p className= "number-statistic-number">{this.state.students.length}</p>
-                <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
-                <p className="number-statistic-percent">22% выше с прошлого года</p>
-              </div>
-            </div>
-            <div className="teacher-number-statistic">
-              <div className="white-box" style={{height: '100%'}}>
-                  <p className="number-statistic-title">Учебный год</p>
-                  <p className="number-statistic-text">До конца учебного года остаось:</p>
-                  <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
-                  <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
-              </div>
-            </div>
-            <div className="teacher-courses-statistic">
-              <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
-              <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
-              <div style={{display: 'flex'}}>
-                <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
-                  <Pie
-                    data={this.state.piedata}
-                    cx={300}
-                    cy={100}
-                    labelLine={false}
-                    label={renderCustomizedLabel}
-                    outerRadius={90}
-                    fill="#8884d8"
-                  >
-                  	{
-                    	this.state.piedata.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
-                    }
-                  </Pie>
-                </PieChart>
-                <div style={{display: 'table-column', padding: '50px 0'}}>
-                  <div style={{display: 'flex', margin: 'auto'}}>
-                    <div className="students-number-color" style={{backgroundColor: '#ffffff'}}></div>
-                    <p className="number-subject-text">{this.state.piedata[0].name}</p>
+              <div style={{width: '49%'}}>
+                <div className="teacher-progress-statistic" style={{display: 'flex'}}>
+                <div>
+                  <span className= "courses-statistic-title">УСПЕВАЕМОСТЬ</span>
+                  <div><span className = "courses-statistic-text">Средний бал студентов</span></div>
+                  <span className="teacher-home-gpa">3.34</span>
+                </div>
+                    <div style={{float: 'right', marginLeft: '40px'}}><BarChart width={70} height={200} data={data2}>
+                     <Bar dataKey='uv' fill='#ffffff'/>
+                   </BarChart></div>
+                </div>
+                <div className="teacher-number-statistic">
+                  <div className="white-box" style={{height: '100%', display: 'grid'}}>
+                    <p className="number-statistic-title">Количество студентов</p>
+                    <p className="number-statistic-text">Записанные на ваши курсы</p>
+                    <p className= "number-statistic-number">{this.state.students.length}</p>
+                    <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                    <p className="number-statistic-percent">22% выше с прошлого года</p>
                   </div>
-                  <div style={{display: 'flex', margin: 'auto'}}>
-                    <div className="students-number-color" style={{backgroundColor: '#ffc31d'}}></div>
-                    <p className="number-subject-text">{this.state.piedata[0].name}</p>
-                  </div>
-                  <div style={{display: 'flex', margin: 'auto'}}>
-                    <div className="students-number-color" style={{backgroundColor: '#036b77'}}></div>
-                    <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                </div>
+              </div>
+              <div className="teacher-courses-statistic">
+                <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
+                <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
+                <div style={{display: 'flex'}}>
+                  <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
+                    <Pie
+                      data={this.state.piedata}
+                      cx={300}
+                      cy={100}
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={90}
+                      fill="#8884d8"
+                    >
+                      {
+                        this.state.piedata.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+                      }
+                    </Pie>
+                  </PieChart>
+                  <div style={{display: 'table-column', padding: '50px 0'}}>
+                    <div style={{display: 'flex', margin: 'auto'}}>
+                      <div className="students-number-color" style={{backgroundColor: '#ffffff'}}></div>
+                      <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                    </div>
+                    <div style={{display: 'flex', margin: 'auto'}}>
+                      <div className="students-number-color" style={{backgroundColor: '#ffc31d'}}></div>
+                      <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                    </div>
+                    <div style={{display: 'flex', margin: 'auto'}}>
+                      <div className="students-number-color" style={{backgroundColor: '#036b77'}}></div>
+                      <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="teacher-progress-statistic">
-              <p className= "courses-statistic-title">УСПЕВАЕМОСТЬ</p>
-              <p className = "courses-statistic-text">Средний бал студентов</p>
-              <span className="teacher-home-gpa">3.34</span>
-              <div style={{float: 'right'}}><BarChart width={70} height={200} data={data2}>
-               <Bar dataKey='uv' fill='#ffffff'/>
-             </BarChart>
-             </div>
+            <div className = "teacher-col2">
+            <div className="profile-heading text-center vertical-align">
+              <div className="teacher-progress-bar" >
+                <div style={{width: '100%'}}><img className="teacher-heading-icons" src= "./img/graduate.png"/></div>
+                <div style={{width: '100%'}}><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО СТУДЕНТОВ</p></div>
+                <p className="teacher-heading-number" style={{color: '#cf4a4c'}}>{this.state.students.length}</p>
+                <Line percent="10" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+              </div>
+              <div className="teacher-progress-bar" style={{borderLeft: '1px solid  #ffffff'}}>
+                <div><img className="teacher-heading-icons" src= "./img/clock.png"/></div>
+                <div><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО ЧАСОВ (МЕСЯЦ)</p></div>
+                <p className="teacher-heading-number" style={{color: '#0b9eaf'}}>{this.state.credit_number}</p>
+                <Line percent="70" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+              </div>
+              <div className="teacher-progress-bar" style={{borderLeft: '1px solid  #ffffff'}}>
+                <div><img className="teacher-heading-icons" src= "./img/data-viewer.png"/></div>
+                <div><p className="teacher-heading-text">ЧИСЛО ПОСЕЩЕНИЙ ВАШЕЙ СТРАНИЦЫ</p></div>
+                <p className="teacher-heading-number" style={{color: '#f3ba1d'}}>120</p>
+                <Line percent="50" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#f3ba1d"/>
+              </div>
+              <div className="profile-heading-name ">
+              </div>
+              <div style={{fontSize: '20px', color: 'black'}}></div>
+            </div>
+              <div className="teacher-statistics">
+                <div className="teacher-mini-profile  text-center hidden-max-media" >
+                  <div className="white-box text-center" style={{height: '100%'}}>
+                    <div style={{width: '100%'}}>
+                      <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
+                    </div>
+                    <p className="profile-teacher-name">{this.state.teacher.user_id.name} {this.state.teacher.user_id.lastname}</p>
+                    <p className="profile-teacher-name">ID: {this.state.teacher.user_id.username}</p>
+                    <p>{this.state.teacher.degree}</p>
+                    <button onClick={this.openProfile} id={this.state.userId} className="profile-teacher-btn">Настройки</button>
+                  </div>
+                </div>
+                <div className="teacher-common-statistic">
+                  <div className="white-box" style={{height: '100%'}}>
+                    <p className="teacher-common-statistic-text">Общая статистика</p>
+
+                             <SimpleAreaChart />
+
+
+                  </div>
+                </div>
+                <div className="teacher-number-statistic hidden-max-media">
+                  <div className="white-box" style={{height: '100%'}}>
+                    <p className="number-statistic-title">Количество студентов</p>
+                    <p className="number-statistic-text">Записанные на ваши курсы</p>
+                    <p className= "number-statistic-number">{this.state.students.length}</p>
+                    <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                    <p className="number-statistic-percent">22% выше с прошлого года</p>
+                  </div>
+                </div>
+                <div className="teacher-number-statistic hidden-max-media">
+                  <div className="white-box" style={{height: '100%'}}>
+                      <p className="number-statistic-title">Учебный год</p>
+                      <p className="number-statistic-text">До конца учебного года остаось:</p>
+                      <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
+                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                  </div>
+                </div>
+                <div className="teacher-courses-statistic hidden-max-media">
+                  <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
+                  <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
+                  <div style={{display: 'flex'}}>
+                    <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
+                      <Pie
+                        data={this.state.piedata}
+                        cx={300}
+                        cy={100}
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        outerRadius={90}
+                        fill="#8884d8"
+                      >
+                      	{
+                        	this.state.piedata.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+                        }
+                      </Pie>
+                    </PieChart>
+                    <div style={{display: 'table-column', padding: '50px 0'}}>
+                      <div style={{display: 'flex', margin: 'auto'}}>
+                        <div className="students-number-color" style={{backgroundColor: '#ffffff'}}></div>
+                        <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                      </div>
+                      <div style={{display: 'flex', margin: 'auto'}}>
+                        <div className="students-number-color" style={{backgroundColor: '#ffc31d'}}></div>
+                        <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                      </div>
+                      <div style={{display: 'flex', margin: 'auto'}}>
+                        <div className="students-number-color" style={{backgroundColor: '#036b77'}}></div>
+                        <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="teacher-progress-statistic hidden-max-media">
+                  <p className= "courses-statistic-title">УСПЕВАЕМОСТЬ</p>
+                  <p className = "courses-statistic-text">Средний бал студентов</p>
+                  <span className="teacher-home-gpa">3.34</span>
+                  <div style={{float: 'right'}}><BarChart width={70} height={200} data={data2}>
+                   <Bar dataKey='uv' fill='#ffffff'/>
+                 </BarChart>
+                 </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -43,8 +43,84 @@
     height:150px;
     margin-top: auto;
   }
+  .profile-heading{
+    width: 100%;
+    height: 300px;
+    float: right;
+  }
+  .teacher-home-max{
+    display: flex;
+    padding: 20px;
+  }
+  .teacher-statistics{
+    width: 100%;
+    float: left;
+    padding: 0px;
+  }
+  /*.teacher-mini-profile{
+    width: 45%;
+    min-height: 400px;
+  }*/
+  .teacher-mini-profile{
+    width: 49%;
+    min-height: 400px;
+  }
+  .teacher-number-statistic{
+    width: 100%;
+    height: 150px;
+    margin: 10px 0 0 0;
+  }
+  .teacher-common-statistic{
+    height: 450px;
+    width: 100%;
+    margin: 20px 0;
+    /*background-color: white;*/
+  }
+  .teacher-progress-statistic{
+    width: 100%;
+    height: 240px;
+    padding: 30px 44px;
+  }
+  .teacher-courses-statistic{
+    height: 350px;
+    width: 100%;
+    margin: 20px 0px;
+    padding: 30px 44px;
+  }
+  .teacher-dash{
+    display: flex;
+    flex-flow:  row wrap;
+    justify-content: space-between;
+  }
+  .visible-max{
+    display: block;
+  }
+  .teacher-col2{
+    width: 49%;
+  }
+  .teacher-col{
+    width: 49%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 0 20px 0 0;
+  }
 }
 @media screen and (max-width: 1400px){
+  .teacher-dash{
+    display: block;
+  }
+  .visible-max{
+    display: none;
+  }
+  .teacher-mini-profile{
+    width: 30%;
+    margin: 0 10px;
+  }
+.profile-heading{
+  width: 100%;
+  height: 300px;
+}
 .first_row{
   display: inline-block;
   width:49%;
@@ -79,6 +155,40 @@
   width:100%;
   height:118px;
   margin-top: 20px;
+}
+.teacher-home-max{
+  display: block;
+  padding: 0px;
+}
+.teacher-statistics{
+  width: 100%;
+  padding: 20px 10px;
+}
+.teacher-number-statistic{
+  width: 48%;
+  height: 250px;
+  margin: 20px 10px;
+}
+.teacher-common-statistic{
+  height: 450px;
+  width: 66%;
+  margin: 0 10px;
+  /*background-color: white;*/
+}
+.teacher-progress-statistic{
+  width: 28%;
+  height: 340px;
+  margin: 0 10px;
+  padding: 30px 44px;
+}
+.teacher-courses-statistic{
+  height: 340px;
+  width: 68%;
+  margin: 0 10px;
+  padding: 30px 44px;
+}
+.teacher-col2{
+  width: 100%;
 }
 }
 @media screen and (max-width: 1200px){
