@@ -1400,14 +1400,14 @@ ul.hr li {
   height:50px;
   border-top: 2px solid white;
   border-left: 2px solid white;
-  background: #FFFAF0;
+  background: #FFCCFF;
 }
 .ondrop-group{
   width: 100%;
   height:50px;
   border-top: 2px solid white;
   border-left: 2px solid white;
-  background: #F0FFFF;
+  background: #CCCCFF;
 }
 .dragable{
   background: #FA8072;

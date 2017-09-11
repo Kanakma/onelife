@@ -4,7 +4,7 @@ import axios from 'axios';
 import InputElement from 'react-input-mask';
 import Select from 'react-select';
 import { Draggable, Droppable } from 'react-drag-and-drop'
-
+var o;
 class AdminAddSchedule extends React.Component {
 
   constructor(props) {
@@ -43,8 +43,7 @@ class AdminAddSchedule extends React.Component {
         friday:{}, 
         saturday:{}
       }],
-      groups:[],
-      value:[]
+      groups:[]    
     }
     this.getGroups=this.getGroups.bind(this);
     this.getSubjects=this.getSubjects.bind(this);
@@ -52,6 +51,7 @@ class AdminAddSchedule extends React.Component {
     this.changePeriod=this.changePeriod.bind(this);
     this.onSubjDrop=this.onSubjDrop.bind(this);
     this.onGroupDrop=this.onGroupDrop.bind(this);
+
   }
 
   getGroups(){
@@ -130,16 +130,14 @@ class AdminAddSchedule extends React.Component {
     }
   }
 
-
-  onSubjDrop(_data, event){
-    console.log(_data.subject, event.target)
+  onSubjDrop(option, _data, event){
+    console.log(option.auditory, option.index)
   }
   onGroupDrop(_data, event){
     console.log(_data.group, event.target)
 
   }
   render(){
-
     return (
       <div className="container clearfix">
         <div className="row">
@@ -216,8 +214,8 @@ class AdminAddSchedule extends React.Component {
                       <div className="project">
                         <Droppable
                             types={['subject']} 
-                            onDrop={this.onSubjDrop}>
-                            <div className="ondrop-subject" id={auditory.auditory_name}></div>
+                            onDrop={this.onSubjDrop.bind(this, {auditory, index})}>
+                            <div className="ondrop-subject" id={auditory._id}></div>
                         </Droppable>
                         <Droppable
                             types={['group']} 

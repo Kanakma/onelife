@@ -9,7 +9,7 @@ const ParrentSchema = new mongoose.Schema({
   childs:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Student'
-  }],
+  }], 
   email: {
     type:String,
     default:'example@onelife.systems'

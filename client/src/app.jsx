@@ -58,7 +58,10 @@ import TeacherSetFinalMark from './components/TeacherSetFinalMark.jsx';
 import TeacherGetFinalMark from './components/TeacherGetFinalMark.jsx';
 import StudentGetFinalMark from './components/StudentGetFinalMark.jsx';
 import ParentGetFinalMark from './components/ParentGetFinalMark.jsx';
-
+import AdminAddEmployee from './components/AdminAddEmployee.jsx';
+import AdminEmployee from './components/AdminEmployee.jsx';
+import AdminAddCandidate from './components/AdminAddCandidate.jsx';
+import AdminCandidate from './components/AdminCandidate.jsx';
 import Auth from './modules/Auth';
 import TeacherCheckHomeworks from './components/TeacherCheckHomeworks.jsx';
 
@@ -94,6 +97,10 @@ ReactDom.render((
       <Route path="/addmark" component={TeacherAddMark}/>
       <Route path="/addparrent" component={AdminAddParrent}/>
       <Route path="/parrents" component={AdminParrents}/>
+      <Route path="/addemployee" component={AdminAddEmployee}/>
+      <Route path="/employees" component={AdminEmployee}/>
+      <Route path="/addcandidate" component={AdminAddCandidate}/>
+      <Route path="/candidates" component={AdminCandidate}/>
       <Route path="/teachersubjects" component={TeacherSubjects}/>
       <Route path="/studentsubjects" component={StudentSubjects}/>
       <Route path="/subjectinfo" component={AdminSubjectInfo}/>

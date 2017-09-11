@@ -154,7 +154,6 @@ class AdminEditParrentModal extends React.Component {
   }
 
   render() {
-    console.log(this.props.parrent)
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;

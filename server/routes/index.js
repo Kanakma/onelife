@@ -1,29 +1,31 @@
-var express = require('express');
-var router = express.Router();
-var Major = require('../models/major');
-var Faculty = require('../models/faculty');
-var User = require('../models/user');
-var Teacher = require('../models/teacher');
-var Student = require('../models/student');
-var Subject = require('../models/subject');
-var Quiz = require('../models/quiz');
-var QuizPoint = require('../models/quiz_point');
-var Department = require('../models/department');
-var Parrent = require('../models/parrent');
+var express = require('express')
+var router = express.Router()
+var Major = require('../models/major')
+var Faculty = require('../models/faculty')
+var User = require('../models/user')
+var Teacher = require('../models/teacher')
+var Student = require('../models/student')
+var Subject = require('../models/subject')
+var Quiz = require('../models/quiz')
+var QuizPoint = require('../models/quiz_point')
+var Department = require('../models/department')
+var Parrent = require('../models/parrent')
 var Mark=require('../models/mark')
 var FinalMark=require('../models/finalmark')
 var Attendance = require('../models/attendance')
 var Homework = require('../models/homework')
 var Group = require('../models/group')
 var Auditory = require ('../models/auditory')
-const bcrypt = require('bcryptjs');
-var jwtDecode = require('jwt-decode');
-var mongoose = require('mongoose');
-let multiparty = require('multiparty');
-let fs = require('fs');
-var async = require('async');
-var xl = require('excel4node');
-var path= require('path');
+var Employee = require ('../models/employee')
+var Candidate = require ('../models/candidate')
+const bcrypt = require('bcryptjs')
+var jwtDecode = require('jwt-decode')
+var mongoose = require('mongoose')
+let multiparty = require('multiparty')
+let fs = require('fs')
+var async = require('async')
+var xl = require('excel4node')
+var path= require('path')
 
 
 function IndInObjArr(objArray, subj, inkey, sensetive) {
@@ -61,7 +63,220 @@ function IndInObjArr(objArray, subj, inkey, sensetive) {
     }
 
 
+router.post('/addemployee', (req, res)=>{
+	var employee = JSON.parse(req.body.data)
+	var data = {
+		      lastname:'',
+          name:'',
+          gender:'',
+          address_de_jure:'',
+          address_de_facto:'',
+          phone:'',
+          email:'',
+          passport_id:'',
+          id_number:'',
+          gave_by:'',
+          employee_type:'',
+          employement_type:'',
+          date_of_id:'',
+	        birthday:'',
+	        nationality:''
+	}
+	Employee.findOne({passport_id:employee.passport_id}, function(err, fEmployee){
+		if(err) console.log(err)
+		else if(fEmployee){
+			res.status(409).send({
+				message: 'Этот сотрудник уже есть в базе'
+			})
+		} else{
+			var data = {
+				lastname:employee.lastname,
+        name:employee.name,
+        gender:employee.gender,
+        address_de_jure:employee.address_de_jure,
+        address_de_facto:employee.address_de_facto,
+        phone:employee.phone,
+        email:employee.email,
+        passport_id:employee.passport_id,
+        id_number:employee.id_number,
+        gave_by:employee.gave_by,
+        employee_type:employee.employee_type,
+        employement_type:employee.employement_type,
+        date_of_id:req.body.date_of_id,
+        birthday:req.body.birthday,
+        nationality:req.body.nationality
+			}
+			var newEmployee = new Employee(data)
+			newEmployee.save(function(err, saved){
+				if(err) console.log(err);
+				if(saved){
+					res.send({
+						message: 'Сотрудник удачно добавлен'
+					})
+				}
+			})
+		}
+	})
+})
+router.get('/getemployees', (req, res)=>{
+	Employee.find({}, (err, employees)=>{
+		if(err) console.log(err)
+		if(employees){
+			res.send({
+				employees
+			})
+		}
+	})
+})
+router.post('/deleteemployee', (req, res)=>{
+	Employee.findOneAndRemove({_id:req.body.employee_id}, (err, deleted) =>{
+		if(err) console.log(err)
+		if(deleted){
+			res.send({
+				message:"Удалено!"
+			})
+		}
+	})
+})
+router.post('/editemployee', (req, res)=>{
+	var editedEmployee = JSON.parse(req.body.data)
+	Employee.findOne({_id:req.body.employee_id}, (err, employee) =>{
+		if(err) console.log(err)
+		if(employee){
+				employee.lastname=(editedEmployee.lastname!='')?editedEmployee.lastname:employee.lastname,
+        employee.name=(editedEmployee.name!='')?editedEmployee.name:employee.name,
+        employee.gender=(editedEmployee.gender!='')?editedEmployee.gender:employee.gender,
+        employee.address_de_jure=(editedEmployee.address_de_jure!='')?editedEmployee.address_de_jure:employee.address_de_jure,
+        employee.address_de_facto=(editedEmployee.address_de_facto!='')?editedEmployee.address_de_facto:employee.address_de_facto,
+        employee.phone=(editedEmployee.phone!='')?editedEmployee.phone:employee.phone,
+        employee.email=(editedEmployee.email!='')?editedEmployee.email:employee.email,
+        employee.passport_id=(editedEmployee.passport_id!='')?editedEmployee.passport_id:employee.passport_id,
+        employee.id_number=(editedEmployee.id_number!='')?editedEmployee.id_number:employee.id_number,
+        employee.gave_by=(editedEmployee.gave_by!='')?editedEmployee.gave_by:employee.gave_by,
+        employee.employee_type=(editedEmployee.employee_type!='')?editedEmployee.employee_type:employee.employee_type,
+        employee.employement_type=(editedEmployee.employement_type!='')?editedEmployee.employement_type:employee.employement_type,
+        employee.date_of_id=(req.body.date_of_id!='')?req.body.date_of_id:employee.date_of_id,
+        employee.birthday=(req.body.birthday!='')?req.body.birthday:employee.birthday,
+        employee.nationality=(req.body.nationality!='')?req.body.nationality:employee.nationality
+				employee.save((err, saved)=>{
+					if(err) console.log(err)
+					if(saved){
+						res.send({message:"Сотрудник изменен!"})
+					}
+				})
+		}
+	})
+})
 
+router.post('/addcandidate', (req, res) =>{
+	var documents = JSON.parse(req.body.documents)
+	var candidate = JSON.parse(req.body.data)
+	var data = {
+		      lastname:'',
+          name:'',
+          gender:'',
+          address_de_jure:'',
+          address_de_facto:'',
+          phone:'',
+          email:'',
+          passport_id:'',
+          id_number:'',
+          gave_by:'',
+          attestat:'',
+          attestat_type:'',
+          date_of_id:'',
+	        birthday:'',
+	        nationality:'',
+	        documents:[]
+	}
+	Candidate.findOne({passport_id:candidate.passport_id}, function(err, fCandidate){
+		if(err) console.log(err)
+		else if(fCandidate){
+			res.status(409).send({
+				message: 'Этот абитуриент уже есть в базе'
+			})
+		} else{
+			var data = {
+				lastname:candidate.lastname,
+        name:candidate.name,
+        gender:candidate.gender,
+        address_de_jure:candidate.address_de_jure,
+        address_de_facto:candidate.address_de_facto,
+        phone:candidate.phone,
+        email:candidate.email,
+        passport_id:candidate.passport_id,
+        id_number:candidate.id_number,
+        gave_by:candidate.gave_by,
+        attestat:candidate.attestat,
+        attestat_type:candidate.attestat_type,
+        date_of_id:req.body.date_of_id,
+        birthday:req.body.birthday,
+        nationality:req.body.nationality,
+        documents:documents
+			}
+			var newCandidate = new Candidate(data)
+			newCandidate.save(function(err, saved){
+				if(err) console.log(err);
+				if(saved){
+					res.send({
+						message: 'Абитуриент удачно добавлен'
+					})
+				}
+			})
+		}
+	})
+})
+router.get('/getcandidates', (req, res)=>{
+	Candidate.find({}, (err, candidates)=>{
+		if(err) console.log(err)
+		if(candidates){
+			res.send({
+				candidates
+			})
+		}
+	})
+})
+router.post('/deletecandidate', (req, res)=>{
+	Candidate.findOneAndRemove({_id:req.body.candidate_id}, (err, deleted) =>{
+		if(err) console.log(err)
+		if(deleted){
+			res.send({
+				message:"Удалено!"
+			})
+		}
+	})
+})
+router.post('/editcandidate', (req, res)=>{
+	var editedCandidate = JSON.parse(req.body.data)
+	var documents = JSON.parse(req.body.documents)
+	Candidate.findOne({_id:req.body.candidate_id}, (err, candidate) =>{
+		if(err) console.log(err)
+		if(candidate){
+			candidate.lastname=(editedCandidate.lastname!='')?editedCandidate.lastname:candidate.lastname,
+      candidate.name=(editedCandidate.name!='')?editedCandidate.name:candidate.name,
+      candidate.gender=(editedCandidate.gender!='')?editedCandidate.gender:candidate.gender,
+      candidate.address_de_jure=(editedCandidate.address_de_jure!='')?editedCandidate.address_de_jure:candidate.address_de_jure,
+      candidate.address_de_facto=(editedCandidate.address_de_facto!='')?editedCandidate.address_de_facto:candidate.address_de_facto,
+      candidate.phone=(editedCandidate.phone!='')?editedCandidate.phone:candidate.phone,
+      candidate.email=(editedCandidate.email!='')?editedCandidate.email:candidate.email,
+      candidate.passport_id=(editedCandidate.passport_id!='')?editedCandidate.passport_id:candidate.passport_id,
+      candidate.id_number=(editedCandidate.id_number!='')?editedCandidate.id_number:candidate.id_number,
+      candidate.gave_by=(editedCandidate.gave_by!='')?editedCandidate.gave_by:candidate.gave_by,
+      candidate.attestat=(editedCandidate.attestat!='')?editedCandidate.attestat:candidate.attestat,
+      candidate.attestat_type=(editedCandidate.attestat_type!='')?editedCandidate.attestat_type:candidate.attestat_type,
+      candidate.date_of_id=(req.body.date_of_id!='')?req.body.date_of_id:candidate.date_of_id,
+      candidate.birthday=(req.body.birthday!='')?req.body.birthday:candidate.birthday,
+      candidate.nationality=(req.body.nationality!='')?req.body.nationality:candidate.nationality
+      candidate.documents=(documents!='')?documents:candidate.nationality
+			candidate.save((err, saved)=>{
+				if(err) console.log(err)
+				if(saved){
+					res.send({message:"Абитуриент изменен!"})
+				}
+			})
+		}
+	})
+})
 //This route will add new major
 router.post('/addmajor', (req, res) => {
 	var majorData = {
@@ -74,7 +289,7 @@ router.post('/addmajor', (req, res) => {
 		if(err) {console.log(err) }
 		else if (major){
 			res.status(409).send({
-				message: 'Эта специальность уже есть в списке'
+				message: 'Эта специальность уже есть в базе'
 			})
 		} else {
 			const newMajor = new Major(majorData);
@@ -2389,17 +2604,6 @@ router.get('/getgroups', (req, res) =>{
 	})
 })
 
- // router.get('/getforsubject', (req, res) => {
- //   Faculty.find()..populate({path: 'faculty_dean', populate: {path: 'user_id'}}).populate('departments').exec(function(err, faculties){
- // 		if(err) console.log(err);
- // 		if(groups){
- // 			res.send({
- // 				faculties: faculties,
- //        teachers:
- // 			})
- // 		}
- // 	})
- // });
 
 router.get('/getforsubject', (req, res) => {
 	Faculty.find((err, faculties) => {
