@@ -25,4 +25,6 @@ module.exports.connect = (uri) => {
   require('./teacher');
   require('./user');
   require('./auditory')
+  require('./employee')
+  require('./candidate')
 };

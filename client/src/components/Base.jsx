@@ -23,7 +23,9 @@ class Base extends React.Component {
       checkSchedule:false,
       checkGroup: false,
       checkAuditory:false,
-      status: ''
+      status: '',
+      checkEmployee:false,
+      checkCandidate:false
     };
     this.changeHide = this.changeHide.bind(this);
     this.getStatus = this.getStatus.bind(this);
@@ -64,7 +66,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "major") || (idDropdown == "major")){
@@ -85,7 +89,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "subject") || (idDropdown == "subject")){
@@ -106,7 +112,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "teacher") || (idDropdown == "teacher")){
@@ -127,7 +135,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "student") || (idDropdown == "student")){
@@ -148,7 +158,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "department") || (idDropdown == "department")){
@@ -169,7 +181,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
@@ -190,7 +204,9 @@ class Base extends React.Component {
             checkHomework: false,
             checkSchedule:false,
             checkGroup: false,
-            checkAuditory:false
+            checkAuditory:false,
+            checkEmployee:false,
+            checkCandidate:false
           })
         }
     } else if((nameDropdown == "attendance") || (idDropdown == "attendance")){
@@ -211,7 +227,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "mark") || (idDropdown == "mark")){
@@ -232,7 +250,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "test") || (idDropdown == "test")){
@@ -253,7 +273,9 @@ class Base extends React.Component {
           checkHomework: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "homework") || (idDropdown == "homework")){
@@ -274,7 +296,9 @@ class Base extends React.Component {
           checkTest: false,
           checkSchedule:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     } else if((nameDropdown == "schedule") || (idDropdown == "schedule")){
@@ -295,7 +319,9 @@ class Base extends React.Component {
           checkTest: false,
           checkHomework:false,
           checkGroup: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     }else if((nameDropdown == "group") || (idDropdown == "group")){
@@ -316,7 +342,9 @@ class Base extends React.Component {
           checkTest: false,
           checkSchedule:false,
           checkHomework: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkEmployee:false,
+          checkCandidate:false
         })
       }
     }else if((nameDropdown == "auditory") || (idDropdown == "auditory")){
@@ -336,10 +364,56 @@ class Base extends React.Component {
           checkMark:false,
           checkTest: false,
           checkSchedule:false,
-          checkHomework: false
+          checkHomework: false,
+          checkEmployee:false,
+          checkCandidate:false
+        })
+      }
+    }else if((nameDropdown == "employee") || (idDropdown == "employee")){
+      this.setState({
+        checkEmployee: !this.state.checkEmployee
+      })
+      if(this.state.checkEmployee==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkHomework: false,
+          checkAuditory:false,
+          checkCandidate:false
+        })
+      }
+    }else if((nameDropdown == "candidate") || (idDropdown == "candidate")){
+      this.setState({
+        checkCandidate: !this.state.checkCandidate
+      })
+      if(this.state.checkCandidate==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkHomework: false,
+          checkAuditory:false
         })
       }
     }
+
   }
 
   render() {
@@ -454,7 +528,7 @@ class Base extends React.Component {
                         <li><Link to="/addstudents" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить студента</Link></li>
                       </ul>
                   </li>
-                    <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
+                  <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
                       <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Родители
                       <span hidden={this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       <span hidden={!this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
@@ -462,6 +536,26 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkParrent}>
                         <li><Link to="/parrents" className="waves-effect" style={{paddingLeft: '45px'}}>Все родители</Link></li>
                         <li><Link to="/addparrent" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить родителя</Link></li>
+                      </ul>
+                  </li>
+                  <li><Link to="#" className="waves-effect" name="employee" onClick={this.changeHide}>
+                      <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Сотрудники
+                      <span hidden={this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkEmployee}>
+                        <li><Link to="/employees" className="waves-effect" style={{paddingLeft: '45px'}}>Все сотрудники</Link></li>
+                        <li><Link to="/addemployee" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить сотрудника</Link></li>
+                      </ul>
+                  </li>
+                  <li><Link to="#" className="waves-effect" name="candidate" onClick={this.changeHide}>
+                      <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Абитуриенты
+                      <span hidden={this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkCandidate}>
+                        <li><Link to="/candidates" className="waves-effect" style={{paddingLeft: '45px'}}>Все абитуриенты</Link></li>
+                        <li><Link to="/addcandidate" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить абитуриента</Link></li>
                       </ul>
                   </li>
                   <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
