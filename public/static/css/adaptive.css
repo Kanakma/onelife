@@ -47,6 +47,83 @@
     margin-top: auto;
   }
 
+  .admin_line{
+    margin-top: 70px;
+  }
+  .student-number-text{
+    width: 140px;
+  }
+  .leveled-pie-text{
+  font-size: 20px;
+  margin-top: -105px;
+}
+  .letniki_text{
+    height: 14px;
+    font-size: 20px;
+    margin: -12px;
+    margin-left: 43px;
+    margin-top: 90px;
+  }
+  .time_stat{
+    padding-top:20px;
+    padding-left: 20px;
+    font-size: 22px;
+    height: 17px;
+
+  }
+  .number_big{
+    font-size: 46px;
+    height: 32px;
+  }
+  .day_big{
+    height: 33px;
+    font-size: 20px;
+  }
+  .pie_title{
+    margin-left: 25px;
+    height: 17px;
+    font-size: 22px;
+  }
+   .pie_subtext{
+    height: 13px;
+    font-size: 18px;
+    margin-right: -54px;
+  }
+    .course-title{
+    font-size: 22px;
+  }
+  .dashboard_title{
+    height: 35px;
+    font-size: 41px;
+  }
+  .max_pie_chart{
+    margin-top: 20px;
+  }
+  .tv_pie_chart{
+    margin-top: 20px;
+    margin-left: 45px;
+  }
+  .radialBar_tv{
+    margin-left: 53px;
+    margin-top: 20px;
+  }
+  .pie_menu{
+    margin-top: -126px;
+    margin-left: 165px;
+  }
+  ul.hr li{
+
+    display: inline-block;
+    font-size: 28px;
+    padding: 20px;
+  }
+  /*.recharts-default-legend{
+    margin-left: -57px;
+  }*/
+  .bar_menu_tv{
+
+  }
+
   .profile-heading{
     width: 100%;
     height: 300px;
@@ -109,6 +186,7 @@
     justify-content: space-between;
     padding: 0 20px 0 0;
   }
+
   .my-content{
      margin-left: 220px;
   }
@@ -118,10 +196,200 @@
   .well-white{
     width: 220px;
   }
+   .number-statistic-number{
+    font-size: 70px;
+  }
+  .student_number_line{
+    margin-top: 1px;
+  }
+  .snl{
+    position: absolute;
+    margin-left: 284px;
+
+    margin-top: 8px;
+  }
+  .teacher-home-gpa{
+    position: absolute;
+    margin-top: 9px;
+  }
+   .courses-statistic-title{
+    font-size: 24px;
+  }
+   .courses-statistic-text{
+    font-size: 16px;
+  }
+  .teacher-common-statistic-text{
+        font-size: 21px;
+    margin-left: 46px;
+  }
+  .teacher_text_3{
+    width: 10%;
+  }
+  .teacher-progress-bar{
+      padding: 0px 18px 40px 40px;
+  }
+  .profile-heading1{
+    display: flex;
+    width: 514px;
+    background-size: 172% 100%;
+    float: right;
+    height: 389px;
+    margin-right: 17px;
+  }
+  .page-content {
+     padding: 0px 0;
+  }
+  .student_courses_stat{
+    padding-top: 12px;
+  }
+   .student_row{
+    width: 66.66%;
+    margin-top: -410px;
+  }
+  #main {
+    width: 101%;
+  }
+  .student_gpa_title{
+    font-size: 26px;
+  }
+  .student_line{
+    margin-top: 59px;
+    margin-left: 80px;
+  }
+  .student_max_score{
+    font-size: 22px;
+    padding-top: 30px;
+    margin-left: 25px;
+  }
+  .student_pie_chart {
+    margin-top: -184px;
+    margin-left: 113px;
+  }
+  .student_gpa{
+    font-size: 66px;
+  }
+  .student_gpa_title{
+   font-size: 26px;
+  }
+  .student_courses_title{
+    font-size: 26px;
+  }
+    .student_courses_subtitle{
+      font-size: 20px;
+  }
+  .stud_pie {
+    position: absolute;
+    margin-top: -293px;
+    margin-left: 103px;
+  }
+  .student_current_year{
+    font-size: 26px;
+  }
+  .student_days_left{
+    font-size: 20px;
+  }
+  .student_count_days_left {
+    margin-top: 47px;
+    width: 290px;
+  }
+  .stud_icons{
+  width: 200px;
+  font-size: 23px;
+  }
+
+
 }
 @media screen and (max-width: 1400px){
+
   .page-wrapper{
       padding-left: 220px;
+}
+  .stud_icons{
+  width: 120px;
+  font-size: 12px;
+  }
+  .student_count_days_left {
+    margin-top: 67px;
+    width: 290px;
+  }
+  .student_days_left{
+    font-size: 14px;
+  }
+  .student_current_year{
+    font-size: 20px;
+  }
+  .stud_pie{
+    margin-top: -282px;
+    margin-left: -10px;
+  }
+  .student_courses_subtitle{
+      font-size: 14px;
+  }
+  .student_courses_title{
+    font-size: 20px;
+  }
+  .student_gpa_title{
+   font-size: 20px;
+  }
+
+  .student_gpa{
+    font-size: 60px;
+  }
+  .student_pie_chart{
+  margin-top: -172px;
+  margin-left: -12px;
+  }
+  .student_max_score{
+    font-size: 16px;
+    padding-top: 51px;
+    margin-left: 25px;
+  }
+  .student_line{
+  margin-top: 80px;
+  margin-left: 5px;
+}
+  .student_gpa_title{
+    font-size: 20px;
+  }
+  #main {
+    width: 99%;
+  }
+  .student_courses_stat{
+    padding-top: 0px;
+  }
+  .page-content1{
+    padding-top: 18pc;
+  }
+  .page-content {
+    padding: 20px 0;
+  }
+  .student_row{
+    width: 100%;
+    margin-top: 0px;
+  }
+  .profile-heading1{
+    width: 100%;
+    height: 265px;
+    background-size: 100% 100%;
+  }
+
+  .teacher-progress-bar{
+    padding: 40px 113px 40px 40px;
+  }
+  .teacher_text_3{
+    width:125%;
+  }
+  .teacher-common-statistic-text{
+    font-size: 16px;
+  }
+  .courses-statistic-text{
+    font-size: 14px;
+  }
+  .courses-statistic-title{
+      font-size: 20px;
+  }
+  .number-statistic-number{
+    font-size: 60px;
   }
   .teacher-dash{
     display: block;
@@ -203,11 +471,11 @@
     margin-left: 165px;
   }
   ul.hr li{
-
     display: inline-block;
     font-size: 28px;
     padding: 20px;
   }
+
   .well-white{
      width: 220px;
   }
@@ -226,11 +494,45 @@
 
 }
 @media screen and (max-width: 1400px){
+
   .visible-middle{
     display: block;
   }
   .hidden-middle{
     display: none;
+}
+  .bg-title{
+     margin: 0px 0 25px 220px;
+  .student_courses_title{
+  font-size: 26px;
+  }
+
+  .profile-heading{
+    background-image: url( /img/background-image.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+  }
+
+}
+@media screen and (max-width: 1400px){
+
+  .student_courses_title{
+  font-size: 20px;
+  }
+  .student_gpa_title{
+   font-size: 20px;
+  }
+     /* padding-top: 20pc;*/
+  .profile-heading{
+    width: 100%;
+    height: 300px;
+    background-image: url( /img/background-image.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    padding: 40px 0;
+    flex-flow: row wrap;
   }
   ul.hr li{
     display: inline;
@@ -250,8 +552,7 @@
     font-size: 16px;
   }
   .pie_subtext{
-        margin-left: -29px;
-
+    margin-left: -29px;
     height: 11px;
     font-size: 12px;
   }

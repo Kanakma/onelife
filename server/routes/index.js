@@ -2149,7 +2149,7 @@ router.get('/getteachersubjects', (req, res) => {
 									var gpa=0;
 									FinalMark.findOne({student: student._id},(err,fm) => {
 										if(err) console.log(err)
-											if(fm) console.log(fm.current_gpa.stud_gpa)
+											if(fm) 
 												if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
 													var gpa='4.0'
 													var st=fm.current_gpa.stud_gpa
