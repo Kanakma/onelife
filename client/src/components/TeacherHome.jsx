@@ -159,7 +159,7 @@ class TeacherHome extends React.Component {
             <h4>Главная преподавателя</h4>
           </div>
           <div className="teacher-home-max">
-            <div className="teacher-col visible-max">
+            <div className="teacher-col visible-max hidden-middle">
               <div className="teacher-mini-profile  text-center " >
                 <div className="white-box text-center" style={{height: '100%'}}>
                   <div style={{width: '100%'}}>
@@ -253,7 +253,7 @@ class TeacherHome extends React.Component {
               <div style={{fontSize: '20px', color: 'black'}}></div>
             </div>
               <div className="teacher-statistics">
-                <div className="teacher-mini-profile  text-center hidden-max-media" >
+                <div className="teacher-mini-profile  text-center hidden-max-media visible-middle" >
                   <div className="white-box text-center" style={{height: '100%'}}>
                     <div style={{width: '100%'}}>
                       <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
@@ -264,7 +264,7 @@ class TeacherHome extends React.Component {
                     <button onClick={this.openProfile} id={this.state.userId} className="profile-teacher-btn">Настройки</button>
                   </div>
                 </div>
-                <div className="teacher-common-statistic">
+                <div className="teacher-common-statistic hidden-ipad visible-max visible-middle">
                   <div className="white-box" style={{height: '100%'}}>
                     <p className="teacher-common-statistic-text">Общая статистика</p>
 
@@ -273,7 +273,7 @@ class TeacherHome extends React.Component {
 
                   </div>
                 </div>
-                <div className="teacher-number-statistic hidden-max-media">
+                <div className="teacher-number-statistic hidden-max-media visible-middle">
                   <div className="white-box" style={{height: '100%'}}>
                     <p className="number-statistic-title">Количество студентов</p>
                     <p className="number-statistic-text">Записанные на ваши курсы</p>
@@ -282,7 +282,7 @@ class TeacherHome extends React.Component {
                     <p className="number-statistic-percent">22% выше с прошлого года</p>
                   </div>
                 </div>
-                <div className="teacher-number-statistic hidden-max-media">
+                <div className="teacher-number-statistic hidden-max-media visible-middle">
                   <div className="white-box" style={{height: '100%'}}>
                       <p className="number-statistic-title">Учебный год</p>
                       <p className="number-statistic-text">До конца учебного года остаось:</p>
@@ -290,7 +290,7 @@ class TeacherHome extends React.Component {
                       <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
                   </div>
                 </div>
-                <div className="teacher-courses-statistic hidden-max-media">
+                <div className="teacher-courses-statistic hidden-max-media visible-middle">
                   <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
                   <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
                   <div style={{display: 'flex'}}>
@@ -325,7 +325,7 @@ class TeacherHome extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="teacher-progress-statistic hidden-max-media">
+                <div className="teacher-progress-statistic hidden-max-media visible-middle">
                   <p className= "courses-statistic-title">УСПЕВАЕМОСТЬ</p>
                   <p className = "courses-statistic-text">Средний бал студентов</p>
                   <span className="teacher-home-gpa">3.34</span>

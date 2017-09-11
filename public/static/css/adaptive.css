@@ -1,4 +1,10 @@
 @media screen and (max-width: 1920px){
+  .hidden-max-media{
+    display: none;
+  }
+  .page-wrapper{
+      padding-left: 220px;
+  }
 .first_row{
     display: inline-block;
     width:49%;
@@ -19,9 +25,6 @@
     text-align: center;
     width: 30%;
     padding: 0 0 0 20px;
-  }
-  .hidden-max-media{
-    display: none;
   }
   .dashboard{
     display: flex;
@@ -117,6 +120,9 @@
   }
 }
 @media screen and (max-width: 1400px){
+  .page-wrapper{
+      padding-left: 220px;
+  }
   .teacher-dash{
     display: block;
   }
@@ -211,14 +217,20 @@
   .bg-title{
      margin: 0px 0 25px 220px;
   }
+  .visible-ipad{
+    display: none;
+  }
   /*.recharts-default-legend{
     margin-left: -57px;
   }*/
 
 }
 @media screen and (max-width: 1400px){
-  .bg-title{
-     margin: 0px 0 25px 220px;
+  .visible-middle{
+    display: block;
+  }
+  .hidden-middle{
+    display: none;
   }
   ul.hr li{
     display: inline;
@@ -300,9 +312,7 @@
 .big_stat{
   width:67%;
 }
-.hidden-max-media{
-  display: block;
-}
+
 .leveled_pie{
   width: 31%;
   height:201px;
@@ -355,6 +365,13 @@
 }
 }
 @media screen and (max-width: 1200px){
+  .letniki_text {
+    font-size: 13px;
+    margin-top: 58px;
+  }
+  .page-wrapper{
+      padding-left: 220px;
+  }
   .bg-title{
      margin: 0px 0 0px 220px;
   }
@@ -369,6 +386,18 @@
   }
 }
 @media screen and (max-width: 1024px){
+  .page-wrapper{
+      padding-left: 60px;
+  }
+  .time_stat{
+    font-size: 14px;
+  }
+  .hidden-ipad{
+    display: none;
+  }
+  .visible-ipad{
+    display: block;
+  }
   .bg-title{
      margin: 0px ;
   }
@@ -414,8 +443,14 @@
   }
 }
 @media screen and (max-width: 768px ){
+  .page-wrapper{
+      padding-left: 60px;
+  }
+  .hidden-ipad{
+    display: none;
+  }
   .bg-title{
-     margin: 0px ;
+     margin: 0 0 15px 50px;
   }
   .dash-col2{
     display: none !important;

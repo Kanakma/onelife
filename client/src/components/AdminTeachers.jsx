@@ -81,7 +81,7 @@ class AdminTeachers extends React.Component {
         {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
-                <div key={index} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
+                <div key={index} className="col-md-4 col-sm-6 " style={{padding: '0px 7.5px'}}>
                   <div className="white-box teacherInfo">
                       <div className="row">
                       {
@@ -128,7 +128,7 @@ class AdminTeachers extends React.Component {
         {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
-                <div key={index} className="col-md-4 col-sm-4 col-lg-3" style={{padding: '0px 7.5px'}}>
+                <div key={index} className="col-md-4 col-sm-6 col-lg-3" style={{padding: '0px 7.5px'}}>
                   <div className="white-box teacherInfo">
                       <div className="row">
                       {

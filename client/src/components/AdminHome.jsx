@@ -273,7 +273,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <p className="course-title"> {this.state.subject1.subject_name}</p>
                     <p className="student-number-text">Количество студентов
                     за семестр</p>
-                  <div className="admin_line"> 
+                  <div className="admin_line">
                     <div style={{float: 'right', width: '100%'}}>
                       <img src='./img/pointer.png' style={{width: '25px', float:'right', height: '25px'}}/>
                       <span className="student-number">{this.state.subject1.remained}</span>
@@ -281,7 +281,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value1}%</span></div>
                     <Line percent={this.state.value1} strokeWidth="4" strokeColor="#0f71bc" trailColor="#D3D3D3" trailWidth='4'/>
                   </div>
-                   
+
                   </div>
                   <div className ="courses_stat">
                     <p className="course-title"> {this.state.subject2.subject_name}</p>
@@ -309,17 +309,17 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <Line percent={this.state.value3} strokeWidth="4" strokeColor="#ed1e40" trailColor="#D3D3D3" trailWidth='4' />
                     </div>
                   </div>
-                  <div className ="leveled_pie hidden-max-media">
-                  
+                  <div className ="leveled_pie hidden-max-media visible-middle">
+
                     <RadialBarChart width={500} height={300} cx={100} cy={90} innerRadius={30} outerRadius={80} barSize={5} data={data02} >
                     <RadialBar minAngle={20} label background clockWise={false} dataKey='uv'/>
                     <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='middle'/>
                     </RadialBarChart>
-   
+
 
                     <p className="leveled-pie-text">Успеваемость студентов (за месяц)</p>
                   </div>
-                  <div className="big_stat">
+                  <div className="big_stat hidden-ipad">
 
                     <ul className="hr">
                     <div className="pie_text">
@@ -329,7 +329,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
                     <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
                     </ul>
-                    
+
                     <BarChart className="bar_chart" width={810} height={260} data={data1}
                     margin={{top: 20, right: 30, left: 20, bottom: 5}}>
                     <XAxis dataKey="name"/>
@@ -341,9 +341,31 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <Bar dataKey="ВсеПоступившие" fill="#3A4240"/>
                     </BarChart>
                   </div>
-                  <div className="hidden-max-media" style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
+                  <div className="big_stat hidden-max-media hidden-middle visible-ipad">
+
+                    <ul className="hr">
+                    <div className="pie_text">
+                    <p className="pie_title">Статистика Поступивших</p>
+                    <p className="pie_subtext">Количество студентов за семестр</p>
+                    </div>
+                    <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
+                    <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
+                    </ul>
+
+                    <BarChart className="bar_chart" width={600} height={260} data={data1}
+                    margin={{top: 20, right: 30, left: 20, bottom: 5}}>
+                    <XAxis dataKey="name"/>
+                    <YAxis dataKey="number" />
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <Tooltip />
+                    <Bar dataKey="Парни" stackId="a" fill="#F05254" />
+                    <Bar dataKey="Девушки" stackId="a" fill="#0B9EAF " />
+                    <Bar dataKey="ВсеПоступившие" fill="#3A4240"/>
+                    </BarChart>
+                  </div>
+                  <div className="hidden-max-media visible-middle" style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
                   <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
-              
+
 
                     <PieChart className="pie_chart"  width={600} height={185}>
                     <Pie isAnimationActive={false} data={this.state.majNames} cx={200} cy={100} outerRadius={68} fill="#0B9EAF " label>
@@ -419,7 +441,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                 </div>
               </div>
               </div>
-                <div className="row hidden-max-media"  style={{marginRight: '-7px', marginLeft: '-7px', marginTop: '20px'}} >
+                <div className="row hidden-max-media hidden-ipad visible-middle"  style={{marginRight: '-7px', marginLeft: '-7px', marginTop: '20px'}} >
                 { this.state.displayedSubjects ? (
                     this.state.displayedSubjects.map((subject, s) =>
                       <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>

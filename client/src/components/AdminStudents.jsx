@@ -62,7 +62,7 @@ class AdminStudents extends React.Component {
         {this.state.students.length>0 ? (
             this.state.students.map((student, s) =>{
               return (
-                <div key={s} className="col-md-4 col-sm-4 " style={{padding: '0px 7.5px'}}>
+                <div key={s} className="col-md-4 col-sm-6 " style={{padding: '0px 7.5px'}}>
                   <div className="white-box teacherInfo">
                       <div className="row">
                       {
@@ -105,7 +105,7 @@ class AdminStudents extends React.Component {
           {this.state.students.length>0 ? (
               this.state.students.map((student, s) =>{
                 return (
-                  <div key={s} className="col-md-4 col-sm-4 col-lg-3" style={{padding: '0px 7.5px'}}>
+                  <div key={s} className="col-md-4 col-sm-6 col-lg-3" style={{padding: '0px 7.5px'}}>
                     <div className="white-box teacherInfo">
                         <div className="row">
                         {

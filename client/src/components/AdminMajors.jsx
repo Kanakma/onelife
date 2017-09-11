@@ -60,7 +60,7 @@ class AdminMajors extends React.Component {
                       <th>Название специальности</th>
                       <th>Кафедра</th>
                       <th>Наименование групп специальностей</th>
-                      <th>Все группы</th>
+                      <th className="hidden-ipad">Все группы</th>
                       <th>
                           <center>
                               Кол-во студентов
@@ -81,7 +81,7 @@ class AdminMajors extends React.Component {
                             <td>{major.major_name}</td>
                             <td>{major.major_department.department_name}</td>
                             <td>{major.major_group}</td>
-                            <td>{major.groups.map((group, g) =>
+                            <td className="hidden-ipad">{major.groups.map((group, g) =>
                               <p key ={g}>{group.group_name}</p>
                             )}</td>
                             <td>
@@ -104,7 +104,7 @@ class AdminMajors extends React.Component {
                           <td>---</td>
                           <td>---</td>
                           <td>---</td>
-                          <td>---</td>
+                          <td className="hidden-ipad">---</td>
                           <td>
                               <center>---
                               </center>

@@ -231,7 +231,7 @@ class AdminEditSubjectModal extends React.Component {
       })
     }
   }
-  
+
   changeOptional(event){
     if(event.target.value=='Обязательный'){
       this.setState({
@@ -273,7 +273,7 @@ class AdminEditSubjectModal extends React.Component {
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
       padding: 50,
-      marginLeft: 200,
+      paddingLeft: '20%',
       overflow: 'auto'
     };
     // The modal "window"
@@ -368,7 +368,7 @@ class AdminEditSubjectModal extends React.Component {
                   <div className="col-md-3">
                     <label>Количество студентов</label>
                     <input type="number" className="form-control" placeholder="Количество студентов"
-                           name="max_students" 
+                           name="max_students"
                            value={this.state.subject.max_students}
                            onChange={this.changeSubject}
                            disabled={!this.state.optional} />

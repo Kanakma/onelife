@@ -59,7 +59,7 @@ class AdminDepartments extends React.Component {
                         <th>Зав. кафедры</th>
                         <th>Телефон</th>
                         <th>E-mail</th>
-                        <th>
+                        <th className="hidden-ipad">
                             <center>
                                 Специальности
                             </center>
@@ -82,7 +82,7 @@ class AdminDepartments extends React.Component {
                           <td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
                           <td>{department.department_phone}</td>
                           <td>{department.department_email}</td>
-                          <td>
+                          <td className="hidden-ipad">
                               <center>
                                   {department.majors.map((major, m)=>
                                     <p key= {m}>{major.major_name}</p>
@@ -107,7 +107,7 @@ class AdminDepartments extends React.Component {
                           <td>--</td>
                           <td>--</td>
                           <td>--</td>
-                          <td>
+                          <td className="hidden-ipad">
                               <center>
                                   --
                               </center>

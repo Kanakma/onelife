@@ -212,7 +212,7 @@ class AdminEditTeacherModal extends React.Component {
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
       padding: 50,
-      marginLeft: 200,
+      paddingLeft: '20%',
       overflow: 'auto'
     };
 
