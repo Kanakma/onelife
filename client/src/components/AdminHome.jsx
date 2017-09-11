@@ -326,11 +326,13 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <p className="pie_title">Статистика Поступивших</p>
                     <p className="pie_subtext">Количество студентов за семестр</p>
                     </div>
-                    <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
-                    <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
+                    <div  clasName="bar_menu_tv" >
+                      <li className="li_inline" > <img src="./img/blue.png" className="mini_png"  />Парней</li>
+                      <li ><img src="./img/red.png" className="mini_png" />Девушек</li>
+                    </div>
                     </ul>
                     
-                    <BarChart className="bar_chart" width={810} height={260} data={data1}
+                    <BarChart className="bar_chart" width={700} height={260} data={data1}
                     margin={{top: 20, right: 30, left: 20, bottom: 5}}>
                     <XAxis dataKey="name"/>
                     <YAxis dataKey="number" />
@@ -353,10 +355,6 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     </Pie>
                     <Tooltip/>
                     </PieChart>
-
-
-
-
                     <div className="pie_menu">
 
                     <ul>
