@@ -663,6 +663,13 @@ active state
   padding: 40px 0;
   flex-flow: row wrap;
 }
+.profile-heading1{
+  background-image: url( /img/background-image.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 40px 0;
+  flex-flow: row wrap;
+}
 .profile-heading:after{
 
 }
@@ -673,9 +680,9 @@ active state
   vertical-align: middle;
   padding: 50px 0;
 }
-.page-content{
+/*.page-content{
   padding: 20px 0;
-}
+}*/
 .profile-teacher-img{
   width: 121px;
   height: 121px;
@@ -988,7 +995,6 @@ ul.hr li {
 .teacher-progress-bar{
   width: 33%;
   height: 100%;
-  padding: 40px 113px 40px 40px;
 }
 .teacher-statistics{
   display: flex;
@@ -1016,7 +1022,6 @@ ul.hr li {
 .teacher-common-statistic-text{
   color: #000000;
   font-family: "gothic";
-  font-size: 16px;
   font-weight: 400;
 }
 .teacher-heading-icons{
@@ -1042,19 +1047,16 @@ ul.hr li {
 .courses-statistic-text{
   color: #ffffff;
   font-family: "gothic";
-  font-size: 14px;
   font-weight: 400;
 }
 .courses-statistic-title{
   color: #ffffff;
   font-family: "gothic";
-  font-size: 20px;
   font-weight: 700;
 }
 .number-statistic-number{
   color: #cf4a4c;
   font-family: "gothic";
-  font-size: 60px;
   font-weight: 400;
 }
 .number-statistic-percent{
@@ -1087,16 +1089,16 @@ ul.hr li {
   width: 100%;
 }
 .student_gpa_stat{
-  height: 500px;
+  height: 390px;
   background-color: white;
 }
 .student_courses_stat{
-  height: 500px;
+  height: 400px;
 
 }
 .student_ocenka_stat{
   width: 100%;
-  height: 234px;
+  height: 194px;
   background-color: #E14E50;
 }
 .student_gparechart_stat{
@@ -1107,11 +1109,11 @@ ul.hr li {
 }
 .student_credits_stat{
   width: 234pxc;
-  height: 234px;
+  height: 194px;
   background-color: white;
 }
 .student_daysleft_stat{
-  height: 50%;
+  height: 46%;
   width: 100%;
   background-color: white;
   margin-top: 20px
@@ -1121,24 +1123,19 @@ ul.hr li {
 }
 .student_attendance{
   margin-top: 20px;
-  height: 500px;
+  height: 395px;
   background-color: white;
 
 }
 .student_gpa_title{
-  /* Style for "Оценка (GP" */
   height: 19px;
   color: #ffffff;
   font-family: "gothic";
-  font-size: 20px;
   font-weight: 400;
   padding-top: 25px;
   padding-left: 25px;
 }
-.student_line{
-  margin-top: 80px;
-  margin-left: 20px;
-}
+
 .students_courses_titles{
   padding-top: 25px;
   padding-left: 25px;
@@ -1147,17 +1144,14 @@ ul.hr li {
   height: 19px;
   color: black;
   font-family: "gothic";
-  font-size: 20px;
+
   font-weight: 400;
 
 }
 .student_courses_subtitle{
-  /* Style for "Количество" */
-
   height: 13px;
   color: #808080;
   font-family: "gothic";
-  font-size: 14px;
   font-weight: 400;
 }
 .students_total_numbers{
@@ -1183,34 +1177,20 @@ ul.hr li {
   font-size: 35px;
   font-weight: 400;
   }
-.stud_pie{
-  margin-top: -282px;
-
-    margin-left: -10px;
-  }
 .student_max_score{
   height: 31px;
   color: #808080;
   font-family: "gothic";
-  font-size: 16px;
   font-weight: 400;
-  padding-top: 51px;
-  margin-left: 25px;
 }
 .student_gpa{
-  /* Style for "3.84" */
   width: 113px;
   height: 45px;
   color: #e14e50;
   font-family: "gothic";
-  font-size: 60px;
   font-weight: 400;
   margin-left: 25px;
   padding-top: 92px;
-}
-.student_pie_chart{
-  margin-top: -172px;
- margin-left: -12px;
 }
 .student_total_gpa{
   font-family: "gothic";
@@ -1221,11 +1201,9 @@ ul.hr li {
     padding-left: 216px;
 }
 .student_current_year{
-  /* Style for "Учебный го" */
   height: 17px;
   color: #000000;
   font-family: "gothic";
-  font-size: 20px;
   font-weight: 400;
 }
 .student_days_left{
@@ -1233,7 +1211,6 @@ ul.hr li {
   height: 13px;
   color: #808080;
   font-family: "gothic";
-  font-size: 14px;
   font-weight: 400;
 }
 .student_gpa_main_title{
@@ -1262,10 +1239,7 @@ ul.hr li {
   width: 320px;
   margin-top: 48px;
 }
-.student_count_days_left{
-   margin-top: 67px;
-       width: 290px;
-}
+
 .student_mixed_title{
    /* Style for "Статистика" */
   height: 18px;
@@ -1288,12 +1262,10 @@ ul.hr li {
   padding-left: 25px;
 }
 .stud_icons{
-  width: 120px;
   float: right;
   height: 11px;
   color: #808080;
   font-family: "gothic";
-  font-size: 12px;
   font-weight: 400;
   padding-top: 19px;
 }
@@ -1337,7 +1309,7 @@ ul.hr li {
 }
 
 #main {
-    width: 100%;
+   /* width: 100%;*/
     height: 200px;
     display: -webkit-flex; /* Safari */
     -webkit-flex-wrap: wrap; /* Safari 6.1+ */
@@ -1347,8 +1319,8 @@ ul.hr li {
 }
 
 #main div {
-  margin-left: 15px;
-  width: 519px;
+  margin-left: 20px;
+  width: 48%;
   height: 500px;
   background-color:white;
 }

@@ -50,7 +50,7 @@ const data05 = [
 const TinyLineChart = React.createClass({
   render () {
     return (
-      <LineChart width={300} height={100} data={data05}>
+      <LineChart width={320} height={100} data={data05}>
         <Line type='monotone' dataKey='pv' cx={300}
           cy={180}  stroke='#ffffff' strokeWidth={2} />
                <Tooltip/>
@@ -170,7 +170,7 @@ class StudentHome extends React.Component {
       <div className="bg-title" style={{marginLeft: '0px' }}>
         <h4>Главная студента</h4>
       </div>
-      <div className="profile-heading text-center ">
+      <div className="profile-heading1 text-center ">
       <div className="university_logo">
 
       </div>
@@ -180,9 +180,9 @@ class StudentHome extends React.Component {
            </div>
         <div ></div>
       </div>
-      <div className="page-content">
+      <div className="page-content1">
         <div className=" col-md-4">
-          <div className="white-box text-center" style={{height: '502px'}}>
+          <div className="white-box text-center" style={{height: '388px'}}>
             <div style={{width: '100%'}}>
               <img src={require("../../../public/student-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
             </div>
@@ -240,7 +240,7 @@ class StudentHome extends React.Component {
                 <p className="student_current_year">Учебный год</p>
                 <p className="student_days_left">До конца учебного года осталось:</p>
                 <div className="student_count_days_left">
-                  <span className="student_number">263</span><span className="student_days">дней</span>
+                  <span className="student_number">265</span><span className="student_days">дней</span>
                   <Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" />
 
                 </div>
@@ -305,7 +305,7 @@ class StudentHome extends React.Component {
             <td>10:00-11:00</td>
             <td>UX/UI Design</td>
             <td>Молдагулова А.Х.</td>
-            <td>$295</td>
+            <td>295</td>
         </tr>
         <tr>
             <td>4</td>
@@ -362,7 +362,7 @@ class StudentHome extends React.Component {
             <td>10:00-11:00</td>
             <td>UX/UI Design</td>
             <td>Молдагулова А.Х.</td>
-            <td>$295</td>
+            <td>295</td>
         </tr>
         <tr>
             <td>4</td>
