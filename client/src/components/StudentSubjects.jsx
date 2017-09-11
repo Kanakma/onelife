@@ -89,10 +89,44 @@ class StudentSubjects extends React.Component {
         </div>
       </div>
       <div className=" my-content" hidden={this.state.checkFilter}>
-        <div className="row"  >
+        <div className="row hidden-max-media"  >
         { this.state.subjects ? (
             this.state.subjects.map((subject, s) =>
               <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
+                  <img className="img-responsive subject-img" alt="user" src={require("../../../public/subject-img/"+subject.img)} />
+                  <div className="white-box">
+                      <h4>{subject.subject_name}</h4>
+                      <div className="text-muted m-b-20"><span className="m-r-10"><i className="fa fa-clock-o"></i> {subject.course_number} курс</span>
+                          <span className="m-l-10"><i className="fa fa-usd"></i> {subject.credit_number} кредита</span>
+                      </div>
+                      <p><span><i className="fa fa-clock-o"></i> Период: {subject.period} месяцев</span></p>
+                      <p><span><i className="fa fa-graduation-cap"></i> Специальность: </span></p>
+                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name}</span></p>
+                      <p><span><i className="fa fa-user-plus"></i> Осталось мест: {subject.remained}</span></p>
+                      {(this.state.status == "admin") ?(
+                        <div>
+                          <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                          <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
+                              <i className="fa fa-pencil" style={{color: '#717171'}}></i>
+                          </button>
+                        </div>
+                      ):(
+                        <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
+                      )}
+                  </div>
+              </div>
+            )
+          ):(
+              <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
+                Нет предметов Добавьте предметы.
+              </div>
+          )
+        }
+        </div>
+        <div className="row visible-max"  >
+        { this.state.subjects ? (
+            this.state.subjects.map((subject, s) =>
+              <div key={s} className="col-md-4 col-xs-12 col-sm-6 col-lg-3" style={{padding: '0px 7.5px'}}>
                   <img className="img-responsive subject-img" alt="user" src={require("../../../public/subject-img/"+subject.img)} />
                   <div className="white-box">
                       <h4>{subject.subject_name}</h4>

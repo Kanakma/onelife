@@ -102,7 +102,6 @@ h5 {
 .well-white{
  background-color: #fff;
  top: 0px;
- width: 220px;
  height:100%;
  min-height: 100%;
  background: #fff;
@@ -256,9 +255,7 @@ padding:20px 30px;  * see position, top, left, and width properties here. *
 .bg-title {
  background: #ffffff;
  padding: 1% 5% 1%;
- margin-bottom: 2%;
  right: 0;
- margin: 0px 0 0px 220px;
  /*min-height: 380px;
  position: inherit;
  */
@@ -278,7 +275,6 @@ optional: show position indicator in red
 .my-content{
 
  padding: 0px 25px 15px 25px;
- margin-left: 220px;
  margin-bottom: 15px;
 }
 .add-content {
@@ -580,9 +576,6 @@ active state
 }
 .navbar-header{
  width: 100%;
-}
-.bg-title{
- margin-bottom: 25px;
 }
 .teacher-img{
  width: 70px;
@@ -948,7 +941,7 @@ ul.hr li {
 .leveled-pie-text{
   color: #000000;
   font-family: "gothic";
- 
+
 }
 .recharts-layer path{
 
@@ -983,7 +976,7 @@ ul.hr li {
 }
 .pie_menu{
   width: 200px;
- 
+
 }
 .teacher-progress-bar{
   width: 33%;
@@ -1461,6 +1454,23 @@ ul.hr li {
 }
 .Orchid {
   background: #DA70D6;
+}
+.hidden-menu-style{
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  color:  #54667a;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hidden-menu-style:hover{
+  text-decoration: none;
+}
+.hidden-menu-style:focus{
+  text-decoration: none;
 }
 /*.pie-charts{
   display: flex-root;

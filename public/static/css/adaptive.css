@@ -106,6 +106,15 @@
     justify-content: space-between;
     padding: 0 20px 0 0;
   }
+  .my-content{
+     margin-left: 220px;
+  }
+  .bg-title{
+    margin: 0px 0 25px 220px;
+  }
+  .well-white{
+    width: 220px;
+  }
 }
 @media screen and (max-width: 1400px){
   .teacher-dash{
@@ -193,12 +202,24 @@
     font-size: 28px;
     padding: 20px;
   }
+  .well-white{
+     width: 220px;
+  }
+  .my-content{
+     margin-left: 220px;
+  }
+  .bg-title{
+     margin: 0px 0 25px 220px;
+  }
   /*.recharts-default-legend{
     margin-left: -57px;
   }*/
 
 }
 @media screen and (max-width: 1400px){
+  .bg-title{
+     margin: 0px 0 25px 220px;
+  }
   ul.hr li{
     display: inline;
     padding: 15px;
@@ -326,13 +347,34 @@
 .teacher-col2{
   width: 100%;
 }
+.well-white{
+   width: 220px;
+}
+.my-content{
+   margin-left: 220px;
+}
 }
 @media screen and (max-width: 1200px){
+  .bg-title{
+     margin: 0px 0 0px 220px;
+  }
   .dash-col2{
     display: none !important;
   }
+  .well-white{
+     width: 220px;
+  }
+  .my-content{
+     margin-left: 220px;
+  }
 }
 @media screen and (max-width: 1024px){
+  .bg-title{
+     margin: 0px ;
+  }
+  .my-content{
+     margin-left: 220px;
+  }
   .dash-col2{
     display: none !important;
   }
@@ -354,7 +396,7 @@
     margin-left: 15px;
 }
   .hide-menu{
-    display: none;
+    display: none!important;
     width: 180px;
     left: 60px;
   }
@@ -372,8 +414,14 @@
   }
 }
 @media screen and (max-width: 768px ){
+  .bg-title{
+     margin: 0px ;
+  }
   .dash-col2{
     display: none !important;
+  }
+  .my-content{
+    margin-left: 50px;
   }
 }
 @media screen and (max-width: 480px){
