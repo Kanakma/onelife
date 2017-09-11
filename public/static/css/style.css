@@ -283,7 +283,6 @@ optional: show position indicator in red
 .table-responsive {
  overflow-y: hidden;
  background-color: white;
- padding: 25px;
  margin-bottom: 15px;
  min-height: 350px !important;
 }
@@ -796,9 +795,6 @@ active state
    background-repeat: none;
    background-size: cover;
    text-align: center;
-   padding-top: 35px;
-
-
  }
  .second_row{
    background-color: white;
@@ -817,18 +813,14 @@ active state
  }
 
 .dashboard_title{
-  height: 33px;
-  font-size: 35px;
   color: #ffffff;
   font-family: "gothic";
   font-weight: 400;
   margin:auto;
   }
 .courses_stat{
-  height:201px;
   background-color: white;
   margin-top: 20px;
-  padding: 22px;
   text-align: initial;
 
   }

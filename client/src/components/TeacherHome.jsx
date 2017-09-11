@@ -275,27 +275,46 @@ class TeacherHome extends React.Component {
 
                   </div>
                 </div>
-                <div className="teacher-number-statistic hidden-max-media visible-middle">
-                  <div className="white-box" style={{height: '100%'}}>
-                    <p className="number-statistic-title">Количество студентов</p>
-                    <p className="number-statistic-text">Записанные на ваши курсы</p>
-                    <p className= "number-statistic-number">{this.state.students.length}</p>
-                    <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
-                    <p className="number-statistic-percent">22% выше с прошлого года</p>
+                  <div className="teacher-number-statistic hidden-max-media hidden-ipad visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                      <p className="number-statistic-title">Количество студентов</p>
+                      <p className="number-statistic-text">Записанные на ваши курсы</p>
+                      <p className= "number-statistic-number">{this.state.students.length}</p>
+                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                      <p className="number-statistic-percent">22% выше с прошлого года</p>
+                    </div>
                   </div>
-                </div>
-                <div className="teacher-number-statistic hidden-max-media visible-middle">
-                  <div className="white-box" style={{height: '100%'}}>
-                      <p className="number-statistic-title">Учебный год</p>
-                      <p className="number-statistic-text">До конца учебного года остаось:</p>
-                      <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
-                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                  <div className="teacher-number-statistic hidden-max-media hidden-ipad visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                        <p className="number-statistic-title">Учебный год</p>
+                        <p className="number-statistic-text">До конца учебного года остаось:</p>
+                        <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
+                        <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                    </div>
                   </div>
-                </div>
+                  <div className= "gridforipad hidden-max-media hidden-middle hidden-ipad visible-ipad">
+                  <div className="teacher-number-statistic hidden-max-media visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                      <p className="number-statistic-title">Количество студентов</p>
+                      <p className="number-statistic-text">Записанные на ваши курсы</p>
+                      <p className= "number-statistic-number">{this.state.students.length}</p>
+                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                      <p className="number-statistic-percent">22% выше с прошлого года</p>
+                    </div>
+                  </div>
+                  <div className="teacher-number-statistic hidden-max-media visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                        <p className="number-statistic-title">Учебный год</p>
+                        <p className="number-statistic-text">До конца учебного года остаось:</p>
+                        <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
+                        <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                    </div>
+                  </div>
+                  </div>
                 <div className="teacher-courses-statistic hidden-max-media visible-middle">
                   <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
                   <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
-                  <div style={{display: 'flex'}}>
+                  <div className="pie-chart-ipad" style={{display: 'flex'}}>
                     <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
                       <Pie
                         data={this.state.piedata}

@@ -488,6 +488,16 @@
   .visible-ipad{
     display: none;
   }
+  .first_row{
+    padding-top: 35px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
   /*.recharts-default-legend{
     margin-left: -57px;
   }*/
@@ -513,9 +523,17 @@
     background-size: 100% 100%;
     display: flex;
   }
+  .courses_stat{
+    height:201px;
+    padding: 22px;
+  }
 
 }
 @media screen and (max-width: 1400px){
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
 
   .student_courses_title{
   font-size: 20px;
@@ -609,6 +627,7 @@
 }
 .courses_stat{
   width: 21%;
+  padding: 22px;
 }
 .big_stat{
   width:67%;
@@ -664,8 +683,31 @@
 .my-content{
    margin-left: 220px;
 }
+.first_row{
+  padding-top: 35px;
+}
+.courses_stat{
+  height:201px;
+}
+.table-responsive{
+   padding: 25px;
+}
 }
 @media screen and (max-width: 1200px){
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
+  .nav li ul{
+    width: 259px;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 59px;
+    border-bottom: 1px solid #ebeeef;
+    border-top: 1px solid #ebeeef;
+    border-right: 1px solid #ebeeef;
+  }
   .letniki_text {
     font-size: 13px;
     margin-top: 58px;
@@ -685,8 +727,22 @@
   .my-content{
      margin-left: 220px;
   }
+  .first_row{
+    padding-top: 35px;
+  }
+  .courses_stat{
+    height:201px;
+    padding: 22px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
 }
 @media screen and (max-width: 1024px){
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
   .page-wrapper{
       padding-left: 60px;
   }
@@ -742,6 +798,49 @@
     margin-left: 60px;
     margin-bottom: 15px;
   }
+  .teacher-mini-profile{
+    width: 40%;
+  }
+  .teacher-number-statistic {
+    width: 100%;
+    height: 190px;
+    margin: 0 10px;
+  }
+  .gridforipad{
+    display: grid;
+    width: 55%;
+    margin-right: 20px;
+    flex-flow: row wrap;
+    margin-bottom: -20px;
+  }
+  .teacher-progress-statistic{
+    margin-top: 20px;
+    margin-right: 10px;
+    width: 30%;
+  }
+  .teacher-courses-statistic{
+    margin-top: 20px;
+    width: 65%;
+  }
+  .number-statistic-number {
+    font-size: 40px;
+  }
+  .number-statistic-percent {
+    display: none;
+  }
+  .pie-chart-ipad{
+    float: right;
+  }
+  .first_row{
+    padding-top: 35px;
+  }
+  .courses_stat{
+    height:201px;
+    padding: 22px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
 }
 @media screen and (max-width: 768px ){
   .page-wrapper{
@@ -761,8 +860,56 @@
   }
 }
 @media screen and (max-width: 480px){
+  .course-title{
+    margin: 0px;
+  }
+  .student-number-text{
+    margin: 0px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 21px;
+  }
+  .admin_line {
+     margin-top: 0px;
+  }
+  .first_row{
+    width: 100%;
+    padding-top: 0px;
+    height: 70px;
+  }
+  .second_row{
+    width: 100%;
+    padding-top: 0px;
+    height: 70px;
+  }
+  .courses_stat{
+    width: 100%;
+    padding: 12px;
+  }
   .dash-col2{
     display: none !important;
+  }
+  .hidden-mobile{
+    display: none;
+  }
+  .visible-mobile{
+    display: block;
+  }
+  .leveled_pie{
+    width: 100%;
+  }
+  .course-title {
+    font-size: 12px;
+  }
+  .student-number-text {
+    font-size: 9px;
+  }
+  .courses_stat{
+    height: 100px;
+  }
+  .table-responsive{
+     padding: 9px;
   }
 }
 @media screen and (max-width: 320px){

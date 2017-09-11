@@ -275,7 +275,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     за семестр</p>
                   <div className="admin_line">
                     <div style={{float: 'right', width: '100%'}}>
-                      <img src='./img/pointer.png' style={{width: '25px', float:'right', height: '25px'}}/>
+                      <img className="hidden-mobile" src='./img/pointer.png' style={{width: '25px', float:'right', height: '25px'}}/>
                       <span className="student-number">{this.state.subject1.remained}</span>
                     </div>
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value1}%</span></div>
@@ -289,7 +289,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     за семестр</p>
                     <div className="admin_line">
                      <div style={{float: 'right', width: '100%'}}>
-                    <img src='./img/pointer2.png' style={{width: '25px', float:'right', height: '25px'}}/>
+                    <img className="hidden-mobile" src='./img/pointer2.png' style={{width: '25px', float:'right', height: '25px'}}/>
                     <span className="student-number">{this.state.subject2.remained}</span>
                     </div>
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value2}%</span></div>
@@ -301,8 +301,8 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <p className="student-number-text">Количество студентов
                     за семестр</p>
                     <div className="admin_line">
-              <div style={{float: 'right', width: '100%'}}>
-                    <img src='./img/pointer3.png' style={{width: '25px', float:'right', height: '25px'}}/>
+                    <div style={{float: 'right', width: '100%'}}>
+                    <img className="hidden-mobile" src='./img/pointer3.png' style={{width: '25px', float:'right', height: '25px'}}/>
                     <span className="student-number">{this.state.subject3.remained}</span>
                     </div>
                     <div style={{width: '100%'}}><span className="progressbar-value">{this.state.value3}%</span></div>
@@ -319,7 +319,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
 
                     <p className="leveled-pie-text">Успеваемость студентов (за месяц)</p>
                   </div>
-                  <div className="big_stat hidden-ipad">
+                  <div className="big_stat hidden-ipad hidden-mobile">
 
                     <ul className="hr">
                     <div className="pie_text">
@@ -341,7 +341,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <Bar dataKey="ВсеПоступившие" fill="#3A4240"/>
                     </BarChart>
                   </div>
-                  <div className="big_stat hidden-max-media hidden-middle visible-ipad">
+                  <div className="big_stat hidden-max-media hidden-middle visible-ipad hidden-mobile">
 
                     <ul className="hr">
                     <div className="pie_text">
@@ -363,7 +363,7 @@ const data03= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {na
                     <Bar dataKey="ВсеПоступившие" fill="#3A4240"/>
                     </BarChart>
                   </div>
-                  <div className="hidden-max-media visible-middle" style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
+                  <div className="hidden-max-media visible-middle hidden-mobile" style={{ display: 'flex-root', width: '31%', marginTop: '20px'}} >
                   <div className ="leveled_pie" style={{width: '100%', marginTop: '0px'}}>
 
 
