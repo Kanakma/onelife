@@ -40,7 +40,7 @@ const SimpleAreaChart = React.createClass({
   render () {
     return (
 
-      <AreaChart width={650} height={400} data={data12}
+      <AreaChart width={650} height={370} data={data12}
             margin={{top: 30, right: 30, left: 0, bottom: 0}}>
         <XAxis dataKey="name"/>
         <YAxis/>
@@ -186,16 +186,18 @@ class TeacherHome extends React.Component {
                   <div className="white-box" style={{height: '100%', display: 'grid'}}>
                     <p className="number-statistic-title">Количество студентов</p>
                     <p className="number-statistic-text">Записанные на ваши курсы</p>
-                    <p className= "number-statistic-number">{this.state.students.length}</p>
+                    <p className= "number-statistic-number snl">{this.state.students.length}</p>
+                    <div className="student_number_line " >
                     <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
                     <p className="number-statistic-percent">22% выше с прошлого года</p>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="teacher-courses-statistic">
                 <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
                 <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
-                <div style={{display: 'flex'}}>
+                <div   style={{display: 'flex'}}>
                   <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
                     <Pie
                       data={this.state.piedata}
@@ -232,20 +234,20 @@ class TeacherHome extends React.Component {
             <div className="profile-heading text-center vertical-align">
               <div className="teacher-progress-bar" >
                 <div style={{width: '100%'}}><img className="teacher-heading-icons" src= "./img/graduate.png"/></div>
-                <div style={{width: '100%'}}><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО СТУДЕНТОВ</p></div>
+                <div className="teacher_text_3"><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО ВАШИХ СТУДЕНТОВ</p></div>
                 <p className="teacher-heading-number" style={{color: '#cf4a4c'}}>{this.state.students.length}</p>
                 <Line percent="10" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
               </div>
               <div className="teacher-progress-bar" style={{borderLeft: '1px solid  #ffffff'}}>
                 <div><img className="teacher-heading-icons" src= "./img/clock.png"/></div>
-                <div><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО ЧАСОВ (МЕСЯЦ)</p></div>
+                <div className="teacher_text_3"><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО ЧАСОВ (МЕСЯЦ)</p></div>
                 <p className="teacher-heading-number" style={{color: '#0b9eaf'}}>{this.state.credit_number}</p>
                 <Line percent="70" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
               </div>
               <div className="teacher-progress-bar" style={{borderLeft: '1px solid  #ffffff'}}>
                 <div><img className="teacher-heading-icons" src= "./img/data-viewer.png"/></div>
-                <div><p className="teacher-heading-text">ЧИСЛО ПОСЕЩЕНИЙ ВАШЕЙ СТРАНИЦЫ</p></div>
-                <p className="teacher-heading-number" style={{color: '#f3ba1d'}}>120</p>
+                <div className="teacher_text_3"><p className="teacher-heading-text">ЧИСЛО ПРОПУСКОВ ЗА МЕСЯЦ</p></div>
+                <p className="teacher-heading-number" style={{color: '#f3ba1d'}}>20</p>
                 <Line percent="50" strokeWidth="2" trailWidth="2" trailColor="#D3D3D3" strokeColor="#f3ba1d"/>
               </div>
               <div className="profile-heading-name ">
