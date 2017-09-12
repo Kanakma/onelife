@@ -77,7 +77,7 @@ class AdminTeachers extends React.Component {
         </div>
       </div>
       <div className="my-content" hidden={this.state.checkFilter}>
-      <div className="row hidden-max-media" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
+      <div className="row hidden-max-media visible-middle visible-ipad visible-mobile" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
         {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
@@ -124,7 +124,7 @@ class AdminTeachers extends React.Component {
           )
         }
       </div>
-      <div className="row visible-max" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
+      <div className="row visible-max hidden-middle hidden-ipad hidden-mobile" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
         {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
