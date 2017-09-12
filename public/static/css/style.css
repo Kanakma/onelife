@@ -1105,7 +1105,7 @@ ul.hr li {
   background-color: white;
 }
 .student_daysleft_stat{
-  height: 46%;
+  height: 44%;
   width: 100%;
   background-color: white;
   margin-top: 20px
@@ -1114,7 +1114,7 @@ ul.hr li {
 
 }
 .student_attendance{
-  margin-top: 20px;
+  margin-top: 10px;
   height: 395px;
   background-color: white;
 
@@ -1149,7 +1149,7 @@ ul.hr li {
 .students_total_numbers{
   width: 150px;
   padding-left: 25px;
-  padding-top: 63px;
+    padding-top: 25px
 
 
 }
@@ -1182,7 +1182,6 @@ ul.hr li {
   font-family: "gothic";
   font-weight: 400;
   margin-left: 25px;
-  padding-top: 92px;
 }
 .student_total_gpa{
   font-family: "gothic";
@@ -1251,7 +1250,7 @@ ul.hr li {
 }
 .student_mixed_statistic{
   padding-top:25px;
-  padding-left: 25px;
+  padding-left: 50px;
 }
 .stud_icons{
   float: right;
@@ -1302,7 +1301,7 @@ ul.hr li {
 
 #main {
    /* width: 100%;*/
-    height: 200px;
+/*    height: 200px;*/
     display: -webkit-flex; /* Safari */
     -webkit-flex-wrap: wrap; /* Safari 6.1+ */
     display: flex;
@@ -1342,6 +1341,55 @@ ul.hr li {
     border-left: none;
     border-right: none;
 }
+
+
+ /*mob rable*/
+
+#main_mob {
+   /* width: 100%;*/
+/*    height: 200px;*/
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+
+#main_mob div {
+  margin-left: 20px;
+  width: 48%;
+  height: 500px;
+  background-color:white;
+}
+.zui-table-mob {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: "gothic";
+    font: normal 13px ;
+    margin-top: 47px;
+    margin-left: 20px;
+}
+.zui-table-mob thead th {
+    background-color: #E14E50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+.zui-table-mob tbody td {
+    border: solid 1px #E14E50;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+
+}
+.zui-table-horizontal-mob tbody td {
+    border-left: none;
+    border-right: none;
+}
+
+
+
 .student_today{
   height: 16px;
   color: #000000;

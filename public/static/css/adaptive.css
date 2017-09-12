@@ -262,7 +262,7 @@
     margin-left: 25px;
   }
   .student_pie_chart {
-    margin-top: -184px;
+    margin-top: -185px;
     margin-left: 113px;
   }
   .student_gpa{
@@ -289,7 +289,7 @@
     font-size: 20px;
   }
   .student_count_days_left {
-    margin-top: 47px;
+    margin-top: 23px;
     width: 290px;
   }
   .stud_icons{
@@ -298,18 +298,28 @@
   }
 
 
+.student_gpa {
+   padding-top: 56px;
+}
+
+
 }
 @media screen and (max-width: 1400px){
+.student_gpa {
+
+      padding-top: 58px;
+}
 
   .page-wrapper{
       padding-left: 220px;
 }
   .stud_icons{
-  width: 120px;
-  font-size: 12px;
+   width: 151px;
+    font-size: 16px;
+
   }
   .student_count_days_left {
-    margin-top: 67px;
+    margin-top: -15px;
     width: 290px;
   }
   .student_days_left{
@@ -323,7 +333,7 @@
     margin-left: -10px;
   }
   .student_courses_subtitle{
-      font-size: 14px;
+      font-size: 12px;
   }
   .student_courses_title{
     font-size: 20px;
@@ -340,12 +350,12 @@
   margin-left: -12px;
   }
   .student_max_score{
-    font-size: 16px;
-    padding-top: 51px;
+        padding-top: 21px;
+    font-size: 15px;
     margin-left: 25px;
   }
   .student_line{
-  margin-top: 80px;
+  margin-top: 52px;
   margin-left: 5px;
 }
   .student_gpa_title{
@@ -493,6 +503,30 @@
   }*/
 
 }
+@media screen and (max-width: 375px){
+   .student_attendance{
+    visibility: hidden;
+   }
+
+   #main {
+    display: none;
+   /* width: 159%;
+    position: absolute;
+    margin-top: -421px;
+    margin-left: -5px;*/
+  }
+  .student_row #main {
+    position: absolute;
+      margin-top: -200px;
+  }
+  #main_mob{
+     width: 159%;
+    position: absolute;
+    margin-top: -421px;
+    margin-left: -5px;
+  }
+
+}
 @media screen and (max-width: 1400px){
 
   .visible-middle{
@@ -503,6 +537,7 @@
 }
   .bg-title{
      margin: 0px 0 25px 220px;
+   }
   .student_courses_title{
   font-size: 26px;
   }
