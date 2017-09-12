@@ -76,7 +76,7 @@ const data = [
 const SimpleAreaChart = React.createClass({
   render () {
     return (
-      <AreaChart width={900} height={400} data={data}
+      <AreaChart width={900} height={350} data={data}
             margin={{top: 30, right: 30, left: 0, bottom: 0}}>
         <XAxis dataKey="name"/>
         <YAxis/>
@@ -104,7 +104,7 @@ const SimplePieChart1 = React.createClass({
           cx={250}
           cy={170}
           innerRadius={60}
-          outerRadius={80}
+          outerRadius={75}
           fill="#8884d8"
           paddingAngle={0}
         >
@@ -165,7 +165,7 @@ class StudentHome extends React.Component {
   render() {
 
     return (
-    <div className="container clearfix" style={{height:"1800px"}}>
+    <div className="container clearfix" style={{height:"2400px"}}>
     <div className="page-wrapper">
       <div className="bg-title" style={{marginLeft: '0px' }}>
         <h4>Главная студента</h4>
@@ -176,7 +176,7 @@ class StudentHome extends React.Component {
       </div>
         <div className="profile-heading-name ">
 
-       Университет имени Сулеймана Демиреля
+     КОЛЛЕДЖ
            </div>
         <div ></div>
       </div>
@@ -325,6 +325,7 @@ class StudentHome extends React.Component {
 </table>
 
 
+
   </div>
 
   <div >
@@ -385,6 +386,61 @@ class StudentHome extends React.Component {
   </div>
  </div>
 
+
+<div id="main_mob" >
+
+  <div >
+
+  <p className="student_today">Расписание на СЕГОДНЯ</p>
+
+
+<table className="zui-table-mob zui-table-horizontal-mob">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Время</th>
+            <th>Предмет</th>
+            <th>Место</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>10:00-11:00</td>
+            <td>Математика</td>
+            <td>497</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>10:00-11:00</td>
+            <td>Python I</td>
+            <td>473</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>10:00-11:00</td>
+            <td>UX/UI Design</td>
+            <td>295</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>10:00-11:00</td>
+            <td>Oracle</td>
+            <td>700</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>10:00-11:00</td>
+            <td>SDP4</td>
+            <td>300</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+  </div>
+  </div>
 
 
 
