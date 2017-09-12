@@ -1062,6 +1062,9 @@
   }
 }
 @media screen and (max-width: 480px){
+  .mobile-table{
+    width: 100px;
+  }
   .student_courses_stat{
     margin-bottom: 20px;
   }
