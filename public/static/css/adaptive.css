@@ -289,6 +289,7 @@
       font-size: 20px;
   }
   .stud_pie {
+
     position: absolute;
     margin-top: -293px;
     margin-left: 103px;
@@ -300,7 +301,7 @@
     font-size: 20px;
   }
   .student_count_days_left {
-    margin-top: 23px;
+    margin-top: -9px;
     width: 290px;
   }
   .stud_icons{
@@ -538,33 +539,70 @@
   /*.recharts-default-legend{
     margin-left: -57px;
   }*/
+ .student_today{
+        padding-top: 25px;
+    padding-left: 25px;
+ }
 
 }
 @media screen and (max-width: 375px){
+  .student_count_days_left {
+    margin-top: -15px;
+    width: 244px;
+}
+  .student_today{
+        padding-top: 15px !important;
+    padding-left: 20px !important;
+
+  }
+  .stud_pie {
+    margin-top: -278px;
+    margin-left: -52px;
+  }
+  .student_courses_subtitle {
+    font-size: 12px;
+    width: 100px;
+  }
+  .student_max_score {
+    width: 139px;
+    padding-top: 8px;
+    font-size: 15px;
+    margin-left: 25px;
+  }
+ .student_pie_chart {
+    margin-top: -167px;
+    margin-left: -57px;
+  }
    .student_attendance{
     visibility: hidden;
    }
-
    #main {
-    display: none;
-   /* width: 159%;
-    position: absolute;
-    margin-top: -421px;
-    margin-left: -5px;*/
+    display: none !important;
+
   }
   .student_row #main {
     position: absolute;
       margin-top: -200px;
   }
   #main_mob{
+      display: block !important;
      width: 159%;
     position: absolute;
     margin-top: -421px;
     margin-left: -5px;
   }
 
+
 }
 @media screen and (max-width: 1400px){
+ /* #main_mob div {
+    display: none !important;
+  }*/
+  .student_today{
+    padding-top: 25px;
+    padding-left: 25px;
+ }
+
 
   .visible-middle{
     display: block;

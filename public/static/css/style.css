@@ -1199,7 +1199,7 @@ ul.hr li {
   color: #f2b91d;
   font-family: "gothic";
   font-weight: 400;
-  font-size: 60px;
+  font-size: 55px;
 
 }
 .student_days{
@@ -1275,6 +1275,9 @@ ul.hr li {
   margin-left: 15px;
 
 }
+.full_screen{
+  height: 2200px;
+}
 .mini1{
   margin-top: 20px;
   width: 515px;
@@ -1296,7 +1299,7 @@ ul.hr li {
 #main div {
   margin-left: 20px;
   width: 48%;
-  height: 500px;
+  height: 330px;
   background-color:white;
 }
 .zui-table {
@@ -1342,7 +1345,7 @@ ul.hr li {
 #main_mob div {
   margin-left: 20px;
   width: 48%;
-  height: 500px;
+  height: 400px;
   background-color:white;
 }
 .zui-table-mob {
@@ -1352,7 +1355,7 @@ ul.hr li {
     font-family: "gothic";
     font: normal 13px ;
     margin-top: 47px;
-    margin-left: 20px;
+    margin-left: 9px;
 }
 .zui-table-mob thead th {
     background-color: #E14E50;
@@ -1363,7 +1366,7 @@ ul.hr li {
 .zui-table-mob tbody td {
     border: solid 1px #E14E50;
     color: #333;
-    padding: 10px;
+    padding: 6px;
     text-shadow: 1px 1px 1px #fff;
 
 }
@@ -1380,8 +1383,8 @@ ul.hr li {
   font-family: "gothic";
   font-size: 20px;
   font-weight: 400;
-  padding-top: 25px;
-  padding-left: 25px;
+ /* padding-top: 25px;
+  padding-left: 25px;*/
 }
 .student_main_info{
   text-align: left

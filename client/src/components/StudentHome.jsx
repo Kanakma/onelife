@@ -24,7 +24,7 @@ const SimplePieChart = React.createClass({
           cx={250}
           cy={200}
           innerRadius={60}
-          outerRadius={80}
+          outerRadius={75}
           fill="#8884d8"
           paddingAngle={0}
         >
@@ -50,7 +50,7 @@ const data05 = [
 const TinyLineChart = React.createClass({
   render () {
     return (
-      <LineChart width={320} height={100} data={data05}>
+      <LineChart width={315} height={100} data={data05}>
         <Line type='monotone' dataKey='pv' cx={300}
           cy={180}  stroke='#ffffff' strokeWidth={2} />
                <Tooltip/>
@@ -165,7 +165,7 @@ class StudentHome extends React.Component {
   render() {
 
     return (
-    <div className="container clearfix" style={{height:"2400px"}}>
+    <div className="container clearfix full_screen">
     <div className="page-wrapper">
       <div className="bg-title" style={{marginLeft: '0px' }}>
         <h4>Главная студента</h4>
@@ -266,6 +266,60 @@ class StudentHome extends React.Component {
 
 
 
+<div id="main_mob" >
+
+  <div >
+
+  <p className="student_today">Расписание на СЕГОДНЯ</p>
+
+
+<table className="zui-table-mob zui-table-horizontal-mob">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Время</th>
+            <th>Предмет</th>
+            <th>Место</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>10:00-11:00</td>
+            <td>Математика</td>
+            <td>497</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>10:00-11:00</td>
+            <td>Python I</td>
+            <td>473</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>10:00-11:00</td>
+            <td>UX/UI Design</td>
+            <td>295</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>10:00-11:00</td>
+            <td>Oracle</td>
+            <td>700</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>10:00-11:00</td>
+            <td>SDP4</td>
+            <td>300</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+  </div>
+  </div>
 
 
   <div id="main">
@@ -386,61 +440,6 @@ class StudentHome extends React.Component {
   </div>
  </div>
 
-
-<div id="main_mob" >
-
-  <div >
-
-  <p className="student_today">Расписание на СЕГОДНЯ</p>
-
-
-<table className="zui-table-mob zui-table-horizontal-mob">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Время</th>
-            <th>Предмет</th>
-            <th>Место</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>10:00-11:00</td>
-            <td>Математика</td>
-            <td>497</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>10:00-11:00</td>
-            <td>Python I</td>
-            <td>473</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>10:00-11:00</td>
-            <td>UX/UI Design</td>
-            <td>295</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>10:00-11:00</td>
-            <td>Oracle</td>
-            <td>700</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>10:00-11:00</td>
-            <td>SDP4</td>
-            <td>300</td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-  </div>
-  </div>
 
 
 
