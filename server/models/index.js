@@ -27,4 +27,5 @@ module.exports.connect = (uri) => {
   require('./auditory')
   require('./employee')
   require('./candidate')
+  require('./notification')
 };

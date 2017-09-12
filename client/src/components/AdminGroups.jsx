@@ -51,7 +51,7 @@ class AdminGroups extends React.Component {
       </div>
       <div className=" my-content" >
       <div className="table-responsive">
-          <table id="myTable" className="table table-striped">
+            <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                     <th>№</th>
@@ -108,7 +108,7 @@ class AdminGroups extends React.Component {
                   </tbody>
                 )
               }
-          </table>
+            </table>
         </div>
         </div>
         <AdminEditGroupModal

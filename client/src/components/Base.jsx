@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import jwtDecode from 'jwt-decode';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class Base extends React.Component {
   constructor(props) {
@@ -25,25 +26,54 @@ class Base extends React.Component {
       checkAuditory:false,
       status: '',
       checkEmployee:false,
-      checkCandidate:false
+      checkCandidate:false,
+      checkOther:false,
+      notifications:[]
     };
     this.changeHide = this.changeHide.bind(this);
     this.getStatus = this.getStatus.bind(this);
+    this.getNotification = this.getNotification.bind(this);
+    this.createNotification=this.createNotification.bind(this);
   }
+
   getStatus(){
     if(Auth.isUserAuthenticated()){
       var token = Auth.getToken();
       var decoded = jwtDecode(token);
       this.setState({
         status: decoded.userstatus
-      });
+      })
     }
   }
+
+  createNotification(type){
+    return function () {
+      switch (type) {
+        case 'info':
+          NotificationManager.info('Info message');
+          break;
+        case 'success':
+          NotificationManager.success('Success message', 'Title here');
+          break;
+        case 'warning':
+          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+          break;
+        case 'error':
+          NotificationManager.error('Error message', 'Click me!', 5000, function () {
+            alert('callback');
+          });
+          break;
+      }
+    }
+  }
+  
   componentWillMount(){
-    this.getStatus();
+    this.getStatus()
+    this.getNotification()
   }
   componentWillReceiveProps(){
-    this.getStatus();
+    this.getStatus()
+    this.getNotification()
   }
   changeHide(event){
     var nameDropdown = event.target.name;
@@ -68,7 +98,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "major") || (idDropdown == "major")){
@@ -91,7 +122,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "subject") || (idDropdown == "subject")){
@@ -114,7 +146,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "teacher") || (idDropdown == "teacher")){
@@ -137,7 +170,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "student") || (idDropdown == "student")){
@@ -160,7 +194,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "department") || (idDropdown == "department")){
@@ -183,7 +218,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "parrent") || (idDropdown == "parrent")){
@@ -206,7 +242,8 @@ class Base extends React.Component {
             checkGroup: false,
             checkAuditory:false,
             checkEmployee:false,
-            checkCandidate:false
+            checkCandidate:false,
+            checkOther:false
           })
         }
     } else if((nameDropdown == "attendance") || (idDropdown == "attendance")){
@@ -229,7 +266,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "mark") || (idDropdown == "mark")){
@@ -252,7 +290,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "test") || (idDropdown == "test")){
@@ -275,7 +314,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "homework") || (idDropdown == "homework")){
@@ -298,7 +338,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     } else if((nameDropdown == "schedule") || (idDropdown == "schedule")){
@@ -321,7 +362,8 @@ class Base extends React.Component {
           checkGroup: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     }else if((nameDropdown == "group") || (idDropdown == "group")){
@@ -344,7 +386,8 @@ class Base extends React.Component {
           checkHomework: false,
           checkAuditory:false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     }else if((nameDropdown == "auditory") || (idDropdown == "auditory")){
@@ -366,7 +409,8 @@ class Base extends React.Component {
           checkSchedule:false,
           checkHomework: false,
           checkEmployee:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     }else if((nameDropdown == "employee") || (idDropdown == "employee")){
@@ -388,7 +432,8 @@ class Base extends React.Component {
           checkSchedule:false,
           checkHomework: false,
           checkAuditory:false,
-          checkCandidate:false
+          checkCandidate:false,
+          checkOther:false
         })
       }
     }else if((nameDropdown == "candidate") || (idDropdown == "candidate")){
@@ -409,20 +454,58 @@ class Base extends React.Component {
           checkTest: false,
           checkSchedule:false,
           checkHomework: false,
+          checkAuditory:false,
+          checkOther:false
+        })
+      }
+    }else if((nameDropdown == "other") || (idDropdown == "other")){
+      this.setState({
+        checkOther: !this.state.checkOther
+      })
+      if(this.state.checkOther==false){
+        this.setState({
+          checkMajor: false,
+          checkSubject: false,
+          checkTeacher: false,
+          checkFaculty: false,
+          checkStudent: false,
+          checkDepartment:false,
+          checkParrent:false,
+          checkAttendance:false,
+          checkMark:false,
+          checkTest: false,
+          checkSchedule:false,
+          checkHomework: false,
           checkAuditory:false
         })
       }
     }
-
+  }
+  getNotification(){
+    var decoded = jwtDecode(Auth.getToken())
+    var formData=`user=${decoded.sub}`
+    axios.post('/api/getnotifications', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(res => {
+        this.setState({
+          notifications: res.data.notifications
+        });
+      });
   }
 
   render() {
+    console.log(this.state.notifications)
     return (
       <div>
       {(Auth.isUserAuthenticated() && (this.state.status == "admin")) ?(
         <div>
           <nav className="navbar navbar-default m-b-0">
             <div className="navbar-header myheader">
+
                 <div className="top-left-part"><Link to="/" className="logo">
                 <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
                     <span className="hidden-xs">
@@ -505,7 +588,6 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkSchedule}>
                         <li><Link to="/schedules" className="waves-effect" style={{paddingLeft: '45px'}}>Расписания</Link></li>
                         <li><Link to="/addschedule" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить расписание</Link></li>
-                        <li><Link to="/reports" className="waves-effect" style={{paddingLeft: '45px'}}>Отчеты</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="teacher" onClick={this.changeHide}>
@@ -529,7 +611,7 @@ class Base extends React.Component {
                       </ul>
                   </li>
                     <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
-                      <i className="fa fa-blind fa-lg icons" id="parrent" aria-hidden="true" ></i><Link to="#" name="parrent" onClick={this.changeHide} className="hidden-menu-style hide-menu ">Родители</Link>
+                      <i className="fa fa-user-circle-o fa-lg icons" id="parrent" aria-hidden="true" ></i><Link to="#" name="parrent" onClick={this.changeHide} className="hidden-menu-style hide-menu ">Родители</Link>
                       <span hidden={this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer hide-menu " aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       <span hidden={!this.state.checkParrent} id="parrent" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer hide-menu " aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
@@ -540,7 +622,7 @@ class Base extends React.Component {
                   </li>
 
                   <li><Link to="#" className="waves-effect" name="employee" onClick={this.changeHide}>
-                      <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Сотрудники
+                      <i className="fa fa-ravelry fa-lg icons" aria-hidden="true" ></i>Сотрудники
                       <span hidden={this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       <span hidden={!this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
@@ -550,13 +632,23 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="candidate" onClick={this.changeHide}>
-                      <i className="fa fa-blind fa-lg icons" aria-hidden="true" ></i>Абитуриенты
+                      <i className="fa fa-free-code-camp fa-lg icons" aria-hidden="true" ></i>Абитуриенты
                       <span hidden={this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       <span hidden={!this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkCandidate}>
                         <li><Link to="/candidates" className="waves-effect" style={{paddingLeft: '45px'}}>Все абитуриенты</Link></li>
                         <li><Link to="/addcandidate" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить абитуриента</Link></li>
+                      </ul>
+                  </li>
+                  <li><Link to="#" className="waves-effect" name="other" onClick={this.changeHide}>
+                      <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>Другое
+                      <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      </Link>
+                      <ul className="nav" hidden={!this.state.checkOther}>
+                        <li><Link to="/notifications" className="waves-effect" style={{paddingLeft: '45px'}}>Уведомления</Link></li>
+                        <li><Link to="/reports" className="waves-effect" style={{paddingLeft: '45px'}}>Отчеты</Link></li>
                       </ul>
                   </li>
                   <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
