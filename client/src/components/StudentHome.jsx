@@ -118,7 +118,29 @@ const SimplePieChart1 = React.createClass({
     );
   }
 })
+const SimplePieChart2 = React.createClass({
+  render () {
+    return (
+      <PieChart width={300} height={300} onMouseEnter={this.onPieEnter}>
+        <Pie
+          data={data03}
+          cx={200}
+          cy={150}
+          innerRadius={50}
+          outerRadius={70}
+          fill="#8884d8"
+          paddingAngle={0}
+        >
+          {
+            data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+          }
+        </Pie>
+               <Tooltip/>
 
+      </PieChart>
+    );
+  }
+})
 class StudentHome extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -165,12 +187,12 @@ class StudentHome extends React.Component {
   render() {
 
     return (
-    <div className="container clearfix" style={{height:"2400px"}}>
+    <div className="container clearfix" >
     <div className="page-wrapper">
       <div className="bg-title" style={{marginLeft: '0px' }}>
         <h4>Главная студента</h4>
       </div>
-      <div className="profile-heading1 text-center ">
+      <div className="profile-heading1 text-center hidden-max-media hidden-mobile visible-middle">
       <div className="university_logo">
 
       </div>
@@ -181,7 +203,7 @@ class StudentHome extends React.Component {
         <div ></div>
       </div>
       <div className="page-content1">
-        <div className=" col-md-4">
+        <div className=" col-md-4 col-lg-3 hidden-ipad hidden-mobile hidden-middle visible-max">
           <div className="white-box text-center" style={{height: '388px'}}>
             <div style={{width: '100%'}}>
               <img src={require("../../../public/student-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
@@ -197,7 +219,53 @@ class StudentHome extends React.Component {
             <button className="profile-teacher-btn" onClick={this.openProfile} id={this.state.userId}>Настройки</button>
           </div>
         </div>
-        <div className=" col-md-4">
+        <div className="profile-heading1 text-center visible-max hidden-middle hidden-mobile hidden-ipad">
+        <div className="university_logo">
+
+        </div>
+          <div className="profile-heading-name ">
+
+       КОЛЛЕДЖ
+             </div>
+          <div ></div>
+        </div>
+        <div className=" col-md-4 visible-middle hidden-max-media">
+          <div className="white-box text-center" style={{height: '388px'}}>
+            <div style={{width: '100%'}}>
+              <img src={require("../../../public/student-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
+            </div>
+            <p className="profile-teacher-name">{this.state.student.user_id.name} {this.state.student.user_id.lastname}</p>
+            <p className="profile-teacher-name">ID{this.state.student.user_id.username}</p>
+            <div className="student_main_info">
+              <span className="student_name_main1"> Факуьтет:</span> <span className="student_name_main"> {this.state.student.faculty_id.faculty_name} </span><br/>
+              <span className="student_name_main1"> Cпециальность:</span><span className="student_name_main"> {this.state.student.major_id.major_name}</span><br/>
+              <span className="student_name_main1"> Группа:</span><span className="student_name_main"> {this.state.student.group_id.group_name}</span><br/>
+              <span className="student_name_main1"> Курс:</span><span className="student_name_main"> {this.state.student.group_id.course_number}</span>
+            </div>
+            <button className="profile-teacher-btn" onClick={this.openProfile} id={this.state.userId}>Настройки</button>
+          </div>
+        </div>
+        <div className=" col-md-4 col-lg-3 hidden-middle hidden-ipad hidden-mobile visible-max">
+          <div className="student_gpa_stat">
+          <div className="student_ocenka_stat">
+            <p className="student_gpa_title">Оценка (GPA)</p>
+            <div className="student_line">
+              <TinyLineChart />
+            </div>
+          </div>
+            <div className="student_gparechart_stat">
+
+            <p className="student_max_score">Средний бал <br/>из максимальных 4.0</p>
+            <p className="student_gpa">{this.state.gpa}</p>
+            <div className="student_pie_chart">
+            <span className="student_total_gpa">{this.state.procent_gpa}</span>
+             <SimplePieChart1 />
+             </div>
+
+            </div>
+          </div>
+        </div>
+        <div className=" col-md-4 visible-middle hidden-max-media">
           <div className="student_gpa_stat">
           <div className="student_ocenka_stat">
             <p className="student_gpa_title">Оценка (GPA)</p>
@@ -219,20 +287,22 @@ class StudentHome extends React.Component {
         </div>
 
 
-      
-        <div className=" col-md-4">
+        <div className=" col-md-4 visible-middle hidden-max-media">
           <div className="student_courses_stat ">
             <div className="student_credits_stat">
               <div className="students_courses_titles">
                 <p className="student_courses_title">Курсы</p>
-                <p className="student_courses_subtitle">Количество предметов</p>
+                <p className="student_courses_subtitle hidden-mobile">Количество предметов</p>
               </div>
               <div className="students_total_numbers">
                 <p className="student_total_courses_title">ВСЕГО ПРЕДМЕТОВ</p>
                 <p className="student_total_courses_subtitle">4</p>
               </div>
-              <div className="stud_pie">
+              <div className="stud_pie hidden-ipad visible-middle visible-mobile hidden-max-media">
                 <SimplePieChart />
+              </div>
+              <div className="stud_pie visible-ipad hidden-middle hidden-mobile hidden-max-media">
+                <SimplePieChart2 />
               </div>
             </div>
             <div className="student_daysleft_stat">
@@ -241,16 +311,16 @@ class StudentHome extends React.Component {
                 <p className="student_days_left">До конца учебного года осталось:</p>
                 <div className="student_count_days_left">
                   <span className="student_number">265</span><span className="student_days">дней</span>
-                  <Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" />
 
                 </div>
+                <div style={{width: '90%'}}><Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" /></div>
                 <div className="student_progress_line">
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-md-12 student_row">
+        <div className="col-md-12 student_row hidden-max-media visible-middle hidden-mobile ">
         <div className="student_attendance">
         <div className="student_mixed_statistic">
           <div className="student_mixed_title">Статистика успеваемости и посещения</div>
@@ -263,12 +333,60 @@ class StudentHome extends React.Component {
          <SimpleAreaChart />
         </div>
         </div>
+        <div className="hidden-middle visible-max col-lg-12" style={{padding: '0px'}}>
+          <div className=" col-md-4 col-lg-4">
+            <div className="student_courses_stat ">
+              <div className="student_credits_stat">
+                <div className="students_courses_titles">
+                  <p className="student_courses_title">Курсы</p>
+                  <p className="student_courses_subtitle">Количество предметов</p>
+                </div>
+                <div className="students_total_numbers">
+                  <p className="student_total_courses_title">ВСЕГО ПРЕДМЕТОВ</p>
+                  <p className="student_total_courses_subtitle">4</p>
+                </div>
+                <div className="stud_pie">
+                  <SimplePieChart />
+                </div>
+              </div>
+              <div className="student_daysleft_stat">
+                <div className="student_gpa_main_title">
+                  <p className="student_current_year">Учебный год</p>
+                  <p className="student_days_left">До конца учебного года осталось:</p>
+                  <div className="student_count_days_left">
+                    <span className="student_number">265</span><span className="student_days">дней</span>
+
+                  </div>
+                  <div style={{width: '90%'}}><Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" /></div>
+                  <div className="student_progress_line">
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+
+          <div className="col-md-12 col-lg-8">
+          <div className="student_attendance">
+          <div className="student_mixed_statistic">
+            <div className="student_mixed_title">Статистика успеваемости и посещения</div>
+            <div className="student_mixed_subtitle">За 2016 год</div>
+          </div>
+          <div className="stud_icons">
+           <img className="stud_img" src="./img/yellow1.png"/><span>Посещаемость</span>
+           <img className="stud_img" src="./img/blue1.png"/><span>Успеваемость</span>
+          </div>
+           <SimpleAreaChart />
+          </div>
+          </div>
+
+
+        </div>
 
 
 
 
 
-  <div id="main">
+  <div id="main" className="visible-max visible-middle hidden-mobile visible-ipad" style={{marginBottom: '20px'}}>
 
   <div >
 
@@ -387,9 +505,9 @@ class StudentHome extends React.Component {
  </div>
 
 
-<div id="main_mob" >
+<div id="main_mob" className="hidden-middle hidden-max-media visible-mobile" >
 
-  <div >
+  <div className="hidden-middle hidden-max hidden-ipad" >
 
   <p className="student_today">Расписание на СЕГОДНЯ</p>
 

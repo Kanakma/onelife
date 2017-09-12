@@ -27,13 +27,13 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 }
 
 const data12 = [
-      {name: 'Январь', uv: 1500, pv: 2400, amt: 2400},
-      {name: 'Февраль', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Март', uv: 2500, pv: 9800, amt: 2290},
-      {name: 'Апрель', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Май', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Июнь', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Сентябрь', uv: 3490, pv: 4300, amt: 2100},
+      {name: 'Январь', uv: 40},
+      {name: 'Февраль', uv: 50},
+      {name: 'Март', uv: 90},
+      {name: 'Апрель', uv: 80},
+      {name: 'Май', uv: 60},
+      {name: 'Июнь', uv: 65},
+      {name: 'Сентябрь', uv: 90},
 ];
 
 const SimpleAreaChart = React.createClass({
@@ -268,11 +268,8 @@ class TeacherHome extends React.Component {
                 </div>
                 <div className="teacher-common-statistic hidden-ipad visible-max visible-middle">
                   <div className="white-box" style={{height: '100%'}}>
-                    <p className="teacher-common-statistic-text">Общая статистика</p>
-
+                    <p className="teacher-common-statistic-text">Общая статистика посещаемости студентов</p>
                              <SimpleAreaChart />
-
-
                   </div>
                 </div>
                   <div className="teacher-number-statistic hidden-max-media hidden-ipad visible-middle">

@@ -1,4 +1,19 @@
 @media screen and (max-width: 1920px){
+  .student_attendance{
+    height: 450px;
+  }
+  .student_credits_stat{
+      height: 50%;
+  }
+  .student_daysleft_stat{
+    height: 48%;
+  }
+  .student_courses_stat{
+    height: 450px;
+  }
+  .zui-table{
+    width: 95%;
+  }
   .teacherInfo{
     height: 250px;
   }
@@ -240,8 +255,8 @@
       padding: 0px 18px 40px 40px;
   }
   .profile-heading1{
-    display: flex;
-    width: 514px;
+    /*display: flex;*/
+    width: 48%;
     background-size: 172% 100%;
     float: right;
     height: 389px;
@@ -268,13 +283,13 @@
     margin-left: 80px;
   }
   .student_max_score{
-    font-size: 22px;
+    font-size: 20px;
     padding-top: 30px;
     margin-left: 25px;
   }
   .student_pie_chart {
     margin-top: -185px;
-    margin-left: 113px;
+    margin-left: 61px;
   }
   .student_gpa{
     font-size: 66px;
@@ -290,8 +305,8 @@
   }
   .stud_pie {
     position: absolute;
-    margin-top: -293px;
-    margin-left: 103px;
+    margin-top: -268px;
+    margin-left: 141px;
   }
   .student_current_year{
     font-size: 26px;
@@ -316,7 +331,16 @@
 
 }
 @media screen and (max-width: 1400px){
+  .student_attendance{
+    height: 395px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_courses_stat{
+    height: 400px;
 
+  }
   .table-responsive{
      padding: 25px;
   }
@@ -596,6 +620,9 @@
 
 }
 @media screen and (max-width: 1400px){
+  .student_credits_stat{
+      height: 194px;
+  }
   .profile-heading{
       display: flex;
   }
@@ -769,6 +796,19 @@
 }
 }
 @media screen and (max-width: 1200px){
+  .student_attendance{
+    height: 395px;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
   .profile-heading{
       display: flex;
   }
@@ -827,6 +867,44 @@
   }
 }
 @media screen and (max-width: 1024px){
+  .stud_pie {
+    margin-top: -214px;
+    margin-left: 11px;
+  }
+  .student_max_score {
+    padding-top: 21px;
+    font-size: 12px;
+    margin-left: 25px;
+}
+  .student_pie_chart {
+    margin-top: -172px;
+    margin-left: -43px;
+  }
+  .zui-table{
+    margin: 30px 10px 0 10px!important;
+  }
+  #main{
+    padding: 0 10px 0 15px;
+    justify-content: space-between;
+  }
+  #main div{
+    margin-left: 0px!important;
+    width: 49%!important;
+    height: 430px!important;
+  }
+  .student_attendance{
+    height: 450px;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
   .profile-heading{
       display: flex;
   }
@@ -947,6 +1025,23 @@
   }
 }
 @media screen and (max-width: 768px ){
+  .stud_pie {
+    margin-top: -274px;
+    margin-left: -58px;
+  }
+  .student_attendance{
+    height: 395px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
   .page-wrapper{
       padding-left: 60px;
   }
@@ -967,6 +1062,25 @@
   }
 }
 @media screen and (max-width: 480px){
+  .student_courses_stat{
+    margin-bottom: 20px;
+  }
+  #main{
+    display: none!important;
+  }
+  .student_credits_stat{
+    margin-top: 20px;
+  }
+  .page-content1 {
+    padding-top: 0;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
   .number-statistic-title {
     font-size: 17px;
   }
