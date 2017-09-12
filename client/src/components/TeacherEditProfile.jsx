@@ -166,7 +166,7 @@ class TeacherEditProfile extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-          <div className="bg-title" style={{marginLeft: '220px', marginBottom: '25px' }}>
+          <div className="bg-title" >
             <h4>Настройки профиля</h4>
           </div>
           <div className=" my-content" >

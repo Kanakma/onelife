@@ -82,7 +82,7 @@ class TeacherSubjects extends React.Component {
           <div className="col-md-9">
             <h4>Все предметы</h4>
           </div>
-          <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
+          <div className="col-md-3 text-right hidden-mobile visible-max visible-middle visible-ipad" style={{marginTop: '1%'}}>
             <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
             <i className="fa fa-th-large fa-lg" aria-hidden="true" id="block" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
             <i className="fa fa-filter fa-lg" aria-hidden="true" style={{color: '#00c292'}}></i>
@@ -90,7 +90,7 @@ class TeacherSubjects extends React.Component {
         </div>
       </div>
       <div className=" my-content" hidden={this.state.checkFilter}>
-        <div className="row hidden-max-media"  >
+        <div className="row hidden-max-media visible-middle visible-ipad visible-mobile"  >
         { this.state.subjects ? (
             this.state.subjects.map((subject, s) =>
               <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>

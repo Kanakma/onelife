@@ -1,9 +1,19 @@
 @media screen and (max-width: 1920px){
+  .teacherInfo{
+    height: 250px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
   .hidden-max-media{
     display: none;
   }
   .page-wrapper{
       padding-left: 220px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
   }
 .first_row{
     display: inline-block;
@@ -31,6 +41,7 @@
   }
   .courses_stat{
     width: 31% ;
+    padding: 22px;
   }
 
   .big_stat{
@@ -300,7 +311,13 @@
 
 }
 @media screen and (max-width: 1400px){
-
+  .table-responsive{
+     padding: 25px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
   .page-wrapper{
       padding-left: 220px;
 }
@@ -495,8 +512,14 @@
     height: 33px;
     font-size: 35px;
   }
-  .table-responsive{
-     padding: 25px;
+  .teacherInfo{
+    height: 280px;
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .number-statistic-title {
+    font-size: 20px;
   }
   /*.recharts-default-legend{
     margin-left: -57px;
@@ -527,9 +550,19 @@
     height:201px;
     padding: 22px;
   }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
 
 }
 @media screen and (max-width: 1400px){
+  .profile-heading{
+      display: flex;
+  }
+  .teacherInfo{
+    height: 280px;
+  }
   .dashboard_title{
     height: 33px;
     font-size: 35px;
@@ -692,8 +725,17 @@
 .table-responsive{
    padding: 25px;
 }
+.number-statistic-title {
+  font-size: 20px;
+}
 }
 @media screen and (max-width: 1200px){
+  .profile-heading{
+      display: flex;
+  }
+  .teacherInfo{
+    height: 280px;
+  }
   .dashboard_title{
     height: 33px;
     font-size: 35px;
@@ -737,8 +779,21 @@
   .table-responsive{
      padding: 25px;
   }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
+  .number-statistic-title {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 1024px){
+  .profile-heading{
+      display: flex;
+  }
+  .teacherInfo{
+    height: 250px;
+  }
   .dashboard_title{
     height: 33px;
     font-size: 35px;
@@ -841,6 +896,16 @@
   .table-responsive{
      padding: 25px;
   }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .number-statistic-title {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 768px ){
   .page-wrapper{
@@ -858,8 +923,54 @@
   .my-content{
     margin-left: 50px;
   }
+  .profile-heading{
+      display: flex;
+  }
 }
 @media screen and (max-width: 480px){
+  .number-statistic-title {
+    font-size: 17px;
+  }
+  .teacher-number-statistic{
+    margin-top: 10px;
+  }
+  .number-statistic-number {
+    font-size: 26px;
+}
+  .mobile-barchart{
+    margin-right: -20px;
+  }
+  .teacher-progress-statistic{
+    width: 100%;
+  }
+  .teacher-courses-statistic{
+    width: 93%;
+    padding: 10px 25px;
+  }
+  .courses-statistic-title {
+    font-size: 12px;
+  }
+  .courses-statistic-text {
+    font-size: 10px;
+  }
+  .h-mobile{
+    height: 350px!important;
+    margin-bottom: 0px!important;
+  }
+  .teacher-mini-profile{
+    width: 100%;
+    min-height: 350px;
+  }
+  .subject-img{
+     width: 100%;
+     height: 150px;
+  }
+  .white-box h4{
+    font-size: 14px;
+  }
+  .text-muted{
+    font-size: 10px;
+  }
   .course-title{
     margin: 0px;
   }
