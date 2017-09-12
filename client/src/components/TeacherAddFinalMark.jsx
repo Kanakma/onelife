@@ -254,7 +254,7 @@ updateGroups(event){
       </div>
       <div className="my-content  ">
 
-      <div className="table-responsive">
+      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
             <div className="form-group col-md-6">
 
                
@@ -301,6 +301,59 @@ updateGroups(event){
                     <td> <input type="number" className="form-control "  id={marktype._id} value={marktype.mark} onChange={this.changeMarkValue} min="0" placeholder="Выставите оценку" /></td>
 
 </tr>
+                    )}
+              </tbody>
+          </table>
+
+                 <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.calculateSemesterMark}>Посмтреть предворительные оценки</button>
+
+      </div>
+
+      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+            <div className="form-group col-md-6">
+
+               
+           <label>Выберите предмет</label>
+              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+              <option value=''>предмет не выбран</option>
+              {this.state.subjects.map((subject, s) =>
+                <option key={s} value={subject._id}>{subject.subject_name}</option>
+              )}
+              </select>
+         </div>    
+        <div className="form-group col-md-6">
+        <label>Выберите Группу</label>
+               {
+          this.state.subject_groups.length!=0 ?
+          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Выберите группу</option>
+          {this.state.subject_groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
+          )}
+          </select>) : 
+          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>групп не найдено</option>
+          </select>
+          )
+        }        </div>
+     
+          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+                <table id="myTable" className="table table-striped">
+              
+                <tbody>
+            { this.state.mark_count.map((marktype,s)=>
+              <div>
+              <tr key={s}>
+                    <td>{s+1}</td></tr>
+                    <tr>
+                    <td>{marktype._id}</td></tr>
+                    <tr>
+                    <td>{marktype.count}</td></tr>
+                    <tr>
+                    <td> <input type="number" className="form-control "  id={marktype._id} value={marktype.mark} onChange={this.changeMarkValue} min="0" placeholder="Выставите оценку" /></td>
+
+</tr>
+</div>
                     )}
               </tbody>
           </table>

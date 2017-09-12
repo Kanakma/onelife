@@ -221,10 +221,10 @@ class TeacherAddAttendance extends React.Component {
               {this.state.mark.map((student, s) =>
                 <div>
                 <tr key={s}>
-                    <td className="mobile-table">Номер</td><td>{s+1}</td>
+                    <td className="mobile-table">№</td><td>{s+1}</td>
                   </tr>
                   <tr>
-                    <td className="mobile-table">Фио</td><td>{student.student.user_id.username}</td>
+                    <td className="mobile-table">ФИО</td><td>{student.student.user_id.username}</td>
                   </tr>
                   <tr>
                     <td className="mobile-table">ID</td><td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>

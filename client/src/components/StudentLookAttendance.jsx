@@ -140,7 +140,7 @@ class TeacherAddAttendance extends React.Component {
       </div>
       <div className="my-content  ">
 
-      <div className="table-responsive">
+      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
 
           <div className="form-group col-md-6">
 
@@ -194,6 +194,68 @@ class TeacherAddAttendance extends React.Component {
           </table>
         
       </div>
+
+
+
+      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+
+          <div className="form-group col-md-6">
+
+           <label>Выберите предмет</label>
+              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
+              <option value=''>предмет не выбран</option>
+              {this.state.subject.map((sub, s) =>
+                <option key={s} value={sub._id}>{sub.subject_name}</option>
+              )}
+              </select>
+         </div>    
+
+ 
+          
+               <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+                <table id="myTable" className="table table-striped">
+              
+                       {
+                this.state.attendance.length !=0 ? 
+                ( <tbody>
+              {this.state.attendance.map((student, s) =>
+                <div>
+                <tr key={s}>
+                    <td>{s+1}</td>
+
+                    </tr>
+                    <tr>
+                    <td className="mobile-table">ID</td><td>{student.student.user_id.username}</td>
+                    </tr>
+                    <tr>
+                    <td className="mobile-table">ФИО</td><td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                    </tr>
+                    <tr>
+                    <td className="mobile-table">Статус</td><td> {student.stud_attendance}</td>
+                    </tr>
+                    <tr>
+                    <td className="mobile-table">Дата</td><td>{this.dateFormat(student.date)}</td>
+                    </tr>
+           
+                </div>
+              )}
+              </tbody>) :(
+              <tbody>
+                  <tr>
+                  <td>У вас пока нет посещаемости</td>
+                  </tr>
+                  </tbody>
+                )
+              }
+               
+
+                       
+          </table>
+        
+      </div>
+
+
+
 
       </div>
       </div>);

@@ -605,7 +605,7 @@ class Base extends React.Component {
                           <ul className="nav" hidden={!this.state.checkMark}>
                             <li><Link to="/addmark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Оценки</Link></li>
                             <li><Link to="/marks" className="waves-effect" style={{paddingLeft: "45px"}} >Просмотр Оценок</Link></li>
-                            <li><Link to="/teacher_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Итоговая Ведомость</Link></li>
+                            
                             <li><Link to="/teacher_set_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Итоговую Ведомость</Link></li>
                             <li><Link to="/teacher_get_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Просмотреть Итоговую Ведомость</Link></li>
                           </ul>
