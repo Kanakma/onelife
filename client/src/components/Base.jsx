@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import jwtDecode from 'jwt-decode';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class Base extends React.Component {
   constructor(props) {
@@ -29,6 +30,8 @@ class Base extends React.Component {
     };
     this.changeHide = this.changeHide.bind(this);
     this.getStatus = this.getStatus.bind(this);
+    this.getNotification = this.getNotification.bind(this);
+    this.createNotification=this.createNotification.bind(this);
   }
   getStatus(){
     if(Auth.isUserAuthenticated()){
@@ -37,6 +40,26 @@ class Base extends React.Component {
       this.setState({
         status: decoded.userstatus
       });
+    }
+  }
+  createNotification(type){
+    return function () {
+      switch (type) {
+        case 'info':
+          NotificationManager.info('Info message');
+          break;
+        case 'success':
+          NotificationManager.success('Success message', 'Title here');
+          break;
+        case 'warning':
+          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+          break;
+        case 'error':
+          NotificationManager.error('Error message', 'Click me!', 5000, function () {
+            alert('callback');
+          });
+          break;
+      }
     }
   }
   componentWillMount(){
@@ -414,6 +437,21 @@ class Base extends React.Component {
       }
     }
 
+  }
+  getNotification(){
+    var decoded = jwtDecode(Auth.getToken())
+    var formData=`user=${decoded.sub}`
+    axios.post('/api/getnotifications', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(res => {
+        this.setState({
+          notifications: res.data.notifications
+        });
+      });
   }
 
   render() {

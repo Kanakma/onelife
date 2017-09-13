@@ -62,7 +62,41 @@ function IndInObjArr(objArray, subj, inkey, sensetive) {
       }
     }
 
+router.post('/addeventnotification', (req, res)=>{
+	var notification = JSON.parse(req.body.notification)
+	var data = {
+		type:notification.type,
+		date:req.body.date,
+		text:notification.text,
+		from:notification.from,
+		forAll:true
+	}
+	var newNote = new Notification(data)
+	newNote.save((err, saved)=>{
+		if(err) console.log(err)
+		if(saved){
+			res.send({
+				message:"Yes!"
+			})
+		}
+	})
+})
 
+router.post('/getnotifications', (req, res)=>{
+	User.findOne({_id:req.body.user}, (err, thisUser)=>{
+		if(err) console.log(err)
+		if(thisUser){
+			Notification.find({forAll:true}, (err, trueNotes) =>{
+				if(err) console.log(err)
+				if(trueNotes){
+					res.send({
+						notifications:trueNotes
+					})
+				}
+			})
+		}
+	})
+})
 router.post('/addemployee', (req, res)=>{
 	var employee = JSON.parse(req.body.data)
 	var data = {
