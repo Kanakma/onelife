@@ -55,7 +55,7 @@ class AdminEmployee extends React.Component {
         </div>
       </div>
       <div className="my-content">
-        <div className="table-responsive">
+        <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
           <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
@@ -81,6 +81,70 @@ class AdminEmployee extends React.Component {
                           <td>{employee.address_de_facto}</td>
                           <td>{employee.phone}</td>
                           <td>{employee.email}</td>
+                          <td>
+                            <button onClick={this.toggleModal.bind(this, employee)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                <i className="fa fa-pencil"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    )
+                ) : (
+                  <tbody>
+                      <tr>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>
+                          <center>---
+                          </center>
+                        </td>
+                        <td style={{padding: '10px 20px'}}>---
+                        </td>
+                      </tr>
+                  </tbody>
+                )
+              }
+          </table>
+        </div>
+        <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+          <table id="myTable" className="table table-striped">
+              {
+                this.state.employees ? (
+                    this.state.employees.map((employee, g) =>
+                      <tbody key={g}>
+                        <tr>
+                          <td className="mobile-table"></td>
+                          <td>{g+1}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">Фио</td>
+                          <td>{employee.lastname} {employee.name}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">Пол</td>
+                          <td>{employee.gender}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">Прописка</td>
+                          <td>{employee.address_de_jure}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">Адрес </td>
+                          <td>{employee.address_de_facto}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">Телефон</td>
+                          <td>{employee.phone}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">E-mail</td>
+                          <td>{employee.email}</td>
+                        </tr>
+                        <tr>
+                          <td className="mobile-table">Опции</td>
                           <td>
                             <button onClick={this.toggleModal.bind(this, employee)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>

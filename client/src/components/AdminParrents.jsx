@@ -100,7 +100,7 @@ class AdminParrents extends React.Component {
         </div>
       </div>
       <div className="my-content">
-        <div className="table-responsive">
+        <div className="table-responsive hidden-mobile visible-ipad visible-max visible-middle">
             <table id="myTable" className="table table-striped">
                 <thead>
                     <tr>
@@ -150,6 +150,67 @@ class AdminParrents extends React.Component {
                 </tbody>
             </table>
           </div>
+          <div className="table-responsive visible-mobile hidden-ipad hidden-max-media hidden-middle">
+              <table id="myTable" className="table table-striped">
+                  <tbody>
+                  {
+                    this.state.parrents.length>0 ? (
+                      this.state.parrents.map((parrent, t) =>{
+                        return(
+                          <div key={t}>
+                        <tr >
+                          <td className="mobile-table"></td>
+                          <td>{t+1}</td>
+                        </tr>
+                        <tr >
+                          <td className="mobile-table">ФИО</td>
+                          <td>{parrent.user_id.name} {parrent.user_id.lastname}</td>
+                        </tr>
+                        <tr >
+                          <td className="mobile-table">Студент</td>
+                            <td>{parrent.childs.map((student, s)=>
+                              <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
+                            )}</td>
+                        </tr>
+                        <tr >
+                          <td className="mobile-table">Телефон</td>
+                          <td>{parrent.phone}</td>
+                        </tr>
+                        <tr >
+                          <td className="mobile-table">E-mail</td>
+                          <td>{parrent.email}</td>
+                        </tr>
+                        <tr >
+                          <td className="mobile-table">Адресс</td>
+                          <td>{parrent.address}</td>
+                        </tr>
+                        <tr >
+                          <td className="mobile-table">Опции</td>
+                              <td className="text-center ">
+                                <button onClick={this.toggleModal.bind(this, parrent)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
+                                  <i className="fa fa-pencil" style={{color: '#717171'}}></i>
+                                </button>
+                              </td>
+                        </tr>
+                        <br/>
+                        </div>
+                        )
+                    })
+                      ):(
+                          <tr>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td className="text-center">---</td>
+                          </tr>
+                      )
+                  }
+                  </tbody>
+              </table>
+            </div>
         </div>
           <AdminEditParrentModal
             show={this.state.isOpen}

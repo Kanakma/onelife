@@ -102,35 +102,37 @@ class AdminAuditory extends React.Component {
               	{
               		this.state.auditories.length>0 ? (
               			this.state.auditories.map((auditory, index) =>
-              				<tr key={index}>
+                    <div key={index}>
+              				<tr>
                         <td className="mobile-table"></td>
 												<td>{index+1}</td>
                       </tr>
                       <tr>
-                        <td className="mobile-table">Ак141
-                        ы</td>
+                        <td className="mobile-table">Аудитория</td>
                         <td>{auditory.auditory_name}</td>
                       </tr>
                       <tr>
-                        <td className="mobile-table"></td>
+                        <td className="mobile-table">Корпус</td>
                         <td>{auditory.auditory_corp}</td>
                       </tr>
                       <tr>
-                        <td className="mobile-table"></td>
+                        <td className="mobile-table">Этаж</td>
                         <td>{auditory.auditory_level}</td>
                       </tr>
                       <tr>
-                        <td className="mobile-table"></td>
+                        <td className="mobile-table">Места</td>
                         <td>{auditory.auditory_places}</td>
                       </tr>
                       <tr>
-                        <td className="mobile-table"></td>
+                        <td className="mobile-table">Опции</td>
 												<td>
 	                        <button onClick={this.toggleModal.bind(this, auditory)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
 	                        	<i className="fa fa-pencil"></i>
 	                        </button>
                       	</td>
               				</tr>
+                      <br/>
+                      </div>
               			)
               		) : (
               				<tr>
