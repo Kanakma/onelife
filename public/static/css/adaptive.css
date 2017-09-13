@@ -1,9 +1,34 @@
 @media screen and (max-width: 1920px){
+  .student_attendance{
+    height: 450px;
+  }
+  .student_credits_stat{
+      height: 50%;
+  }
+  .student_daysleft_stat{
+    height: 48%;
+  }
+  .student_courses_stat{
+    height: 450px;
+  }
+  .zui-table{
+    width: 95%;
+  }
+  .teacherInfo{
+    height: 250px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
   .hidden-max-media{
     display: none;
   }
   .page-wrapper{
       padding-left: 220px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
   }
 .first_row{
     display: inline-block;
@@ -31,6 +56,7 @@
   }
   .courses_stat{
     width: 31% ;
+    padding: 22px;
   }
 
   .big_stat{
@@ -229,8 +255,8 @@
       padding: 0px 18px 40px 40px;
   }
   .profile-heading1{
-    display: flex;
-    width: 514px;
+    /*display: flex;*/
+    width: 48%;
     background-size: 172% 100%;
     float: right;
     height: 389px;
@@ -257,13 +283,13 @@
     margin-left: 80px;
   }
   .student_max_score{
-    font-size: 22px;
+    font-size: 20px;
     padding-top: 30px;
     margin-left: 25px;
   }
   .student_pie_chart {
-    margin-top: -184px;
-    margin-left: 113px;
+    margin-top: -185px;
+    margin-left: 61px;
   }
   .student_gpa{
     font-size: 66px;
@@ -279,8 +305,8 @@
   }
   .stud_pie {
     position: absolute;
-    margin-top: -293px;
-    margin-left: 103px;
+    margin-top: -268px;
+    margin-left: 141px;
   }
   .student_current_year{
     font-size: 26px;
@@ -289,7 +315,7 @@
     font-size: 20px;
   }
   .student_count_days_left {
-    margin-top: 47px;
+    margin-top: 23px;
     width: 290px;
   }
   .stud_icons{
@@ -298,18 +324,47 @@
   }
 
 
+.student_gpa {
+   padding-top: 56px;
+}
+
+
 }
 @media screen and (max-width: 1400px){
+  .student_attendance{
+    height: 395px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
+  .table-responsive{
+     padding: 25px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
+
+.student_gpa {
+
+      padding-top: 58px;
+}
+
 
   .page-wrapper{
       padding-left: 220px;
 }
   .stud_icons{
-  width: 120px;
-  font-size: 12px;
+   width: 151px;
+    font-size: 16px;
+
   }
   .student_count_days_left {
-    margin-top: 67px;
+    margin-top: -15px;
     width: 290px;
   }
   .student_days_left{
@@ -323,7 +378,7 @@
     margin-left: -10px;
   }
   .student_courses_subtitle{
-      font-size: 14px;
+      font-size: 12px;
   }
   .student_courses_title{
     font-size: 20px;
@@ -340,12 +395,12 @@
   margin-left: -12px;
   }
   .student_max_score{
-    font-size: 16px;
-    padding-top: 51px;
+        padding-top: 21px;
+    font-size: 15px;
     margin-left: 25px;
   }
   .student_line{
-  margin-top: 80px;
+  margin-top: 52px;
   margin-left: 5px;
 }
   .student_gpa_title{
@@ -488,9 +543,49 @@
   .visible-ipad{
     display: none;
   }
+  .first_row{
+    padding-top: 35px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
+  .teacherInfo{
+    height: 280px;
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .number-statistic-title {
+    font-size: 20px;
+  }
   /*.recharts-default-legend{
     margin-left: -57px;
   }*/
+
+}
+@media screen and (max-width: 375px){
+   .student_attendance{
+    visibility: hidden;
+   }
+
+   #main {
+    display: none;
+   /* width: 159%;
+    position: absolute;
+    margin-top: -421px;
+    margin-left: -5px;*/
+  }
+  .student_row #main {
+    position: absolute;
+      margin-top: -200px;
+  }
+  #main_mob{
+     width: 159%;
+    position: absolute;
+    margin-top: -421px;
+    margin-left: -5px;
+  }
 
 }
 @media screen and (max-width: 1400px){
@@ -503,6 +598,7 @@
 }
   .bg-title{
      margin: 0px 0 25px 220px;
+   }
   .student_courses_title{
   font-size: 26px;
   }
@@ -513,9 +609,30 @@
     background-size: 100% 100%;
     display: flex;
   }
+  .courses_stat{
+    height:201px;
+    padding: 22px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
 
 }
 @media screen and (max-width: 1400px){
+  .student_credits_stat{
+      height: 194px;
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .teacherInfo{
+    height: 280px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
 
   .student_courses_title{
   font-size: 20px;
@@ -609,6 +726,7 @@
 }
 .courses_stat{
   width: 21%;
+  padding: 22px;
 }
 .big_stat{
   width:67%;
@@ -664,8 +782,53 @@
 .my-content{
    margin-left: 220px;
 }
+.first_row{
+  padding-top: 35px;
+}
+.courses_stat{
+  height:201px;
+}
+.table-responsive{
+   padding: 25px;
+}
+.number-statistic-title {
+  font-size: 20px;
+}
 }
 @media screen and (max-width: 1200px){
+  .student_attendance{
+    height: 395px;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .teacherInfo{
+    height: 280px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
+  .nav li ul{
+    width: 259px;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 59px;
+    border-bottom: 1px solid #ebeeef;
+    border-top: 1px solid #ebeeef;
+    border-right: 1px solid #ebeeef;
+  }
   .letniki_text {
     font-size: 13px;
     margin-top: 58px;
@@ -685,8 +848,73 @@
   .my-content{
      margin-left: 220px;
   }
+  .first_row{
+    padding-top: 35px;
+  }
+  .courses_stat{
+    height:201px;
+    padding: 22px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
+  .number-statistic-title {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 1024px){
+  .stud_pie {
+    margin-top: -214px;
+    margin-left: 11px;
+  }
+  .student_max_score {
+    padding-top: 21px;
+    font-size: 12px;
+    margin-left: 25px;
+}
+  .student_pie_chart {
+    margin-top: -172px;
+    margin-left: -43px;
+  }
+  .zui-table{
+    margin: 30px 10px 0 10px!important;
+  }
+  #main{
+    padding: 0 10px 0 15px;
+    justify-content: space-between;
+  }
+  #main div{
+    margin-left: 0px!important;
+    width: 49%!important;
+    height: 430px!important;
+  }
+  .student_attendance{
+    height: 450px;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .teacherInfo{
+    height: 250px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 35px;
+  }
   .page-wrapper{
       padding-left: 60px;
   }
@@ -742,8 +970,78 @@
     margin-left: 60px;
     margin-bottom: 15px;
   }
+  .teacher-mini-profile{
+    width: 40%;
+  }
+  .teacher-number-statistic {
+    width: 100%;
+    height: 190px;
+    margin: 0 10px;
+  }
+  .gridforipad{
+    display: grid;
+    width: 55%;
+    margin-right: 20px;
+    flex-flow: row wrap;
+    margin-bottom: -20px;
+  }
+  .teacher-progress-statistic{
+    margin-top: 20px;
+    margin-right: 10px;
+    width: 30%;
+  }
+  .teacher-courses-statistic{
+    margin-top: 20px;
+    width: 65%;
+  }
+  .number-statistic-number {
+    font-size: 40px;
+  }
+  .number-statistic-percent {
+    display: none;
+  }
+  .pie-chart-ipad{
+    float: right;
+  }
+  .first_row{
+    padding-top: 35px;
+  }
+  .courses_stat{
+    height:201px;
+    padding: 22px;
+  }
+  .table-responsive{
+     padding: 25px;
+  }
+  .subject-img{
+   width: 100%;
+   height: 200px;
+  }
+  .profile-heading{
+      display: flex;
+  }
+  .number-statistic-title {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 768px ){
+  .stud_pie {
+    margin-top: -262px;
+    margin-left: -58px;
+  }
+  .student_attendance{
+    height: 395px;
+  }
+  .student_daysleft_stat{
+    height: 44%;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
   .page-wrapper{
       padding-left: 60px;
   }
@@ -759,10 +1057,126 @@
   .my-content{
     margin-left: 50px;
   }
+  .profile-heading{
+      display: flex;
+  }
 }
 @media screen and (max-width: 480px){
+  .mobile-table{
+    width: 100px;
+  }
+  .student_courses_stat{
+    margin-bottom: 20px;
+  }
+  #main{
+    display: none!important;
+  }
+  .student_credits_stat{
+    margin-top: 20px;
+  }
+  .page-content1 {
+    padding-top: 0;
+  }
+  .student_credits_stat{
+      height: 194px;
+  }
+  .student_courses_stat{
+    height: 400px;
+
+  }
+  .number-statistic-title {
+    font-size: 17px;
+  }
+  .teacher-number-statistic{
+    margin-top: 10px;
+  }
+  .number-statistic-number {
+    font-size: 26px;
+}
+  .mobile-barchart{
+    margin-right: -20px;
+  }
+  .teacher-progress-statistic{
+    width: 100%;
+  }
+  .teacher-courses-statistic{
+    width: 93%;
+    padding: 10px 25px;
+  }
+  .courses-statistic-title {
+    font-size: 12px;
+  }
+  .courses-statistic-text {
+    font-size: 10px;
+  }
+  .h-mobile{
+    height: 350px!important;
+    margin-bottom: 0px!important;
+  }
+  .teacher-mini-profile{
+    width: 100%;
+    min-height: 350px;
+  }
+  .subject-img{
+     width: 100%;
+     height: 150px;
+  }
+  .white-box h4{
+    font-size: 14px;
+  }
+  .text-muted{
+    font-size: 10px;
+  }
+  .course-title{
+    margin: 0px;
+  }
+  .student-number-text{
+    margin: 0px;
+  }
+  .dashboard_title{
+    height: 33px;
+    font-size: 21px;
+  }
+  .admin_line {
+     margin-top: 0px;
+  }
+  .first_row{
+    width: 100%;
+    padding-top: 0px;
+    height: 70px;
+  }
+  .second_row{
+    width: 100%;
+    padding-top: 0px;
+    height: 70px;
+  }
+  .courses_stat{
+    width: 100%;
+    padding: 12px;
+  }
   .dash-col2{
     display: none !important;
+  }
+  .hidden-mobile{
+    display: none;
+  }
+  .visible-mobile{
+    display: block;
+  }
+  .leveled_pie{
+    width: 100%;
+  }
+  .course-title {
+    font-size: 12px;
+  }
+  .student-number-text {
+    font-size: 9px;
+  }
+  .courses_stat{
+    height: 100px;
+  }
+  .table-responsive{
+     padding: 9px;
   }
 }
 @media screen and (max-width: 320px){

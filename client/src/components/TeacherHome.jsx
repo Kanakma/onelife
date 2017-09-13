@@ -27,13 +27,13 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 }
 
 const data12 = [
-      {name: 'Январь', uv: 1500, pv: 2400, amt: 2400},
-      {name: 'Февраль', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Март', uv: 2500, pv: 9800, amt: 2290},
-      {name: 'Апрель', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Май', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Июнь', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Сентябрь', uv: 3490, pv: 4300, amt: 2100},
+      {name: 'Январь', uv: 40},
+      {name: 'Февраль', uv: 50},
+      {name: 'Март', uv: 90},
+      {name: 'Апрель', uv: 80},
+      {name: 'Май', uv: 60},
+      {name: 'Июнь', uv: 65},
+      {name: 'Сентябрь', uv: 90},
 ];
 
 const SimpleAreaChart = React.createClass({
@@ -159,7 +159,7 @@ class TeacherHome extends React.Component {
             <h4>Главная преподавателя</h4>
           </div>
           <div className="teacher-home-max">
-            <div className="teacher-col visible-max hidden-middle">
+            <div className="teacher-col visible-max hidden-middle hidden-ipad hidden-mobile">
               <div className="teacher-mini-profile  text-center " >
                 <div className="white-box text-center" style={{height: '100%'}}>
                   <div style={{width: '100%'}}>
@@ -231,7 +231,7 @@ class TeacherHome extends React.Component {
               </div>
             </div>
             <div className = "teacher-col2">
-            <div className="profile-heading text-center vertical-align">
+            <div className="profile-heading text-center vertical-align hidden-mobile visible-middle visible-max visible-ipad">
               <div className="teacher-progress-bar" >
                 <div style={{width: '100%'}}><img className="teacher-heading-icons" src= "./img/graduate.png"/></div>
                 <div className="teacher_text_3"><p className="teacher-heading-text">ОБЩЕЕ КОЛИЧЕСТВО ВАШИХ СТУДЕНТОВ</p></div>
@@ -256,7 +256,7 @@ class TeacherHome extends React.Component {
             </div>
               <div className="teacher-statistics">
                 <div className="teacher-mini-profile  text-center hidden-max-media visible-middle" >
-                  <div className="white-box text-center" style={{height: '100%'}}>
+                  <div className="white-box text-center h-mobile" style={{height: '100%'}}>
                     <div style={{width: '100%'}}>
                       <img src={require("../../../public/teacher-img/"+this.state.img)} alt="user" className="img-circle img-responsive profile-teacher-img" style={{display: 'block',margin: '10px auto'}}/>
                     </div>
@@ -268,34 +268,50 @@ class TeacherHome extends React.Component {
                 </div>
                 <div className="teacher-common-statistic hidden-ipad visible-max visible-middle">
                   <div className="white-box" style={{height: '100%'}}>
-                    <p className="teacher-common-statistic-text">Общая статистика</p>
-
+                    <p className="teacher-common-statistic-text">Общая статистика посещаемости студентов</p>
                              <SimpleAreaChart />
-
-
                   </div>
                 </div>
-                <div className="teacher-number-statistic hidden-max-media visible-middle">
-                  <div className="white-box" style={{height: '100%'}}>
-                    <p className="number-statistic-title">Количество студентов</p>
-                    <p className="number-statistic-text">Записанные на ваши курсы</p>
-                    <p className= "number-statistic-number">{this.state.students.length}</p>
-                    <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
-                    <p className="number-statistic-percent">22% выше с прошлого года</p>
+                  <div className="teacher-number-statistic hidden-max-media hidden-ipad visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                      <p className="number-statistic-title">Количество студентов</p>
+                      <p className="number-statistic-text">Записанные на ваши курсы</p>
+                      <p className= "number-statistic-number">{this.state.students.length}</p>
+                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                      <p className="number-statistic-percent">22% выше с прошлого года</p>
+                    </div>
                   </div>
-                </div>
-                <div className="teacher-number-statistic hidden-max-media visible-middle">
-                  <div className="white-box" style={{height: '100%'}}>
-                      <p className="number-statistic-title">Учебный год</p>
-                      <p className="number-statistic-text">До конца учебного года остаось:</p>
-                      <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
-                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                  <div className="teacher-number-statistic hidden-max-media hidden-ipad visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                        <p className="number-statistic-title">Учебный год</p>
+                        <p className="number-statistic-text">До конца учебного года остаось:</p>
+                        <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
+                        <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                    </div>
                   </div>
-                </div>
-                <div className="teacher-courses-statistic hidden-max-media visible-middle">
+                  <div className= "gridforipad hidden-max-media hidden-middle hidden-ipad visible-ipad">
+                  <div className="teacher-number-statistic hidden-max-media visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                      <p className="number-statistic-title">Количество студентов</p>
+                      <p className="number-statistic-text">Записанные на ваши курсы</p>
+                      <p className= "number-statistic-number">{this.state.students.length}</p>
+                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                      <p className="number-statistic-percent">22% выше с прошлого года</p>
+                    </div>
+                  </div>
+                  <div className="teacher-number-statistic hidden-max-media visible-middle">
+                    <div className="white-box" style={{height: '100%'}}>
+                        <p className="number-statistic-title">Учебный год</p>
+                        <p className="number-statistic-text">До конца учебного года остаось:</p>
+                        <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
+                        <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                    </div>
+                  </div>
+                  </div>
+                <div className="teacher-courses-statistic hidden-max-media visible-middle hidden-mobile">
                   <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
                   <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
-                  <div style={{display: 'flex'}}>
+                  <div className="pie-chart-ipad" style={{display: 'flex'}}>
                     <PieChart width={450} height={200} onMouseEnter={this.onPieEnter} >
                       <Pie
                         data={this.state.piedata}
@@ -331,10 +347,62 @@ class TeacherHome extends React.Component {
                   <p className= "courses-statistic-title">УСПЕВАЕМОСТЬ</p>
                   <p className = "courses-statistic-text">Средний бал студентов</p>
                   <span className="teacher-home-gpa">3.34</span>
-                  <div style={{float: 'right'}}><BarChart width={70} height={200} data={data2}>
+                  <div className="mobile-barchart" style={{float: 'right'}}><BarChart width={70} height={200} data={data2}>
                    <Bar dataKey='uv' fill='#ffffff'/>
                  </BarChart>
                  </div>
+                </div>
+                <div className="teacher-courses-statistic hidden-max-media hidden-middle hidden-ipad visible-mobile">
+                  <p className= "courses-statistic-title">СТАТИСТИКА КУРСОВ</p>
+                  <p className = "courses-statistic-text">Количество студентов, записанные на ваши курсы</p>
+                  <div className="pie-chart-ipad" style={{display: 'grid'}}>
+                    <PieChart width={415} height={200} onMouseEnter={this.onPieEnter} >
+                      <Pie
+                        data={this.state.piedata}
+                        cx={300}
+                        cy={100}
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        outerRadius={90}
+                        fill="#8884d8"
+                      >
+                        {
+                          this.state.piedata.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+                        }
+                      </Pie>
+                    </PieChart>
+                    <div style={{ marginLeft: '200px'}}>
+                      <div style={{display: 'flex', margin: 'auto'}}>
+                        <div className="students-number-color" style={{backgroundColor: '#ffffff'}}></div>
+                        <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                      </div>
+                      <div style={{display: 'flex', margin: 'auto'}}>
+                        <div className="students-number-color" style={{backgroundColor: '#ffc31d'}}></div>
+                        <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                      </div>
+                      <div style={{display: 'flex', margin: 'auto'}}>
+                        <div className="students-number-color" style={{backgroundColor: '#036b77'}}></div>
+                        <p className="number-subject-text">{this.state.piedata[0].name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="teacher-number-statistic hidden-max-media hidden-middle hidden-ipad visible-mobile">
+                  <div className="white-box" style={{height: '100%'}}>
+                    <p className="number-statistic-title">Количество студентов</p>
+                    <p className="number-statistic-text">Записанные на ваши курсы</p>
+                    <p className= "number-statistic-number">{this.state.students.length}</p>
+                    <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#cf4a4c" />
+                    <p className="number-statistic-percent">22% выше с прошлого года</p>
+                  </div>
+                </div>
+                <div className="teacher-number-statistic hidden-max-media hidden-middle hidden-ipad visible-mobile">
+                  <div className="white-box" style={{height: '100%'}}>
+                      <p className="number-statistic-title">Учебный год</p>
+                      <p className="number-statistic-text">До конца учебного года остаось:</p>
+                      <p className= "number-statistic-number" style={{color: '#0b9eaf'}}>123</p>
+                      <Line percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#0b9eaf" />
+                  </div>
                 </div>
               </div>
             </div>

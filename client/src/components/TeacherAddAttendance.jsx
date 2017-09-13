@@ -268,7 +268,7 @@ updateGroups(event){
         <h4>Выставить посещаемость</h4>
       </div>
       <div className="my-content  ">
-      <div className="table-responsive">
+      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
      <div className="form-group col-md-6">
        <label>Выберите предмет</label>
           <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
@@ -350,6 +350,91 @@ updateGroups(event){
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendAttendance}>Выставить посещаемость</button>
            </div>
       </div>
+
+
+   <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+     <div className="form-group col-md-6">
+       <label>Выберите предмет</label>
+          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+          <option value=''>предмет не выбран</option>
+          {this.state.subjects.map((subject, s) =>
+            <option key={s} value={subject._id}>{subject.subject_name}</option>
+          )}
+          </select>
+     </div>
+        <div className="form-group col-md-6">
+        <label>Выберите группу</label>
+        {
+          this.state.subject_groups.length!=0 ?
+          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Выберите группу</option>
+          {this.state.subject_groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
+          )}
+          </select>) :
+          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>групп не найдено</option>
+          </select>
+          )
+        }
+
+        </div>
+          <div className="form-group row">
+            <div className="col-md-6 col-md-offset-3">
+              <label>Дата проведения Пары</label>
+              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+            </div>
+
+          </div>
+                <table id="myTable" className="table table-striped">
+  
+              {
+                this.state.att_students.length !=0 ?
+                ( <tbody>
+              {this.state.att_students.map((student, s) =>
+                <div>
+                <tr key={s}>
+                    <td>{s+1}</td></tr>
+                    <tr>
+                    <td className="mobile-table">Имя</td><td>{student.user_id.username}</td></tr>
+                    <tr>
+                    <td className="mobile-table">Фамилия</td><td>{student.user_id.name}  {student.user_id.lastname}</td>
+                    </tr>
+                    <tr>
+                    <td className="mobile-table">Был</td><td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
+                    </tr>
+                    <tr>
+                    <td className="mobile-table">Не Был</td><td><input type="radio" value="не был" name={student._id} onClick={this.changeAttendance} /></td>
+                </tr>
+                </div>
+              )}
+              </tbody>) :(
+              <tbody>
+                  <tr>
+                  <td>Ничего не найдено</td>
+                  </tr>
+                  </tbody>
+                )
+              }
+
+
+          </table>
+          <div className="row">
+
+            {
+              this.state.message==='Вы можете выставлять посещаемость только на текущую дату' || this.state.message==='Вы не можете выставлять повторную посещаемость'
+                || this.state.message ==='Вы не ввели посещаемость всем студентам' || this.state.message ==='Выберите группу'
+              ? (
+                <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
+              ) : (
+                <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
+              )
+            }
+
+           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendAttendance}>Выставить посещаемость</button>
+           </div>
+      </div>
+
 
       </div>
       </div>);

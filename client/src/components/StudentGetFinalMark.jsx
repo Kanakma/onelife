@@ -72,7 +72,7 @@ class TeacherAddAttendance extends React.Component {
       </div>
       <div className="my-content  ">
 
-      <div className="table-responsive">
+      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
            
  
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
@@ -102,6 +102,42 @@ class TeacherAddAttendance extends React.Component {
              
                     
                 </tr>
+              )}
+              </tbody>
+                       
+          </table>
+         <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
+      </div>
+
+
+
+
+      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+           
+ 
+          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+                <table id="myTable" className="table table-striped">
+      
+                <tbody>
+              {this.state.fm.map((sub, s) =>
+                <div>
+                <tr key={s}>
+                    <td>{s+1}</td></tr>
+                    <tr>
+                    <td className="mobile-table">ФИО</td><td>{sub.subject_name.subject_name} </td></tr>
+                    <tr>
+                    <td className="mobile-table">РК1</td><td>{sub.final_mark.rk1}</td></tr>
+                    <tr>
+                    <td className="mobile-table">РК2</td><td>{sub.final_mark.rk2}</td></tr>
+                    <tr>
+                    <td className="mobile-table">Сессия</td><td>{sub.final_mark.final_m}</td></tr>
+                    <tr>
+                    <td className="mobile-table">Итог</td><td>{sub.stud_final_mark.stud_final}</td>
+                    
+             
+                    
+                </tr>
+                </div>
               )}
               </tbody>
                        

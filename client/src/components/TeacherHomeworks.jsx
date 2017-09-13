@@ -173,7 +173,7 @@ class TeacherHomeworks extends React.Component{
         </div>
       </div>
       <div className=" my-content">
-        <div className="table-responsive" style={{minHeight: '400px'}}>
+        <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle" style={{minHeight: '400px'}}>
           <div className="form-group row">
             <div className="col-md-6">
               <label>Выберите предмет</label>
@@ -253,6 +253,77 @@ class TeacherHomeworks extends React.Component{
             )
           }
         </div>
+
+      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle" style={{minHeight: '400px'}}>
+          <div className="form-group row">
+            <div className="col-md-6">
+              <label>Выберите предмет</label>
+              <select className="form-control"  onChange={this.chooseSubject} >
+                <option >Выберите предмет</option>
+                  {this.state.subjects.map((subject, s) =>
+                    <option key={s} value={subject._id} name={subject.subject_name}>{subject.subject_name}</option>
+                  )}
+              </select>
+            </div>
+            <div className="col-md-6" >
+              <label>Выберите группу</label>
+              <select className="form-control" value={this.state.groupValue} disabled={!this.state.checkSubject} onChange={this.changeGroup} >
+                <option value='' >Выберите группу</option>
+                  {this.state.groups.map((group, g) =>
+                    <option key={g} value={group._id} >{group.group_name}</option>
+                  )}
+              </select>
+            </div>
+          </div>
+          {
+            this.state.homeworks.length !=0 ?
+          (
+          <table id="myTable" className="table table-striped">
+          
+            <tbody>
+              {this.state.homeworks.map((homework, h) =>
+                <div>
+                <tr key={h}>
+                    <td>{h+1}</td></tr>
+                    <tr>
+                     <td className="mobile-table">Дата</td><td>{this.dateFormat(homework.lessonDate)}</td></tr>
+                    <tr>
+                     <td className="mobile-table">Дедлайн</td><td>{this.dateFormat(homework.deadline)}</td></tr>
+                    <tr>
+                    {homework.file?(
+                      <td>{homework.file}</td>
+                    ):(
+                      <td>Нет файлов</td>
+                    )
+                    }</tr>
+                    <tr>
+                    <td><button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} id={homework._id}  onClick={this.checkAnswers}>Проверить</button></td>
+                    </tr>
+                 
+                </div>
+              )}
+            </tbody>
+          </table>) :(
+          <table id="myTable" className="table table-striped">
+       
+            <tbody>
+                <tr>
+                <td>Ничего не найдено</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+            </tbody>
+          </table>
+            )
+          }
+        </div>
+
+
+
+
       </div>
       <TeacherEditHomeworkModal
         show={this.state.isOpen}

@@ -313,7 +313,10 @@ class TeacherAddMark extends React.Component {
         <h4>Выставить Успеваемость</h4>
       </div>
       <div className="my-content  ">
-      <div className="table-responsive">
+
+
+
+      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
       <div className="form-group col-md-6">
        <label>Выберите предмет</label>
           <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
@@ -380,6 +383,96 @@ class TeacherAddMark extends React.Component {
                   
                     
                 </tr>
+              )}
+              </tbody>) :
+                (<tbody>
+                  <tr>
+                  <td>Ничего не найдено</td>
+                  </tr>
+                  </tbody>)
+              }
+            
+                       
+          </table>
+          <div className="row">
+
+      {
+              this.state.message==='Вы можете выставлять успеваемость только на текущую дату'||
+              this.state.message==='Ваше значение должно быть меньше 100'  
+          
+               ? (
+                <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
+              ) : (
+                <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
+              )
+            }
+          
+           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
+           </div>
+      </div>
+
+
+       <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+      <div className="form-group col-md-6">
+       <label>Выберите предмет</label>
+          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+          <option value=''>предмет не выбран</option>
+          {this.state.subjects.map((subject, s) =>
+            <option key={s} value={subject._id}>{subject.subject_name}</option>
+          )}
+          </select>
+     </div>
+        <div className="form-group col-md-6">
+        <label>Выберите группу</label>
+
+           {
+          this.state.subject_groups.length!=0 ?
+          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Выберите группу</option>
+          {this.state.subject_groups.map((group, s) =>
+            <option key={s} value={group._id}>{group.group_name}</option>
+          )}
+          </select>) : 
+          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          <option value=''>Групп не найдено</option>
+          </select>
+          )
+        }
+        </div>
+        <div className="form-group row">
+              <div className="col-md-3"><input type="radio" name="marktype" value="laboratory_work" onChange={this.changeMarkType} />Лаборатнорная работа</div>
+              <div className="col-md-3"><input type="radio" name="marktype" value="home_work" onChange={this.changeMarkType}/>Домашнее Задание</div>
+              <div className="col-md-3"><input type="radio" name="marktype" value="practical_work" onChange={this.changeMarkType}/>Практическое задание</div>
+              <div className="col-md-3"><input type="text" className="form-control" onChange={this.changeMarkType} placeholder="Другое" /></div>
+        </div>
+
+          <div className="form-group row">
+            <div className="col-md-6 col-md-offset-3">
+              <label>Дата проведения Пары</label>
+              <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
+            </div>
+         
+      
+
+          </div>
+                <table id="myTable" className="table table-striped">
+          
+              {
+                this.state.att_students.length !=0 ?
+                (    <tbody>
+              {this.state.att_students.map((student, s) =>
+                <div>
+                <tr key={s}>
+                    <td className="mobile-table">№</td><td>{s+1}</td></tr>
+                    <td className="mobile-table">ID</td><td>{student.user_id.username}</td>
+                    <tr>
+                    <td className="mobile-table">ФИО</td><td >{student.user_id.name} {student.user_id.lastname}</td></tr>
+                    <tr>
+                    <td className="mobile-table">Оценка</td><td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
+                  
+                    
+                </tr>
+                </div>
               )}
               </tbody>) :
                 (<tbody>

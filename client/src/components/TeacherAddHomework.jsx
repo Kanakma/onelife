@@ -81,18 +81,13 @@ class TeacherAddHomework extends React.Component{
           <div className="col-md-9">
             <h4>Добавить домашнее задание</h4>
           </div>
-          <div className="col-md-3 text-right" style={{marginTop: '1%'}}>
-            <i className="fa fa-list-ul fa-lg" aria-hidden="true" id="list" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-th-large fa-lg" aria-hidden="true" id="block" onClick={this.changeFilter} style={{marginRight: '15%'}}></i>
-            <i className="fa fa-filter fa-lg" aria-hidden="true" style={{color: '#00c292'}}></i>
-          </div>
         </div>
       </div>
       <div className=" my-content" hidden={this.state.checkFilter}>
         <div className="row"  >
         { this.state.subjects ? (
             this.state.subjects.map((subject, s) =>
-              <div key={s} className="col-md-4 col-xs-12 col-sm-6" style={{padding: '0px 7.5px'}}>
+              <div key={s} className="col-md-4 col-xs-12 col-sm-6 col-lg-3" style={{padding: '0px 7.5px'}}>
                   <img className="img-responsive subject-img" alt="user" src={require("../../../public/subject-img/"+subject.img)} />
                   <div className="white-box">
                       <h4>{subject.subject_name}</h4>
@@ -123,67 +118,6 @@ class TeacherAddHomework extends React.Component{
         }
         </div>
       </div>
-      <div className="my-content"  hidden={!this.state.checkFilter}>
-      <div className="table-responsive">
-          <table id="myTable" className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>№</th>
-                      <th>Название</th>
-                      <th>Специальность</th>
-                      <th>Преподаватель</th>
-                      <th>Курс</th>
-                      <th><center>Осталось мест</center></th>
-                      <th>Информация</th>
-                      {(this.state.status == "admin") ?(
-                        <th>Опции</th>
-                      ):(
-                        <th></th>
-                      )}
-                  </tr>
-              </thead>
-              <tbody>
-              {
-                this.state.subjects ?(
-                  this.state.subjects.map((subject, s) =>
-                    <tr key={s}>
-                        <td>{s+1}</td>
-                        <td>{subject.subject_name}</td>
-                        <td>{subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</td>
-                        <td><center>{subject.course_number}</center></td>
-                        <td><center>{subject.max_students}</center></td>
-                        <td>
-
-                          <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light" style={{color: 'white'}}>Добавить дз</button>
-
-
-                        </td>
-                        {(this.state.status == "admin") ?(
-                          <td className="text-center ">
-                          <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
-                            <i className="fa fa-pencil" style={{color: '#717171'}}></i>
-                          </button>
-                          </td>
-                        ):(
-                          <td></td>
-                        )}
-                    </tr>
-                  )
-                ):(
-                  <tr>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td><center>---</center></td>
-                    <td>---</td>
-                  </tr>
-                )
-              }
-              </tbody>
-          </table>
-        </div>
-        </div>
       </div>);
   }
 }
