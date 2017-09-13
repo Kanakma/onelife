@@ -54,15 +54,15 @@ class AdminAuditory extends React.Component {
 	      </div>
       	<div className=" my-content">
 					<div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
-          	<table id="myTable" className="table table-striped">
+          	<table id="myTable" className="table table-striped functional-table">
           		<thead>
                   <tr>
-                      <th>№</th>
-                      <th>Наименование аудитории</th>
-                      <th>Корпус</th>
-                      <th>Этаж</th>
-                      <th>Вместимость <em>(мест)</em></th>
-                      <th>Опции</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">Наименование аудитории</th>
+                      <th className="table-head-text">Корпус</th>
+                      <th className="table-head-text">Этаж</th>
+                      <th className="table-head-text">Вместимость <em>(мест)</em></th>
+                      <th className="table-head-text">Опции</th>
                   </tr>
               </thead>
               <tbody>

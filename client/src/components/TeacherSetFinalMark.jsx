@@ -300,11 +300,11 @@ class TeacherAddMark extends React.Component {
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">ID</th>
+                      <th className="table-head-text">ФИО</th>
 
-                      <th>Оценка</th>
+                      <th className="table-head-text">Оценка</th>
 
 
                   </tr>
@@ -327,6 +327,9 @@ class TeacherAddMark extends React.Component {
                 (<tbody>
                   <tr>
                   <td>Ничего не найдено</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>)
               }

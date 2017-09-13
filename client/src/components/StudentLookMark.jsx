@@ -140,10 +140,10 @@ class TeacherAddAttendance extends React.Component {
       <div className="my-content  ">
 
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-
+          <p className="teacher-pages-title">Все оценки</p>
           <div className="form-group col-md-6">
 
-           <label>Выберите предмет</label>
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
               <option value=''>предмет не выбран</option>
               {this.state.subject.map((sub, s) =>
@@ -155,14 +155,14 @@ class TeacherAddAttendance extends React.Component {
 
 
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Оценка</th>
-                      <th>Дата</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">ID</th>
+                      <th className="table-head-text">ФИО</th>
+                      <th className="table-head-text">Оценка</th>
+                      <th className="table-head-text">Дата</th>
 
                   </tr>
               </thead>
@@ -213,7 +213,7 @@ class TeacherAddAttendance extends React.Component {
 
 
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
 
        {
                 this.state.mark.length !=0 ?

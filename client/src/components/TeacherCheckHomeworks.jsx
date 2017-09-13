@@ -82,14 +82,14 @@ class TeacherCheckHomeworks extends React.Component{
           {
             this.state.answer.length?
           (
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Студент</th>
-                    <th>Файл</th>
-                    <th>Сообщение</th>
-                    <th>Статус</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text">Студент</th>
+                    <th className="table-head-text">Файл</th>
+                    <th className="table-head-text">Сообщение</th>
+                    <th className="table-head-text">Статус</th>
                 </tr>
             </thead>
             <tbody>
@@ -117,14 +117,14 @@ class TeacherCheckHomeworks extends React.Component{
             )}
             </tbody>
           </table>) :(
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                  <th>№</th>
-                  <th>Начало</th>
-                  <th>Файл</th>
-                  <th>Ответы</th>
-                  <th>Статус</th>
+                  <th className="table-head-text">№</th>
+                  <th className="table-head-text">Начало</th>
+                  <th className="table-head-text">Файл</th>
+                  <th className="table-head-text">Ответы</th>
+                  <th className="table-head-text">Статус</th>
                 </tr>
             </thead>
             <tbody>

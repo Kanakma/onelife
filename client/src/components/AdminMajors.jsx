@@ -52,21 +52,21 @@ class AdminMajors extends React.Component {
       </div>
       <div className=" my-content" >
       <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>Код специальности</th>
-                      <th>Название специальности</th>
-                      <th>Кафедра</th>
-                      <th>Наименование групп специальностей</th>
-                      <th className="hidden-ipad">Все группы</th>
-                      <th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">Код специальности</th>
+                      <th className="table-head-text">Название специальности</th>
+                      <th className="table-head-text">Кафедра</th>
+                      <th className="table-head-text">Наименование групп специальностей</th>
+                      <th className="hidden-ipad table-head-text">Все группы</th>
+                      <th className="table-head-text">
                           <center>
                               Кол-во студентов
                           </center>
                       </th>
-                      <th>
+                      <th className="table-head-text">
                           <center>Опции</center>
                       </th>
                   </tr>

@@ -30,7 +30,7 @@ class TeacherAddAttendance extends React.Component {
       fm: [],
       final_gpa:''
     };
-  
+
   }
 
   componentDidMount() {
@@ -62,7 +62,6 @@ class TeacherAddAttendance extends React.Component {
   }
 
   render() {
- console.log(this.state.final_gpa)
     return (
 
       <div className="container clearfix">
@@ -73,20 +72,19 @@ class TeacherAddAttendance extends React.Component {
       <div className="my-content  ">
 
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-           
- 
+          <p className="teacher-pages-title">Итоговые оценки</p>
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                       <th>№</th>
-                     
-                      <th>Предмет</th>
-                      <th>РК1</th>
-                      <th>РК2</th>
-                      <th>Сессия</th>
-                      <th>Итог</th>
-                      
+
+                      <th className="table-head-text">Предмет</th>
+                      <th className="table-head-text">РК1</th>
+                      <th className="table-head-text">РК2</th>
+                      <th className="table-head-text">Сессия</th>
+                      <th className="table-head-text">Итог</th>
+
                   </tr>
               </thead>
                 <tbody>
@@ -98,13 +96,13 @@ class TeacherAddAttendance extends React.Component {
                     <td>{sub.final_mark.rk2}</td>
                     <td>{sub.final_mark.final_m}</td>
                     <td>{sub.stud_final_mark.stud_final}</td>
-                    
-             
-                    
+
+
+
                 </tr>
               )}
               </tbody>
-                       
+
           </table>
          <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
       </div>
@@ -113,11 +111,11 @@ class TeacherAddAttendance extends React.Component {
 
 
       <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
-           
- 
+
+
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
-      
+                <table id="myTable" className="table table-striped functional-table">
+
                 <tbody>
               {this.state.fm.map((sub, s) =>
                 <div>
@@ -133,14 +131,14 @@ class TeacherAddAttendance extends React.Component {
                     <td className="mobile-table">Сессия</td><td>{sub.final_mark.final_m}</td></tr>
                     <tr>
                     <td className="mobile-table">Итог</td><td>{sub.stud_final_mark.stud_final}</td>
-                    
-             
-                    
+
+
+
                 </tr>
                 </div>
               )}
               </tbody>
-                       
+
           </table>
          <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
       </div>

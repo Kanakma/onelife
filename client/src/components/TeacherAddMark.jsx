@@ -124,8 +124,6 @@ class TeacherAddMark extends React.Component {
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
-    console.log(event.target.value,'value')
-    console.log(event.target.id,'comments')
     var temp=this.state.marks;
     var old = IndInObjArr(temp,event.target.id, 'name');
       if(old.length > 0){
@@ -312,9 +310,6 @@ class TeacherAddMark extends React.Component {
         <h4>Выставить Успеваемость</h4>
       </div>
       <div className="my-content  ">
-
-
-
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
       <div className="form-group col-md-6">
        <label className="teacher-choosed">Предмет</label>
@@ -330,7 +325,7 @@ class TeacherAddMark extends React.Component {
 
            {
           this.state.subject_groups.length!=0 ?
-          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          (<select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Выберите группу</option>
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
@@ -361,10 +356,10 @@ class TeacherAddMark extends React.Component {
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Оценка</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">ID</th>
+                      <th className="table-head-text">ФИО</th>
+                      <th className="table-head-text">Оценка</th>
 
 
                   </tr>
@@ -387,6 +382,9 @@ class TeacherAddMark extends React.Component {
                 (<tbody>
                   <tr>
                   <td>Ничего не найдено</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>)
               }
