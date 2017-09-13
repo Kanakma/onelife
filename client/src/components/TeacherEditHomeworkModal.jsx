@@ -186,12 +186,12 @@ class TeacherEditHomeworkModal extends React.Component {
           <div>
           <form action="/teacherhomeworks"  onSubmit={this.changeHomework}>
             <div className="form-group col-md-6">
-              <label>Дата проведения пары</label>
+              <label  className="teacher-choosed">Дата проведения пары</label>
               <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} placeholder={this.dateFormat(this.props.homework.lessonDate)} className="form-control mydatepicker"/>
             </div>
             <div className="form-group row">
               <div className="col-md-6">
-                <label>Дедлайн</label>
+                <label className="teacher-choosed">Дедлайн</label>
                 <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  placeholder={this.dateFormat(this.props.homework.deadline)} className="form-control mydatepicker"/>
               </div>
             </div>
@@ -199,7 +199,7 @@ class TeacherEditHomeworkModal extends React.Component {
               <textarea maxLength="500" type="text" value={this.state.description} placeholder={this.props.homework.message} rows="6" className="homework-message" onChange={this.handleChange}></textarea>
             </div>
             <div  style={{textAlign: 'center'}}>
-              <label>Выберите файл</label>
+              <label className="teacher-choosed">Выберите файл</label>
             </div>
             <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
                 <div className="form-control" data-trigger="fileinput">

@@ -27,7 +27,7 @@ class TeacherAddAttendance extends React.Component {
       att_date:'',
       subject_groups: []
     };
-  
+
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
@@ -62,9 +62,9 @@ class TeacherAddAttendance extends React.Component {
         att_date: value
       });
      const  subject_id =this.state.subject_id;
-  
+
     const val= value;
-   
+
     const formData = `subject_id=${subject_id}&att_date=${val}`;
    axios.post('/api/updatestudentsformark', formData, {
 
@@ -80,7 +80,7 @@ class TeacherAddAttendance extends React.Component {
       })
 
    })
-    
+
 
   }
  updateStudents(event){
@@ -155,7 +155,7 @@ updateGroups(event){
         });
       });
 }
- 
+
 
   render() {
 
@@ -171,17 +171,17 @@ updateGroups(event){
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
             <div className="form-group col-md-6">
 
-               
-           <label>Выберите предмет</label>
+
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
         <div className="form-group col-md-6">
-        <label>Выберите предмет</label>
+        <label className="teacher-choosed">Группа</label>
                {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -189,7 +189,7 @@ updateGroups(event){
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
@@ -197,13 +197,13 @@ updateGroups(event){
         }        </div>
           <div className="form-group row">
             <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
+              <label className="teacher-choosed">Дата проведения Пары</label>
               <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
-         
+
           </div>
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                       <th>№</th>
@@ -212,7 +212,7 @@ updateGroups(event){
                       <th>Оценка</th>
                       <th>Тип Задания</th>
                       <th>Дата</th>
-                      
+
                   </tr>
               </thead>
                 <tbody>
@@ -222,21 +222,21 @@ updateGroups(event){
                     <td>{student.student.user_id.username}</td>
                     <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
                     <td>{student.stud_mark}</td>
-                    <td>{student.mark_type}</td>  
-                    <td>{this.dateFormat(student.date)}</td>         
+                    <td>{student.mark_type}</td>
+                    <td>{this.dateFormat(student.date)}</td>
                 </tr>
               )}
               </tbody>
-                       
+
           </table>
-        
+
       </div>
 
 
        <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
             <div className="form-group col-md-6">
 
-               
+
            <label>Выберите предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
@@ -244,7 +244,7 @@ updateGroups(event){
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
         <div className="form-group col-md-6">
         <label>Выберите предмет</label>
                {
@@ -254,7 +254,7 @@ updateGroups(event){
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
@@ -265,12 +265,12 @@ updateGroups(event){
               <label>Дата проведения Пары</label>
               <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
-         
+
           </div>
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
-               
+
               </thead>
                 <tbody>
               {this.state.attendances.map((student, s) =>
@@ -283,16 +283,16 @@ updateGroups(event){
                     <td className="mobile-table">ФИО</td><td>{student.student.user_id.name} {student.student.user_id.lastname}</td></tr>
                     <tr>
                     <td className="mobile-table">Оценка</td><td>{student.stud_mark}</td></tr>
-           
+
                     <tr>
-                   <td className="mobile-table">Дата</td> <td>{this.dateFormat(student.date)}</td>         
+                   <td className="mobile-table">Дата</td> <td>{this.dateFormat(student.date)}</td>
                 </tr>
                 </div>
               )}
               </tbody>
-                       
+
           </table>
-        
+
       </div>
 
       </div>

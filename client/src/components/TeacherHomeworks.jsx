@@ -168,7 +168,7 @@ class TeacherHomeworks extends React.Component{
       <div className="bg-title" style={{paddingRight: '3%'}}>
         <div className="row">
           <div className="col-md-9">
-            <h4>Все дз</h4>
+            <h4>Домашнее задание</h4>
           </div>
         </div>
       </div>
@@ -176,7 +176,7 @@ class TeacherHomeworks extends React.Component{
         <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle" style={{minHeight: '400px'}}>
           <div className="form-group row">
             <div className="col-md-6">
-              <label>Выберите предмет</label>
+              <label className="teacher-choosed">Предмет</label>
               <select className="form-control"  onChange={this.chooseSubject} >
                 <option >Выберите предмет</option>
                   {this.state.subjects.map((subject, s) =>
@@ -185,7 +185,7 @@ class TeacherHomeworks extends React.Component{
               </select>
             </div>
             <div className="col-md-6" >
-              <label>Выберите группу</label>
+              <label className="teacher-choosed">Группа</label>
               <select className="form-control" value={this.state.groupValue} disabled={!this.state.checkSubject} onChange={this.changeGroup} >
                 <option value='' >Выберите группу</option>
                   {this.state.groups.map((group, g) =>
@@ -257,7 +257,7 @@ class TeacherHomeworks extends React.Component{
       <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle" style={{minHeight: '400px'}}>
           <div className="form-group row">
             <div className="col-md-6">
-              <label>Выберите предмет</label>
+              <label>Предмет</label>
               <select className="form-control"  onChange={this.chooseSubject} >
                 <option >Выберите предмет</option>
                   {this.state.subjects.map((subject, s) =>
@@ -266,7 +266,7 @@ class TeacherHomeworks extends React.Component{
               </select>
             </div>
             <div className="col-md-6" >
-              <label>Выберите группу</label>
+              <label>Группа</label>
               <select className="form-control" value={this.state.groupValue} disabled={!this.state.checkSubject} onChange={this.changeGroup} >
                 <option value='' >Выберите группу</option>
                   {this.state.groups.map((group, g) =>
@@ -279,7 +279,7 @@ class TeacherHomeworks extends React.Component{
             this.state.homeworks.length !=0 ?
           (
           <table id="myTable" className="table table-striped">
-          
+
             <tbody>
               {this.state.homeworks.map((homework, h) =>
                 <div>
@@ -299,13 +299,13 @@ class TeacherHomeworks extends React.Component{
                     <tr>
                     <td><button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} id={homework._id}  onClick={this.checkAnswers}>Проверить</button></td>
                     </tr>
-                 
+
                 </div>
               )}
             </tbody>
           </table>) :(
           <table id="myTable" className="table table-striped">
-       
+
             <tbody>
                 <tr>
                 <td>Ничего не найдено</td>
