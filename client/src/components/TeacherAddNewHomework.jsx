@@ -219,7 +219,7 @@ class TeacherAddNewHomework extends React.Component {
             <p className="teacher-pages-title">Добавление домашнего задания</p>
             <form action="/"  onSubmit={this.addHomework}>
               <div className="form-group">
-                <label className="teacher-choosed">Группа</label>
+                <label className="teacher-choosed" style={{padding: '0 15px'}}>Группа</label>
                 <select className="form-control" onChange={this.changeGroup} >
                   <option >Выберите группу</option>
                     {this.state.groups.map((group, g) =>
@@ -232,10 +232,10 @@ class TeacherAddNewHomework extends React.Component {
                 <table id="myTable" className="table table-striped functional-table">
                   <thead>
                       <tr>
-                          <th>№</th>
-                          <th><input type="checkbox" />Выбрать все</th>
-                          <th>ID</th>
-                          <th>ФИО</th>
+                          <th className="table-head-text">№</th>
+                          <th className="table-head-text"><input type="checkbox" />Выбрать все</th>
+                          <th className="table-head-text">ID</th>
+                          <th className="table-head-text">ФИО</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -252,9 +252,9 @@ class TeacherAddNewHomework extends React.Component {
                 <table id="myTable" className="table table-striped">
                   <thead>
                       <tr>
-                        <th>№</th>
-                        <th>ID</th>
-                        <th>ФИО</th>
+                        <th className="table-head-text">№</th>
+                        <th className="table-head-text">ID</th>
+                        <th className="table-head-text">ФИО</th>
                       </tr>
                   </thead>
                   <tbody>

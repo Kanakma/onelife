@@ -176,7 +176,7 @@ class TeacherHomeworks extends React.Component{
         <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle" style={{minHeight: '400px'}}>
           <div className="form-group row">
             <div className="col-md-6">
-              <label className="teacher-choosed">Предмет</label>
+              <label className="teacher-choosed" style={{padding: '0 15px'}}>Предмет</label>
               <select className="form-control"  onChange={this.chooseSubject} >
                 <option >Выберите предмет</option>
                   {this.state.subjects.map((subject, s) =>
@@ -197,15 +197,15 @@ class TeacherHomeworks extends React.Component{
           {
             this.state.homeworks.length !=0 ?
           (
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Начало</th>
-                    <th>Дедлайн</th>
-                    <th>Файл</th>
-                    <th>Ответы</th>
-                    <th>Редактировать</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text">Начало</th>
+                    <th className="table-head-text">Дедлайн</th>
+                    <th className="table-head-text">Файл</th>
+                    <th className="table-head-text">Ответы</th>
+                    <th className="table-head-text">Редактировать</th>
                 </tr>
             </thead>
             <tbody>
@@ -228,15 +228,15 @@ class TeacherHomeworks extends React.Component{
               )}
             </tbody>
           </table>) :(
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                  <th>№</th>
-                  <th>Начало</th>
-                  <th>Дедлайн</th>
-                  <th>Файл</th>
-                  <th>Ответы</th>
-                  <th>Редактировать</th>
+                  <th className="table-head-text">№</th>
+                  <th className="table-head-text">Начало</th>
+                  <th className="table-head-text">Дедлайн</th>
+                  <th className="table-head-text">Файл</th>
+                  <th className="table-head-text">Ответы</th>
+                  <th className="table-head-text">Редактировать</th>
                 </tr>
             </thead>
             <tbody>

@@ -208,14 +208,14 @@ updateGroups(event){
 
           </div>
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Статус</th>
-                      <th>Дата</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">ID</th>
+                      <th className="table-head-text">ФИО</th>
+                      <th className="table-head-text">Статус</th>
+                      <th className="table-head-text">Дата</th>
                   </tr>
               </thead>
                   <tbody>

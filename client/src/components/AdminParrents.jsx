@@ -101,16 +101,16 @@ class AdminParrents extends React.Component {
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-ipad visible-max visible-middle">
-            <table id="myTable" className="table table-striped">
+            <table id="myTable" className="table table-striped functional-table">
                 <thead>
                     <tr>
-                        <th>№</th>
-                        <th>ФИО</th>
-                        <th>Студент(ы)</th>
-                        <th>Телефон</th>
-                        <th>E-mail</th>
-                        <th>Адресс</th>
-                          <th><center>Опиции</center></th>
+                        <th className="table-head-text">№</th>
+                        <th className="table-head-text">ФИО</th>
+                        <th className="table-head-text">Студент(ы)</th>
+                        <th className="table-head-text">Телефон</th>
+                        <th className="table-head-text">E-mail</th>
+                        <th className="table-head-text">Адресс</th>
+                          <th className="table-head-text"><center>Опиции</center></th>
                     </tr>
                 </thead>
                 <tbody>

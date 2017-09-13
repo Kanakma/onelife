@@ -51,21 +51,21 @@ class AdminGroups extends React.Component {
       </div>
       <div className=" my-content" >
       <div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                    <th>№</th>
-                    <th>Название группы</th>
-                    <th>Специальность</th>
-                    <th>Кафедра</th>
-                    <th>Курс</th>
-                    <th>Куратор</th>
-                    <th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text">Название группы</th>
+                    <th className="table-head-text">Специальность</th>
+                    <th className="table-head-text">Кафедра</th>
+                    <th className="table-head-text">Курс</th>
+                    <th className="table-head-text">Куратор</th>
+                    <th className="table-head-text">
                       <center>
                           Кол-во студентов
                       </center>
                     </th>
-                    <th>
+                    <th className="table-head-text">
                       <center>Опции</center>
                     </th>
                   </tr>

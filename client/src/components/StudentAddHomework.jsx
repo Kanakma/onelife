@@ -115,12 +115,13 @@ class StudentAddHomework extends React.Component {
     return (
       <div className="container clearfix">
         <div className="bg-title">
-          <h4>Все домашние задания</h4>
+          <h4>Домашние задания</h4>
         </div>
         <div className="my-content">
           <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle" style={{minHeight: '400px'}}>
+          <p className="teacher-pages-title">Добавление домашнего задания</p>
           <div className="form-group">
-            <label>Выберите предмет</label>
+            <label className="teacher-choosed" style={{padding: '0 15px'}}>Предмет</label>
             <select className="form-control"  onChange={this.chooseSubject} >
               <option >Выберите предмет</option>
                 {this.state.subjects.map((subject, s) =>
@@ -131,14 +132,14 @@ class StudentAddHomework extends React.Component {
           {
             this.state.homeworks.length !=0 ?
           (
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Начало</th>
-                    <th>Дедлайн</th>
-                    <th>Статус</th>
-                    <th>Выполнить</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text">Начало</th>
+                    <th className="table-head-text">Дедлайн</th>
+                    <th className="table-head-text">Статус</th>
+                    <th className="table-head-text">Выполнить</th>
                 </tr>
             </thead>
             <tbody>
@@ -169,14 +170,14 @@ class StudentAddHomework extends React.Component {
               )}
             </tbody>
           </table>) :(
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                  <th>№</th>
-                  <th>Начало</th>
-                  <th>Дедлайн</th>
-                  <th>Статус</th>
-                  <th>Выполнить</th>
+                  <th className="table-head-text">№</th>
+                  <th className="table-head-text">Начало</th>
+                  <th className="table-head-text">Дедлайн</th>
+                  <th className="table-head-text">Статус</th>
+                  <th className="table-head-text">Выполнить</th>
                 </tr>
             </thead>
             <tbody>

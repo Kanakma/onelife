@@ -204,13 +204,13 @@ updateGroups(event){
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>РК1</th>
-                      <th>РК2</th>
-                      <th>Сессия</th>
-                      <th>Итог</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text">ID</th>
+                      <th className="table-head-text">ФИО</th>
+                      <th className="table-head-text">РК1</th>
+                      <th className="table-head-text">РК2</th>
+                      <th className="table-head-text">Сессия</th>
+                      <th className="table-head-text">Итог</th>
 
                   </tr>
               </thead>

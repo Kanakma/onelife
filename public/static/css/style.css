@@ -114,6 +114,7 @@ h5 {
  padding-right: 0;
  padding-bottom: 0;
  margin-left: 15px;
+ overflow-y: scroll; 
  /*padding-left: 3%;
  margin-top: -1%;
  padding-top: 6%;
@@ -1482,6 +1483,12 @@ ul.hr li {
 }
 .functional-table{
   border: 1px solid #e5ecef;
+}
+.table-head-text{
+  color: #666666;
+  font-family: "gothic";
+  font-size: 14px;
+  font-weight: 700;
 }
 /*.pie-charts{
   display: flex-root;

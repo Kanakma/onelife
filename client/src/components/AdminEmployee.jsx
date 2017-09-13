@@ -56,17 +56,17 @@ class AdminEmployee extends React.Component {
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                    <th>№</th>
-                    <th>ФИО</th>
-                    <th>Пол</th>
-                    <th>Адрес прописки</th>
-                    <th>Адрес проживания</th>
-                    <th>№ телефона</th>
-                    <th>Почта</th>
-                    <th>Подробнее</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text">ФИО</th>
+                    <th className="table-head-text">Пол</th>
+                    <th className="table-head-text">Адрес прописки</th>
+                    <th className="table-head-text">Адрес проживания</th>
+                    <th className="table-head-text">№ телефона</th>
+                    <th className="table-head-text">Почта</th>
+                    <th className="table-head-text">Подробнее</th>
                   </tr>
               </thead>
               {

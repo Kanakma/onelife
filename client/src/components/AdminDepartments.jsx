@@ -49,22 +49,22 @@ class AdminDepartments extends React.Component {
       </div>
       <div className="my-content" >
         <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-            <table id="myTable" className="table table-striped">
+            <table id="myTable" className="table table-striped functional-table">
                 <thead>
                     <tr>
-                        <th>№</th>
-                        <th>Код кафедры</th>
-                        <th>Факультет</th>
-                        <th>Наименование кафедры</th>
-                        <th>Зав. кафедры</th>
-                        <th>Телефон</th>
-                        <th>E-mail</th>
-                        <th className="hidden-ipad">
+                        <th className="table-head-text">№</th>
+                        <th className="table-head-text">Код кафедры</th>
+                        <th className="table-head-text">Факультет</th>
+                        <th className="table-head-text">Наименование кафедры</th>
+                        <th className="table-head-text">Зав. кафедры</th>
+                        <th className="table-head-text">Телефон</th>
+                        <th className="table-head-text">E-mail</th>
+                        <th className="hidden-ipad table-head-text">
                             <center>
                                 Специальности
                             </center>
                         </th>
-                        <th>
+                        <th className="table-head-text">
                             <center>Опции</center>
                         </th>
                     </tr>

@@ -58,21 +58,21 @@ class AdminFaculties extends React.Component {
       </div>
       <div className="my-content" >
         <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Код факультета</th>
-                    <th>Название факультета</th>
-                    <th>Декан</th>
-                    <th>Телефон</th>
-                    <th>E-mail</th>
-                    <th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text">Код факультета</th>
+                    <th className="table-head-text">Название факультета</th>
+                    <th className="table-head-text">Декан</th>
+                    <th className="table-head-text">Телефон</th>
+                    <th className="table-head-text">E-mail</th>
+                    <th className="table-head-text">
                         <center>
                             Кафедры
                         </center>
                     </th>
-                    <th>
+                    <th className="table-head-text">
                         <center>Опции</center>
                     </th>
                 </tr>
