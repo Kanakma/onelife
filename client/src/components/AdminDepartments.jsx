@@ -48,7 +48,7 @@ class AdminDepartments extends React.Component {
         <h4>Все кафедры</h4>
       </div>
       <div className="my-content" >
-        <div className="table-responsive">
+        <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
             <table id="myTable" className="table table-striped">
                 <thead>
                     <tr>
@@ -122,6 +122,76 @@ class AdminDepartments extends React.Component {
   }
             </table>
           </div>
+          <div className="table-responsive visible-mobile hidden-max-media hidden-middle hidden-ipad">
+              <table id="myTable" className="table table-striped">
+                  {
+                    this.state.departments ? (
+                        this.state.departments.map((department, d) =>
+                        <tbody key={d}>
+                          <tr>
+                            <td className="mobile-table"></td><td>{d+1}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Код</td><td>{department.department_code}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Нзавание</td><td>{department.department_faculty.faculty_name}</td>
+                          </tr>
+                          <tr >
+                            <td className="mobile-table">Кафедра</td><td>{department.department_name}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Зав. кафедры</td><td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Телефон</td><td>{department.department_phone}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">E-mail</td><td>{department.department_email}</td>
+                          </tr>
+                          <tr className="hidden-mobile">
+                            <td className="hidden-ipad">
+                                <center>
+                                    {department.majors.map((major, m)=>
+                                      <p key= {m}>{major.major_name}</p>
+                                    )}
+                                </center>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Редактировать</td><td style={{padding: '10px 20px'}}>
+                                <button onClick={this.toggleModal.bind(this, department)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                    <i className="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      )
+                        ) : (
+                        <tbody>
+                          <tr>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td className="hidden-ipad">
+                                <center>
+                                    --
+                                </center>
+                            </td>
+                            <td style={{padding: '10px 20px'}}>
+                                --
+                            </td>
+                          </tr>
+                        </tbody>
+                      )
+
+    }
+              </table>
+            </div>
         </div>
         <AdminEditDepartmentModal
           show={this.state.isOpen}

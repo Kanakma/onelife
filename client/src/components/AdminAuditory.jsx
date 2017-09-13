@@ -53,7 +53,7 @@ class AdminAuditory extends React.Component {
 	        <h4>Все аудитории</h4>
 	      </div>
       	<div className=" my-content">
-					<div className="table-responsive">
+					<div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
           	<table id="myTable" className="table table-striped">
           		<thead>
                   <tr>
@@ -75,6 +75,56 @@ class AdminAuditory extends React.Component {
 												<td>{auditory.auditory_corp}</td>
 												<td>{auditory.auditory_level}</td>
 												<td>{auditory.auditory_places}</td>
+												<td>
+	                        <button onClick={this.toggleModal.bind(this, auditory)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+	                        	<i className="fa fa-pencil"></i>
+	                        </button>
+                      	</td>
+              				</tr>
+              			)
+              		) : (
+              				<tr>
+												<td>---</td>
+												<td>---</td>
+												<td>---</td>
+												<td>---</td>
+												<td>---</td>
+												<td>---</td>
+              				</tr>
+               		)
+              	}
+              </tbody>
+          	</table>
+	      	</div>
+          <div className="table-responsive  visible-mobile hidden-max-media hidden-middle hidden-ipad">
+          	<table id="myTable" className="table table-striped">
+              <tbody>
+              	{
+              		this.state.auditories.length>0 ? (
+              			this.state.auditories.map((auditory, index) =>
+              				<tr key={index}>
+                        <td className="mobile-table"></td>
+												<td>{index+1}</td>
+                      </tr>
+                      <tr>
+                        <td className="mobile-table">Ак141
+                        ы</td>
+                        <td>{auditory.auditory_name}</td>
+                      </tr>
+                      <tr>
+                        <td className="mobile-table"></td>
+                        <td>{auditory.auditory_corp}</td>
+                      </tr>
+                      <tr>
+                        <td className="mobile-table"></td>
+                        <td>{auditory.auditory_level}</td>
+                      </tr>
+                      <tr>
+                        <td className="mobile-table"></td>
+                        <td>{auditory.auditory_places}</td>
+                      </tr>
+                      <tr>
+                        <td className="mobile-table"></td>
 												<td>
 	                        <button onClick={this.toggleModal.bind(this, auditory)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
 	                        	<i className="fa fa-pencil"></i>

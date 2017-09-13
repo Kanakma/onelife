@@ -51,7 +51,7 @@ class AdminMajors extends React.Component {
         <h4>Все специальности</h4>
       </div>
       <div className=" my-content" >
-      <div className="table-responsive">
+      <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
           <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
@@ -117,6 +117,74 @@ class AdminMajors extends React.Component {
               }
           </table>
         </div>
+        <div className="table-responsive visible-mobile hidden-max-media hidden-middle hidden-ipad">
+            <table id="myTable" className="table table-striped">
+                {
+                  this.state.majors ? (
+                      this.state.majors.map((major, m) =>
+                        <tbody key={m}>
+                          <tr>
+                            <td className="mibile-table"></td>
+                            <td>{m+1}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Код</td>
+                            <td>{major.major_code}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Название</td>
+                            <td>{major.major_name}</td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Кафедра</td>
+                            <td>{major.major_department.department_name}</td>
+                          </tr>
+                          <tr className="hidden-mobile">
+                            <td className="mobile-table">Наименование групп</td>
+                            <td>{major.major_group}</td>
+                          </tr>
+                              <td className="hidden-ipad hidden-mobile">{major.groups.map((group, g) =>
+                                <p key ={g}>{group.group_name}</p>
+                              )}</td>
+                          <tr>
+                            <td className="mobile-table">Кол-во студентов</td>
+                            <td>
+                              <center>
+                              350
+                              </center>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="mobile-table">Опции</td>
+                              <td style={{padding: '10px 20px'}}>
+                                  <button onClick={this.toggleModal.bind(this, major)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                      <i className="fa fa-pencil"></i>
+                                  </button>
+                              </td>
+                          </tr>
+                          <br/>
+                        </tbody>
+                      )
+                  ) : (
+                    <tbody>
+                        <tr>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td className="hidden-ipad">---</td>
+                            <td>
+                                <center>---
+                                </center>
+                            </td>
+                            <td style={{padding: '10px 20px'}}>---
+                            </td>
+                        </tr>
+                    </tbody>
+                  )
+                }
+            </table>
+          </div>
         </div>
         <AdminEditMajorModal
           show={this.state.isOpen}
