@@ -38,7 +38,7 @@ function IndInObjArr(objArray, subj, inkey, sensetive) {
         return false;
       }
     }
-    
+
 class TeacherAddNewHomework extends React.Component {
   constructor(props) {
     super(props);
@@ -216,9 +216,10 @@ class TeacherAddNewHomework extends React.Component {
         </div>
         <div className="my-content  ">
           <div className="table-responsive" style={{minHeight: '400px'}}>
+            <p className="teacher-pages-title">Добавление домашнего задания</p>
             <form action="/"  onSubmit={this.addHomework}>
               <div className="form-group">
-                <label>Выберите группу</label>
+                <label className="teacher-choosed">Группа</label>
                 <select className="form-control" onChange={this.changeGroup} >
                   <option >Выберите группу</option>
                     {this.state.groups.map((group, g) =>
@@ -228,7 +229,7 @@ class TeacherAddNewHomework extends React.Component {
                 {
                   this.state.group_students.length !=0 ?
                 (
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
                   <thead>
                       <tr>
                           <th>№</th>

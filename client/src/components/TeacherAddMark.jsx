@@ -37,7 +37,7 @@ import DatePicker from 'react-bootstrap-date-picker';
         return false;
       }
     }
-  
+
 class TeacherAddMark extends React.Component {
 
   constructor(props) {
@@ -62,27 +62,27 @@ class TeacherAddMark extends React.Component {
       attendances: [],
       att_date:'',
       chk:'',
-      mark:'', 
+      mark:'',
       marks: [],
       student: [{}],
       marktype: ''
 
     };
-  
+
     this.updateStudents = this.updateStudents.bind(this);
-    
- 
+
+
     this.updateGroups=this.updateGroups.bind(this);
     this.sendMark = this.sendMark.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.changeMark=this.changeMark.bind(this);
     this.changeComment=this.changeComment.bind(this);
     this.changeMarkType=this.changeMarkType.bind(this);
-  
-  
+
+
   }
   componentDidMount() {
-    
+
       axios.get('/api/getsubjectteacher', {
       responseType: 'json',
       headers: {
@@ -118,9 +118,9 @@ class TeacherAddMark extends React.Component {
 
   }
 
-  
+
   changeComment(event){
-    
+
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
@@ -140,11 +140,11 @@ class TeacherAddMark extends React.Component {
         comments: temp,
         checkAttendance: true
       })
-   
+
    //console.log(temp,'temp')
 
   }
- 
+
 
   changeMark(event) {
 
@@ -154,7 +154,7 @@ class TeacherAddMark extends React.Component {
     var temp=this.state.marks;
     var old = IndInObjArr(temp,event.target.id, 'name');
     if(event.target.value<101){
-      
+
       if(old.length > 0){
         temp[old[0]].stud_mark = event.target.value;
       } else {
@@ -176,7 +176,7 @@ class TeacherAddMark extends React.Component {
   }
 
   sendMark(event){
- 
+
     var dd= new Date();
 
     var today = new Date();
@@ -186,10 +186,10 @@ class TeacherAddMark extends React.Component {
     var yyyy = today.getFullYear();
     if(dd<10){
       dd='0'+dd;
-    } 
+    }
     if(mm<10){
       mm='0'+mm;
-    } 
+    }
 
     var today = mm+'/'+dd+'/'+yyyy;
 
@@ -198,10 +198,9 @@ class TeacherAddMark extends React.Component {
     const group_name=this.state.group_name;
     const att_date=this.state.att_date;
     const mark_type=this.state.marktype;
-   console.log(mark_type,'adadaas')
     var dd= this.dateFormat1(att_date);
-    console.log(dd);
-  
+
+
   // if(today===dd){
           const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}&mark_type=${mark_type}`;
 
@@ -216,7 +215,7 @@ class TeacherAddMark extends React.Component {
         message: res.data.message
       })
    })
-  //} 
+  //}
   // if(today!=dd){
   //     this.setState({
   //       message: 'Вы можете выставлять успеваемость только на текущую дату'
@@ -296,7 +295,7 @@ class TeacherAddMark extends React.Component {
         });
       });
 }
- 
+
 
  changeMarkType(event){
       this.setState({
@@ -318,7 +317,7 @@ class TeacherAddMark extends React.Component {
 
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
       <div className="form-group col-md-6">
-       <label>Выберите предмет</label>
+       <label className="teacher-choosed">Предмет</label>
           <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
           <option value=''>предмет не выбран</option>
           {this.state.subjects.map((subject, s) =>
@@ -327,7 +326,7 @@ class TeacherAddMark extends React.Component {
           </select>
      </div>
         <div className="form-group col-md-6">
-        <label>Выберите группу</label>
+        <label className="teacher-choosed">Группа</label>
 
            {
           this.state.subject_groups.length!=0 ?
@@ -336,7 +335,7 @@ class TeacherAddMark extends React.Component {
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Групп не найдено</option>
           </select>
@@ -352,22 +351,22 @@ class TeacherAddMark extends React.Component {
 
           <div className="form-group row">
             <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
+              <label className="teacher-choosed">Дата проведения Пары</label>
               <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
-         
-      
+
+
 
           </div>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                       <th>№</th>
                       <th>ID</th>
                       <th>ФИО</th>
                       <th>Оценка</th>
-            
-                      
+
+
                   </tr>
               </thead>
               {
@@ -378,10 +377,10 @@ class TeacherAddMark extends React.Component {
                     <td>{s+1}</td>
                     <td>{student.user_id.username}</td>
                     <td >{student.user_id.name} {student.user_id.lastname}</td>
-                    
+
                     <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
-                  
-                    
+
+
                 </tr>
               )}
               </tbody>) :
@@ -391,22 +390,22 @@ class TeacherAddMark extends React.Component {
                   </tr>
                   </tbody>)
               }
-            
-                       
+
+
           </table>
           <div className="row">
 
       {
               this.state.message==='Вы можете выставлять успеваемость только на текущую дату'||
-              this.state.message==='Ваше значение должно быть меньше 100'  
-          
+              this.state.message==='Ваше значение должно быть меньше 100'
+
                ? (
                 <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
               ) : (
                 <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
               )
             }
-          
+
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
            </div>
       </div>
@@ -432,7 +431,7 @@ class TeacherAddMark extends React.Component {
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Групп не найдено</option>
           </select>
@@ -451,12 +450,12 @@ class TeacherAddMark extends React.Component {
               <label>Дата проведения Пары</label>
               <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
-         
-      
+
+
 
           </div>
                 <table id="myTable" className="table table-striped">
-          
+
               {
                 this.state.att_students.length !=0 ?
                 (    <tbody>
@@ -469,8 +468,8 @@ class TeacherAddMark extends React.Component {
                     <td className="mobile-table">ФИО</td><td >{student.user_id.name} {student.user_id.lastname}</td></tr>
                     <tr>
                     <td className="mobile-table">Оценка</td><td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
-                  
-                    
+
+
                 </tr>
                 </div>
               )}
@@ -481,22 +480,22 @@ class TeacherAddMark extends React.Component {
                   </tr>
                   </tbody>)
               }
-            
-                       
+
+
           </table>
           <div className="row">
 
       {
               this.state.message==='Вы можете выставлять успеваемость только на текущую дату'||
-              this.state.message==='Ваше значение должно быть меньше 100'  
-          
+              this.state.message==='Ваше значение должно быть меньше 100'
+
                ? (
                 <h5 style={{ fontSize: '14px', color: 'red', textAlign: 'center' }}>{this.state.message}</h5>
               ) : (
                 <h5 style={{ fontSize: '14px', color: 'green', textAlign: 'center' }}>{this.state.message}</h5>
               )
             }
-          
+
            <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
            </div>
       </div>

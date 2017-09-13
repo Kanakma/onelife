@@ -265,12 +265,13 @@ updateGroups(event){
     return (
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Выставить посещаемость</h4>
+        <h4>Посещаемость</h4>
       </div>
       <div className="my-content  ">
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
+        <p className="teacher-pages-title">Выставление посещаемости</p>
      <div className="form-group col-md-6">
-       <label>Выберите предмет</label>
+       <label className="teacher-choosed">Предмет</label>
           <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
           <option value=''>предмет не выбран</option>
           {this.state.subjects.map((subject, s) =>
@@ -279,7 +280,7 @@ updateGroups(event){
           </select>
      </div>
         <div className="form-group col-md-6">
-        <label>Выберите группу</label>
+        <label className="teacher-choosed">Группа</label>
         {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -297,12 +298,12 @@ updateGroups(event){
         </div>
           <div className="form-group row">
             <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
+              <label className="teacher-choosed">Дата проведения Пары</label>
               <DatePicker  onChange={this.changeDate}  value={this.state.att_date} className="form-control mydatepicker"/>
             </div>
 
           </div>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                       <th>№</th>
@@ -387,7 +388,7 @@ updateGroups(event){
 
           </div>
                 <table id="myTable" className="table table-striped">
-  
+
               {
                 this.state.att_students.length !=0 ?
                 ( <tbody>

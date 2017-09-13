@@ -27,7 +27,7 @@ class TeacherAddAttendance extends React.Component {
       att_date:'',
       subject_groups: []
     };
-  
+
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
@@ -62,9 +62,9 @@ class TeacherAddAttendance extends React.Component {
         att_date: value
       });
      const  subject_id =this.state.subject_id;
-  
+
     const val= value;
-   
+
     const formData = `subject_id=${subject_id}&att_date=${val}`;
    axios.post('/api/updatestudentsformark', formData, {
 
@@ -80,7 +80,7 @@ class TeacherAddAttendance extends React.Component {
       })
 
    })
-    
+
 
   }
  updateStudents(event){
@@ -103,11 +103,11 @@ class TeacherAddAttendance extends React.Component {
       })
      }
 
-        
+
     const  subject_id =this.state.subject_id;
     const group_name=event.target.value;
 
-   
+
     const formData = `subject_id=${subject_id}&group_name=${group_name}`;
    axios.post('/api/updatestudentsforfinalmark', formData, {
 
@@ -123,7 +123,7 @@ class TeacherAddAttendance extends React.Component {
       })
 
    })
-    
+
 
 
    }
@@ -160,15 +160,14 @@ updateGroups(event){
         });
       });
 }
- 
+
 
   render() {
-console.log(this.state.attendances)
     return (
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Вся Успеваемость</h4>
+        <h4>Успеваемость</h4>
 
       </div>
       <div className="my-content  ">
@@ -176,17 +175,17 @@ console.log(this.state.attendances)
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
             <div className="form-group col-md-6">
 
-               
-           <label>Выберите предмет</label>
+
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
         <div className="form-group col-md-6">
-        <label>Выберите предмет</label>
+        <label className="teacher-choosed">Группа</label>
                {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -194,15 +193,15 @@ console.log(this.state.attendances)
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
           )
         }        </div>
- 
+
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                       <th>№</th>
@@ -212,7 +211,7 @@ console.log(this.state.attendances)
                       <th>РК2</th>
                       <th>Сессия</th>
                       <th>Итог</th>
-                      
+
                   </tr>
               </thead>
                 <tbody>
@@ -221,20 +220,20 @@ console.log(this.state.attendances)
                     <td>{s+1}</td>
                     <td>{student.student.user_id.username}</td>
                     <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
-            
+
                     <td>{student.final_mark.rk1}</td>
                     <td>{student.final_mark.rk2}</td>
                     <td>{student.final_mark.final_m}</td>
                     <td>{student.stud_final_mark.stud_final}</td>
-                    
-             
-                    
+
+
+
                 </tr>
               )}
               </tbody>
-                       
+
           </table>
-        
+
       </div>
 
 
@@ -244,17 +243,17 @@ console.log(this.state.attendances)
       <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
             <div className="form-group col-md-6">
 
-               
-           <label>Выберите предмет</label>
+
+           <label className="teacher-choosed">Выберите предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
         <div className="form-group col-md-6">
-        <label>Выберите предмет</label>
+        <label  className="teacher-choosed">Выберите предмет</label>
                {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -262,13 +261,13 @@ console.log(this.state.attendances)
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
           )
         }        </div>
- 
+
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
 
@@ -282,7 +281,7 @@ console.log(this.state.attendances)
                     <tr>
                     <td className="mobile-table">Фамилия</td><td>{student.student.user_id.name} {student.student.user_id.lastname}</td></tr>
                     <tr>
-            
+
                     <td className="mobile-table">РК1</td><td>{student.final_mark.rk1}</td></tr>
                     <tr>
                     <td className="mobile-table">РК2</td><td>{student.final_mark.rk2}</td></tr>
@@ -290,16 +289,16 @@ console.log(this.state.attendances)
                     <td className="mobile-table">Сессия</td><td>{student.final_mark.final_m}</td></tr>
                     <tr>
                     <td className="mobile-table">Итог</td><td>{student.stud_final_mark.stud_final}</td>
-                    
-             
-                    
+
+
+
                 </tr>
                 </div>
               )}
               </tbody>
-                       
+
           </table>
-        
+
       </div>
 
       </div>

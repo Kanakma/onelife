@@ -1467,6 +1467,22 @@ ul.hr li {
 .hidden-menu-style:focus{
   text-decoration: none;
 }
+.teacher-pages-title{
+  color: #000000;
+  font-family: "gothic";
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 15px;
+}
+.teacher-choosed{
+  color: #686868;
+  font-family: "gothic";
+  font-size: 14px;
+  font-weight: 700;
+}
+.functional-table{
+  border: 1px solid #e5ecef;
+}
 /*.pie-charts{
   display: flex-root;
   width: 31%;

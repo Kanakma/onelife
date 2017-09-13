@@ -28,7 +28,7 @@ class TeacherAddAttendance extends React.Component {
       att_date:'',
       att_students: []
     };
-  
+
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
@@ -59,15 +59,15 @@ class TeacherAddAttendance extends React.Component {
 
   changeDate(value){
    var date = this.dateFormat(value)
-  
+
      this.setState({
         att_date: value
       });
      const  group_name =this.state.group_name;
-     
+
 
     const val= value;
-    
+
     const formData = `group_name=${group_name}&att_date=${val}`;
    axios.post('/api/updatestudentsforattendance', formData, {
 
@@ -81,7 +81,7 @@ class TeacherAddAttendance extends React.Component {
         message: res.data.message
       })
    })
-    
+
 
   }
    //update students on rabotaet bez filtracii
@@ -106,7 +106,7 @@ class TeacherAddAttendance extends React.Component {
     }
     const  group_name =event.target.value;
     const subject_id= this.state.subject_id;
-    
+
     const formData = `group_name=${group_name}&subject_id=${subject_id}`;
    axios.post('/api/updatestudentsforattendance_easy', formData, {
 
@@ -155,38 +155,37 @@ updateGroups(event){
         });
       });
 }
- 
 
 
-  
+
+
 
 
   render() {
-console.log(this.state.attendances,'adadads')
     return (
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Вся посещаемость</h4>
+        <h4>Посещаемость</h4>
 
       </div>
       <div className="my-content  ">
 
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-
+          <p className="teacher-pages-title">Журнал посещаемости</p>
           <div className="form-group col-md-6">
 
-           <label>Выберите предмет</label>
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
 
         <div className="form-group col-md-6">
-        <label>Выберите группу</label>
+        <label className="teacher-choosed">Группа</label>
              {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -194,7 +193,7 @@ console.log(this.state.attendances,'adadads')
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
@@ -203,10 +202,10 @@ console.log(this.state.attendances,'adadads')
         </div>
           <div className="form-group row">
             <div className="col-md-6 col-md-offset-3">
-              <label>Дата проведения Пары</label>
+              <label className="teacher-choosed">Дата проведения Пары</label>
               <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
-         
+
           </div>
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
@@ -228,13 +227,13 @@ console.log(this.state.attendances,'adadads')
                     <td> {student.stud_attendance}</td>
                     <td> {this.dateFormat(student.date)}</td>
 
-           
+
                 </tr>
               )}
               </tbody>
-                       
+
           </table>
-        
+
       </div>
 
    <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
@@ -248,7 +247,7 @@ console.log(this.state.attendances,'adadads')
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
 
         <div className="form-group col-md-6">
         <label>Выберите группу</label>
@@ -259,7 +258,7 @@ console.log(this.state.attendances,'adadads')
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
@@ -271,11 +270,11 @@ console.log(this.state.attendances,'adadads')
               <label>Дата проведения Пары</label>
               <DatePicker value={this.state.att_date} onChange={this.changeDate}   className="form-control mydatepicker"/>
             </div>
-         
+
           </div>
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
-         
+
                   <tbody>
               {this.state.attendances.map((student, s) =>
                 <div>
@@ -290,14 +289,14 @@ console.log(this.state.attendances,'adadads')
                     <tr>
                     <td className="mobile-table">Дата</td><td> {this.dateFormat(student.date)}</td>
 
-           
+
                 </tr>
                 </div>
               )}
               </tbody>
-                       
+
           </table>
-        
+
       </div>
 
 

@@ -38,7 +38,7 @@ import DatePicker from 'react-bootstrap-date-picker';
         return false;
       }
     }
-  
+
 class TeacherAddFinalMark extends React.Component {
 
   constructor(props) {
@@ -66,14 +66,14 @@ class TeacherAddFinalMark extends React.Component {
       marktype:[{}]
 
     };
-  
+
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
-    this.changeMarkValue=this.changeMarkValue.bind(this); 
+    this.changeMarkValue=this.changeMarkValue.bind(this);
     this.calculateSemesterMark=this.calculateSemesterMark.bind(this);
-   
+
   }
 
   componentDidMount() {
@@ -106,9 +106,9 @@ class TeacherAddFinalMark extends React.Component {
         att_date: value
       });
     const  subject_id =this.state.subject_id;
-  
+
     const val= value;
-   
+
     const formData = `subject_id=${subject_id}&att_date=${val}`;
    axios.post('/api/updatestudentsformark', formData, {
 
@@ -124,7 +124,7 @@ class TeacherAddFinalMark extends React.Component {
       })
 
    })
-    
+
 
   }
  updateStudents(event){
@@ -164,7 +164,7 @@ class TeacherAddFinalMark extends React.Component {
       })
 
    })
-    
+
 
 
    }
@@ -202,16 +202,16 @@ updateGroups(event){
       });
 }
 
- 
+
   changeMarkValue(event){
     const field = event.target.id;
     var marktype=this.state.marktype;
     marktype[field] =event.target.value;
-    var temp =this.state.markvalues; 
+    var temp =this.state.markvalues;
 
 
     var old = IndInObjArr(temp,event.target.id, 'name');
-    
+
        if(old.length > 0){
         temp[old[0]].stud_mark = event.target.value;
       } else {
@@ -226,12 +226,11 @@ updateGroups(event){
       })
 
    // console.log(this.state.markvalues, 'asda')
-  
+
   }
   calculateSemesterMark(event){
     const group_name=this.state.group_name;
     const subject_id=this.state.subject_id;
-    console.log(group_name,subject_id,'asdda')
        const formData = `data=${JSON.stringify(this.state.markvalues)}&group_name=${group_name}&subject_id=${subject_id}`;
         axios.post('/api/calculateSemesterMark', formData, {
            responseType: 'json',
@@ -257,17 +256,17 @@ updateGroups(event){
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
             <div className="form-group col-md-6">
 
-               
-           <label>Выберите предмет</label>
+
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
         <div className="form-group col-md-6">
-        <label>Выберите Группу</label>
+        <label className="teacher-choosed">Группа</label>
                {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -275,13 +274,13 @@ updateGroups(event){
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
           )
         }        </div>
-     
+
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
@@ -312,17 +311,17 @@ updateGroups(event){
       <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
             <div className="form-group col-md-6">
 
-               
-           <label>Выберите предмет</label>
+
+           <label  className="teacher-choosed">Выберите предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
         <div className="form-group col-md-6">
-        <label>Выберите Группу</label>
+        <label className="teacher-choosed">Выберите Группу</label>
                {
           this.state.subject_groups.length!=0 ?
           (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
@@ -330,16 +329,16 @@ updateGroups(event){
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
           )}
-          </select>) : 
+          </select>) :
           ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>групп не найдено</option>
           </select>
           )
         }        </div>
-     
+
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
-              
+
                 <tbody>
             { this.state.mark_count.map((marktype,s)=>
               <div>
@@ -364,7 +363,7 @@ updateGroups(event){
 
       </div>
 
-     
+
       </div>);
   }
 }
