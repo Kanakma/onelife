@@ -212,7 +212,6 @@ console.log(this.state.attendances)
                       <th>РК2</th>
                       <th>Сессия</th>
                       <th>Итог</th>
-                      <th>Статус</th>
                       
                   </tr>
               </thead>

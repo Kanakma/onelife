@@ -646,7 +646,6 @@ active state
   background-size: 100% 100%;
   padding: 40px 0;
   flex-flow: row wrap;
-  display: flex;
 }
 .profile-heading1{
   background-image: url( /img/background-image.png);
