@@ -178,7 +178,6 @@ class AdminFaculties extends React.Component {
                             </button>
                           </td>
                         </tr>
-                        <br />
                       </tbody>
                     )
                   ) : (

@@ -98,11 +98,10 @@ class AdminAuditory extends React.Component {
 	      	</div>
           <div className="table-responsive  visible-mobile hidden-max-media hidden-middle hidden-ipad">
           	<table id="myTable" className="table table-striped">
-              <tbody>
               	{
               		this.state.auditories.length>0 ? (
               			this.state.auditories.map((auditory, index) =>
-                    <div key={index}>
+                    <tbody key={index}>
               				<tr>
                         <td className="mobile-table"></td>
 												<td>{index+1}</td>
@@ -131,10 +130,10 @@ class AdminAuditory extends React.Component {
 	                        </button>
                       	</td>
               				</tr>
-                      <br/>
-                      </div>
+                    </tbody>
               			)
               		) : (
+                    <tbody>
               				<tr>
 												<td>---</td>
 												<td>---</td>
@@ -143,9 +142,9 @@ class AdminAuditory extends React.Component {
 												<td>---</td>
 												<td>---</td>
               				</tr>
+                    </tbody>
                		)
               	}
-              </tbody>
           	</table>
 	      	</div>
       	</div>

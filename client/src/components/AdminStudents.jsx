@@ -40,7 +40,6 @@ class AdminStudents extends React.Component {
         isOpen: !this.state.isOpen,
         student: student
     });
-
   }
   toggleModalClose() {
       this.setState({

@@ -152,7 +152,6 @@ class AdminGroups extends React.Component {
                               </button>
                             </td>
                           </tr>
-                          <br/>
                         </tbody>
                       )
                   ) : (

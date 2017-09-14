@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import jwtDecode from 'jwt-decode';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
-
+import { AlertList } from "react-bs-notifier";
+import {dateToArray} from "../modules/AllDamFunc"
+import AllNotificationsModal from "./AllNotificationsModal.jsx"
 class Base extends React.Component {
   constructor(props) {
     super(props);
@@ -26,12 +27,21 @@ class Base extends React.Component {
       checkAuditory:false,
       status: '',
       checkEmployee:false,
-      checkCandidate:false
+      checkCandidate:false,
+      checkOther:false,
+      notifications:[],
+      notes:[],
+      isOpen:false
     };
     this.changeHide = this.changeHide.bind(this);
     this.getStatus = this.getStatus.bind(this);
     this.getNotification = this.getNotification.bind(this);
-    this.createNotification=this.createNotification.bind(this);
+    this.onAlertDismissed=this.onAlertDismissed.bind(this);
+    this.toggleModal=this.toggleModal.bind(this);
+    this.toggleModalClose = this.toggleModalClose.bind(this);
+  }
+  componentDidMount() {
+    this.getNotification()
   }
   getStatus(){
     if(Auth.isUserAuthenticated()){
@@ -39,27 +49,7 @@ class Base extends React.Component {
       var decoded = jwtDecode(token);
       this.setState({
         status: decoded.userstatus
-      });
-    }
-  }
-  createNotification(type){
-    return function () {
-      switch (type) {
-        case 'info':
-          NotificationManager.info('Info message');
-          break;
-        case 'success':
-          NotificationManager.success('Success message', 'Title here');
-          break;
-        case 'warning':
-          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
-          break;
-        case 'error':
-          NotificationManager.error('Error message', 'Click me!', 5000, function () {
-            alert('callback');
-          });
-          break;
-      }
+      })
     }
   }
   componentWillMount(){
@@ -469,7 +459,8 @@ class Base extends React.Component {
           checkTest: false,
           checkSchedule:false,
           checkHomework: false,
-          checkAuditory:false
+          checkAuditory:false,
+          checkCandidate:false
         })
       }
     }
@@ -484,25 +475,71 @@ class Base extends React.Component {
       }
     })
       .then(res => {
+        var dateFormat = function(date){
+          var fDate = new Date(date);
+          var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+          var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+          return m + "." + d + "." + fDate.getFullYear()
+        }
         this.setState({
-          notifications: res.data.notifications
-        });
+          notifications: res.data.notifications.map(function(note){
+            return {
+              headline:dateFormat(note.date),
+              id:note._id,
+              type:note.type,
+              message: note.text
+            }
+          }),
+          notes:res.data.notifications
+        })
+      })
+  }
+  onAlertDismissed(alert) {
+    const alerts = this.state.notifications;
+
+    // find the index of the alert that was dismissed
+    const idx = alerts.indexOf(alert);
+
+    if (idx >= 0) {
+      this.setState({
+        // remove the alert from the array
+        notifications: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)]
+      });
+    }
+  }
+  toggleModal(){
+      this.setState({
+        isOpen: !this.state.isOpen
+    });
+  }
+  toggleModalClose() {
+      this.setState({
+        isOpen: !this.state.isOpen
       });
   }
-
   render() {
-    return (
+      return (
       <div>
       {(Auth.isUserAuthenticated() && (this.state.status == "admin")) ?(
         <div>
           <nav className="navbar navbar-default m-b-0">
             <div className="navbar-header myheader">
-                <div className="top-left-part"><Link to="/" className="logo">
-                <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
-                    <span className="hidden-xs">
-                        <strong></strong>
-                    </span></Link>
+              <div className="top-left-part"><Link to="/" className="logo">
+              <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
+                  <span className="hidden-xs">
+                  </span></Link>
+              </div>
+              {this.state.notes.length>0 ? (
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModal} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-notification">{this.state.notes.length}</div>
                 </div>
+                ):(
+                <div className="notification-icon"><i className="glyphicon glyphicon-envelope"></i></div>
+                )
+              }
+
+              <AlertList timeout={30} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
             </div>
           </nav>
           <div className="row">
@@ -579,7 +616,6 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkSchedule}>
                         <li><Link to="/schedules" className="waves-effect" style={{paddingLeft: '45px'}}>Расписания</Link></li>
                         <li><Link to="/addschedule" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить расписание</Link></li>
-                        <li><Link to="/reports" className="waves-effect" style={{paddingLeft: '45px'}}>Отчеты</Link></li>
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="teacher" onClick={this.changeHide}>
@@ -613,9 +649,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="employee" onClick={this.changeHide}>
-                      <i id="employee" className="fa fa-blind fa-lg icons" aria-hidden="true" ></i><span id="employee" onClick={this.changeHide} className="hide-menu">Сотрудники</span>
-                      <span hidden={this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      <span hidden={!this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <i className="fa fa-ravelry fa-lg icons" aria-hidden="true" ></i>Сотрудники
+                      <span hidden={this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkEmployee}>
                         <li><Link to="/employees" className="waves-effect" style={{paddingLeft: '45px'}}>Все сотрудники</Link></li>
@@ -623,9 +659,10 @@ class Base extends React.Component {
                       </ul>
                   </li>
                   <li><Link to="#" className="waves-effect" name="candidate" onClick={this.changeHide}>
-                      <i id="candidate" className="fa fa-blind fa-lg icons" aria-hidden="true" ></i><span id="candidate" onClick={this.changeHide} className="hide-menu">Абитуриенты</span>
-                      <span hidden={this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      <span hidden={!this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <i className="fa fa-free-code-camp fa-lg icons" aria-hidden="true" ></i>Абитуриенты
+                      <span hidden={this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+
                       </Link>
                       <ul className="nav" hidden={!this.state.checkCandidate}>
                         <li><Link to="/candidates" className="waves-effect" style={{paddingLeft: '45px'}}>Все абитуриенты</Link></li>
@@ -821,6 +858,11 @@ class Base extends React.Component {
             <div>
             </div>
           )}
+          <AllNotificationsModal
+            show={this.state.isOpen}
+            onClose={this.toggleModalClose}
+            notes={this.state.notes}
+          />
       </div>);
   }
 }

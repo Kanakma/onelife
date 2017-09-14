@@ -4,7 +4,7 @@ import Auth from '../modules/Auth'
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
 import InputElement from 'react-input-mask';
-import DamFunc from '../modules/DamFunc'
+import DamFunc from '../modules/DamFunc';
 
 class AdminAddCandidate extends React.Component {
 

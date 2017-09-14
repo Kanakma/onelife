@@ -18,7 +18,7 @@ var Group = require('../models/group')
 var Auditory = require ('../models/auditory')
 var Employee = require ('../models/employee')
 var Candidate = require ('../models/candidate')
-var Notification = require ('../models/notifications')
+var Notifications = require ('../models/notifications')
 const bcrypt = require('bcryptjs')
 var jwtDecode = require('jwt-decode')
 var mongoose = require('mongoose')
@@ -27,7 +27,7 @@ let fs = require('fs')
 var async = require('async')
 var xl = require('excel4node')
 var path= require('path')
-
+var DamFunc = require('../../client/src/modules/AllDamFunc')
 
 function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
@@ -72,7 +72,7 @@ router.post('/addeventnotification', (req, res)=>{
 		from:notification.from,
 		forAll:true
 	}
-	var newNote = new Notification(data)
+	var newNote = new Notifications(data)
 	newNote.save((err, saved)=>{
 		if(err) console.log(err)
 		if(saved){
@@ -87,9 +87,18 @@ router.post('/getnotifications', (req, res)=>{
 	User.findOne({_id:req.body.user}, (err, thisUser)=>{
 		if(err) console.log(err)
 		if(thisUser){
-			Notification.find({forAll:true}, (err, trueNotes) =>{
+			Notifications.find({forAll:true}, (err, notes) =>{
 				if(err) console.log(err)
-				if(trueNotes){
+				if(notes){
+					var temp = notes.filter(function(note){
+						return note.readed.indexOf(req.body.user) > -1
+					})
+					var trueNotes = []
+					notes.map(function(note){
+						if(!DamFunc.IndInObjArr(temp, note._id, '_id')){
+							trueNotes.push(note)
+						}
+					})
 					res.send({
 						notifications:trueNotes
 					})
@@ -98,6 +107,11 @@ router.post('/getnotifications', (req, res)=>{
 		}
 	})
 })
+
+router.post('/readnotes', (req, res)=>{
+
+})
+
 router.post('/addemployee', (req, res)=>{
 	var employee = JSON.parse(req.body.data)
 	var data = {
@@ -771,7 +785,7 @@ router.post('/addteacher', (req, res) => {
 			})
 		} else {
 			Teacher.find((err, teachers) => {
-				if(err) { console.log(err) }
+				if(err) console.log(err)
 				else {
 					var userData = {
 						username: 20000+teachers.length,
@@ -783,9 +797,9 @@ router.post('/addteacher', (req, res) => {
 						status: 'teacher',
 						gender: t.gender
 					}
-					const newUser = new User(userData);
+					const newUser = new User(userData)
 				  	newUser.save((err, savedUser) => {
-					    if (err) { console.log(err); }
+					  if (err) console.log(err)
 						else {
 							var teacherData = {
 								user_id: savedUser._id,
@@ -798,20 +812,21 @@ router.post('/addteacher', (req, res) => {
 							}
 							const newTeacher = new Teacher(teacherData);
 						  	newTeacher.save((err, teacher) => {
-								if (err) { console.log(err); }
+								if (err) console.log(err)
 								else {
 									res.send({
-										teacher: teacher
+										teacher: teacher,
+										message:'Пользователь добавлен!'
 									})
 								}
 							})
 						}
-				  });
+				  })
 				}
 			})
 		}
 	})
-});
+})
 
 router.post('/addteacherimg', (req, res) => {
 		let form = new multiparty.Form();
