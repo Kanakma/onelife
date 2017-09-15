@@ -31,17 +31,24 @@ class Base extends React.Component {
       checkOther:false,
       notifications:[],
       notes:[],
-      isOpen:false
+      allnotes:[],
+      isOpen:false,
+      isOpen1:false
     };
     this.changeHide = this.changeHide.bind(this);
     this.getStatus = this.getStatus.bind(this);
     this.getNotification = this.getNotification.bind(this);
     this.onAlertDismissed=this.onAlertDismissed.bind(this);
     this.toggleModal=this.toggleModal.bind(this);
+    this.toggleModalAll=this.toggleModalAll.bind(this);
+    this.toggleModalAllClose=this.toggleModalAllClose.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.readNotes = this.readNotes.bind(this);
+    this.getAllNotes = this.getAllNotes.bind(this);
   }
   componentDidMount() {
     this.getNotification()
+    this.getAllNotes()
   }
   getStatus(){
     if(Auth.isUserAuthenticated()){
@@ -507,15 +514,58 @@ class Base extends React.Component {
       });
     }
   }
+  readNotes(){
+    var decoded = jwtDecode(Auth.getToken())
+    var note_ids=[]
+    this.state.notes.map(function(note){
+      note_ids.push(note._id)
+    })
+    var formData=`notes=${JSON.stringify(note_ids)}&user=${decoded.sub}`
+    axios.post('/api/readnotes', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+    .then(res=>{
+      window.location.reload()
+    })
+  }
+  getAllNotes(){
+    var decoded = jwtDecode(Auth.getToken())
+    var formData=`user=${decoded.sub}`
+    axios.post('/api/getallnotes', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(res =>{
+        this.setState({
+          allnotes:res.data.notifications
+        })
+      })
+  }
   toggleModal(){
-      this.setState({
+    this.setState({
         isOpen: !this.state.isOpen
-    });
+    })
+  }
+  toggleModalAll(){
+    this.setState({
+        isOpen1: !this.state.isOpen1
+    })
   }
   toggleModalClose() {
-      this.setState({
-        isOpen: !this.state.isOpen
-      });
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+    this.readNotes()
+  }
+  toggleModalAllClose() {
+    this.setState({
+      isOpen1: !this.state.isOpen1
+    });
   }
   render() {
       return (
@@ -535,11 +585,13 @@ class Base extends React.Component {
                   <div className="have-notification">{this.state.notes.length}</div>
                 </div>
                 ):(
-                <div className="notification-icon"><i className="glyphicon glyphicon-envelope"></i></div>
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModalAll} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-Allnotification">{this.state.allnotes.length}</div>
+                </div>
                 )
               }
-
-              <AlertList timeout={30} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
+              <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
             </div>
           </nav>
           <div className="row">
@@ -693,10 +745,21 @@ class Base extends React.Component {
                   <div className="top-left-part"><Link to="/" className="logo">
                   <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
                       <span className="hidden-xs">
-                          <strong></strong>
                       </span></Link>
                   </div>
-              </div>
+              {this.state.notes.length>0 ? (
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModal} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-notification">{this.state.notes.length}</div>
+                </div>
+                ):(
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModalAll} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-Allnotification">{this.state.allnotes.length}</div>
+                </div>
+                )
+              }
+              <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>              </div>
             </nav>
               <div className="row">
               <div className="well-white">
@@ -762,7 +825,6 @@ class Base extends React.Component {
             </div>
           ) : (Auth.isUserAuthenticated() && (this.state.status == "student")) ?(
             <div>
-
             <nav className="navbar navbar-default m-b-0">
               <div className="navbar-header myheader">
                   <div className="top-left-part"><Link to="/" className="logo">
@@ -771,7 +833,19 @@ class Base extends React.Component {
                           <strong></strong>
                       </span></Link>
                   </div>
-              </div>
+              {this.state.notes.length>0 ? (
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModal} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-notification">{this.state.notes.length}</div>
+                </div>
+                ):(
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModalAll} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-Allnotification">{this.state.allnotes.length}</div>
+                </div>
+                )
+              }
+              <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>              </div>
             </nav>
             <div className="row">
             <div className="col-md-2 well-white">
@@ -831,9 +905,21 @@ class Base extends React.Component {
                         <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
                         <span className="hidden-xs">
                             <strong></strong>
-                        </span>
-                      </Link>
+                        </span></Link>
                     </div>
+              {this.state.notes.length>0 ? (
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModal} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-notification">{this.state.notes.length}</div>
+                </div>
+                ):(
+                <div>
+                  <button className="notification-icon" onClick={this.toggleModalAll} style={{background:"none", width:"60px"}}><i className="glyphicon glyphicon-envelope"></i></button>
+                  <div className="have-Allnotification">{this.state.allnotes.length}</div>
+                </div>
+                )
+              }
+              <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
                 </div>
               </nav>
               <div className="row">
@@ -862,6 +948,11 @@ class Base extends React.Component {
             show={this.state.isOpen}
             onClose={this.toggleModalClose}
             notes={this.state.notes}
+          />
+          <AllNotificationsModal
+            show={this.state.isOpen1}
+            onClose={this.toggleModalAllClose}
+            notes={this.state.allnotes}
           />
       </div>);
   }

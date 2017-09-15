@@ -1517,6 +1517,20 @@ ul.hr li {
   font-size: 1.3em;
   font-weight: bold;
 }
+.have-Allnotification{
+  position: relative;
+  height: 30px;
+  width: 30px;
+  float:right;
+  margin-top:10px;
+  margin-right: -58px;
+  color: white;
+  border-radius: 100px;
+  z-index: 99;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+}
 .recharts-wrapper{
   position: inherit!important;
 }

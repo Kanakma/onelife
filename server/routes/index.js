@@ -84,32 +84,54 @@ router.post('/addeventnotification', (req, res)=>{
 })
 
 router.post('/getnotifications', (req, res)=>{
-	User.findOne({_id:req.body.user}, (err, thisUser)=>{
+	Notifications.find({forAll:true}, (err, notes) =>{
 		if(err) console.log(err)
-		if(thisUser){
-			Notifications.find({forAll:true}, (err, notes) =>{
-				if(err) console.log(err)
-				if(notes){
-					var temp = notes.filter(function(note){
-						return note.readed.indexOf(req.body.user) > -1
-					})
-					var trueNotes = []
-					notes.map(function(note){
-						if(!DamFunc.IndInObjArr(temp, note._id, '_id')){
-							trueNotes.push(note)
-						}
-					})
-					res.send({
-						notifications:trueNotes
-					})
+		if(notes){
+			var temp = notes.filter(function(note){
+				return note.readed.indexOf(req.body.user) > -1
+			})
+			var trueNotes = []
+			notes.map(function(note){
+				if(!DamFunc.IndInObjArr(temp, note._id, '_id')){
+					trueNotes.push(note)
 				}
+			})
+			res.send({
+				notifications:trueNotes
 			})
 		}
 	})
 })
 
 router.post('/readnotes', (req, res)=>{
+	var notes = JSON.parse(req.body.notes)
+	notes.map(function(id){
+		Notifications.findOne({_id:id}, (err, note) =>{
+			if(err) console.log(note)
+			if(note){
+				note.readed.push(req.body.user)
+				note.save((err, saved)=>{
+					if(err) console.log(err)
+					if(saved){
+						res.send({
+							message:"Saved!"
+						})
+					}
+				})
+			}
+		})
+	})
+})
 
+router.post('/getallnotes', (req, res)=>{
+	Notifications.find({forAll:true}, (err, trueNotes)=>{
+		if(err) console.log(err)
+		if(trueNotes){
+			res.send({
+				notifications:trueNotes
+			})
+		}
+	})
 })
 
 router.post('/addemployee', (req, res)=>{

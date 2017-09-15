@@ -9,7 +9,11 @@ const NotificationSchema = new mongoose.Schema({
 	date:Date,
 	text:String,
 	from:String,
-	readed:[{type:mongoose.Schema.Types.ObjectId, ref:'User', unique: true}]
+	readed:[{type:mongoose.Schema.Types.ObjectId, ref:'User', unique: true}],
+	creationDate:{
+		type:Date,
+		default:Date.now
+	}
 });
 
 

@@ -18,6 +18,14 @@ class AllNotificationsModal extends React.Component {
 
   render(){
     var notes = this.props.notes
+    notes.sort(function(a, b){
+      if(new Date(a.creationDate).getTime() > new Date(b.creationDate).getTime()){
+        return -1
+      }if(new Date(a.creationDate).getTime() < new Date(b.creationDate).getTime()){
+        return 1
+      }
+        return 0
+    })
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -51,7 +59,8 @@ class AllNotificationsModal extends React.Component {
       display:'block',
       margin: 10,
       padding:20,
-      color:'black'
+      color:'black',
+      overflowWrap: 'break-word'
       }
 
     var dateFormat = function(date){
