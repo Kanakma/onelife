@@ -930,7 +930,6 @@ router.post('/edithomework', (req, res) => {
             			homework.save(function(err, savedhomework){
             				if(err) console.log(err);
             				if(savedhomework){
-                      console.log('fjhkjfdh')
                       res.send({
                         message: 'ДЗ сохранено'
                       })
@@ -1003,7 +1002,6 @@ router.post('/addanswer', (req, res) => {
 		})
   })
 	} else {
-    console.log(req.body.homework_id)
         Homework.findOne({_id: req.body.homework_id}).populate('answer').exec(function(err, homework){
           if(err) console.log(err);
           if(homework){
@@ -1033,6 +1031,51 @@ router.post('/deletehomework', (req, res)=>{
 		}
 	})
 })
+
+router.post('/addmarksforhomework', (req, res)=>{
+  var marks =  JSON.parse(req.body.marks);
+  Teacher.findOne({user_id: req.body.userId}, function(err, teacher){
+    if(err) console.log(err);
+    if(teacher){
+      Homework.findOne({_id: req.body.homework_id}, function(err, homework){
+        if(err) console.log(err);
+        if(homework){
+            marks.forEach(function(item, index){
+              homework.answer.forEach(function(ans, ind){
+                if(ans._id.toString() === item.id.toString()){
+                  console.log(homework.answer);
+                  homework.answer[ind].checked = true;
+                  Student.findOne({_id: ans.student_id}, function(err, student){
+                    if(err) console.log(err);
+                    if(student){
+                        var newMark=  new Mark({
+                          student: ans.student_id,
+                          teacher: teacher._id,
+                          stud_mark: item.mark,
+                          subject_name: homework.subject_id,
+                          group_id: student.group_id
+                        })
+                        newMark.save(function(err,saved){
+                          if(err)console.log (err);
+                        })
+                    }
+                  })
+                }
+              })
+              homework.save((err, newHomework) => {
+                if(err) console.log(err)
+              })
+            })
+            res.send({
+              message: 'Оценки выставлены'
+            })
+
+        }
+      })
+    }
+  })
+})
+
 router.post('/editteacher', (req, res) =>{
 	const editedTeacher = JSON.parse(req.body.editedTeacher);
 	console.log()
@@ -1450,15 +1493,15 @@ router.post('/editstudent', (req, res) =>{
                                       user.save(function(err, savedUser){
                                         if(err) console.log(err);
                                         else{
-                                          console.log("group is changed")
+                                          res.send({
+                                          	message: 'Отредактировано'
+                                          })
                                         }
                                       })
 
                                     }
                                   })
-                                  // res.send({
-                                  // 	saved:saved
-                                  // })
+
                                 }
                               })
 
@@ -1496,15 +1539,15 @@ router.post('/editstudent', (req, res) =>{
                   user.save(function(err, savedUser){
                     if(err) console.log(err);
                     else{
-                      console.log("YES")
+                      res.send({
+          							message: 'Отредактировано'
+          						})
                     }
                   })
 
                 }
               })
-  						// res.send({
-  						// 	saved:saved
-  						// })
+
 
   					}
   				})
@@ -2399,17 +2442,17 @@ router.get('/getteachersubjects', (req, res) => {
 									var gpa=0;
 									FinalMark.findOne({student: student._id},(err,fm) => {
 										if(err) console.log(err)
-											if(fm) 
+											if(fm)
 												if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
 													var gpa='4.0'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>90 && fm.current_gpa.stud_gpa<92){
 													var gpa='3.7'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>87 && fm.current_gpa.stud_gpa<89){
 													var gpa='3.3'
 													var st=fm.current_gpa.stud_gpa
@@ -2419,45 +2462,45 @@ router.get('/getteachersubjects', (req, res) => {
 													var gpa='3.0'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>80 && fm.current_gpa.stud_gpa<82){
 													var gpa='2.7'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>77 && fm.current_gpa.stud_gpa<79){
 													var gpa='2.3'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>73 && fm.current_gpa.stud_gpa<76){
 													var gpa='2.0'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>70 && fm.current_gpa.stud_gpa<72){
 													var gpa='1.7'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>67 && fm.current_gpa.stud_gpa<69){
 													var gpa='1.3'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa>65 && fm.current_gpa.stud_gpa<66){
 													var gpa='1.0'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
-												} 
+												}
 												if(fm.current_gpa.stud_gpa<65){
 													var gpa='0.0'
 													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)				
-												} 
-													
+													sendData(gpa,st)
+												}
+
 									})
-										
+
 
 										var sendData= function (i,a) {
 											res.send({
@@ -3629,14 +3672,14 @@ router.get('/myfinalmarks', (req,res)=> {
            					if(s){
 				            	s.current_gpa.stud_gpa=final_gpa;
 				            	s.save (function(err, saved){
-				            	if(err) console.log(err)		
+				            	if(err) console.log(err)
 				            		})
            					}
          				 })
 
 				    	})
 				    		res.send({fm:arr, final_gpa:final_gpa})
-				    	})  //end of then  
+				    	})  //end of then
 				    }
 			})
 		}

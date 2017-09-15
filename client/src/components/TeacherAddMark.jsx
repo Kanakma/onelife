@@ -42,7 +42,6 @@ class TeacherAddMark extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       groups: [],
       group_name:'',
@@ -70,8 +69,6 @@ class TeacherAddMark extends React.Component {
     };
 
     this.updateStudents = this.updateStudents.bind(this);
-
-
     this.updateGroups=this.updateGroups.bind(this);
     this.sendMark = this.sendMark.bind(this);
     this.changeDate=this.changeDate.bind(this);
@@ -139,13 +136,10 @@ class TeacherAddMark extends React.Component {
         checkAttendance: true
       })
 
-   //console.log(temp,'temp')
-
   }
 
 
   changeMark(event) {
-
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
@@ -494,7 +488,7 @@ class TeacherAddMark extends React.Component {
               )
             }
 
-           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
+           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить оценки</button>
            </div>
       </div>
 

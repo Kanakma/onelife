@@ -280,11 +280,11 @@ class TeacherHomeworks extends React.Component{
           (
           <table id="myTable" className="table table-striped">
 
+          {this.state.homeworks.map((homework, h) =>
             <tbody>
-              {this.state.homeworks.map((homework, h) =>
-                <div>
-                <tr key={h}>
-                    <td>{h+1}</td></tr>
+                  <tr key={h}>
+                    <td>{h+1}</td>
+                    </tr>
                     <tr>
                      <td className="mobile-table">Дата</td><td>{this.dateFormat(homework.lessonDate)}</td></tr>
                     <tr>
@@ -300,9 +300,8 @@ class TeacherHomeworks extends React.Component{
                     <td><button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} id={homework._id}  onClick={this.checkAnswers}>Проверить</button></td>
                     </tr>
 
-                </div>
-              )}
             </tbody>
+              )}
           </table>) :(
           <table id="myTable" className="table table-striped">
 

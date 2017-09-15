@@ -13,8 +13,13 @@ class TeacherCheckHomeworks extends React.Component{
       homework: {},
       answer: [],
       students_name: [],
-      students_lastname: []
-    }
+      students_lastname: [],
+      marksforhomework: [],
+      message: '',
+      userId: ''
+    },
+    this.sendMark = this.sendMark.bind(this);
+    this.addMark = this.addMark.bind(this);
 
   }
   componentDidMount() {
@@ -64,6 +69,41 @@ class TeacherCheckHomeworks extends React.Component{
         });
     }
   }
+  sendMark(event){
+    const formData = `homework_id=${this.state.homework_id}&marks=${JSON.stringify(this.state.marksforhomework)}&userId=${this.state.userId}`;
+    axios.post('/api/addmarksforhomework', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+    .then(res => {
+      this.setState({
+        message: res.data.message
+      });
+    });
+  }
+  addMark(event){
+    var marks = this.state.marksforhomework;
+    var temp;
+    var found = false;
+    marks.forEach(function(item, index){
+      if( item.id && item.id.toString() === event.target.id.toString()){
+        temp = item;
+        item.mark=event.target.value;
+          found = true;
+      }
+    })
+    if(!found){
+      marks.push({
+        id: event.target.id,
+        mark: event.target.value
+      })
+    }
+    this.setState({
+      marksforhomework: marks
+    })
+  }
 
   render() {
     return (
@@ -82,6 +122,7 @@ class TeacherCheckHomeworks extends React.Component{
           {
             this.state.answer.length?
           (
+          <div >
           <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
@@ -90,6 +131,7 @@ class TeacherCheckHomeworks extends React.Component{
                     <th className="table-head-text">Файл</th>
                     <th className="table-head-text">Сообщение</th>
                     <th className="table-head-text">Статус</th>
+                    <th className = "table-head-text">Оценка</th>
                 </tr>
             </thead>
             <tbody>
@@ -113,10 +155,14 @@ class TeacherCheckHomeworks extends React.Component{
               ):(
                 <p style={{color: 'red'}}>Не выполнено</p>
               )}</td>
+              <td>{ans.checked?(<p style={{color: 'green'}}>Оценка выставлена</p>):(<input type="number" className="form-control"  min="0"  id={ans._id} onChange={this.addMark} placeholder="Выставите оценку" />)}</td>
               </tr>
             )}
             </tbody>
-          </table>) :(
+          </table>
+          <button type="submit" className="btn pull-right btn-success"  onClick={this.sendMark} >Выставить оценки</button>
+          <div>{this.state.message?(<p style={{color: 'green'}}>{this.state.message}</p>):(<p></p>)}</div>
+        </div>) :(
           <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
@@ -125,11 +171,13 @@ class TeacherCheckHomeworks extends React.Component{
                   <th className="table-head-text">Файл</th>
                   <th className="table-head-text">Ответы</th>
                   <th className="table-head-text">Статус</th>
+                  <th className="table-head-text">Оценка</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                 <td>Ничего не найдено</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
