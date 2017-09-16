@@ -68,7 +68,7 @@ class Biography extends React.Component{
       <div className="col-md-3 col-xs-6 b-r">
         <strong>E-mail</strong>
         <br/>
-        <p className="text-muted">{this.props.teacher.email}</p>
+        <p className="text-muted" style={{wordWrap: 'break-word'}}>{this.props.teacher.email}</p>
       </div>
       <div className="col-md-3 col-xs-6 ">
         <strong>Место работы</strong>

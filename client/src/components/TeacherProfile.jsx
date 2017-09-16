@@ -110,7 +110,7 @@ class TeacherProfile extends React.Component {
                     <div className="row text-center m-t-10">
                       <div className = "col-md-6">
                         <strong>E-mail</strong>
-                        <p>{this.state.teacher.email}</p>
+                        <p style={{ wordWrap: 'break-word'}}>{this.state.teacher.email}</p>
                       </div>
                       <div className = "col-md-6">
                         <strong>Телефон</strong>

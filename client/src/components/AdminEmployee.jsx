@@ -15,10 +15,12 @@ class AdminEmployee extends React.Component {
     this.state = {
       employees: [],
       isOpen:false,
-      employee:{}
+      employee:{},
+      allemployees: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getemployees',  {
@@ -29,7 +31,8 @@ class AdminEmployee extends React.Component {
     })
       .then(res => {
         this.setState({
-          employees:res.data.employees
+          employees:res.data.employees,
+          allemployees: res.data.employees
         })
       })
   }
@@ -44,15 +47,29 @@ class AdminEmployee extends React.Component {
         isOpen: !this.state.isOpen
       })
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var employees = this.state.allemployees.filter(function(el){
+      var searchValue = el.name.toLowerCase() + ' ' +el.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      employees: employees
+    });
+  } else {
+    this.setState({
+      employees: this.state.allemployees
+    });
+  }
+
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все сотрудники</h4>
-          </div>
-        </div>
+      <div className="bg-title"  style={{display: 'flex'}} >
+            <h4  style={{width: '70%'}}>Все сотрудники</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">

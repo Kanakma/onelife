@@ -16,10 +16,12 @@ class AdminFaculties extends React.Component {
           }
         },
         faculty:{},
-        isOpen:false
+        isOpen:false,
+        allfaculties: []
       };
       this.toggleModal = this.toggleModal.bind(this);
       this.toggleModalClose = this.toggleModalClose.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
@@ -32,6 +34,7 @@ class AdminFaculties extends React.Component {
         .then(res => {
           this.setState({
             faculties: res.data.faculties,
+            allfaculties: res.data.faculties,
             faculty_dean: res.data.faculties.faculty_dean
           });
         });
@@ -49,12 +52,28 @@ class AdminFaculties extends React.Component {
           isOpen: !this.state.isOpen
         });
     }
-
+    handleSearch(event){
+      var searchQuery = event.target.value.toLowerCase();
+      if(searchQuery){
+        var faculties = this.state.allfaculties.filter(function(el){
+          var searchValue = el.faculty_name.toLowerCase();
+          return searchValue.indexOf(searchQuery)!== -1;
+        });
+        this.setState({
+          faculties: faculties
+        });
+      } else {
+        this.setState({
+          faculties: this.state.allfaculties
+        });
+      }
+    }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все факультеты</h4>
+      <div className="bg-title" style={{display: 'flex'}}>
+        <h4 style={{width: '70%'}}>Все факультеты</h4>
+        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content" >
         <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">

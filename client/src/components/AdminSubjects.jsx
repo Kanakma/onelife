@@ -15,11 +15,13 @@ class AdminSubjects extends React.Component {
       status: '',
       checkFilter: false,
       isOpen:false,
-      subject:{}
+      subject:{},
+      allsubjects: []
     };
     this.openSubject = this.openSubject.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
     componentDidMount() {
       axios.get('/api/getsubjects',  {
@@ -30,7 +32,8 @@ class AdminSubjects extends React.Component {
       })
         .then(res => {
           this.setState({
-            subjects: res.data.subjects
+            subjects: res.data.subjects,
+            allsubjects: res.data.subjects
           });
         });
     }
@@ -51,16 +54,28 @@ class AdminSubjects extends React.Component {
           isOpen: !this.state.isOpen
         });
     }
-
+    handleSearch(event){
+      var searchQuery = event.target.value.toLowerCase();
+      if(searchQuery){
+        var subjects = this.state.subjects.filter(function(el){
+          var searchValue = el.subject_name.toLowerCase() + ' '+ el.course_number.toString().toLowerCase();
+          return searchValue.indexOf(searchQuery)!== -1;
+        });
+        this.setState({
+          subjects: subjects
+        });
+      } else {
+        this.setState({
+          subjects: this.state.allsubjects
+        });
+      }
+    }
   render() {
     return (
       <div className="container clearfix">
-        <div className="bg-title" style={{paddingRight: '3%'}}>
-          <div className="row">
-            <div className="col-md-9">
-              <h4>Все предметы</h4>
-            </div>
-          </div>
+        <div className="bg-title" style={{display: 'flex'}}>
+              <h4 style={{width: '70%'}}>Все предметы</h4>
+              <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
         </div>
           { this.state.subjects.length>0 ? (
               <div className=" my-content">

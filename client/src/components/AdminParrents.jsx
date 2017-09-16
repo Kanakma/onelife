@@ -32,11 +32,13 @@ class AdminParrents extends React.Component {
       parrent:{},
       isOpen:false,
       status: '',
-      checkFilter: false
+      checkFilter: false,
+      allparents: []
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
 
   }
   componentDidMount() {
@@ -48,7 +50,8 @@ class AdminParrents extends React.Component {
     })
       .then(res => {
         this.setState({
-          parrents: res.data.parrents
+          parrents: res.data.parrents,
+          allparents: res.data.parrents
         });
       });
   }
@@ -88,16 +91,28 @@ class AdminParrents extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
-
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var parents = this.state.parrents.filter(function(el){
+      var searchValue = el.user_id.name.toLowerCase()+ ' ' + el.user_id.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      parrents: parents
+    });
+  }else {
+    this.setState({
+      parrents: this.state.allparents
+    });
+  }
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все родители</h4>
-          </div>
-        </div>
+      <div className="bg-title" style={{display: 'flex'}}>
+            <h4 style={{width: '70%'}}>Все родители</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-ipad visible-max visible-middle">

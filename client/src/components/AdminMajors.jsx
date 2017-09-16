@@ -12,10 +12,12 @@ class AdminMajors extends React.Component {
     this.state = {
       majors: [],
       isOpen:false,
-      major:{}
+      major:{},
+      allmajors: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getmajors',  {
@@ -26,7 +28,8 @@ class AdminMajors extends React.Component {
     })
       .then(res => {
         this.setState({
-          majors: res.data.majors
+          majors: res.data.majors,
+          allmajors: res.data.majors
         });
       });
   }
@@ -43,12 +46,29 @@ class AdminMajors extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+      var majors = this.state.allmajors.filter(function(el){
+        var searchValue = el.major_name.toLowerCase() + ' ' + el.major_code.toLowerCase();
+        return searchValue.indexOf(searchQuery)!== -1;
+      });
+      this.setState({
+        majors: majors
+      });
+    } else {
+      this.setState({
+        majors: this.state.allmajors
+      });
+    }
 
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все специальности</h4>
+      <div className="bg-title" style={{display: 'flex'}}>
+        <h4 style={{width: '70%'}}>Все специальности</h4>
+        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className=" my-content" >
       <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">

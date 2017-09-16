@@ -11,10 +11,12 @@ class AdminGroups extends React.Component {
     this.state = {
       isOpen:false,
       groups: [],
-      group: {}
+      group: {},
+      allgroups: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getgroups',  {
@@ -25,7 +27,8 @@ class AdminGroups extends React.Component {
     })
       .then(res => {
         this.setState({
-          groups: res.data.groups
+          groups: res.data.groups,
+          allgroups: res.data.groups
         });
       });
   }
@@ -42,12 +45,30 @@ class AdminGroups extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var groups = this.state.groups.filter(function(el){
+      var searchValue = el.group_name.toLowerCase() + ' ' + el.major.major_name.toLowerCase() + ' ' + el.major.major_department.department_name.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      groups: groups
+    });
+  } else {
+    this.setState({
+      groups: this.state.allgroups
+    });
+  }
+
+  }
 
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все группы</h4>
+      <div className="bg-title" style={{display: 'flex'}}>
+        <h4 style={{width: '70%'}}>Все группы</h4>
+        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className=" my-content" >
       <div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
@@ -93,6 +114,7 @@ class AdminGroups extends React.Component {
                 ) : (
                   <tbody>
                       <tr>
+                        <td>---</td>
                         <td>---</td>
                         <td>---</td>
                         <td>---</td>

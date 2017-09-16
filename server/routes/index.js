@@ -2433,95 +2433,85 @@ router.get('/getteachersubjects', (req, res) => {
 						}
 					})
 				})
-				router.get('/getstudentprofileinfo', (req, res) => {
-					var userId = req.query.studentId;
-				//	console.log(userId)
-							Student.findOne({user_id: userId}).populate('user_id').populate('major_id faculty_id group_id').exec(function(err, student){
-								if(err) { console.log(err) }
-								else {
-									var gpa=0;
-									FinalMark.findOne({student: student._id},(err,fm) => {
-										if(err) console.log(err)
-											if(fm)
-												if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
-													var gpa='4.0'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>90 && fm.current_gpa.stud_gpa<92){
-													var gpa='3.7'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>87 && fm.current_gpa.stud_gpa<89){
-													var gpa='3.3'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>83 && fm.current_gpa.stud_gpa<86){
-													var gpa='3.0'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>80 && fm.current_gpa.stud_gpa<82){
-													var gpa='2.7'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>77 && fm.current_gpa.stud_gpa<79){
-													var gpa='2.3'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>73 && fm.current_gpa.stud_gpa<76){
-													var gpa='2.0'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>70 && fm.current_gpa.stud_gpa<72){
-													var gpa='1.7'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>67 && fm.current_gpa.stud_gpa<69){
-													var gpa='1.3'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa>65 && fm.current_gpa.stud_gpa<66){
-													var gpa='1.0'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
-												if(fm.current_gpa.stud_gpa<65){
-													var gpa='0.0'
-													var st=fm.current_gpa.stud_gpa
-													sendData(gpa,st)
-												}
+  router.get('/getstudentprofileinfo', (req, res) => {
+    var userId = req.query.studentId;
+    //	console.log(userId)
+    Student.findOne({user_id: userId}).populate('user_id').populate('major_id faculty_id group_id').exec(function(err, student){
+    if(err) { console.log(err) }
+    else {
+    	var gpa=0;
+    	FinalMark.findOne({student: student._id},(err,fm) => {
+    		if(err) console.log(err)
+    			if(fm){
+    				if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
+    					var gpa='4.0'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>90 && fm.current_gpa.stud_gpa<92){
+    					var gpa='3.7'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>87 && fm.current_gpa.stud_gpa<89){
+    					var gpa='3.3'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>83 && fm.current_gpa.stud_gpa<86){
+    					var gpa='3.0'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>80 && fm.current_gpa.stud_gpa<82){
+    					var gpa='2.7'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>77 && fm.current_gpa.stud_gpa<79){
+    					var gpa='2.3'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>73 && fm.current_gpa.stud_gpa<76){
+    					var gpa='2.0'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>70 && fm.current_gpa.stud_gpa<72){
+    					var gpa='1.7'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>67 && fm.current_gpa.stud_gpa<69){
+    					var gpa='1.3'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa>65 && fm.current_gpa.stud_gpa<66){
+    					var gpa='1.0'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+    				if(fm.current_gpa.stud_gpa<65){
+    					var gpa='0.0'
+    					var st=fm.current_gpa.stud_gpa
+    					sendData(gpa,st)
+    				}
+          }
 
-									})
+    	})
+    		var sendData= function (i,a) {
+    			res.send({
+    						student: student,
+    						gpa: i,
+    						procent_gpa: a
+    					})
+      }
+		}
+	})
 
-
-										var sendData= function (i,a) {
-											res.send({
-														student: student,
-														gpa: i,
-														procent_gpa: a
-													})
-
-}
-	//console.log(gpa,'gpa')
-										// res.send({
-										// 	student: student,
-										// //	gpa: gpa
-										// })
-								}
-							})
-
-
-
-				//console.log('hi')
-						})
+})
 
 	router.get('/getoneteacher', (req, res) => {
 		var teacherId = req.query.teacherId;
