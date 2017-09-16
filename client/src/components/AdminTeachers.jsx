@@ -71,7 +71,7 @@ class AdminTeachers extends React.Component {
   handleSearch(event){
     var searchQuery = event.target.value.toLowerCase();
     if(searchQuery){
-    var teachers = this.state.teachers.filter(function(el){
+    var teachers = this.state.allteachers.filter(function(el){
       var searchValue = el.name.toLowerCase() + ' ' + el.lastname.toLowerCase();
       return searchValue.indexOf(searchQuery)!== -1;
     });

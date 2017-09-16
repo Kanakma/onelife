@@ -48,7 +48,7 @@ class AdminGroups extends React.Component {
   handleSearch(event){
     var searchQuery = event.target.value.toLowerCase();
     if(searchQuery){
-    var groups = this.state.groups.filter(function(el){
+    var groups = this.state.allgroups.filter(function(el){
       var searchValue = el.group_name.toLowerCase() + ' ' + el.major.major_name.toLowerCase() + ' ' + el.major.major_department.department_name.toLowerCase();
       return searchValue.indexOf(searchQuery)!== -1;
     });

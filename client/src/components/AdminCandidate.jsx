@@ -49,7 +49,7 @@ class AdminCandidate extends React.Component {
   handleSearch(event){
     var searchQuery = event.target.value.toLowerCase();
     if(searchQuery){
-    var candidates = this.state.candidates.filter(function(el){
+    var candidates = this.state.allcandidates.filter(function(el){
       var searchValue = el.name.toLowerCase() + ' ' +el.lastname.toLowerCase();
       return searchValue.indexOf(searchQuery)!== -1;
     });

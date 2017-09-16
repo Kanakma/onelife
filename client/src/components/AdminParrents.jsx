@@ -94,7 +94,7 @@ class AdminParrents extends React.Component {
   handleSearch(event){
     var searchQuery = event.target.value.toLowerCase();
     if(searchQuery){
-    var parents = this.state.parrents.filter(function(el){
+    var parents = this.state.allparents.filter(function(el){
       var searchValue = el.user_id.name.toLowerCase()+ ' ' + el.user_id.lastname.toLowerCase();
       return searchValue.indexOf(searchQuery)!== -1;
     });

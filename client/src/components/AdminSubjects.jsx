@@ -57,7 +57,7 @@ class AdminSubjects extends React.Component {
     handleSearch(event){
       var searchQuery = event.target.value.toLowerCase();
       if(searchQuery){
-        var subjects = this.state.subjects.filter(function(el){
+        var subjects = this.state.allsubjects.filter(function(el){
           var searchValue = el.subject_name.toLowerCase() + ' '+ el.course_number.toString().toLowerCase();
           return searchValue.indexOf(searchQuery)!== -1;
         });
