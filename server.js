@@ -6,6 +6,7 @@ var passport = require('passport');
 var app = express();
 
 require('./server/models').connect('mongodb://localhost:27017/onelife');
+require('./server/routes/cron.js');
 
 app.use(express.static('./public/static/'));
 app.use(express.static('./client/build/'));

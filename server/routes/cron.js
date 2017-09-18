@@ -1,24 +1,44 @@
-var express = require('express');
-var router = express.Router();
-var Major = require('../models/major');
-var Faculty = require('../models/faculty');
-var User = require('../models/user');
-var Teacher = require('../models/teacher');
-var Student = require('../models/student');
-var Subject = require('../models/subject');
-var Quiz = require('../models/quiz');
-var QuizPoint = require('../models/quiz_point');
-var Department = require('../models/department');
-var Parrent = require('../models/parrent');
+var express = require('express')
+var router = express.Router()
+var Major = require('../models/major')
+var Faculty = require('../models/faculty')
+var Faq = require('../models/faq')
+var User = require('../models/user')
+var Teacher = require('../models/teacher')
+var Student = require('../models/student')
+var Subject = require('../models/subject')
+var Quiz = require('../models/quiz')
+var QuizPoint = require('../models/quiz_point')
+var Department = require('../models/department')
+var Parrent = require('../models/parrent')
 var Mark=require('../models/mark')
+var FinalMark=require('../models/finalmark')
 var Attendance = require('../models/attendance')
 var Homework = require('../models/homework')
 var Group = require('../models/group')
-const bcrypt = require('bcryptjs');
-var jwtDecode = require('jwt-decode');
-var mongoose = require('mongoose');
-let multiparty = require('multiparty');
-let fs = require('fs');
-var async = require('async');
-var cron = require('node-cron');
+var Auditory = require ('../models/auditory')
+var Employee = require ('../models/employee')
+var Candidate = require ('../models/candidate')
+var Notifications = require ('../models/notifications')
+const bcrypt = require('bcryptjs')
+var jwtDecode = require('jwt-decode')
+var mongoose = require('mongoose')
+let multiparty = require('multiparty')
+let fs = require('fs')
+var async = require('async')
+var xl = require('excel4node')
+var path= require('path')
+var DamFunc = require('../../client/src/modules/AllDamFunc')
+var cron = require('node-cron')
 
+cron.schedule('0 0 * * *', function(){
+	Notifications.find({}, (err, notes)=>{
+		if(err) console.log(err)
+		if(notes){
+			notes.map((note)=>{
+				if(note.date.getTime() < new Date().getTime())
+				note.remove()
+			})
+		}
+	})
+})

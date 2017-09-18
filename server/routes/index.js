@@ -104,8 +104,47 @@ router.post('/getnotifications', (req, res)=>{
 	})
 })
 
+router.post('/getnotesforstudents', (req, res)=>{
+	Student.findOne({user_id:req.body.user}, (err, student)=>{
+		if(err) console.log(err)
+		if(student){
+			Notifications.find({student:student._id}, (err, notifications)=>{
+				if(err) console.log(err)
+				if(notifications){
+					Notifications.find({forAll:true}, (err, notes)=>{
+						if(err) console.log(err)
+						if(notes){
+							var trueNotes = []
+							var temp = notes.filter(function(note){
+								return note.readed.indexOf(req.body.user) > -1
+							})
+							notes.map(function(note){
+								if(!DamFunc.IndInObjArr(temp, note._id, '_id')){
+									trueNotes.push(note)
+								}
+							})
+							var temp2 = notifications.filter(function(note){
+								return note.readed.indexOf(req.body.user) > -1
+							})
+							notifications.map(function(note){
+								if(!DamFunc.IndInObjArr(temp2, note._id, '_id')){
+									trueNotes.push(note)
+								}
+							})
+							res.send({
+								notifications:trueNotes
+							})
+						}
+					})
+				}
+			})
+		}
+	})
+})
+
 router.post('/readnotes', (req, res)=>{
 	var notes = JSON.parse(req.body.notes)
+	console.log(notes)
 	notes.map(function(id){
 		Notifications.findOne({_id:id}, (err, note) =>{
 			if(err) console.log(note)
@@ -113,14 +152,12 @@ router.post('/readnotes', (req, res)=>{
 				note.readed.push(req.body.user)
 				note.save((err, saved)=>{
 					if(err) console.log(err)
-					if(saved){
-						res.send({
-							message:"Saved!"
-						})
-					}
 				})
 			}
 		})
+	})
+	res.send({
+		message:"Saved!"
 	})
 })
 
@@ -134,7 +171,26 @@ router.post('/getallnotes', (req, res)=>{
 		}
 	})
 })
-
+router.post('/getallnotesforstudent', (req, res)=>{
+	Notifications.find({forAll:true}, (err, trueNotes)=>{
+		if(err) console.log(err)
+		if(trueNotes){
+			Student.findOne({user_id:req.body.user}, (err, student)=>{
+				if(err) console.log(err)
+				if(student){
+					Notifications.find({student:student._id}, (err, notifications)=>{
+						if(err) console.log(err)
+						if(notifications){
+							res.send({
+								notifications:trueNotes.concat(notifications)
+							})
+						}
+					})
+				}
+			})
+		}
+	})
+})
 router.post('/addemployee', (req, res)=>{
 	var employee = JSON.parse(req.body.data)
 	var data = {
@@ -904,16 +960,40 @@ router.post('/addhomework', (req, res) => {
                 group_id: fields.group_id,
                 file: fileName
               }
-              const newHomework = new Homework(homeworkData);
-            newHomework.save((err, savedhomework) => {
-            if (err) console.log(err);
-            else {
-              res.send({
-                mеssage: 'Домашнее задание отправлено'
+              var dateFormat = function(date){
+			          var fDate = new Date(date);
+			          var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+			          var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+			          return m + "." + d + "." + fDate.getFullYear()
+			        }
+              Subject.findOne({_id:fields.subject_id}, (err, subj)=>{
+              	if(err) console.log(err)
+              	if(subj){
+              		var students_ids = students.map((student)=>{
+              			return student.student_id
+              		})
+		             	var noteData = {
+		              	type:'info',
+		              	date:fields.deadline,
+		              	from:subj.subject_name,
+		              	text:"У Вас новое домашнее задание! Просим выполнить его до " + dateFormat(fields.deadline),
+		              	student:students_ids
+		              }
+		              var newNote = new Notifications(noteData)
+		              newNote.save((err, savedNote)=>{
+		              	if(err) console.log(err)
+		              })
+              	}
               })
-            }
-            })
-
+		            const newHomework = new Homework(homeworkData);
+		            newHomework.save((err, savedhomework) => {
+		            if (err) console.log(err);
+		            else {
+		              res.send({
+		                mеssage: 'Домашнее задание отправлено'
+		              })
+		            }
+	            })
 						}
 					})
 				})
@@ -929,6 +1009,31 @@ router.post('/addhomework', (req, res) => {
       answer: students,
       group_id: req.body.group_id
     }
+    var dateFormat = function(date){
+			          var fDate = new Date(date);
+			          var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+			          var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+			          return m + "." + d + "." + fDate.getFullYear()
+			        }
+    Subject.findOne({_id:req.body.subject_id}, (err, subj)=>{
+              	if(err) console.log(err)
+              	if(subj){
+              		var students_ids = students.map((student)=>{
+              			return student.student_id
+              		})
+		             	var noteData = {
+		              	type:'info',
+		              	date:req.body.deadline,
+		              	from:subj.subject_name,
+		              	text:"У Вас новое домашнее задание! Просим выполнить его до " + dateFormat(req.body.deadline),
+		              	student:students_ids
+		              }
+		              var newNote = new Notifications(noteData)
+		              newNote.save((err, savedNote)=>{
+		              	if(err) console.log(err)
+		              })
+              	}
+              })
     const newHomework = new Homework(homeworkData);
                 newHomework.save((err, savedhomework) => {
                   if (err) console.log(err);

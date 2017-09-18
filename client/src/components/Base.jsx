@@ -496,21 +496,50 @@ class Base extends React.Component {
 
   }
   getNotification(){
-    var decoded = jwtDecode(Auth.getToken())
-    var formData=`user=${decoded.sub}`
-    axios.post('/api/getnotifications', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(res => {
-        var dateFormat = function(date){
-          var fDate = new Date(date);
-          var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
-          var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
-          return m + "." + d + "." + fDate.getFullYear()
+    if(Auth.isUserAuthenticated() && (this.state.status == "admin") || Auth.isUserAuthenticated() && (this.state.status == "teacher")){
+      var decoded = jwtDecode(Auth.getToken())
+      var formData=`user=${decoded.sub}`
+      axios.post('/api/getnotifications', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
         }
+      })
+        .then(res => {
+          var dateFormat = function(date){
+            var fDate = new Date(date);
+            var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+            var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+            return m + "." + d + "." + fDate.getFullYear()
+          }
+          this.setState({
+            notifications: res.data.notifications.map(function(note){
+              return {
+                headline:dateFormat(note.date),
+                id:note._id,
+                type:note.type,
+                message: note.text
+              }
+            }),
+            notes:res.data.notifications
+          })
+        })
+    } else if(Auth.isUserAuthenticated() && (this.state.status == "student")){
+      var decoded = jwtDecode(Auth.getToken())
+      var studData = `user=${decoded.sub}`
+      axios.post('/api/getnotesforstudents', studData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .then(res =>{
+        var dateFormat = function(date){
+              var fDate = new Date(date);
+              var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
+              var d = ((fDate.getDate() * 1) < 10) ? ("0" + (fDate.getDate() * 1)) : (fDate.getDate() * 1);
+              return m + "." + d + "." + fDate.getFullYear()
+            }
         this.setState({
           notifications: res.data.notifications.map(function(note){
             return {
@@ -523,20 +552,19 @@ class Base extends React.Component {
           notes:res.data.notifications
         })
       })
+    }
   }
+
   onAlertDismissed(alert) {
     const alerts = this.state.notifications;
-
-    // find the index of the alert that was dismissed
     const idx = alerts.indexOf(alert);
-
     if (idx >= 0) {
       this.setState({
-        // remove the alert from the array
         notifications: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)]
       });
     }
   }
+
   readNotes(){
     var decoded = jwtDecode(Auth.getToken())
     var note_ids=[]
@@ -555,19 +583,35 @@ class Base extends React.Component {
     })
   }
   getAllNotes(){
-    var decoded = jwtDecode(Auth.getToken())
-    var formData=`user=${decoded.sub}`
-    axios.post('/api/getallnotes', formData, {
-      responseType: 'json',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(res =>{
-        this.setState({
-          allnotes:res.data.notifications
-        })
+    if(Auth.isUserAuthenticated() && (this.state.status == "admin")){
+      var decoded = jwtDecode(Auth.getToken())
+      var formData=`user=${decoded.sub}`
+      axios.post('/api/getallnotes', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
       })
+        .then(res =>{
+          this.setState({
+            allnotes:res.data.notifications
+          })
+        })
+    } else if(Auth.isUserAuthenticated() && (this.state.status == "student")){
+      var decoded = jwtDecode(Auth.getToken())
+      var formData=`user=${decoded.sub}`
+      axios.post('/api/getallnotesforstudent', formData, {
+        responseType: 'json',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res =>{
+          this.setState({
+            allnotes:res.data.notifications
+          })
+        })
+    }
   }
   toggleModal(){
     this.setState({
@@ -588,7 +632,7 @@ class Base extends React.Component {
   toggleModalAllClose() {
     this.setState({
       isOpen1: !this.state.isOpen1
-    });
+    })
   }
   render() {
       return (
@@ -745,9 +789,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                    <li><Link to="#" className="waves-effect" name="other" onClick={this.changeHide}>
-                      <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i><span id="other" onClick={this.changeHide} className="hide-menu">Другое</span>
-                      <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>Другое
+                      <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkOther}>
                         <li><Link to="/notifications" className="waves-effect" style={{paddingLeft: '45px'}}>Уведомления</Link></li>
@@ -813,7 +857,7 @@ class Base extends React.Component {
                           <ul className="nav" hidden={!this.state.checkMark}>
                             <li><Link to="/addmark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Оценки</Link></li>
                             <li><Link to="/marks" className="waves-effect" style={{paddingLeft: "45px"}} >Просмотр Оценок</Link></li>
-
+                            
                             <li><Link to="/teacher_set_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Итоговую Ведомость</Link></li>
                             <li><Link to="/teacher_get_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Просмотреть Итоговую Ведомость</Link></li>
                           </ul>

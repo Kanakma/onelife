@@ -56,7 +56,7 @@ class LoginPage extends React.Component {
         });
         Auth.authenticateUser(res.data.token);
         this.context.router.history.push('/')
-
+        window.location.reload()
         //<Redirect to="/app"/>
       //  browserHistory.push('/app')
     })
