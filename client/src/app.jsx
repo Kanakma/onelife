@@ -65,6 +65,7 @@ import AdminCandidate from './components/AdminCandidate.jsx';
 import AdminNotifications from './components/AdminNotifications.jsx';
 import Auth from './modules/Auth';
 import TeacherCheckHomeworks from './components/TeacherCheckHomeworks.jsx';
+import AdminFAQ from './components/AdminFAQ.jsx';
 
 ReactDom.render((
   <BrowserRouter>
@@ -133,6 +134,7 @@ ReactDom.render((
       <Route path="/student_get_final_mark" component={StudentGetFinalMark}/>
       <Route path="/parent_get_final_mark" component={ParentGetFinalMark}/>
       <Route path="/notifications" component={AdminNotifications}/>
+      <Route path="/adminfaq" component={AdminFAQ}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>
     </div>
   </BrowserRouter>
