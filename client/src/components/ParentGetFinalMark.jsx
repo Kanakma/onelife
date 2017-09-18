@@ -30,7 +30,7 @@ class TeacherAddAttendance extends React.Component {
       fm: [],
       final_gpa:''
     };
-  
+
   }
 
   componentDidMount() {
@@ -61,7 +61,7 @@ class TeacherAddAttendance extends React.Component {
 
   }
 
- 
+
 
 
 
@@ -79,38 +79,38 @@ class TeacherAddAttendance extends React.Component {
       <div className="my-content  ">
 
       <div className="table-responsive">
-           
- 
+
+
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
-                     
-                      <th>Предмет</th>
-                      <th>РК1</th>
-                      <th>РК2</th>
-                      <th>Сессия</th>
-                      <th>Итог</th>
-                      
+
+                      <th className="table-b-left">Предмет</th>
+                      <th className="table-b-left">РК1</th>
+                      <th className="table-b-left">РК2</th>
+                      <th className="table-b-left">Сессия</th>
+                      <th className="table-b-left">Итог</th>
+
                   </tr>
               </thead>
                 <tbody>
               {this.state.fm.map((sub, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{sub.subject_name.subject_name} </td>
-                    <td>{sub.final_mark.rk1}</td>
-                    <td>{sub.final_mark.rk2}</td>
-                    <td>{sub.final_mark.final_m}</td>
-                    <td>{sub.stud_final_mark.stud_final}</td>
-                    
-             
-                    
+                    <td className="table-b-left">{sub.subject_name.subject_name} </td>
+                    <td className="table-b-left">{sub.final_mark.rk1}</td>
+                    <td className="table-b-left">{sub.final_mark.rk2}</td>
+                    <td className="table-b-left">{sub.final_mark.final_m}</td>
+                    <td className="table-b-left">{sub.stud_final_mark.stud_final}</td>
+
+
+
                 </tr>
               )}
               </tbody>
-                       
+
           </table>
          <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
       </div>

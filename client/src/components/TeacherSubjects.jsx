@@ -163,16 +163,16 @@ class TeacherSubjects extends React.Component {
               <thead>
                   <tr>
                       <th>№</th>
-                      <th>Название</th>
-                      <th>Специальность</th>
-                      <th>Преподаватель</th>
-                      <th>Курс</th>
-                      <th><center>Осталось мест</center></th>
-                      <th>Информация</th>
+                      <th className="table-b-left">Название</th>
+                      <th className="table-b-left">Специальность</th>
+                      <th className="table-b-left">Преподаватель</th>
+                      <th className="table-b-left">Курс</th>
+                      <th className="table-b-left"><center>Осталось мест</center></th>
+                      <th className="table-b-left">Информация</th>
                       {(this.state.status == "admin") ?(
-                        <th>Опции</th>
+                        <th className="table-b-left">Опции</th>
                       ):(
-                        <th></th>
+                        <th className="table-b-left"></th>
                       )}
                   </tr>
               </thead>
@@ -182,24 +182,24 @@ class TeacherSubjects extends React.Component {
                   this.state.subjects.map((subject, s) =>
                     <tr key={s}>
                         <td>{s+1}</td>
-                        <td>{subject.subject_name}</td>
-                        <td>{subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</td>
-                        <td><center>{subject.course_number}</center></td>
-                        <td><center>{subject.max_students}</center></td>
-                        <td>
+                        <td className="table-b-left">{subject.subject_name}</td>
+                        <td className="table-b-left">{subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</td>
+                        <td className="table-b-left"><center>{subject.course_number}</center></td>
+                        <td className="table-b-left"><center>{subject.max_students}</center></td>
+                        <td className="table-b-left">
 
                           <button id={subject._id} onClick={this.openSubject} className="btn btn-success btn-rounded waves-effect waves-light" style={{color: 'white'}}>Подробнее</button>
 
 
                         </td>
                         {(this.state.status == "admin") ?(
-                          <td className="text-center ">
+                          <td className="text-center table-b-left">
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
                             <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                           </button>
                           </td>
                         ):(
-                          <td></td>
+                          <td className="table-b-left"></td>
                         )}
                     </tr>
                   )

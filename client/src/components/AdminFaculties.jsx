@@ -16,10 +16,12 @@ class AdminFaculties extends React.Component {
           }
         },
         faculty:{},
-        isOpen:false
+        isOpen:false,
+        allfaculties: []
       };
       this.toggleModal = this.toggleModal.bind(this);
       this.toggleModalClose = this.toggleModalClose.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
@@ -32,6 +34,7 @@ class AdminFaculties extends React.Component {
         .then(res => {
           this.setState({
             faculties: res.data.faculties,
+            allfaculties: res.data.faculties,
             faculty_dean: res.data.faculties.faculty_dean
           });
         });
@@ -49,30 +52,46 @@ class AdminFaculties extends React.Component {
           isOpen: !this.state.isOpen
         });
     }
-
+    handleSearch(event){
+      var searchQuery = event.target.value.toLowerCase();
+      if(searchQuery){
+        var faculties = this.state.allfaculties.filter(function(el){
+          var searchValue = el.faculty_name.toLowerCase();
+          return searchValue.indexOf(searchQuery)!== -1;
+        });
+        this.setState({
+          faculties: faculties
+        });
+      } else {
+        this.setState({
+          faculties: this.state.allfaculties
+        });
+      }
+    }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все факультеты</h4>
+      <div className="bg-title" style={{display: 'flex'}}>
+        <h4 style={{width: '70%'}}>Все факультеты</h4>
+        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content" >
         <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Код факультета</th>
-                    <th>Название факультета</th>
-                    <th>Декан</th>
-                    <th>Телефон</th>
-                    <th>E-mail</th>
-                    <th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text table-b-left">Код факультета</th>
+                    <th className="table-head-text table-b-left">Название факультета</th>
+                    <th className="table-head-text table-b-left">Декан</th>
+                    <th className="table-head-text table-b-left">Телефон</th>
+                    <th className="table-head-text table-b-left">E-mail</th>
+                    <th className="table-head-text table-b-left">
                         <center>
                             Кафедры
                         </center>
                     </th>
-                    <th>
+                    <th className="table-head-text table-b-left">
                         <center>Опции</center>
                     </th>
                 </tr>
@@ -83,25 +102,25 @@ class AdminFaculties extends React.Component {
                     <tbody key={f}>
                       <tr>
                         <td>{f+1}</td>
-                        <td>{faculty.faculty_code}</td>
-                        <td>{faculty.faculty_name}</td>
+                        <td className="table-b-left">{faculty.faculty_code}</td>
+                        <td className="table-b-left">{faculty.faculty_name}</td>
                         {
                           faculty.faculty_dean ? (
-                            <td>{faculty.faculty_dean.user_id.name} {faculty.faculty_dean.user_id.lastname}</td>
+                            <td className="table-b-left">{faculty.faculty_dean.user_id.name} {faculty.faculty_dean.user_id.lastname}</td>
                           ):(
-                            <td>Декан не назначен!</td>
+                            <td className="table-b-left">Декан не назначен!</td>
                           )
                         }
-                        <td>{faculty.faculty_phone}</td>
-                        <td>{faculty.faculty_email}</td>
-                        <td>
+                        <td className="table-b-left">{faculty.faculty_phone}</td>
+                        <td className="table-b-left">{faculty.faculty_email}</td>
+                        <td className="table-b-left">
                             <center>
                               {faculty.departments.map((department, d)=>
                                 <p key={d}>{department.department_name}</p>
                               )}
                             </center>
                         </td>
-                        <td style={{padding: '10px 20px'}}>
+                        <td className="table-b-left" style={{padding: '10px 20px'}}>
                           <button onClick={this.toggleModal.bind(this, faculty)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                               <i className="fa fa-pencil"></i>
                           </button>

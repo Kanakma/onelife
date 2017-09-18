@@ -49,22 +49,22 @@ class AdminDepartments extends React.Component {
       </div>
       <div className="my-content" >
         <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-            <table id="myTable" className="table table-striped">
+            <table id="myTable" className="table table-striped functional-table">
                 <thead>
                     <tr>
-                        <th>№</th>
-                        <th>Код кафедры</th>
-                        <th>Факультет</th>
-                        <th>Наименование кафедры</th>
-                        <th>Зав. кафедры</th>
-                        <th>Телефон</th>
-                        <th>E-mail</th>
-                        <th className="hidden-ipad">
+                        <th className="table-head-text table-b-left">№</th>
+                        <th className="table-head-text table-b-left">Код кафедры</th>
+                        <th className="table-head-text table-b-left">Факультет</th>
+                        <th className="table-head-text table-b-left">Наименование кафедры</th>
+                        <th className="table-head-text table-b-left">Зав. кафедры</th>
+                        <th className="table-head-text table-b-left">Телефон</th>
+                        <th className="table-head-text table-b-left">E-mail</th>
+                        <th className="hidden-ipad table-head-text table-b-left">
                             <center>
                                 Специальности
                             </center>
                         </th>
-                        <th>
+                        <th className="table-head-text table-b-left">
                             <center>Опции</center>
                         </th>
                     </tr>
@@ -76,20 +76,20 @@ class AdminDepartments extends React.Component {
                       <tbody key={d}>
                         <tr>
                           <td>{d+1}</td>
-                          <td>{department.department_code}</td>
-                          <td>{department.department_faculty.faculty_name}</td>
-                          <td>{department.department_name}</td>
-                          <td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
-                          <td>{department.department_phone}</td>
-                          <td>{department.department_email}</td>
-                          <td className="hidden-ipad">
+                          <td className="table-b-left">{department.department_code}</td>
+                          <td className="table-b-left">{department.department_faculty.faculty_name}</td>
+                          <td className="table-b-left">{department.department_name}</td>
+                          <td className="table-b-left">{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
+                          <td className="table-b-left">{department.department_phone}</td>
+                          <td className="table-b-left">{department.department_email}</td>
+                          <td className="hidden-ipad table-b-left">
                               <center>
                                   {department.majors.map((major, m)=>
                                     <p key= {m}>{major.major_name}</p>
                                   )}
                               </center>
                           </td>
-                          <td style={{padding: '10px 20px'}}>
+                          <td style={{padding: '10px 20px'}} className="table-b-left">
                               <button onClick={this.toggleModal.bind(this, department)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                   <i className="fa fa-pencil"></i>
                               </button>

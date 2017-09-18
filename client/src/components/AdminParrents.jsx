@@ -32,11 +32,13 @@ class AdminParrents extends React.Component {
       parrent:{},
       isOpen:false,
       status: '',
-      checkFilter: false
+      checkFilter: false,
+      allparents: []
     };
     this.changeFilter = this.changeFilter.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
 
   }
   componentDidMount() {
@@ -48,7 +50,8 @@ class AdminParrents extends React.Component {
     })
       .then(res => {
         this.setState({
-          parrents: res.data.parrents
+          parrents: res.data.parrents,
+          allparents: res.data.parrents
         });
       });
   }
@@ -88,29 +91,41 @@ class AdminParrents extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
-
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var parents = this.state.allparents.filter(function(el){
+      var searchValue = el.user_id.name.toLowerCase()+ ' ' + el.user_id.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      parrents: parents
+    });
+  }else {
+    this.setState({
+      parrents: this.state.allparents
+    });
+  }
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все родители</h4>
-          </div>
-        </div>
+      <div className="bg-title" style={{display: 'flex'}}>
+            <h4 style={{width: '70%'}}>Все родители</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-ipad visible-max visible-middle">
-            <table id="myTable" className="table table-striped">
+            <table id="myTable" className="table table-striped functional-table">
                 <thead>
                     <tr>
-                        <th>№</th>
-                        <th>ФИО</th>
-                        <th>Студент(ы)</th>
-                        <th>Телефон</th>
-                        <th>E-mail</th>
-                        <th>Адресс</th>
-                          <th><center>Опиции</center></th>
+                        <th className="table-head-text">№</th>
+                        <th className="table-head-text table-b-left">ФИО</th>
+                        <th className="table-head-text table-b-left">Студент(ы)</th>
+                        <th className="table-head-text table-b-left">Телефон</th>
+                        <th className="table-head-text table-b-left">E-mail</th>
+                        <th className="table-head-text table-b-left">Адрес</th>
+                          <th className="table-head-text table-b-left"><center>Опиции</center></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,14 +135,14 @@ class AdminParrents extends React.Component {
                       return(
                       <tr key={t}>
                           <td>{t+1}</td>
-                          <td>{parrent.user_id.name} {parrent.user_id.lastname}</td>
-                          <td>{parrent.childs.map((student, s)=>
+                          <td className="table-b-left">{parrent.user_id.name} {parrent.user_id.lastname}</td>
+                          <td className="table-b-left">{parrent.childs.map((student, s)=>
                             <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
                           )}</td>
-                          <td>{parrent.phone}</td>
-                          <td>{parrent.email}</td>
-                          <td>{parrent.address}</td>
-                            <td className="text-center ">
+                          <td className="table-b-left">{parrent.phone}</td>
+                          <td className="table-b-left">{parrent.email}</td>
+                          <td className="table-b-left">{parrent.address}</td>
+                            <td className="text-center table-b-left">
                               <button onClick={this.toggleModal.bind(this, parrent)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
                                 <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                               </button>

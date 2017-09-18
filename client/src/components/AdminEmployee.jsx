@@ -15,10 +15,12 @@ class AdminEmployee extends React.Component {
     this.state = {
       employees: [],
       isOpen:false,
-      employee:{}
+      employee:{},
+      allemployees: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getemployees',  {
@@ -29,7 +31,8 @@ class AdminEmployee extends React.Component {
     })
       .then(res => {
         this.setState({
-          employees:res.data.employees
+          employees:res.data.employees,
+          allemployees: res.data.employees
         })
       })
   }
@@ -44,29 +47,43 @@ class AdminEmployee extends React.Component {
         isOpen: !this.state.isOpen
       })
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var employees = this.state.allemployees.filter(function(el){
+      var searchValue = el.name.toLowerCase() + ' ' +el.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      employees: employees
+    });
+  } else {
+    this.setState({
+      employees: this.state.allemployees
+    });
+  }
+
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все сотрудники</h4>
-          </div>
-        </div>
+      <div className="bg-title"  style={{display: 'flex'}} >
+            <h4  style={{width: '70%'}}>Все сотрудники</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                    <th>№</th>
-                    <th>ФИО</th>
-                    <th>Пол</th>
-                    <th>Адрес прописки</th>
-                    <th>Адрес проживания</th>
-                    <th>№ телефона</th>
-                    <th>Почта</th>
-                    <th>Подробнее</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text table-b-left">ФИО</th>
+                    <th className="table-head-text table-b-left">Пол</th>
+                    <th className="table-head-text table-b-left">Адрес прописки</th>
+                    <th className="table-head-text table-b-left">Адрес проживания</th>
+                    <th className="table-head-text table-b-left">№ телефона</th>
+                    <th className="table-head-text table-b-left">Почта</th>
+                    <th className="table-head-text table-b-left">Подробнее</th>
                   </tr>
               </thead>
               {
@@ -75,13 +92,13 @@ class AdminEmployee extends React.Component {
                       <tbody key={g}>
                         <tr>
                           <td>{g+1}</td>
-                          <td>{employee.lastname} {employee.name}</td>
-                          <td>{employee.gender}</td>
-                          <td>{employee.address_de_jure}</td>
-                          <td>{employee.address_de_facto}</td>
-                          <td>{employee.phone}</td>
-                          <td>{employee.email}</td>
-                          <td>
+                          <td className="table-b-left">{employee.lastname} {employee.name}</td>
+                          <td className="table-b-left">{employee.gender}</td>
+                          <td className="table-b-left">{employee.address_de_jure}</td>
+                          <td className="table-b-left">{employee.address_de_facto}</td>
+                          <td className="table-b-left">{employee.phone}</td>
+                          <td className="table-b-left">{employee.email}</td>
+                          <td className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, employee)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>
                             </button>

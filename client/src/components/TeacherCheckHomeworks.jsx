@@ -13,8 +13,13 @@ class TeacherCheckHomeworks extends React.Component{
       homework: {},
       answer: [],
       students_name: [],
-      students_lastname: []
-    }
+      students_lastname: [],
+      marksforhomework: [],
+      message: '',
+      userId: ''
+    },
+    this.sendMark = this.sendMark.bind(this);
+    this.addMark = this.addMark.bind(this);
 
   }
   componentDidMount() {
@@ -64,6 +69,41 @@ class TeacherCheckHomeworks extends React.Component{
         });
     }
   }
+  sendMark(event){
+    const formData = `homework_id=${this.state.homework_id}&marks=${JSON.stringify(this.state.marksforhomework)}&userId=${this.state.userId}`;
+    axios.post('/api/addmarksforhomework', formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+    .then(res => {
+      this.setState({
+        message: res.data.message
+      });
+    });
+  }
+  addMark(event){
+    var marks = this.state.marksforhomework;
+    var temp;
+    var found = false;
+    marks.forEach(function(item, index){
+      if( item.id && item.id.toString() === event.target.id.toString()){
+        temp = item;
+        item.mark=event.target.value;
+          found = true;
+      }
+    })
+    if(!found){
+      marks.push({
+        id: event.target.id,
+        mark: event.target.value
+      })
+    }
+    this.setState({
+      marksforhomework: marks
+    })
+  }
 
   render() {
     return (
@@ -82,54 +122,62 @@ class TeacherCheckHomeworks extends React.Component{
           {
             this.state.answer.length?
           (
-          <table id="myTable" className="table table-striped">
+          <div >
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Студент</th>
-                    <th>Файл</th>
-                    <th>Сообщение</th>
-                    <th>Статус</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text table-b-left">Студент</th>
+                    <th className="table-head-text table-b-left">Файл</th>
+                    <th className="table-head-text table-b-left">Сообщение</th>
+                    <th className="table-head-text table-b-left">Статус</th>
+                    <th className = "table-head-text table-b-left">Оценка</th>
                 </tr>
             </thead>
             <tbody>
             {this.state.answer.map((ans, a) =>
                 <tr key={a}>
                 <td>{a+1}</td>
-                <td>{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
+                <td className="table-b-left">{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
                 {ans.answer_file?(
-                  <td><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
+                  <td className="table-b-left"><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
                 ):(
-                  <td>Нет файлов</td>
+                  <td className="table-b-left">Нет файлов</td>
                 )
               }
               {ans.answer_message?(
-                <td>{ans.answer_message}</td>
+                <td className="table-b-left">{ans.answer_message}</td>
               ):(
-                <td>Нет сообщений</td>
+                <td className="table-b-left">Нет сообщений</td>
               )}
-              <td> {ans.status?(
+              <td className="table-b-left"> {ans.status?(
                 <p>Выполнено</p>
               ):(
                 <p style={{color: 'red'}}>Не выполнено</p>
               )}</td>
+              <td className="table-b-left">{ans.checked?(<p style={{color: 'green'}}>Оценка выставлена</p>):(<input type="number" className="form-control"  min="0"  id={ans._id} onChange={this.addMark} placeholder="Выставите оценку" />)}</td>
               </tr>
             )}
             </tbody>
-          </table>) :(
-          <table id="myTable" className="table table-striped">
+          </table>
+          <button type="submit" className="btn pull-right btn-success"  onClick={this.sendMark} >Выставить оценки</button>
+          <div>{this.state.message?(<p style={{color: 'green'}}>{this.state.message}</p>):(<p></p>)}</div>
+        </div>) :(
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                  <th>№</th>
-                  <th>Начало</th>
-                  <th>Файл</th>
-                  <th>Ответы</th>
-                  <th>Статус</th>
+                  <th className="table-head-text">№</th>
+                  <th className="table-head-text">Начало</th>
+                  <th className="table-head-text">Файл</th>
+                  <th className="table-head-text">Ответы</th>
+                  <th className="table-head-text">Статус</th>
+                  <th className="table-head-text">Оценка</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                 <td>Ничего не найдено</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

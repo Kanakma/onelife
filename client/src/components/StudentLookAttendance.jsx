@@ -38,11 +38,11 @@ class TeacherAddAttendance extends React.Component {
       attendance: [],
       onestudent: {}
     };
-  
+
     this.updateMe = this.updateMe.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
 
- 
+
   }
 
   componentDidMount() {
@@ -66,14 +66,14 @@ class TeacherAddAttendance extends React.Component {
             student: res.data.student,
             onestudent: res.data.onestudent
           });
-          
+
         });
 
 
   }
 }
 
- 
+
 
  dateFormat(date){
     var fDate = new Date(date);
@@ -98,7 +98,7 @@ class TeacherAddAttendance extends React.Component {
             console.log(this.state.onestudent,'asdad')
             const subjectId=event.target.value;
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
-           
+
             axios.post('/api/updatemyattendance', formData, {
                     responseType: 'json',
                     headers: {
@@ -119,23 +119,23 @@ class TeacherAddAttendance extends React.Component {
               })
             }
 
-          
+
 
         }
-         
 
 
-  
+
+
 
 
   render() {
-   
+
 
     return (
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Моя посещаемость</h4>
+        <h4>Посещаемость</h4>
         <h4> Вы принадлежите к группе {this.state.student.group_name}</h4>
       </div>
       <div className="my-content  ">
@@ -144,55 +144,59 @@ class TeacherAddAttendance extends React.Component {
 
           <div className="form-group col-md-6">
 
-           <label>Выберите предмет</label>
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
               <option value=''>предмет не выбран</option>
               {this.state.subject.map((sub, s) =>
                 <option key={s} value={sub._id}>{sub.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
 
- 
-          
+
+
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Статус</th>
-                      <th>Дата</th>
-                      
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">Статус</th>
+                      <th className="table-head-text table-b-left">Дата</th>
+
                   </tr>
               </thead>
                        {
-                this.state.attendance.length !=0 ? 
+                this.state.attendance.length !=0 ?
                 ( <tbody>
               {this.state.attendance.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    <td> {student.stud_attendance}</td>
-                    <td>{this.dateFormat(student.date)}</td>
-           
+                    <td className="table-b-left">{student.student.user_id.username}</td>
+                    <td className="table-b-left">{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                    <td className="table-b-left"> {student.stud_attendance}</td>
+                    <td className="table-b-left">{this.dateFormat(student.date)}</td>
+
                 </tr>
               )}
               </tbody>) :(
               <tbody>
                   <tr>
                   <td>У вас пока нет посещаемости</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>
                 )
               }
-               
 
-                       
+
+
           </table>
-        
+
       </div>
 
 
@@ -208,15 +212,15 @@ class TeacherAddAttendance extends React.Component {
                 <option key={s} value={sub._id}>{sub.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
 
- 
-          
+
+
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
-              
+
                        {
-                this.state.attendance.length !=0 ? 
+                this.state.attendance.length !=0 ?
                 ( <tbody>
               {this.state.attendance.map((student, s) =>
                 <div>
@@ -236,7 +240,7 @@ class TeacherAddAttendance extends React.Component {
                     <tr>
                     <td className="mobile-table">Дата</td><td>{this.dateFormat(student.date)}</td>
                     </tr>
-           
+
                 </div>
               )}
               </tbody>) :(
@@ -247,11 +251,11 @@ class TeacherAddAttendance extends React.Component {
                   </tbody>
                 )
               }
-               
 
-                       
+
+
           </table>
-        
+
       </div>
 
 

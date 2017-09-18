@@ -140,10 +140,10 @@ class TeacherAddAttendance extends React.Component {
       <div className="my-content  ">
 
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-
+          <p className="teacher-pages-title">Все оценки</p>
           <div className="form-group col-md-6">
 
-           <label>Выберите предмет</label>
+           <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
               <option value=''>предмет не выбран</option>
               {this.state.subject.map((sub, s) =>
@@ -155,14 +155,14 @@ class TeacherAddAttendance extends React.Component {
 
 
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Оценка</th>
-                      <th>Дата</th>
+                      <th className="table-head-text ">№</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">Оценка</th>
+                      <th className="table-head-text table-b-left">Дата</th>
 
                   </tr>
               </thead>
@@ -172,11 +172,11 @@ class TeacherAddAttendance extends React.Component {
                 ( <tbody>
               {this.state.mark.map((student, s) =>
                 <tr key={s}>
-                    <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    <td> {student.stud_mark}</td>
-                    <td>{this.dateFormat(student.date)}</td>
+                    <td className="table-b-left">{s+1}</td>
+                    <td className="table-b-left">{student.student.user_id.username}</td>
+                    <td className="table-b-left">{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                    <td className="table-b-left"> {student.stud_mark}</td>
+                    <td className="table-b-left">{this.dateFormat(student.date)}</td>
 
                 </tr>
               )}
@@ -184,6 +184,10 @@ class TeacherAddAttendance extends React.Component {
               <tbody>
                   <tr>
                   <td>У вас пока нет успеваемости</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>
                 )
@@ -213,7 +217,7 @@ class TeacherAddAttendance extends React.Component {
 
 
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+                <table id="myTable" className="table table-striped functional-table">
 
        {
                 this.state.mark.length !=0 ?

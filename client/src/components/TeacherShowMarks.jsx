@@ -206,12 +206,12 @@ updateGroups(event){
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Оценка</th>
-                      <th>Тип Задания</th>
-                      <th>Дата</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">Оценка</th>
+                      <th className="table-head-text table-b-left">Тип Задания</th>
+                      <th className="table-head-text table-b-left">Дата</th>
 
                   </tr>
               </thead>
@@ -219,11 +219,11 @@ updateGroups(event){
               {this.state.attendances.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
-                    <td>{student.stud_mark}</td>
-                    <td>{student.mark_type}</td>
-                    <td>{this.dateFormat(student.date)}</td>
+                    <td  className="table-b-left">{student.student.user_id.username}</td>
+                    <td className="table-b-left">{student.student.user_id.name} {student.student.user_id.lastname}</td>
+                    <td className="table-b-left">{student.stud_mark}</td>
+                    <td className="table-b-left">{student.mark_type}</td>
+                    <td className="table-b-left">{this.dateFormat(student.date)}</td>
                 </tr>
               )}
               </tbody>

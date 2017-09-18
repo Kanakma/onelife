@@ -42,7 +42,6 @@ class TeacherAddMark extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       groups: [],
       group_name:'',
@@ -70,8 +69,6 @@ class TeacherAddMark extends React.Component {
     };
 
     this.updateStudents = this.updateStudents.bind(this);
-
-
     this.updateGroups=this.updateGroups.bind(this);
     this.sendMark = this.sendMark.bind(this);
     this.changeDate=this.changeDate.bind(this);
@@ -124,8 +121,6 @@ class TeacherAddMark extends React.Component {
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
-    console.log(event.target.value,'value')
-    console.log(event.target.id,'comments')
     var temp=this.state.marks;
     var old = IndInObjArr(temp,event.target.id, 'name');
       if(old.length > 0){
@@ -141,13 +136,10 @@ class TeacherAddMark extends React.Component {
         checkAttendance: true
       })
 
-   //console.log(temp,'temp')
-
   }
 
 
   changeMark(event) {
-
     const field = event.target.id;
     const student = this.state.student;
     student[field] = event.target.value;
@@ -312,9 +304,6 @@ class TeacherAddMark extends React.Component {
         <h4>Выставить Успеваемость</h4>
       </div>
       <div className="my-content  ">
-
-
-
       <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
       <div className="form-group col-md-6">
        <label className="teacher-choosed">Предмет</label>
@@ -330,7 +319,7 @@ class TeacherAddMark extends React.Component {
 
            {
           this.state.subject_groups.length!=0 ?
-          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+          (<select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
           <option value=''>Выберите группу</option>
           {this.state.subject_groups.map((group, s) =>
             <option key={s} value={group._id}>{group.group_name}</option>
@@ -361,10 +350,10 @@ class TeacherAddMark extends React.Component {
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Оценка</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">Оценка</th>
 
 
                   </tr>
@@ -375,10 +364,10 @@ class TeacherAddMark extends React.Component {
               {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.user_id.username}</td>
-                    <td >{student.user_id.name} {student.user_id.lastname}</td>
+                    <td className="table-b-left">{student.user_id.username}</td>
+                    <td className="table-b-left">{student.user_id.name} {student.user_id.lastname}</td>
 
-                    <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
+                    <td className="table-b-left"><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
 
 
                 </tr>
@@ -387,6 +376,9 @@ class TeacherAddMark extends React.Component {
                 (<tbody>
                   <tr>
                   <td>Ничего не найдено</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>)
               }
@@ -496,7 +488,7 @@ class TeacherAddMark extends React.Component {
               )
             }
 
-           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить посещаемость</button>
+           <button className="btn pull-right btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.sendMark}>Выставить оценки</button>
            </div>
       </div>
 

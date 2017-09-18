@@ -115,12 +115,13 @@ class StudentAddHomework extends React.Component {
     return (
       <div className="container clearfix">
         <div className="bg-title">
-          <h4>Все домашние задания</h4>
+          <h4>Домашние задания</h4>
         </div>
         <div className="my-content">
           <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle" style={{minHeight: '400px'}}>
+          <p className="teacher-pages-title">Добавление домашнего задания</p>
           <div className="form-group">
-            <label>Выберите предмет</label>
+            <label className="teacher-choosed" style={{padding: '0 15px'}}>Предмет</label>
             <select className="form-control"  onChange={this.chooseSubject} >
               <option >Выберите предмет</option>
                 {this.state.subjects.map((subject, s) =>
@@ -131,23 +132,23 @@ class StudentAddHomework extends React.Component {
           {
             this.state.homeworks.length !=0 ?
           (
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                    <th>№</th>
-                    <th>Начало</th>
-                    <th>Дедлайн</th>
-                    <th>Статус</th>
-                    <th>Выполнить</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text table-b-left">Начало</th>
+                    <th className="table-head-text table-b-left">Дедлайн</th>
+                    <th className="table-head-text table-b-left">Статус</th>
+                    <th className="table-head-text table-b-left">Выполнить</th>
                 </tr>
             </thead>
             <tbody>
               {this.state.homeworks.map((homework, h) =>
                 <tr key={h}>
                     <td>{h+1}</td>
-                    <td>{this.dateFormat(homework.lessonDate)}</td>
-                    <td>{this.dateFormat(homework.deadline)}</td>
-                    <td>{homework.answer.map((ans, a)=>{
+                    <td className="table-b-left">{this.dateFormat(homework.lessonDate)}</td>
+                    <td className="table-b-left">{this.dateFormat(homework.deadline)}</td>
+                    <td className="table-b-left">{homework.answer.map((ans, a)=>{
                       if(ans.student_id.indexOf(this.state.student_id)!=-1){
                         if(ans.status==false)
                         return (<p key={a} style={{color: 'red'}}>Не выполнено</p>)
@@ -161,7 +162,7 @@ class StudentAddHomework extends React.Component {
                     })
                     }
                     </td>
-                    <td><div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
+                    <td className="table-b-left"><div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
                       <button type="submit" onClick={this.toggleModal.bind(this, homework)} className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}}  >Добавить ответ</button>
                     </div></td>
                 </tr>
@@ -169,14 +170,14 @@ class StudentAddHomework extends React.Component {
               )}
             </tbody>
           </table>) :(
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
             <thead>
                 <tr>
-                  <th>№</th>
-                  <th>Начало</th>
-                  <th>Дедлайн</th>
-                  <th>Статус</th>
-                  <th>Выполнить</th>
+                  <th className="table-head-text">№</th>
+                  <th className="table-head-text">Начало</th>
+                  <th className="table-head-text">Дедлайн</th>
+                  <th className="table-head-text">Статус</th>
+                  <th className="table-head-text">Выполнить</th>
                 </tr>
             </thead>
             <tbody>

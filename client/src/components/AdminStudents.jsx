@@ -17,10 +17,12 @@ class AdminStudents extends React.Component {
       students: [],
       isOpen:false,
       student:{},
-      checkFilter: false
+      checkFilter: false,
+      allstudents: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getstudents',  {
@@ -31,7 +33,8 @@ class AdminStudents extends React.Component {
     })
       .then(res => {
         this.setState({
-          students: res.data.students
+          students: res.data.students,
+          allstudents: res.data.students
         });
       });
   }
@@ -46,15 +49,28 @@ class AdminStudents extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var students = this.state.allstudents.filter(function(el){
+      var searchValue = el.user_id.name.toLowerCase() + ' '+ el.user_id.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      students: students
+    });
+  } else {
+    this.setState({
+      students: this.state.allstudents
+    });
+  }
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все студенты</h4>
-          </div>
-        </div>
+      <div className="bg-title"  style={{display: 'flex'}} >
+            <h4 style={{width: '70%'}}>Все студенты</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content">
       <div className="row hidden-max-media visible-middle visible-ipad hidden-mobile" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>

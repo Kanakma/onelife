@@ -19,6 +19,7 @@ class AdminCandidate extends React.Component {
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getcandidates',  {
@@ -29,7 +30,8 @@ class AdminCandidate extends React.Component {
     })
       .then(res => {
         this.setState({
-          candidates:res.data.candidates
+          candidates:res.data.candidates,
+          allcandidates: res.data.candidates
         })
       })
   }
@@ -44,29 +46,43 @@ class AdminCandidate extends React.Component {
         isOpen: !this.state.isOpen
       })
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var candidates = this.state.allcandidates.filter(function(el){
+      var searchValue = el.name.toLowerCase() + ' ' +el.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      candidates: candidates
+    });
+  } else {
+    this.setState({
+      candidates: this.state.allcandidates
+    });
+  }
+
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все абитуриенты</h4>
-          </div>
-        </div>
+      <div className="bg-title"  style={{display: 'flex'}}>
+            <h4 style={{width: '70%'}}>Все абитуриенты</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className="my-content">
         <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                    <th>№</th>
-                    <th>ФИО</th>
-                    <th>Пол</th>
-                    <th>Адрес прописки</th>
-                    <th>Адрес проживания</th>
-                    <th>№ телефона</th>
-                    <th>Почта</th>
-                    <th>Подробнее</th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text table-b-left">ФИО</th>
+                    <th className="table-head-text table-b-left">Пол</th>
+                    <th className="table-head-text table-b-left">Адрес прописки</th>
+                    <th className="table-head-text table-b-left">Адрес проживания</th>
+                    <th className="table-head-text table-b-left">№ телефона</th>
+                    <th className="table-head-text table-b-left">Почта</th>
+                    <th className="table-head-text table-b-left">Подробнее</th>
                   </tr>
               </thead>
               {
@@ -75,13 +91,13 @@ class AdminCandidate extends React.Component {
                       <tbody key={g}>
                         <tr>
                           <td>{g+1}</td>
-                          <td>{candidate.lastname} {candidate.name}</td>
-                          <td>{candidate.gender}</td>
-                          <td>{candidate.address_de_jure}</td>
-                          <td>{candidate.address_de_facto}</td>
-                          <td>{candidate.phone}</td>
-                          <td>{candidate.email}</td>
-                          <td>
+                          <td className="table-b-left">{candidate.lastname} {candidate.name}</td>
+                          <td className="table-b-left">{candidate.gender}</td>
+                          <td className="table-b-left">{candidate.address_de_jure}</td>
+                          <td className="table-b-left">{candidate.address_de_facto}</td>
+                          <td className="table-b-left">{candidate.phone}</td>
+                          <td className="table-b-left">{candidate.email}</td>
+                          <td className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, candidate)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>
                             </button>

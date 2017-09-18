@@ -19,11 +19,13 @@ class AdminTeachers extends React.Component {
       isOpen:false,
       status: '',
       teacherId: '',
-      checkFilter: false
+      checkFilter: false,
+      allteachers: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
     this.openTeacherProfile = this.openTeacherProfile.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   openTeacherProfile(event){
     this.context.router.history.push('/teacherprofile', {teacherId: event.target.id})
@@ -37,7 +39,8 @@ class AdminTeachers extends React.Component {
     })
       .then(res => {
         this.setState({
-          teachers: res.data.allTchrs
+          teachers: res.data.allTchrs,
+          allteachers: res.data.allTchrs
         });
       });
   }
@@ -65,17 +68,29 @@ class AdminTeachers extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
-
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var teachers = this.state.allteachers.filter(function(el){
+      var searchValue = el.name.toLowerCase() + ' ' + el.lastname.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      teachers: teachers
+    });
+  }else {
+    this.setState({
+      teachers: this.state.allteachers
+    });
+  }
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" >
-        <div className="row">
-          <div className="col-md-9">
-            <h4>Все преподаватели</h4>
+          <div className="bg-title"  style={{display: 'flex'}}>
+            <h4 style={{width: '70%'}}>Все преподаватели</h4>
+            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
           </div>
-        </div>
-      </div>
       <div className="my-content" hidden={this.state.checkFilter}>
       <div className="row hidden-max-media visible-middle visible-ipad visible-mobile" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
         {this.state.teachers ? (

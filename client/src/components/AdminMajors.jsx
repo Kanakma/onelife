@@ -12,10 +12,12 @@ class AdminMajors extends React.Component {
     this.state = {
       majors: [],
       isOpen:false,
-      major:{}
+      major:{},
+      allmajors: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getmajors',  {
@@ -26,7 +28,8 @@ class AdminMajors extends React.Component {
     })
       .then(res => {
         this.setState({
-          majors: res.data.majors
+          majors: res.data.majors,
+          allmajors: res.data.majors
         });
       });
   }
@@ -43,30 +46,47 @@ class AdminMajors extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+      var majors = this.state.allmajors.filter(function(el){
+        var searchValue = el.major_name.toLowerCase() + ' ' + el.major_code.toLowerCase();
+        return searchValue.indexOf(searchQuery)!== -1;
+      });
+      this.setState({
+        majors: majors
+      });
+    } else {
+      this.setState({
+        majors: this.state.allmajors
+      });
+    }
 
+  }
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все специальности</h4>
+      <div className="bg-title" style={{display: 'flex'}}>
+        <h4 style={{width: '70%'}}>Все специальности</h4>
+        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className=" my-content" >
       <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>Код специальности</th>
-                      <th>Название специальности</th>
-                      <th>Кафедра</th>
-                      <th>Наименование групп специальностей</th>
-                      <th className="hidden-ipad">Все группы</th>
-                      <th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text table-b-left">Код специальности</th>
+                      <th className="table-head-text table-b-left">Название специальности</th>
+                      <th className="table-head-text table-b-left">Кафедра</th>
+                      <th className="table-head-text table-b-left">Наименование групп специальностей</th>
+                      <th className="hidden-ipad table-head-text table-b-left">Все группы</th>
+                      <th className="table-head-text table-b-left">
                           <center>
                               Кол-во студентов
                           </center>
                       </th>
-                      <th>
+                      <th className="table-head-text table-b-left">
                           <center>Опции</center>
                       </th>
                   </tr>
@@ -76,24 +96,24 @@ class AdminMajors extends React.Component {
                     this.state.majors.map((major, m) =>
                       <tbody key={m}>
                         <tr>
-                          <td>{m+1}</td>
-                          <td>{major.major_code}</td>
-                          <td>{major.major_name}</td>
-                          <td>{major.major_department.department_name}</td>
-                          <td>{major.major_group}</td>
-                          <td className="hidden-ipad">{major.groups.map((group, g) =>
-                            <p key ={g}>{group.group_name}</p>
-                          )}</td>
-                          <td>
-                            <center>
-                                350
-                            </center>
-                          </td>
-                          <td style={{padding: '10px 20px'}}>
-                            <button onClick={this.toggleModal.bind(this, major)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
-                                <i className="fa fa-pencil"></i>
-                            </button>
-                          </td>
+                            <td>{m+1}</td>
+                            <td className="table-b-left">{major.major_code}</td>
+                            <td className="table-b-left">{major.major_name}</td>
+                            <td className="table-b-left">{major.major_department.department_name}</td>
+                            <td className="table-b-left">{major.major_group}</td>
+                            <td className="hidden-ipad table-b-left">{major.groups.map((group, g) =>
+                              <p key ={g}>{group.group_name}</p>
+                            )}</td>
+                            <td className="table-b-left">
+                                <center>
+                                    350
+                                </center>
+                            </td>
+                            <td style={{padding: '10px 20px'}} className="table-b-left">
+                                <button onClick={this.toggleModal.bind(this, major)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                    <i className="fa fa-pencil"></i>
+                                </button>
+                            </td>
                         </tr>
                       </tbody>
                     )

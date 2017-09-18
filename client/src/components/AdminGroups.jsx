@@ -11,10 +11,12 @@ class AdminGroups extends React.Component {
     this.state = {
       isOpen:false,
       groups: [],
-      group: {}
+      group: {},
+      allgroups: []
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalClose = this.toggleModalClose.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getgroups',  {
@@ -25,7 +27,8 @@ class AdminGroups extends React.Component {
     })
       .then(res => {
         this.setState({
-          groups: res.data.groups
+          groups: res.data.groups,
+          allgroups: res.data.groups
         });
       });
   }
@@ -42,30 +45,48 @@ class AdminGroups extends React.Component {
         isOpen: !this.state.isOpen
       });
   }
+  handleSearch(event){
+    var searchQuery = event.target.value.toLowerCase();
+    if(searchQuery){
+    var groups = this.state.allgroups.filter(function(el){
+      var searchValue = el.group_name.toLowerCase() + ' ' + el.major.major_name.toLowerCase() + ' ' + el.major.major_department.department_name.toLowerCase();
+      return searchValue.indexOf(searchQuery)!== -1;
+    });
+    this.setState({
+      groups: groups
+    });
+  } else {
+    this.setState({
+      groups: this.state.allgroups
+    });
+  }
+
+  }
 
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все группы</h4>
+      <div className="bg-title" style={{display: 'flex'}}>
+        <h4 style={{width: '70%'}}>Все группы</h4>
+        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
       </div>
       <div className=" my-content" >
       <div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped">
+          <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                    <th>№</th>
-                    <th>Название группы</th>
-                    <th>Специальность</th>
-                    <th>Кафедра</th>
-                    <th>Курс</th>
-                    <th>Куратор</th>
-                    <th>
+                    <th className="table-head-text">№</th>
+                    <th className="table-head-text table-b-left">Название группы</th>
+                    <th className="table-head-text table-b-left">Специальность</th>
+                    <th className="table-head-text table-b-left">Кафедра</th>
+                    <th className="table-head-text table-b-left">Курс</th>
+                    <th className="table-head-text table-b-left">Куратор</th>
+                    <th className="table-head-text table-b-left">
                       <center>
                           Кол-во студентов
                       </center>
                     </th>
-                    <th>
+                    <th className="table-head-text table-b-left">
                       <center>Опции</center>
                     </th>
                   </tr>
@@ -76,13 +97,13 @@ class AdminGroups extends React.Component {
                       <tbody key={g}>
                         <tr>
                           <td>{g+1}</td>
-                          <td>{group.group_name}</td>
-                          <td>{group.major.major_name}</td>
-                          <td>{group.major.major_department.department_name}</td>
-                          <td style={{textAlign: 'center'}}>{group.course_number}</td>
-                          <td>{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
-                          <td style={{textAlign: 'center'}}>{group.students.length}</td>
-                          <td style={{padding: '10px 20px'}}>
+                          <td className="table-b-left">{group.group_name}</td>
+                          <td className="table-b-left">{group.major.major_name}</td>
+                          <td className="table-b-left">{group.major.major_department.department_name}</td>
+                          <td className="table-b-left" style={{textAlign: 'center'}}>{group.course_number}</td>
+                          <td className="table-b-left">{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
+                          <td style={{textAlign: 'center'}} className="table-b-left">{group.students.length}</td>
+                          <td style={{padding: '10px 20px'}} className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, group)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>
                             </button>
@@ -93,6 +114,7 @@ class AdminGroups extends React.Component {
                 ) : (
                   <tbody>
                       <tr>
+                        <td>---</td>
                         <td>---</td>
                         <td>---</td>
                         <td>---</td>

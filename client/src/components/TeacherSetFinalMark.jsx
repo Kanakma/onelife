@@ -300,11 +300,11 @@ class TeacherAddMark extends React.Component {
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
 
-                      <th>Оценка</th>
+                      <th className="table-head-text table-b-left">Оценка</th>
 
 
                   </tr>
@@ -315,10 +315,10 @@ class TeacherAddMark extends React.Component {
               {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.user_id.username}</td>
-                    <td >{student.user_id.name} {student.user_id.lastname}</td>
+                    <td className="table-b-left">{student.user_id.username}</td>
+                    <td  className="table-b-left">{student.user_id.name} {student.user_id.lastname}</td>
 
-                    <td  ><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
+                    <td   className="table-b-left"><input type="number" className="form-control " id={student._id} value={student.mark} onChange={this.changeMark} min="0" placeholder="Выставите оценку" /></td>
 
 
                 </tr>
@@ -327,6 +327,9 @@ class TeacherAddMark extends React.Component {
                 (<tbody>
                   <tr>
                   <td>Ничего не найдено</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>)
               }

@@ -272,12 +272,12 @@ updateGroups(event){
         <p className="teacher-pages-title">Выставление посещаемости</p>
      <div className="form-group col-md-6">
        <label className="teacher-choosed">Предмет</label>
-          <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
-          <option value=''>предмет не выбран</option>
-          {this.state.subjects.map((subject, s) =>
-            <option key={s} value={subject._id}>{subject.subject_name}</option>
-          )}
-          </select>
+        {<select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+        <option value=''>предмет не выбран</option>
+        {this.state.subjects.map((subject, s) =>
+          <option key={s} value={subject._id}>{subject.subject_name}</option>
+        )}
+        </select>}
      </div>
         <div className="form-group col-md-6">
         <label className="teacher-choosed">Группа</label>
@@ -306,11 +306,11 @@ updateGroups(event){
                 <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
-                      <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Был</th>
-                      <th>Не Был</th>
+                      <th className="table-head-text">№</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">Был</th>
+                      <th className="table-head-text table-b-left">Не Был</th>
                   </tr>
               </thead>
               {
@@ -319,16 +319,20 @@ updateGroups(event){
               {this.state.att_students.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.user_id.username}</td>
-                    <td>{student.user_id.name}  {student.user_id.lastname}</td>
-                    <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
-                    <td><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
+                    <td className="table-b-left">{student.user_id.username}</td>
+                    <td className="table-b-left">{student.user_id.name}  {student.user_id.lastname}</td>
+                    <td className="table-b-left"><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
+                    <td className="table-b-left"><input type="radio" value="был" name={student._id} onClick={this.changeAttendance} /></td>
                 </tr>
               )}
               </tbody>) :(
               <tbody>
                   <tr>
                   <td>Ничего не найдено</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                   </tbody>
                 )

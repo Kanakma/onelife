@@ -722,9 +722,9 @@ class Base extends React.Component {
                       </ul>
                   </li>
                    <li><Link to="#" className="waves-effect" name="other" onClick={this.changeHide}>
-                      <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>Другое
-                      <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
-                      <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i><span id="other" onClick={this.changeHide} className="hide-menu">Другое</span>
+                      <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
+                      <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer hide-menu" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                       </Link>
                       <ul className="nav" hidden={!this.state.checkOther}>
                         <li><Link to="/notifications" className="waves-effect" style={{paddingLeft: '45px'}}>Уведомления</Link></li>
@@ -789,7 +789,7 @@ class Base extends React.Component {
                           <ul className="nav" hidden={!this.state.checkMark}>
                             <li><Link to="/addmark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Оценки</Link></li>
                             <li><Link to="/marks" className="waves-effect" style={{paddingLeft: "45px"}} >Просмотр Оценок</Link></li>
-                            
+
                             <li><Link to="/teacher_set_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Выставить Итоговую Ведомость</Link></li>
                             <li><Link to="/teacher_get_final_mark" className="waves-effect" style={{paddingLeft: "45px"}} >Просмотреть Итоговую Ведомость</Link></li>
                           </ul>
