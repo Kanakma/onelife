@@ -201,27 +201,27 @@ class TeacherHomeworks extends React.Component{
             <thead>
                 <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">Начало</th>
-                    <th className="table-head-text">Дедлайн</th>
-                    <th className="table-head-text">Файл</th>
-                    <th className="table-head-text">Ответы</th>
-                    <th className="table-head-text">Редактировать</th>
+                    <th className="table-head-text table-b-left">Начало</th>
+                    <th className="table-head-text table-b-left">Дедлайн</th>
+                    <th className="table-head-text table-b-left">Файл</th>
+                    <th className="table-head-text table-b-left">Ответы</th>
+                    <th className="table-head-text table-b-left">Редактировать</th>
                 </tr>
             </thead>
             <tbody>
               {this.state.homeworks.map((homework, h) =>
                 <tr key={h}>
                     <td>{h+1}</td>
-                    <td>{this.dateFormat(homework.lessonDate)}</td>
-                    <td>{this.dateFormat(homework.deadline)}</td>
+                    <td className="table-b-left">{this.dateFormat(homework.lessonDate)}</td>
+                    <td className="table-b-left">{this.dateFormat(homework.deadline)}</td>
                     {homework.file?(
-                      <td>{homework.file}</td>
+                      <td className="table-b-left">{homework.file}</td>
                     ):(
-                      <td>Нет файлов</td>
+                      <td className="table-b-left">Нет файлов</td>
                     )
                     }
-                    <td><button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} id={homework._id}  onClick={this.checkAnswers}>Проверить</button></td>
-                    <td> <button onClick={this.toggleModal.bind(this, homework)}  className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                    <td className="table-b-left"><button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} id={homework._id}  onClick={this.checkAnswers}>Проверить</button></td>
+                    <td className="table-b-left"> <button onClick={this.toggleModal.bind(this, homework)}  className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
                           <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
                       </button></td>
                 </tr>

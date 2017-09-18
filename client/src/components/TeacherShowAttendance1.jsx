@@ -212,20 +212,20 @@ updateGroups(event){
               <thead>
                   <tr>
                       <th className="table-head-text">№</th>
-                      <th className="table-head-text">ID</th>
-                      <th className="table-head-text">ФИО</th>
-                      <th className="table-head-text">Статус</th>
-                      <th className="table-head-text">Дата</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">Статус</th>
+                      <th className="table-head-text table-b-left">Дата</th>
                   </tr>
               </thead>
                   <tbody>
               {this.state.attendances.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    <td> {student.stud_attendance}</td>
-                    <td> {this.dateFormat(student.date)}</td>
+                    <td className="table-b-left">{student.student.user_id.username}</td>
+                    <td className="table-b-left">{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                    <td className="table-b-left"> {student.stud_attendance}</td>
+                    <td className="table-b-left"> {this.dateFormat(student.date)}</td>
 
 
                 </tr>

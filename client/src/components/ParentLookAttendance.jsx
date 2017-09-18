@@ -12,14 +12,14 @@ class ParentLookAttendance extends React.Component {
     super(props);
 
     this.state = {
-   
+
       childs : []
 
 
     };
-  
+
     this.updateMe = this.updateMe.bind(this);
- 
+
   }
 
   componentDidMount() {
@@ -41,13 +41,13 @@ class ParentLookAttendance extends React.Component {
           this.setState({
             childs: res.data.childs
           });
-          
+
 
   }
 
 
 )}
-      
+
 
 
 }
@@ -69,7 +69,7 @@ class ParentLookAttendance extends React.Component {
             const  userId =this.state.student.students;
             const subjectId=event.target.value;
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
-           
+
             axios.post('/api/updatemyattendance', formData, {
                     responseType: 'json',
                     headers: {
@@ -90,19 +90,19 @@ class ParentLookAttendance extends React.Component {
               })
             }
 
-          
+
 
         }
-         
 
 
-  
+
+
 
 
   render() {
    console.log(this.state.childs,'childdd')
 
-   //{this.state.child.childs.group_id.group_name} 
+   //{this.state.child.childs.group_id.group_name}
 
     return (
 
@@ -127,33 +127,33 @@ class ParentLookAttendance extends React.Component {
                 <option key={s} value={sub._id}>{sub.subject_name}</option>
               )}
               </select>
-         </div>    
+         </div>
 
- 
-          
+
+
                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
-                      <th>ID</th>
-                      <th>ФИО</th>
-                      <th>Статус</th>
-                      <th>Дата</th>
-                      
+                      <th className="table-b-left">ID</th>
+                      <th className="table-b-left">ФИО</th>
+                      <th className="table-b-left">Статус</th>
+                      <th className="table-b-left">Дата</th>
+
                   </tr>
               </thead>
                        {
-                this.state.attendance.length !=0 ? 
+                this.state.attendance.length !=0 ?
                 ( <tbody>
               {this.state.attendance.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    <td> {student.stud_attendance}</td>
-                    <td>{student.date}</td>
-           
+                    <td className="table-b-left">{student.student.user_id.username}</td>
+                    <td className="table-b-left">{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                    <td className="table-b-left"> {student.stud_attendance}</td>
+                    <td className="table-b-left">{student.date}</td>
+
                 </tr>
               )}
               </tbody>) :(
@@ -164,11 +164,11 @@ class ParentLookAttendance extends React.Component {
                   </tbody>
                 )
               }
-               
 
-                       
+
+
           </table>
-        
+
       </div>
 
       </div>

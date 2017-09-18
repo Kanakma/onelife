@@ -76,17 +76,17 @@ class AdminMajors extends React.Component {
               <thead>
                   <tr>
                       <th className="table-head-text">№</th>
-                      <th className="table-head-text">Код специальности</th>
-                      <th className="table-head-text">Название специальности</th>
-                      <th className="table-head-text">Кафедра</th>
-                      <th className="table-head-text">Наименование групп специальностей</th>
-                      <th className="hidden-ipad table-head-text">Все группы</th>
-                      <th className="table-head-text">
+                      <th className="table-head-text table-b-left">Код специальности</th>
+                      <th className="table-head-text table-b-left">Название специальности</th>
+                      <th className="table-head-text table-b-left">Кафедра</th>
+                      <th className="table-head-text table-b-left">Наименование групп специальностей</th>
+                      <th className="hidden-ipad table-head-text table-b-left">Все группы</th>
+                      <th className="table-head-text table-b-left">
                           <center>
                               Кол-во студентов
                           </center>
                       </th>
-                      <th className="table-head-text">
+                      <th className="table-head-text table-b-left">
                           <center>Опции</center>
                       </th>
                   </tr>
@@ -97,19 +97,19 @@ class AdminMajors extends React.Component {
                       <tbody key={m}>
                         <tr>
                             <td>{m+1}</td>
-                            <td>{major.major_code}</td>
-                            <td>{major.major_name}</td>
-                            <td>{major.major_department.department_name}</td>
-                            <td>{major.major_group}</td>
-                            <td className="hidden-ipad">{major.groups.map((group, g) =>
+                            <td className="table-b-left">{major.major_code}</td>
+                            <td className="table-b-left">{major.major_name}</td>
+                            <td className="table-b-left">{major.major_department.department_name}</td>
+                            <td className="table-b-left">{major.major_group}</td>
+                            <td className="hidden-ipad table-b-left">{major.groups.map((group, g) =>
                               <p key ={g}>{group.group_name}</p>
                             )}</td>
-                            <td>
+                            <td className="table-b-left">
                                 <center>
                                     350
                                 </center>
                             </td>
-                            <td style={{padding: '10px 20px'}}>
+                            <td style={{padding: '10px 20px'}} className="table-b-left">
                                 <button onClick={this.toggleModal.bind(this, major)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                     <i className="fa fa-pencil"></i>
                                 </button>

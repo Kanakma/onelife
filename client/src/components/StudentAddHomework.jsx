@@ -136,19 +136,19 @@ class StudentAddHomework extends React.Component {
             <thead>
                 <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">Начало</th>
-                    <th className="table-head-text">Дедлайн</th>
-                    <th className="table-head-text">Статус</th>
-                    <th className="table-head-text">Выполнить</th>
+                    <th className="table-head-text table-b-left">Начало</th>
+                    <th className="table-head-text table-b-left">Дедлайн</th>
+                    <th className="table-head-text table-b-left">Статус</th>
+                    <th className="table-head-text table-b-left">Выполнить</th>
                 </tr>
             </thead>
             <tbody>
               {this.state.homeworks.map((homework, h) =>
                 <tr key={h}>
                     <td>{h+1}</td>
-                    <td>{this.dateFormat(homework.lessonDate)}</td>
-                    <td>{this.dateFormat(homework.deadline)}</td>
-                    <td>{homework.answer.map((ans, a)=>{
+                    <td className="table-b-left">{this.dateFormat(homework.lessonDate)}</td>
+                    <td className="table-b-left">{this.dateFormat(homework.deadline)}</td>
+                    <td className="table-b-left">{homework.answer.map((ans, a)=>{
                       if(ans.student_id.indexOf(this.state.student_id)!=-1){
                         if(ans.status==false)
                         return (<p key={a} style={{color: 'red'}}>Не выполнено</p>)
@@ -162,7 +162,7 @@ class StudentAddHomework extends React.Component {
                     })
                     }
                     </td>
-                    <td><div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
+                    <td className="table-b-left"><div className="row" style={{textAlign: 'center', marginTop: '20px'}}>
                       <button type="submit" onClick={this.toggleModal.bind(this, homework)} className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}}  >Добавить ответ</button>
                     </div></td>
                 </tr>

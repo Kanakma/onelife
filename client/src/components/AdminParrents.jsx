@@ -120,12 +120,12 @@ class AdminParrents extends React.Component {
                 <thead>
                     <tr>
                         <th className="table-head-text">№</th>
-                        <th className="table-head-text">ФИО</th>
-                        <th className="table-head-text">Студент(ы)</th>
-                        <th className="table-head-text">Телефон</th>
-                        <th className="table-head-text">E-mail</th>
-                        <th className="table-head-text">Адресс</th>
-                          <th className="table-head-text"><center>Опиции</center></th>
+                        <th className="table-head-text table-b-left">ФИО</th>
+                        <th className="table-head-text table-b-left">Студент(ы)</th>
+                        <th className="table-head-text table-b-left">Телефон</th>
+                        <th className="table-head-text table-b-left">E-mail</th>
+                        <th className="table-head-text table-b-left">Адрес</th>
+                          <th className="table-head-text table-b-left"><center>Опиции</center></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,14 +135,14 @@ class AdminParrents extends React.Component {
                       return(
                       <tr key={t}>
                           <td>{t+1}</td>
-                          <td>{parrent.user_id.name} {parrent.user_id.lastname}</td>
-                          <td>{parrent.childs.map((student, s)=>
+                          <td className="table-b-left">{parrent.user_id.name} {parrent.user_id.lastname}</td>
+                          <td className="table-b-left">{parrent.childs.map((student, s)=>
                             <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
                           )}</td>
-                          <td>{parrent.phone}</td>
-                          <td>{parrent.email}</td>
-                          <td>{parrent.address}</td>
-                            <td className="text-center ">
+                          <td className="table-b-left">{parrent.phone}</td>
+                          <td className="table-b-left">{parrent.email}</td>
+                          <td className="table-b-left">{parrent.address}</td>
+                            <td className="text-center table-b-left">
                               <button onClick={this.toggleModal.bind(this, parrent)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none'}} >
                                 <i className="fa fa-pencil" style={{color: '#717171'}}></i>
                               </button>

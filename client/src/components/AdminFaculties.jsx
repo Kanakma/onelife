@@ -81,17 +81,17 @@ class AdminFaculties extends React.Component {
             <thead>
                 <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">Код факультета</th>
-                    <th className="table-head-text">Название факультета</th>
-                    <th className="table-head-text">Декан</th>
-                    <th className="table-head-text">Телефон</th>
-                    <th className="table-head-text">E-mail</th>
-                    <th className="table-head-text">
+                    <th className="table-head-text table-b-left">Код факультета</th>
+                    <th className="table-head-text table-b-left">Название факультета</th>
+                    <th className="table-head-text table-b-left">Декан</th>
+                    <th className="table-head-text table-b-left">Телефон</th>
+                    <th className="table-head-text table-b-left">E-mail</th>
+                    <th className="table-head-text table-b-left">
                         <center>
                             Кафедры
                         </center>
                     </th>
-                    <th className="table-head-text">
+                    <th className="table-head-text table-b-left">
                         <center>Опции</center>
                     </th>
                 </tr>
@@ -102,25 +102,25 @@ class AdminFaculties extends React.Component {
                     <tbody key={f}>
                       <tr>
                         <td>{f+1}</td>
-                        <td>{faculty.faculty_code}</td>
-                        <td>{faculty.faculty_name}</td>
+                        <td className="table-b-left">{faculty.faculty_code}</td>
+                        <td className="table-b-left">{faculty.faculty_name}</td>
                         {
                           faculty.faculty_dean ? (
-                            <td>{faculty.faculty_dean.user_id.name} {faculty.faculty_dean.user_id.lastname}</td>
+                            <td className="table-b-left">{faculty.faculty_dean.user_id.name} {faculty.faculty_dean.user_id.lastname}</td>
                           ):(
-                            <td>Декан не назначен!</td>
+                            <td className="table-b-left">Декан не назначен!</td>
                           )
                         }
-                        <td>{faculty.faculty_phone}</td>
-                        <td>{faculty.faculty_email}</td>
-                        <td>
+                        <td className="table-b-left">{faculty.faculty_phone}</td>
+                        <td className="table-b-left">{faculty.faculty_email}</td>
+                        <td className="table-b-left">
                             <center>
                               {faculty.departments.map((department, d)=>
                                 <p key={d}>{department.department_name}</p>
                               )}
                             </center>
                         </td>
-                        <td style={{padding: '10px 20px'}}>
+                        <td className="table-b-left" style={{padding: '10px 20px'}}>
                           <button onClick={this.toggleModal.bind(this, faculty)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                               <i className="fa fa-pencil"></i>
                           </button>

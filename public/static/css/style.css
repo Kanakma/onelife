@@ -1495,6 +1495,9 @@ ul.hr li {
   height: 35px;
   margin-left: 25px;
 }
+.table-b-left{
+  border-left: 1px solid #e5ecef;
+}
 /*.pie-charts{
   display: flex-root;
   width: 31%;

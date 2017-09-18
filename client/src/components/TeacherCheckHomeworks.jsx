@@ -127,35 +127,35 @@ class TeacherCheckHomeworks extends React.Component{
             <thead>
                 <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">Студент</th>
-                    <th className="table-head-text">Файл</th>
-                    <th className="table-head-text">Сообщение</th>
-                    <th className="table-head-text">Статус</th>
-                    <th className = "table-head-text">Оценка</th>
+                    <th className="table-head-text table-b-left">Студент</th>
+                    <th className="table-head-text table-b-left">Файл</th>
+                    <th className="table-head-text table-b-left">Сообщение</th>
+                    <th className="table-head-text table-b-left">Статус</th>
+                    <th className = "table-head-text table-b-left">Оценка</th>
                 </tr>
             </thead>
             <tbody>
             {this.state.answer.map((ans, a) =>
                 <tr key={a}>
                 <td>{a+1}</td>
-                <td>{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
+                <td className="table-b-left">{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
                 {ans.answer_file?(
-                  <td><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
+                  <td className="table-b-left"><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
                 ):(
-                  <td>Нет файлов</td>
+                  <td className="table-b-left">Нет файлов</td>
                 )
               }
               {ans.answer_message?(
-                <td>{ans.answer_message}</td>
+                <td className="table-b-left">{ans.answer_message}</td>
               ):(
-                <td>Нет сообщений</td>
+                <td className="table-b-left">Нет сообщений</td>
               )}
-              <td> {ans.status?(
+              <td className="table-b-left"> {ans.status?(
                 <p>Выполнено</p>
               ):(
                 <p style={{color: 'red'}}>Не выполнено</p>
               )}</td>
-              <td>{ans.checked?(<p style={{color: 'green'}}>Оценка выставлена</p>):(<input type="number" className="form-control"  min="0"  id={ans._id} onChange={this.addMark} placeholder="Выставите оценку" />)}</td>
+              <td className="table-b-left">{ans.checked?(<p style={{color: 'green'}}>Оценка выставлена</p>):(<input type="number" className="form-control"  min="0"  id={ans._id} onChange={this.addMark} placeholder="Выставите оценку" />)}</td>
               </tr>
             )}
             </tbody>

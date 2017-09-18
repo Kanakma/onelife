@@ -205,12 +205,12 @@ updateGroups(event){
               <thead>
                   <tr>
                       <th className="table-head-text">№</th>
-                      <th className="table-head-text">ID</th>
-                      <th className="table-head-text">ФИО</th>
-                      <th className="table-head-text">РК1</th>
-                      <th className="table-head-text">РК2</th>
-                      <th className="table-head-text">Сессия</th>
-                      <th className="table-head-text">Итог</th>
+                      <th className="table-head-text table-b-left">ID</th>
+                      <th className="table-head-text table-b-left">ФИО</th>
+                      <th className="table-head-text table-b-left">РК1</th>
+                      <th className="table-head-text table-b-left">РК2</th>
+                      <th className="table-head-text table-b-left">Сессия</th>
+                      <th className="table-head-text table-b-left">Итог</th>
 
                   </tr>
               </thead>
@@ -218,13 +218,12 @@ updateGroups(event){
               {this.state.attendances.map((student, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{student.student.user_id.username}</td>
-                    <td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
-
-                    <td>{student.final_mark.rk1}</td>
-                    <td>{student.final_mark.rk2}</td>
-                    <td>{student.final_mark.final_m}</td>
-                    <td>{student.stud_final_mark.stud_final}</td>
+                    <td className="table-b-left">{student.student.user_id.username}</td>
+                    <td className="table-b-left">{student.student.user_id.name} {student.student.user_id.lastname}</td>
+                    <td className="table-b-left">{student.final_mark.rk1}</td>
+                    <td className="table-b-left">{student.final_mark.rk2}</td>
+                    <td className="table-b-left">{student.final_mark.final_m}</td>
+                    <td className="table-b-left">{student.stud_final_mark.stud_final}</td>
 
 
 

@@ -233,18 +233,18 @@ class TeacherAddNewHomework extends React.Component {
                   <thead>
                       <tr>
                           <th className="table-head-text">№</th>
-                          <th className="table-head-text"><input type="checkbox" />Выбрать все</th>
-                          <th className="table-head-text">ID</th>
-                          <th className="table-head-text">ФИО</th>
+                          <th className="table-head-text table-b-left"><input type="checkbox" />Выбрать все</th>
+                          <th className="table-head-text table-b-left">ID</th>
+                          <th className="table-head-text table-b-left">ФИО</th>
                       </tr>
                   </thead>
                   <tbody>
                     {this.state.group_students.map((student, s) =>
                       <tr key={s}>
                           <td>{s+1}</td>
-                          <td><input type="checkbox" value={student._id} onChange={this.addStudentToList}/></td>
-                          <td>{student.user_id.username}</td>
-                          <td>{student.user_id.name}  {student.user_id.lastname}</td>
+                          <td className="table-b-left"><input type="checkbox" value={student._id} onChange={this.addStudentToList}/></td>
+                          <td className="table-b-left">{student.user_id.username}</td>
+                          <td className="table-b-left">{student.user_id.name}  {student.user_id.lastname}</td>
                       </tr>
                     )}
                   </tbody>

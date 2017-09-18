@@ -286,18 +286,18 @@ updateGroups(event){
               <thead>
                   <tr>
                       <th>№</th>
-                      <th>Тип Задания</th>
-                      <th>Его количество за семестр</th>
-                      <th>Максимальная оценка за это задание</th>
+                      <th className="table-b-left">Тип Задания</th>
+                      <th className="table-b-left">Его количество за семестр</th>
+                      <th className="table-b-left">Максимальная оценка за это задание</th>
                   </tr>
               </thead>
                 <tbody>
             { this.state.mark_count.map((marktype,s)=>
               <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{marktype._id}</td>
-                    <td>{marktype.count}</td>
-                    <td> <input type="number" className="form-control "  id={marktype._id} value={marktype.mark} onChange={this.changeMarkValue} min="0" placeholder="Выставите оценку" /></td>
+                    <td className="table-b-left">{marktype._id}</td>
+                    <td className="table-b-left">{marktype.count}</td>
+                    <td className="table-b-left"> <input type="number" className="form-control "  id={marktype._id} value={marktype.mark} onChange={this.changeMarkValue} min="0" placeholder="Выставите оценку" /></td>
 
 </tr>
                     )}

@@ -58,11 +58,11 @@ class AdminAuditory extends React.Component {
           		<thead>
                   <tr>
                       <th className="table-head-text">№</th>
-                      <th className="table-head-text">Наименование аудитории</th>
-                      <th className="table-head-text">Корпус</th>
-                      <th className="table-head-text">Этаж</th>
-                      <th className="table-head-text">Вместимость <em>(мест)</em></th>
-                      <th className="table-head-text">Опции</th>
+                      <th className="table-head-text table-b-left">Наименование аудитории</th>
+                      <th className="table-head-text table-b-left">Корпус</th>
+                      <th className="table-head-text table-b-left">Этаж</th>
+                      <th className="table-head-text table-b-left">Вместимость <em>(мест)</em></th>
+                      <th className="table-head-text table-b-left">Опции</th>
                   </tr>
               </thead>
               <tbody>
@@ -71,11 +71,11 @@ class AdminAuditory extends React.Component {
               			this.state.auditories.map((auditory, index) =>
               				<tr key={index}>
 												<td>{index+1}</td>
-												<td>{auditory.auditory_name}</td>
-												<td>{auditory.auditory_corp}</td>
-												<td>{auditory.auditory_level}</td>
-												<td>{auditory.auditory_places}</td>
-												<td>
+												<td className="table-b-left">{auditory.auditory_name}</td>
+												<td className="table-b-left">{auditory.auditory_corp}</td>
+												<td className="table-b-left">{auditory.auditory_level}</td>
+												<td className="table-b-left">{auditory.auditory_places}</td>
+												<td className="table-b-left">
 	                        <button onClick={this.toggleModal.bind(this, auditory)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
 	                        	<i className="fa fa-pencil"></i>
 	                        </button>

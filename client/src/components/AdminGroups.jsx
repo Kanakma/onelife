@@ -76,17 +76,17 @@ class AdminGroups extends React.Component {
               <thead>
                   <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">Название группы</th>
-                    <th className="table-head-text">Специальность</th>
-                    <th className="table-head-text">Кафедра</th>
-                    <th className="table-head-text">Курс</th>
-                    <th className="table-head-text">Куратор</th>
-                    <th className="table-head-text">
+                    <th className="table-head-text table-b-left">Название группы</th>
+                    <th className="table-head-text table-b-left">Специальность</th>
+                    <th className="table-head-text table-b-left">Кафедра</th>
+                    <th className="table-head-text table-b-left">Курс</th>
+                    <th className="table-head-text table-b-left">Куратор</th>
+                    <th className="table-head-text table-b-left">
                       <center>
                           Кол-во студентов
                       </center>
                     </th>
-                    <th className="table-head-text">
+                    <th className="table-head-text table-b-left">
                       <center>Опции</center>
                     </th>
                   </tr>
@@ -97,13 +97,13 @@ class AdminGroups extends React.Component {
                       <tbody key={g}>
                         <tr>
                           <td>{g+1}</td>
-                          <td>{group.group_name}</td>
-                          <td>{group.major.major_name}</td>
-                          <td>{group.major.major_department.department_name}</td>
-                          <td style={{textAlign: 'center'}}>{group.course_number}</td>
-                          <td>{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
-                          <td style={{textAlign: 'center'}}>{group.students.length}</td>
-                          <td style={{padding: '10px 20px'}}>
+                          <td className="table-b-left">{group.group_name}</td>
+                          <td className="table-b-left">{group.major.major_name}</td>
+                          <td className="table-b-left">{group.major.major_department.department_name}</td>
+                          <td className="table-b-left" style={{textAlign: 'center'}}>{group.course_number}</td>
+                          <td className="table-b-left">{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
+                          <td style={{textAlign: 'center'}} className="table-b-left">{group.students.length}</td>
+                          <td style={{padding: '10px 20px'}} className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, group)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>
                             </button>

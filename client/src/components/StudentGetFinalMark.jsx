@@ -79,11 +79,11 @@ class TeacherAddAttendance extends React.Component {
                   <tr>
                       <th>№</th>
 
-                      <th className="table-head-text">Предмет</th>
-                      <th className="table-head-text">РК1</th>
-                      <th className="table-head-text">РК2</th>
-                      <th className="table-head-text">Сессия</th>
-                      <th className="table-head-text">Итог</th>
+                      <th className="table-head-text ">Предмет</th>
+                      <th className="table-head-text table-b-left">РК1</th>
+                      <th className="table-head-text table-b-left">РК2</th>
+                      <th className="table-head-text table-b-left">Сессия</th>
+                      <th className="table-head-text table-b-left">Итог</th>
 
                   </tr>
               </thead>
@@ -91,11 +91,11 @@ class TeacherAddAttendance extends React.Component {
               {this.state.fm.map((sub, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
-                    <td>{sub.subject_name.subject_name} </td>
-                    <td>{sub.final_mark.rk1}</td>
-                    <td>{sub.final_mark.rk2}</td>
-                    <td>{sub.final_mark.final_m}</td>
-                    <td>{sub.stud_final_mark.stud_final}</td>
+                    <td className="table-b-left">{sub.subject_name.subject_name} </td>
+                    <td className="table-b-left">{sub.final_mark.rk1}</td>
+                    <td className="table-b-left">{sub.final_mark.rk2}</td>
+                    <td className="table-b-left">{sub.final_mark.final_m}</td>
+                    <td className="table-b-left">{sub.stud_final_mark.stud_final}</td>
 
 
 

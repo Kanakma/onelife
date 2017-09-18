@@ -76,13 +76,13 @@ class AdminCandidate extends React.Component {
               <thead>
                   <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">ФИО</th>
-                    <th className="table-head-text">Пол</th>
-                    <th className="table-head-text">Адрес прописки</th>
-                    <th className="table-head-text">Адрес проживания</th>
-                    <th className="table-head-text">№ телефона</th>
-                    <th className="table-head-text">Почта</th>
-                    <th className="table-head-text">Подробнее</th>
+                    <th className="table-head-text table-b-left">ФИО</th>
+                    <th className="table-head-text table-b-left">Пол</th>
+                    <th className="table-head-text table-b-left">Адрес прописки</th>
+                    <th className="table-head-text table-b-left">Адрес проживания</th>
+                    <th className="table-head-text table-b-left">№ телефона</th>
+                    <th className="table-head-text table-b-left">Почта</th>
+                    <th className="table-head-text table-b-left">Подробнее</th>
                   </tr>
               </thead>
               {
@@ -91,13 +91,13 @@ class AdminCandidate extends React.Component {
                       <tbody key={g}>
                         <tr>
                           <td>{g+1}</td>
-                          <td>{candidate.lastname} {candidate.name}</td>
-                          <td>{candidate.gender}</td>
-                          <td>{candidate.address_de_jure}</td>
-                          <td>{candidate.address_de_facto}</td>
-                          <td>{candidate.phone}</td>
-                          <td>{candidate.email}</td>
-                          <td>
+                          <td className="table-b-left">{candidate.lastname} {candidate.name}</td>
+                          <td className="table-b-left">{candidate.gender}</td>
+                          <td className="table-b-left">{candidate.address_de_jure}</td>
+                          <td className="table-b-left">{candidate.address_de_facto}</td>
+                          <td className="table-b-left">{candidate.phone}</td>
+                          <td className="table-b-left">{candidate.email}</td>
+                          <td className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, candidate)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>
                             </button>

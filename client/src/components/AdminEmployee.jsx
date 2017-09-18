@@ -77,13 +77,13 @@ class AdminEmployee extends React.Component {
               <thead>
                   <tr>
                     <th className="table-head-text">№</th>
-                    <th className="table-head-text">ФИО</th>
-                    <th className="table-head-text">Пол</th>
-                    <th className="table-head-text">Адрес прописки</th>
-                    <th className="table-head-text">Адрес проживания</th>
-                    <th className="table-head-text">№ телефона</th>
-                    <th className="table-head-text">Почта</th>
-                    <th className="table-head-text">Подробнее</th>
+                    <th className="table-head-text table-b-left">ФИО</th>
+                    <th className="table-head-text table-b-left">Пол</th>
+                    <th className="table-head-text table-b-left">Адрес прописки</th>
+                    <th className="table-head-text table-b-left">Адрес проживания</th>
+                    <th className="table-head-text table-b-left">№ телефона</th>
+                    <th className="table-head-text table-b-left">Почта</th>
+                    <th className="table-head-text table-b-left">Подробнее</th>
                   </tr>
               </thead>
               {
@@ -92,13 +92,13 @@ class AdminEmployee extends React.Component {
                       <tbody key={g}>
                         <tr>
                           <td>{g+1}</td>
-                          <td>{employee.lastname} {employee.name}</td>
-                          <td>{employee.gender}</td>
-                          <td>{employee.address_de_jure}</td>
-                          <td>{employee.address_de_facto}</td>
-                          <td>{employee.phone}</td>
-                          <td>{employee.email}</td>
-                          <td>
+                          <td className="table-b-left">{employee.lastname} {employee.name}</td>
+                          <td className="table-b-left">{employee.gender}</td>
+                          <td className="table-b-left">{employee.address_de_jure}</td>
+                          <td className="table-b-left">{employee.address_de_facto}</td>
+                          <td className="table-b-left">{employee.phone}</td>
+                          <td className="table-b-left">{employee.email}</td>
+                          <td className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, employee)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
                                 <i className="fa fa-pencil"></i>
                             </button>
