@@ -36,6 +36,7 @@
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.10",
     "react-bootstrap-date-picker": "^5.0.1",
+    "react-bs-notifier": "^4.3.2",
     "react-d3-basic": "^1.6.11",
     "react-dom": "^15.4.1",
     "react-drag-and-drop": "^2.4.0",

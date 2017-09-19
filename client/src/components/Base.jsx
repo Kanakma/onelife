@@ -798,7 +798,7 @@ class Base extends React.Component {
                         <li><Link to="/reports" className="waves-effect" style={{paddingLeft: '45px'}}>Отчеты</Link></li>
                       </ul>
                   </li>
-                  <li><Link to="/adminfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
+                  <li><Link to="/adminfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-question-circle-o fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">FAQ</span></Link></li>
                   <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i><span className="hidden-menu-style hide-menu ">Выход</span></Link></li>
               </ul>
             </div>
@@ -884,7 +884,7 @@ class Base extends React.Component {
                           <li><Link to="/teacheraddhomework" className="waves-effect" style={{paddingLeft: "45px"}} >Добавить задание</Link></li>
                         </ul>
                       </li>
-                      <li><Link to="/adminfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
+                      <li><Link to="/studentfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
                       <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i><span className="hidden-menu-style hide-menu " >Выход</span></Link></li>
                   </ul>
                 </div>
@@ -957,7 +957,7 @@ class Base extends React.Component {
                     <li><Link to="/student_attendance" className="waves-effect"><i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i>
                         <span className="hidden-menu-style hide-menu " >Моя посещаемость</span>
                         </Link></li>
-                    <li><Link to="/adminfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
+                    <li><Link to="/studentfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
                     <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i>
                           <span className="hidden-menu-style hide-menu ">Выход</span></Link></li>
                 </ul>
@@ -1003,7 +1003,7 @@ class Base extends React.Component {
                           </Link></li>
                         <li><Link to="/parent_get_final_mark" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Итоговые Оценки</Link></li>
                         <li><Link to="/parent_attendance" className="waves-effect"><i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i><Link to="parent_attendance" className="hidden-menu-style hide-menu ">Посещаемость</Link></Link></li>
-                        <li><Link to="/adminfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
+                        <li><Link to="/studentfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>FAQ</Link></li>
                         <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i><span className="hidden-menu-style hide-menu ">Выход</span></Link></li>
                       </ul>
                     </div>

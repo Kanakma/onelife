@@ -1,25 +1,15 @@
 import React from 'react';
 import axios from 'axios';
-import Auth from '../modules/Auth';
-import AdminAddFaqModal from './AdminAddFaqModal.jsx'
-import AdminEditFaqModal from './AdminEditFaqModal.jsx'
 
-class AdminFAQ extends React.Component {
+class StudentFaq extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       faqs: [],
-      allfaqs: [],
-      isOpen:false,
-      open: false,
-      faq: {}
+      allfaqs: []
     };
     this.handleSearch = this.handleSearch.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
-    this.toggleModalClose = this.toggleModalClose.bind(this);
-    this.editToggleModal = this.editToggleModal.bind(this);
-    this.editToggleModalClose = this.editToggleModalClose.bind(this);
   }
   componentDidMount() {
     axios.get('/api/getfaqs',  {
@@ -33,29 +23,6 @@ class AdminFAQ extends React.Component {
           faqs: res.data.faqs,
           allfaqs: res.data.faqs
         });
-      });
-  }
-  toggleModal() {
-      this.setState({
-        isOpen: !this.state.isOpen
-    });
-  }
-
-  toggleModalClose() {
-      this.setState({
-        isOpen: !this.state.isOpen
-      });
-  }
-  editToggleModal(faq) {
-      this.setState({
-        open: !this.state.open,
-        faq: faq
-    });
-  }
-
-  editToggleModalClose() {
-      this.setState({
-        open: !open
       });
   }
   handleSearch(event){
@@ -86,11 +53,8 @@ class AdminFAQ extends React.Component {
         {
             this.state.faqs.map((faq, f)=>
               <div key={f}>{
-                
+
               }
-              <button onClick={this.editToggleModal.bind(this, faq)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', float: 'right'}}>
-                  <i className="fa fa-pencil"></i>
-              </button>
                 <h4>{faq.question}</h4>
                 <h5>{faq.answer}  {
                   faq.file?(
@@ -108,22 +72,11 @@ class AdminFAQ extends React.Component {
               </div>
             )
           }
-        <div className="row" style={{textAlign: 'center'}}>
-          <button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.toggleModal}>Добавить</button>
-        </div>
         </div>
       </div>
-      <AdminAddFaqModal
-        show={this.state.isOpen}
-        onClose={this.toggleModalClose}
-      />
-      <AdminEditFaqModal
-        show={this.state.open}
-        onClose={this.editToggleModalClose}
-        faq={this.state.faq}
-      />
+
       </div>);
   }
 }
 
-export default AdminFAQ;
+export default StudentFaq;
