@@ -1498,6 +1498,11 @@ ul.hr li {
 .table-b-left{
   border-left: 1px solid #e5ecef;
 }
+.faq-question{
+  width: 60%;
+  padding: 10px;
+  resize: none;
+}
 /*.pie-charts{
   display: flex-root;
   width: 31%;

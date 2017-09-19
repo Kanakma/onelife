@@ -112,6 +112,7 @@ class StudentAddHomework extends React.Component {
  }
 
   render() {
+    console.log(this.state.subjects)
     return (
       <div className="container clearfix">
         <div className="bg-title">
