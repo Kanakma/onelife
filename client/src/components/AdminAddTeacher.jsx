@@ -31,12 +31,6 @@ class AdminAddTeacher extends React.Component {
         checkpassword:''
       },
       checkAcc:false,
-      social: {
-        facebook: '',
-        twitter: '',
-        instagram: '',
-        google: ''
-      },
       birthday: '',
       entry_year: '',
       faculties: [],
@@ -83,38 +77,38 @@ class AdminAddTeacher extends React.Component {
     axios.post('/api/addteacher', formData, {
       responseType: 'json',
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded'}
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
     })
-      .then(res => {
-        var teacher_id = res.data.teacher._id;
-        return new Promise((resolve, reject) => {
-          let imageFormData = new FormData();
-          imageFormData.append('imageFile', this.state.file);
-          axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
-            responseType: 'json',
-            headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
-            }
-          })
-            .then(response => {
-                this.setState({
-                  message: response.data.message,
-                  errors: {}
-                });
-                this.clearContent();
-            });
-        });
-      })
-        .catch(err => {
-          if (err.response) {
-            const errors = err.response ? err.response : {};
-            errors.summary = err.response.data.message;
-            this.setState({
-              errors
-            });
+    .then(res => {
+      if(this.state.filename.length > 0){
+      var teacher_id = res.data.teacher._id;
+      return new Promise((resolve, reject) => {
+        let imageFormData = new FormData();
+        imageFormData.append('imageFile', this.state.file);
+        axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
+          responseType: 'json',
+          headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
           }
-        });
-  }
+        })
+          .then(response => {
+              this.setState({
+                message: response.data.message,
+                errors: {}
+              })
+              this.clearContent()
+          });
+      })
+    } else{
+      this.setState({
+        message: response.data.message,
+        errors: {}
+      })
+      this.clearContent()
+    }
+  })
+}
   birthdayChange(value){
       this.setState({
         birthday: value
@@ -172,28 +166,29 @@ class AdminAddTeacher extends React.Component {
     }
   }
   checkContent(){
-    if((this.state.teacher.passport_id.length > 0) && (this.state.teacher.name.length > 0) && (this.state.teacher.lastname.length > 0)
-        && (this.state.birthday.length > 0) && (this.state.entry_year.length > 0) && (this.state.filename.length > 0) && (this.state.teacher.gender.length > 0)
-        && (this.state.teacher.degree.length > 0) && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0) && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0) ){
-          if(this.state.account.password === this.state.account.checkpassword){
-            document.getElementById('wrongpass').style.display = "none"
-            this.setState({
-              checkContent: true
-            })
-          }
-          else if(this.state.account.password != this.state.account.checkpassword){
-              document.getElementById('wrongpass').style.display = "block"
-              this.setState({
-                checkContent: false
-              })
-
-          }
-
-        }else {
+    if((this.state.teacher.passport_id.length > 0) && (this.state.teacher.name.length > 0)
+     && (this.state.teacher.lastname.length > 0) && (this.state.birthday.length > 0)
+     && (this.state.entry_year.length > 0) 
+     && (this.state.teacher.gender.length > 0) && (this.state.teacher.degree.length > 0) 
+     && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0) 
+     && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0)){
+      if(this.state.account.password === this.state.account.checkpassword){
+        document.getElementById('wrongpass').style.display = "none"
+        this.setState({
+          checkContent: true
+        })
+      }
+      else if(this.state.account.password != this.state.account.checkpassword){
+          document.getElementById('wrongpass').style.display = "block"
           this.setState({
             checkContent: false
           })
-        }
+      }
+    }else{
+      this.setState({
+        checkContent: false
+      })
+    }
   }
   changeAccount(event){
     const field = event.target.name;

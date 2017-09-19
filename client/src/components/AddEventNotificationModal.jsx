@@ -121,7 +121,7 @@ class AddEventNotificationModal extends React.Component {
                   <option value="info">Для информации</option>
                   <option value="success">Поздравляем!</option>
                   <option value="warning">Внимание!</option>
-                  <option value="error">Срочно!</option>
+                  <option value="danger">Срочно!</option>
                 </select>
                 <span className="bar"></span>
               </div>

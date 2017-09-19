@@ -163,9 +163,11 @@ class AdminMajors extends React.Component {
                             <td className="mobile-table">Наименование групп</td>
                             <td>{major.major_group}</td>
                           </tr>
-                              <td className="hidden-ipad hidden-mobile">{major.groups.map((group, g) =>
-                                <p key ={g}>{group.group_name}</p>
-                              )}</td>
+                          <tr>
+                            <td className="hidden-ipad hidden-mobile">{major.groups.map((group, g) =>
+                              <p key ={g}>{group.group_name}</p>
+                            )}</td>
+                          </tr>
                           <tr>
                             <td className="mobile-table">Кол-во студентов</td>
                             <td>
@@ -177,12 +179,11 @@ class AdminMajors extends React.Component {
                           <tr>
                             <td className="mobile-table">Опции</td>
                               <td style={{padding: '10px 20px'}}>
-                                  <button onClick={this.toggleModal.bind(this, major)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
-                                      <i className="fa fa-pencil"></i>
-                                  </button>
+                                <button onClick={this.toggleModal.bind(this, major)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
+                                    <i className="fa fa-pencil"></i>
+                                </button>
                               </td>
                           </tr>
-                          <br/>
                         </tbody>
                       )
                   ) : (

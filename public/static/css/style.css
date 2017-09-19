@@ -153,6 +153,7 @@ h5 {
 }
 .btn {
  border-radius: 0px;
+ position: inherit!important;
 }
 .btn-login{
  background: #ab8ce4;
@@ -1483,6 +1484,56 @@ ul.hr li {
 }
 .functional-table{
   border: 1px solid #e5ecef;
+}
+.notification-icon{
+  position: relative;
+  height: 60px;
+  width: 50px;
+  padding-top: 5px;
+  float:right;
+  font-size: 2em;
+  color:#9aa6b1;
+  margin-right: 50px;
+  z-index: 1;
+  border: none;
+}
+.notification-icon:active{
+  outline: none;
+  border: none;
+}
+.notification-icon:focus{
+  outline:0;
+}
+.have-notification{
+  position: relative;
+  height: 30px;
+  width: 30px;
+  float:right;
+  margin-top:10px;
+  margin-right: -58px;
+  color: red;
+  border-radius: 100px;
+  z-index: 99;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.have-Allnotification{
+  position: relative;
+  height: 30px;
+  width: 30px;
+  float:right;
+  margin-top:10px;
+  margin-right: -58px;
+  color: white;
+  border-radius: 100px;
+  z-index: 99;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.recharts-wrapper{
+  position: inherit!important;
 }
 .table-head-text{
   color: #666666;
