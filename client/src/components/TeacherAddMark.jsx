@@ -80,7 +80,7 @@ class TeacherAddMark extends React.Component {
   }
   componentDidMount() {
 
-      axios.get('/api/getsubjectteacher', {
+      axios.get('/subject/getsubjectteacher', {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -196,7 +196,7 @@ class TeacherAddMark extends React.Component {
   // if(today===dd){
           const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}&mark_type=${mark_type}`;
 
-   axios.post('/api/addmark', formData, {
+   axios.post('/mark/addmark', formData, {
 
     responseType: 'json',
     headers: {
@@ -240,7 +240,7 @@ class TeacherAddMark extends React.Component {
         message: ''
       })
     }
-    axios.get('/api/getstudentsgroupsforstudents?group_name='+event.target.value, {
+    axios.get('/group/getstudentsgroupsforstudents?group_name='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'
@@ -275,7 +275,7 @@ class TeacherAddMark extends React.Component {
         message: ''
       })
     }
-    axios.get('/api/getgroupsforstudents?subject_id='+event.target.value, {
+    axios.get('/group/getgroupsforstudents?subject_id='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'

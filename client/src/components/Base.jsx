@@ -499,7 +499,7 @@ class Base extends React.Component {
     if(Auth.isUserAuthenticated() && (this.state.status == "admin") || Auth.isUserAuthenticated() && (this.state.status == "teacher")){
       var decoded = jwtDecode(Auth.getToken())
       var formData=`user=${decoded.sub}`
-      axios.post('/api/getnotifications', formData, {
+      axios.post('/notification/getnotifications', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -527,7 +527,7 @@ class Base extends React.Component {
     } else if(Auth.isUserAuthenticated() && (this.state.status == "student")){
       var decoded = jwtDecode(Auth.getToken())
       var studData = `user=${decoded.sub}`
-      axios.post('/api/getnotesforstudents', studData, {
+      axios.post('/notification/getnotesforstudents', studData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -572,7 +572,7 @@ class Base extends React.Component {
       note_ids.push(note._id)
     })
     var formData=`notes=${JSON.stringify(note_ids)}&user=${decoded.sub}`
-    axios.post('/api/readnotes', formData, {
+    axios.post('/notification/readnotes', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -586,7 +586,7 @@ class Base extends React.Component {
     if(Auth.isUserAuthenticated() && (this.state.status == "admin")){
       var decoded = jwtDecode(Auth.getToken())
       var formData=`user=${decoded.sub}`
-      axios.post('/api/getallnotes', formData, {
+      axios.post('/notification/getallnotes', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -600,7 +600,7 @@ class Base extends React.Component {
     } else if(Auth.isUserAuthenticated() && (this.state.status == "student")){
       var decoded = jwtDecode(Auth.getToken())
       var formData=`user=${decoded.sub}`
-      axios.post('/api/getallnotesforstudent', formData, {
+      axios.post('/notification/getallnotesforstudent', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

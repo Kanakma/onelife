@@ -23,7 +23,7 @@ class AdminEmployee extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getemployees',  {
+    axios.get('/employee/getemployees',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

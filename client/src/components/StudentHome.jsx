@@ -165,7 +165,7 @@ class StudentHome extends React.Component {
       this.setState({
         userId: decoded.sub
       });
-      axios.get('/api/getstudentprofileinfo?studentId='+decoded.sub,  {
+      axios.get('/student/getstudentprofileinfo?studentId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

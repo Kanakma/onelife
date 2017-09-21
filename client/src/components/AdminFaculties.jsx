@@ -25,7 +25,7 @@ class AdminFaculties extends React.Component {
     }
 
     componentDidMount() {
-      axios.get('/api/getfaculties',  {
+      axios.get('/faculty/getfaculties',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

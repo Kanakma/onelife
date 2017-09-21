@@ -45,7 +45,7 @@ class AdminAddTeacher extends React.Component {
     this.changeAccount = this.changeAccount.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getfaculties',  {
+    axios.get('/faculty/getfaculties',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -74,7 +74,7 @@ class AdminAddTeacher extends React.Component {
     const birthday = encodeURIComponent(this.state.birthday);
     const entry_year = encodeURIComponent(this.state.entry_year);
     const formData = `teacher=${JSON.stringify(this.state.teacher)}&birthday=${birthday}&entry_year=${entry_year}&account=${JSON.stringify(this.state.account)}`;
-    axios.post('/api/addteacher', formData, {
+    axios.post('/teacher/addteacher', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -86,7 +86,7 @@ class AdminAddTeacher extends React.Component {
       return new Promise((resolve, reject) => {
         let imageFormData = new FormData();
         imageFormData.append('imageFile', this.state.file);
-        axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
+        axios.post('/teacher/addteacherimg?teacher_id='+teacher_id, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -168,9 +168,9 @@ class AdminAddTeacher extends React.Component {
   checkContent(){
     if((this.state.teacher.passport_id.length > 0) && (this.state.teacher.name.length > 0)
      && (this.state.teacher.lastname.length > 0) && (this.state.birthday.length > 0)
-     && (this.state.entry_year.length > 0) 
-     && (this.state.teacher.gender.length > 0) && (this.state.teacher.degree.length > 0) 
-     && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0) 
+     && (this.state.entry_year.length > 0)
+     && (this.state.teacher.gender.length > 0) && (this.state.teacher.degree.length > 0)
+     && (this.state.account.email.length > 0) && (this.state.account.phone.length > 0)
      && (this.state.account.password.length >0) && (this.state.account.checkpassword.length >0)){
       if(this.state.account.password === this.state.account.checkpassword){
         document.getElementById('wrongpass').style.display = "none"

@@ -27,7 +27,7 @@ class AdminAddGroups extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getmajors',  {
+    axios.get('/major/getmajors',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -38,8 +38,8 @@ class AdminAddGroups extends React.Component {
             majors: res.data.majors
           });
         });
-        
-    axios.get('/api/getteachers',  {
+
+    axios.get('/teacher/getteachers',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -90,7 +90,7 @@ class AdminAddGroups extends React.Component {
   addGroup(event){
     event.preventDefault();
     const formData = `group=${JSON.stringify(this.state.group)}`;
-    axios.post('/api/addgroup', formData, {
+    axios.post('/group/addgroup', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}

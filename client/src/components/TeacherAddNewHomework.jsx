@@ -88,7 +88,7 @@ class TeacherAddNewHomework extends React.Component {
       });
   }
   getGroup(){
-    axios.get('/api/getsubjectgroups?subjectId='+this.state.subjectId,  {
+    axios.get('/group/getsubjectgroups?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -104,7 +104,7 @@ class TeacherAddNewHomework extends React.Component {
     event.preventDefault();
   }
   getSubject(){
-    axios.get('/api/getonesubject?subjectId='+this.state.subjectId,  {
+    axios.get('/subject/getonesubject?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -130,7 +130,7 @@ class TeacherAddNewHomework extends React.Component {
  changeGroup(event){
   // event.preventDefault();
   event.persist();
-   axios.get('/api/getstudentsofgroup?groupId='+event.target.value,  {
+   axios.get('/student/getstudentsofgroup?groupId='+event.target.value,  {
      responseType: 'json',
      headers: {
        'Content-type': 'application/x-www-form-urlencoded'

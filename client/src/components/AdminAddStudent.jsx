@@ -41,7 +41,7 @@ class AdminAddStudent extends React.Component {
       this.changeImg = this.changeImg.bind(this);
     }
     componentDidMount() {
-      axios.get('/api/getmajors',  {
+      axios.get('/major/getmajors',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -52,7 +52,7 @@ class AdminAddStudent extends React.Component {
             majors: res.data.majors
           });
         });
-        axios.get('/api/getgroups',  {
+        axios.get('/group/getgroups',  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -69,7 +69,7 @@ class AdminAddStudent extends React.Component {
       const student = this.state.student;
       student[field] = event.target.value;
       if(this.state.student.major_id.length>0){
-        axios.get('/api/getmajorgroups?major_id='+this.state.student.major_id,  {
+        axios.get('/group/getmajorgroups?major_id='+this.state.student.major_id,  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -127,7 +127,7 @@ class AdminAddStudent extends React.Component {
           imageFormData.append('imageFile', this.state.file);
           imageFormData.append('data', JSON.stringify(this.state.student));
           imageFormData.append('birthday', JSON.stringify(this.state.birthday));
-          axios.post('/api/addstudent?image='+this.state.filename, imageFormData, {
+          axios.post('/student/addstudent?image='+this.state.filename, imageFormData, {
             responseType: 'json',
             headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -143,7 +143,7 @@ class AdminAddStudent extends React.Component {
         });
       }else {
         const formData = `data=${JSON.stringify(this.state.student)}&birthday=${this.state.birthday}`;
-        axios.post('/api/addstudent', formData, {
+        axios.post('/student/addstudent', formData, {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'}

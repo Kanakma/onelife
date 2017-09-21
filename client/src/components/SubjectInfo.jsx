@@ -32,7 +32,7 @@ class SubjectInfo extends React.Component {
     this.getStatus();
   }
   getSubject(){
-    axios.get('/api/getonesubject?subjectId='+this.state.subjectId,  {
+    axios.get('/subject/getonesubject?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -60,7 +60,7 @@ class SubjectInfo extends React.Component {
   chooseSubject() {
     const subjectId = encodeURIComponent(this.state.subjectId);
     const formData = `subjectId=${subjectId}`;
-    axios.post('/api/choosesubject', formData, {
+    axios.post('/subject/choosesubject', formData, {
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
         'Authorization': `bearer ${Auth.getToken()}`

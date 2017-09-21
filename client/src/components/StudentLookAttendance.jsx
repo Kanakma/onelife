@@ -54,7 +54,7 @@ class TeacherAddAttendance extends React.Component {
         userId: decoded.sub
       });
       console.log(decoded.sub,'suuub')
-      axios.get('/api/mygroup1?studentId='+decoded.sub,  {
+      axios.get('/student/mygroup1?studentId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -99,7 +99,7 @@ class TeacherAddAttendance extends React.Component {
             const subjectId=event.target.value;
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
 
-            axios.post('/api/updatemyattendance', formData, {
+            axios.post('/attendance/updatemyattendance', formData, {
                     responseType: 'json',
                     headers: {
                       'Content-type': 'application/x-www-form-urlencoded'

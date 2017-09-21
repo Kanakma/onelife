@@ -42,7 +42,7 @@ class AdminParrents extends React.Component {
 
   }
   componentDidMount() {
-    axios.get('/api/getparents',  {
+    axios.get('/parent/getparents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

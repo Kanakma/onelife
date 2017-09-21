@@ -55,7 +55,7 @@ class ParentCheckAttendance extends React.Component {
         userId: decoded.sub
       });
     //  console.log(decoded.sub,'suuub')
-      axios.get('/api/mychildgroup?parentId='+decoded.sub,  {
+      axios.get('/parent/mychildgroup?parentId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -95,7 +95,7 @@ updateAtt(event){
             const subjectId=event.target.value;
             //console.log(subjectId,'asas')
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
-              axios.post('/api/updatemychildattendance', formData, {
+              axios.post('/attendance/updatemychildattendance', formData, {
                     responseType: 'json',
                     headers: {
                       'Content-type': 'application/x-www-form-urlencoded'

@@ -33,7 +33,7 @@ class StudentSubjects extends React.Component {
       this.setState({
         status: decoded.userstatus
       });
-      axios.get('/api/getsubjectsofstudent?user_id='+decoded.sub,  {
+      axios.get('/subject/getsubjectsofstudent?user_id='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

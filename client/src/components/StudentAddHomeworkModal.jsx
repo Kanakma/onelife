@@ -90,7 +90,7 @@ class StudentAddHomeworkModal extends React.Component {
           fileFormData.append('answer_message', this.state.answer_message);
           fileFormData.append('homework_id', this.props.homework._id);
           fileFormData.append('student_id', this.props.student_id);
-          axios.post('/api/addanswer?filename='+this.state.filename, fileFormData, {
+          axios.post('/homework/addanswer?filename='+this.state.filename, fileFormData, {
             responseType: 'json',
             headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -105,7 +105,7 @@ class StudentAddHomeworkModal extends React.Component {
         }
         else{
           const formData = `answer_message=${this.state.answer_message}&student_id=${this.props.student_id}&homework_id=${this.props.homework._id}`;
-          axios.post('/api/addanswer', formData, {
+          axios.post('/homework/addanswer', formData, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'}
@@ -180,7 +180,7 @@ class StudentAddHomeworkModal extends React.Component {
           {this.props.homework.file?(
             <div className="row" style={{textAlign: 'center', margin: '20px 0'}}>
               <i className="fa fa-download" aria-hidden="true"></i>
-              <a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadhw/'+this.props.homework.file+'?id='+this.props.homework._id}>{this.props.homework.file} </a>
+              <a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/download/downloadhw/'+this.props.homework.file+'?id='+this.props.homework._id}>{this.props.homework.file} </a>
             </div>
           ):(
             <div></div>

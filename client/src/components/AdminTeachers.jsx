@@ -31,7 +31,7 @@ class AdminTeachers extends React.Component {
     this.context.router.history.push('/teacherprofile', {teacherId: event.target.id})
   }
   componentDidMount() {
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

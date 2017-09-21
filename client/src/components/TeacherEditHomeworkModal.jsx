@@ -93,7 +93,7 @@ class TeacherEditHomeworkModal extends React.Component {
         fileFormData.append('description', this.state.description);
         fileFormData.append('subject_id', this.props.homework.subject_id);
         fileFormData.append('group_id', this.props.homework.group_id._id);
-        axios.post('/api/edithomework?filename='+this.state.filename, fileFormData, {
+        axios.post('/homework/edithomework?filename='+this.state.filename, fileFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -108,7 +108,7 @@ class TeacherEditHomeworkModal extends React.Component {
       }
       else{
         const formData = `lessonDate=${this.state.lessonDate}&deadline=${this.state.deadline}&description=${this.state.description}&subject_id=${this.props.homework.subject_id}&group_id=${this.props.homework.group_id._id}`;
-        axios.post('/api/edithomework', formData, {
+        axios.post('/homework/edithomework', formData, {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'}

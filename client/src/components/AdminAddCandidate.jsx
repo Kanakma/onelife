@@ -49,7 +49,7 @@ class AdminAddCandidate extends React.Component {
     addCandidate(event){
       event.preventDefault()
       const formData = `documents=${JSON.stringify(this.state.documents)}&data=${JSON.stringify(this.state.candidate)}&birthday=${this.state.birthday}&date_of_id=${this.state.date_of_id}&nationality=${this.state.nationality}`;
-      axios.post('/api/addcandidate', formData, {
+      axios.post('/candidate/addcandidate', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'}

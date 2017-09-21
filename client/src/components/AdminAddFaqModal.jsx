@@ -74,7 +74,7 @@ class AdminAddFaqModal extends React.Component {
           fileFormData.append('file', this.state.file);
           fileFormData.append('question', this.state.question);
           fileFormData.append('answer', this.state.answer);
-          axios.post('/api/addfaq?filename='+this.state.filename, fileFormData, {
+          axios.post('/faq/addfaq?filename='+this.state.filename, fileFormData, {
             responseType: 'json',
             headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -89,7 +89,7 @@ class AdminAddFaqModal extends React.Component {
         }
         else{
           const formData = `question=${this.state.question}&answer=${this.state.answer}`;
-          axios.post('/api/addfaq', formData, {
+          axios.post('/faq/addfaq', formData, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'}

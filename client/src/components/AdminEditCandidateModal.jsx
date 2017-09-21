@@ -44,7 +44,7 @@ class AdminEditCandidateModal extends React.Component {
   editCandidateFunc(event){
     event.preventDefault();
     const formData = `documents=${JSON.stringify(this.state.documents)}&data=${JSON.stringify(this.state.candidate)}&birthday=${this.state.birthday}&date_of_id=${this.state.date_of_id}&nationality=${this.state.nationality}&candidate_id=${this.props.candidate._id}`;
-    axios.post('/api/editcandidate', formData, {
+    axios.post('/candidate/editcandidate', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}
@@ -57,7 +57,7 @@ class AdminEditCandidateModal extends React.Component {
   deleteCandidate(){
     var candidate_id = this.props.candidate._id;
     const formData = `candidate_id=${candidate_id}`;
-    axios.post('/api/deletecandidate', formData, {
+    axios.post('/candidate/deletecandidate', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

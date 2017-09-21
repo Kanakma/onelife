@@ -31,7 +31,7 @@ class ParentLookAttendance extends React.Component {
         userId: decoded.sub
       });
       console.log(decoded.sub,'suuub')
-      axios.get('/api/mychildgroup?parentId='+decoded.sub,  {
+      axios.get('/parent/mychildgroup?parentId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -70,7 +70,7 @@ class ParentLookAttendance extends React.Component {
             const subjectId=event.target.value;
             const formData=`userId=${userId}&subjectId=${event.target.value}`;
 
-            axios.post('/api/updatemyattendance', formData, {
+            axios.post('/attendance/updatemyattendance', formData, {
                     responseType: 'json',
                     headers: {
                       'Content-type': 'application/x-www-form-urlencoded'

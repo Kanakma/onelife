@@ -35,7 +35,7 @@ class TeacherSubjects extends React.Component {
         status: decoded.userstatus,
         userId: decoded.sub
       });
-      axios.get('/api/getteachersubjects?teacherId='+decoded.sub,  {
+      axios.get('/subject/getteachersubjects?teacherId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

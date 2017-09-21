@@ -19,7 +19,7 @@ class AdminGroups extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getgroups',  {
+    axios.get('/group/getgroups',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

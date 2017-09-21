@@ -46,7 +46,7 @@ class AdminAddEmployee extends React.Component {
     addEmployee(event){
       event.preventDefault()
       const formData = `data=${JSON.stringify(this.state.employee)}&birthday=${this.state.birthday}&date_of_id=${this.state.date_of_id}&nationality=${this.state.nationality}`;
-      axios.post('/api/addemployee', formData, {
+      axios.post('/employee/addemployee', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'}

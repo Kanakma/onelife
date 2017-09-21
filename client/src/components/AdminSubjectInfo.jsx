@@ -35,7 +35,7 @@ class AdminSubjectInfo extends React.Component {
   }
   getSubject(){
 
-    axios.get('/api/getsubject?subjectId='+this.state.subjectId,  {
+    axios.get('/subject/getsubject?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -63,7 +63,7 @@ class AdminSubjectInfo extends React.Component {
   chooseSubject() {
     const subjectId = encodeURIComponent(this.state.subjectId);
     const formData = `subjectId=${subjectId}`;
-    axios.post('/api/choosesubject', formData, {
+    axios.post('/subject/choosesubject', formData, {
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
         'Authorization': `bearer ${Auth.getToken()}`

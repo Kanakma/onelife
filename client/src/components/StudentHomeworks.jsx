@@ -55,7 +55,7 @@ class StudentHomeworks extends React.Component {
     return m + "/" + d + "/" + fDate.getFullYear()
   }
   getHomeworks(){
-    axios.get('/api/gethomeworks',  {
+    axios.get('/homework/gethomeworks',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -76,7 +76,7 @@ class StudentHomeworks extends React.Component {
         status: decoded.userstatus,
         user_id: decoded.sub
       });
-      axios.get('/api/getsubjectsofstudent?user_id='+decoded.sub,  {
+      axios.get('/subject/getsubjectsofstudent?user_id='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
@@ -92,7 +92,7 @@ class StudentHomeworks extends React.Component {
   }
   chooseSubject(event){
     const formData = `user_id=${this.state.user_id}&subject_id=${event.target.value}`;
-      axios.post('/api/gethomeworksofsubject', formData, {
+      axios.post('/homework/gethomeworksofsubject', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

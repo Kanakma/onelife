@@ -17,7 +17,7 @@ class AdminDepartments extends React.Component {
       this.toggleModalClose = this.toggleModalClose.bind(this);
     }
     componentDidMount() {
-      axios.get('/api/getdepartments',  {
+      axios.get('/department/getdepartments',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

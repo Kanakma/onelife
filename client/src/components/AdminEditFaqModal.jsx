@@ -72,7 +72,7 @@ class AdminEditFaqModal extends React.Component {
           fileFormData.append('question', this.state.question);
           fileFormData.append('answer', this.state.answer);
           fileFormData.append('faq_id', this.props.faq._id)
-          axios.post('/api/editfaq?filename='+this.state.filename, fileFormData, {
+          axios.post('/faq/editfaq?filename='+this.state.filename, fileFormData, {
             responseType: 'json',
             headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -87,7 +87,7 @@ class AdminEditFaqModal extends React.Component {
         }
         else{
           const formData = `question=${this.state.question}&answer=${this.state.answer}&faq_id=${this.props.faq._id}`;
-          axios.post('/api/editfaq', formData, {
+          axios.post('/faq/editfaq', formData, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'}
@@ -109,7 +109,7 @@ class AdminEditFaqModal extends React.Component {
         })
       }
       deleteFaq(){
-        axios.get('/api/deletefaq?faq_id='+this.props.faq._id,  {
+        axios.get('/faq/deletefaq?faq_id='+this.props.faq._id,  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'

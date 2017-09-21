@@ -28,7 +28,7 @@ class StudentPassTest extends React.Component {
     this.getTest()
   }
   getTest(){
-    axios.get('/api/getonetest?test_id='+this.state.test_id,  {
+    axios.get('/test/getonetest?test_id='+this.state.test_id,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -74,7 +74,7 @@ class StudentPassTest extends React.Component {
   }
   sendAnswer(){
     const formData = `data=${JSON.stringify(this.state.myAnswer)}&test_id=${this.state.test_id}`;
-    axios.post('/api/sendanswer', formData, {
+    axios.post('/quiz/sendanswer', formData, {
       responseType: 'json',
       headers: {
 

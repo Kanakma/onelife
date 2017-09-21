@@ -66,7 +66,7 @@ class AdminAddSubject extends React.Component {
   }
 
   getForSubjects(){
-    axios.get('/api/getforsubject',  {
+    axios.get('/subject/getforsubject',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -81,7 +81,7 @@ class AdminAddSubject extends React.Component {
   }
 
   getTeachers(){
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -158,7 +158,7 @@ class AdminAddSubject extends React.Component {
         imageFormData.append('data', JSON.stringify(this.state.subject));
         imageFormData.append('optional', JSON.stringify(this.state.optional));
         imageFormData.append('faculty_id', JSON.stringify(this.state.faculty_name));
-        axios.post('/api/addsubject?image='+this.state.filename, imageFormData, {
+        axios.post('/subject/addsubject?image='+this.state.filename, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -176,7 +176,7 @@ class AdminAddSubject extends React.Component {
       });
     } else{
       const formData = `data=${JSON.stringify(this.state.subject)}&optional=${this.state.optional}&faculty_id=${this.state.faculty_name}`;
-      axios.post('/api/addsubject', formData, {
+      axios.post('/subject/addsubject', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'}

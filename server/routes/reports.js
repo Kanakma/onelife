@@ -41,19 +41,19 @@ var ws = wb.addWorksheet('1и2'); // Creating the sheets
 var cellBorders = wb.createStyle({ // Creating reusable styles for borders filling
 	border: {
 		left:{
-			style: 'thin', 
+			style: 'thin',
 			color: '000000'
 		},
 		right:{
-			style: 'thin', 
+			style: 'thin',
 			color: '000000'
 		},
 		top:{
-			style: 'thin', 
+			style: 'thin',
 			color: '000000'
 		},
 		bottom:{
-			style: 'thin', 
+			style: 'thin',
 			color: '000000'
 		}
 	}
@@ -63,7 +63,7 @@ function formText_n(String1, String2, number1, number2){
 	return [{ bold:true, size: number1, name:'Arial'}, String1 + '\n', { bold:false, size:number2, name:'Arial'}, String2]
 }
 
-// Set value of cell A1 to 100 as a number type styled with paramaters of style 
+// Set value of cell A1 to 100 as a number type styled with paramaters of style
 ws.cell(3, 1, 4, 7, true).string('Қазақстан Республикасы Статистика агенттігі                             Жалпы мемлекеттік                               3-НК нысаны. Жылдық. Тапсыру мерзімі                       Қазазстан Республикасы Статистика агенттігінің 2009 ж.\nқұпиялылық сақтауға кепілдік береді                                          статистикалық есептілік                         5-ші қазан.                                                                         20 шілдедегі № 108 бұйрығымен бекітілген').style({ font: {name: 'Arial', size: 7} });
 ws.cell(5, 1, 6, 7, true).string('Конфиденциальность гарантируется Агентством                       Общегосударственная                          Форма 3-НК. Годовая.                                                      Утверждена приказом Агентства Республики Казахстан\nРеспублики Казахстан по статистике                                            статистическая отчетность                  Срок представления 6 октября.                                      по статистике № 108 от 20 июля 2009 г.').style({ font: {name: 'Arial', size: 7} })
 ws.cell(8, 1, 9, 2, true).string(formText_n('Жоғары оқу орнының есебі', 'Отчет высшего учебного заведения', 6, 6))

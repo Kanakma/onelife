@@ -41,7 +41,7 @@ class AdminAddParrent extends React.Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getstudents',  {
+    axios.get('/student/getstudents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -92,7 +92,7 @@ class AdminAddParrent extends React.Component {
     event.preventDefault();
     const birthday = encodeURIComponent(this.state.birthday);
     const formData = `parrent=${JSON.stringify(this.state.parrent)}&birthday=${birthday}&account=${JSON.stringify(this.state.account)}&students=${JSON.stringify(this.state.value)}`;
-    axios.post('/api/addparrent', formData, {
+    axios.post('/parent/addparent', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}

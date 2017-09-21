@@ -37,7 +37,7 @@ class AdminEditStudentModal extends React.Component {
       this.clearContent = this.clearContent.bind(this);
   };
     componentDidMount() {
-      axios.get('/api/getmajors',  {
+      axios.get('/major/getmajors',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -48,7 +48,7 @@ class AdminEditStudentModal extends React.Component {
             majors: res.data.majors
           });
         });
-        axios.get('/api/getgroups',  {
+        axios.get('/group/getgroups',  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -70,7 +70,7 @@ class AdminEditStudentModal extends React.Component {
         imageFormData.append('imageFile', this.state.file);
         imageFormData.append('data', JSON.stringify(this.state.student));
         imageFormData.append('birthday', JSON.stringify(this.state.birthday));
-        axios.post('/api/editstudent?student_id=' + student_id, imageFormData, {
+        axios.post('/student/editstudent?student_id=' + student_id, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -82,7 +82,7 @@ class AdminEditStudentModal extends React.Component {
       });
     } else{
       const formData = `data=${JSON.stringify(this.state.student)}&student_id=${this.props.student._id}&birthday=${this.state.birthday}`;
-      axios.post('/api/editstudent', formData, {
+      axios.post('/student/editstudent', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'}
@@ -96,7 +96,7 @@ class AdminEditStudentModal extends React.Component {
   deleteStudent(){
     var student_id = this.props.student._id;
     const formData = `student_id=${student_id}`;
-    axios.post('/api/deletestudent', formData, {
+    axios.post('/student/deletestudent', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -109,7 +109,7 @@ class AdminEditStudentModal extends React.Component {
       const student = this.state.student;
       student[field] = event.target.value;
       if(this.state.student.major_id.length>0){
-        axios.get('/api/getmajorgroups?major_id='+this.state.student.major_id,  {
+        axios.get('/group/getmajorgroups?major_id='+this.state.student.major_id,  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'

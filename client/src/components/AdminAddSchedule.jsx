@@ -34,16 +34,16 @@ class AdminAddSchedule extends React.Component {
         year:'',
         semester:''
       },
-      schedule:[{        
+      schedule:[{
         auditory:{},
         monday: {},
         tuesday: {},
-        wednesday:{}, 
-        thursday:{}, 
-        friday:{}, 
+        wednesday:{},
+        thursday:{},
+        friday:{},
         saturday:{}
       }],
-      groups:[]    
+      groups:[]
     }
     this.getGroups=this.getGroups.bind(this);
     this.getSubjects=this.getSubjects.bind(this);
@@ -55,7 +55,7 @@ class AdminAddSchedule extends React.Component {
   }
 
   getGroups(){
-    axios.get('/api/getgroups',  {
+    axios.get('/group/getgroups',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -73,7 +73,7 @@ class AdminAddSchedule extends React.Component {
   getAuditories(){
     if(this.state.period.year.length>3 && this.state.period.semester.length>0
       && this.state.period.year != '____' && this.state.period.semester != '_'){
-      axios.get('/api/getauditories',  {
+      axios.get('/auditory/getauditories',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -92,7 +92,7 @@ class AdminAddSchedule extends React.Component {
   }
 
   getSubjects(_period){
-    axios.get('/api/getsubjforschedule?period='+_period, {
+    axios.get('/subject/getsubjforschedule?period='+_period, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -213,12 +213,12 @@ class AdminAddSchedule extends React.Component {
                       <div className="project">{auditory.auditory_name}</div>
                       <div className="project">
                         <Droppable
-                            types={['subject']} 
+                            types={['subject']}
                             onDrop={this.onSubjDrop.bind(this, {auditory, index})}>
                             <div className="ondrop-subject" id={auditory._id}></div>
                         </Droppable>
                         <Droppable
-                            types={['group']} 
+                            types={['group']}
                             onDrop={this.onGroupDrop}>
                             <div className="ondrop-group"></div>
                         </Droppable>
@@ -230,7 +230,7 @@ class AdminAddSchedule extends React.Component {
                             <div className="ondrop-subject"></div>
                         </Droppable>
                         <Droppable
-                            types={['group']} 
+                            types={['group']}
                             onDrop={this.onGroupDrop}>
                             <div className="ondrop-group"></div>
                         </Droppable>
@@ -242,7 +242,7 @@ class AdminAddSchedule extends React.Component {
                             <div className="ondrop-subject"></div>
                         </Droppable>
                         <Droppable
-                            types={['group']} 
+                            types={['group']}
                             onDrop={this.onGroupDrop}>
                             <div className="ondrop-group"></div>
                         </Droppable>
@@ -254,7 +254,7 @@ class AdminAddSchedule extends React.Component {
                             <div className="ondrop-subject"></div>
                         </Droppable>
                         <Droppable
-                            types={['group']} 
+                            types={['group']}
                             onDrop={this.onGroupDrop}>
                             <div className="ondrop-group"></div>
                         </Droppable>
@@ -266,7 +266,7 @@ class AdminAddSchedule extends React.Component {
                               <div className="ondrop-subject"></div>
                           </Droppable>
                           <Droppable
-                            types={['group']} 
+                            types={['group']}
                             onDrop={this.onGroupDrop}>
                             <div className="ondrop-group"></div>
                         </Droppable>
@@ -278,7 +278,7 @@ class AdminAddSchedule extends React.Component {
                             <div className="ondrop-subject"></div>
                         </Droppable>
                         <Droppable
-                            types={['group']} 
+                            types={['group']}
                             onDrop={this.onGroupDrop}>
                             <div className="ondrop-group"></div>
                         </Droppable>

@@ -28,7 +28,7 @@ class AddEventNotificationModal extends React.Component {
 
   addNotification(){
     var formData = `notification=${JSON.stringify(this.state.message)}&date=${this.state.date}`
-    axios.post('/api/addeventnotification', formData, {
+    axios.post('/notification/addeventnotification', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}

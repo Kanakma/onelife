@@ -41,7 +41,7 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getsubjectteacher', {
+    axios.get('/subject/getsubjectteacher', {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -126,8 +126,6 @@ class TeacherAddAttendance extends React.Component {
   }
 
   sendAttendance(event){
- // console.log(this.state.group_name.length,'length')
-
     var dd= new Date();
 
     var today = new Date();
@@ -147,7 +145,6 @@ class TeacherAddAttendance extends React.Component {
   event.preventDefault();
     const group_name= this.state.group_name;
     const subject_id=this.state.subject_id;
-    console.log(subject_id,'subject_id')
     const att_date=this.state.att_date;
     var dd= this.dateFormat1(att_date);
     if(this.state.group_name.length!=0){
@@ -156,7 +153,7 @@ class TeacherAddAttendance extends React.Component {
     if(today===dd){
     const formData = `data=${JSON.stringify(this.state.attendances)}&group_name=${group_name}&att_date=${att_date}&subject_id=${subject_id}`;
 
-         axios.post('/api/addattendance', formData, {
+         axios.post('/attendance/addattendance', formData, {
 
           responseType: 'json',
           headers: {
@@ -194,7 +191,6 @@ else{
 
   //update students on rabotaet bez filtracii
   updateStudents(event){
-    console.log(event.target.value,'valuuuuue')
     if(event.target.value.length > 0){
 
       this.setState({
@@ -212,7 +208,7 @@ else{
         message: ''
       })
     }
-    axios.get('/api/getstudentsgroupsforstudents?group_name='+event.target.value, {
+    axios.get('/group/getstudentsgroupsforstudents?group_name='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'
@@ -246,7 +242,7 @@ updateGroups(event){
         message: ''
       })
     }
-    axios.get('/api/getgroupsforstudents?subject_id='+event.target.value, {
+    axios.get('/group/getgroupsforstudents?subject_id='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'

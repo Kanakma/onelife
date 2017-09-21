@@ -24,7 +24,7 @@ class AdminSubjects extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
     componentDidMount() {
-      axios.get('/api/getsubjects',  {
+      axios.get('/subject/getsubjects',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

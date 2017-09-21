@@ -52,7 +52,7 @@ class TeacherHomeworks extends React.Component{
       this.context.router.history.push('/checkanswers', {homework_id: event.target.id})
   }
   getGroups(){
-    axios.get('/api/getsubjectgroups?subjectId='+this.state.subjectId,  {
+    axios.get('/group/getsubjectgroups?subjectId='+this.state.subjectId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -72,7 +72,7 @@ class TeacherHomeworks extends React.Component{
         subjectId: event.target.value,
         homeworks: []
       })
-      axios.get('/api/getsubjectgroups?subjectId='+event.target.value,  {
+      axios.get('/group/getsubjectgroups?subjectId='+event.target.value,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -90,7 +90,7 @@ class TeacherHomeworks extends React.Component{
         groupValue: '',
         homeworks: []
       })
-      axios.get('/api/getsubjectgroups?subjectId='+event.target.value,  {
+      axios.get('/group/getsubjectgroups?subjectId='+event.target.value,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -108,7 +108,7 @@ class TeacherHomeworks extends React.Component{
         groupValue:event.target.value
       })
       const formData = `subject_id=${this.state.subjectId}&group_id=${event.target.value}`;
-      axios.post('/api/getsubjectandgrouphomeworks', formData, {
+      axios.post('/homework/getsubjectandgrouphomeworks', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -122,7 +122,7 @@ class TeacherHomeworks extends React.Component{
   }
   getHomeworks(){
     const formData = `subject_id=${this.state.subjectId}&group_id=${this.state.groupValue}`;
-    axios.get('/api/getsubjectandgrouphomeworks', formData, {
+    axios.get('/homework/getsubjectandgrouphomeworks', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -148,7 +148,7 @@ class TeacherHomeworks extends React.Component{
         status: decoded.userstatus,
         userId: decoded.sub
       });
-      axios.get('/api/getteachersubjects?teacherId='+decoded.sub,  {
+      axios.get('/subject/getteachersubjects?teacherId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

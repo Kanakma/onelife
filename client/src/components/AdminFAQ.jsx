@@ -22,7 +22,7 @@ class AdminFAQ extends React.Component {
     this.editToggleModalClose = this.editToggleModalClose.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getfaqs',  {
+    axios.get('/faq/getfaqs',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -95,7 +95,7 @@ class AdminFAQ extends React.Component {
                 <h5>{faq.answer}  {
                   faq.file?(
                     <span>
-                      <a target="_blank" style={{ textDecoration: 'none'}} href={'/api/downloadfaq/'+faq.file+'?id='+faq._id}>
+                      <a target="_blank" style={{ textDecoration: 'none'}} href={'/download/downloadfaq/'+faq.file+'?id='+faq._id}>
                         <i className="fa fa-download" aria-hidden="true" style={{color: 'black'}}></i> {faq.file}
                       </a>
                     </span>

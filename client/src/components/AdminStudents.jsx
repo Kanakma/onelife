@@ -25,7 +25,7 @@ class AdminStudents extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getstudents',  {
+    axios.get('/student/getstudents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

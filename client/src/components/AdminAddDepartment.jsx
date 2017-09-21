@@ -33,7 +33,7 @@ class AdminAddDepartment extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getmajors',  {
+    axios.get('/major/getmajors',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -43,7 +43,7 @@ class AdminAddDepartment extends React.Component {
         this.setState({
           majors: res.data.allMjrs,
         });
-        axios.get('/api/getfaculties',  {
+        axios.get('/faculty/getfaculties',  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -55,7 +55,7 @@ class AdminAddDepartment extends React.Component {
           });
         });
       });
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -116,7 +116,7 @@ class AdminAddDepartment extends React.Component {
   addDepartment(event){
     event.preventDefault();
     const formData = `department=${JSON.stringify(this.state.department)}&majors=${JSON.stringify(this.state.checked_majors)}`;
-    axios.post('/api/adddepartment', formData, {
+    axios.post('/department/adddepartment', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}

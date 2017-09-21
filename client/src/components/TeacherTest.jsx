@@ -18,7 +18,7 @@ class TeacherTest extends React.Component {
     this.getStatus = this.getStatus.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/gettests',  {
+    axios.get('/test/gettests',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

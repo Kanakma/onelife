@@ -35,7 +35,7 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-     axios.get('/api/getsubjectteacher', {
+     axios.get('/subject/getsubjectteacher', {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -66,7 +66,7 @@ class TeacherAddAttendance extends React.Component {
     const val= value;
 
     const formData = `subject_id=${subject_id}&att_date=${val}`;
-   axios.post('/api/updatestudentsformark', formData, {
+   axios.post('/mark/updatestudentsformark', formData, {
 
     responseType: 'json',
     headers: {
@@ -109,7 +109,7 @@ class TeacherAddAttendance extends React.Component {
 
 
     const formData = `subject_id=${subject_id}&group_name=${group_name}`;
-   axios.post('/api/updatestudentsforfinalmark', formData, {
+   axios.post('/fmark/updatestudentsforfinalmark', formData, {
 
     responseType: 'json',
     headers: {
@@ -148,7 +148,7 @@ updateGroups(event){
         message: ''
       })
     }
-    axios.get('/api/getgroupsforstudents?subject_id='+event.target.value, {
+    axios.get('/group/getgroupsforstudents?subject_id='+event.target.value, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'

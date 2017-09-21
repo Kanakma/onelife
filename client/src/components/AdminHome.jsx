@@ -6,7 +6,6 @@ import Auth from '../modules/Auth';
 import Progress from 'react-progressbar';
 import { Line, Circle } from 'rc-progress';
 import PropTypes from 'prop-types';
-import AdminEditMajorModal from './AdminEditMajorModal.jsx';
 
 const { PieChart, Pie, Sector, Cell , BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar } = require('recharts')// Recharts;
 const data= [{name: 'ИС', value: 500}, {name: 'ВТиПО', value: 500}, {name: 'МКМ', value: 500}, {name: 'sfsdf', value: 500}];
@@ -123,7 +122,7 @@ class AdminHome extends React.Component {
   componentDidMount() {
     const displayedSubjects=[];
 
-    axios.get('/api/getmajors',  {
+    axios.get('/major/getmajors',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -136,7 +135,7 @@ class AdminHome extends React.Component {
       });
 
 
-      axios.get('/api/gender_girl', {
+      axios.get('/dashboard/gender_girl', {
       	responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -152,7 +151,7 @@ class AdminHome extends React.Component {
       })
 
 
-    axios.get('/api/gender_all', {
+    axios.get('/dashboard/gender_all', {
       	responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -165,7 +164,7 @@ class AdminHome extends React.Component {
       	})
 
       })
-    axios.get('/api/count_majors', {
+    axios.get('/major/count_majors', {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -181,7 +180,7 @@ class AdminHome extends React.Component {
 
 
 
-      axios.get('/api/getsubjects',  {
+      axios.get('/subject/getsubjects',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'

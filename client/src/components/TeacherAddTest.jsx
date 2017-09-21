@@ -31,7 +31,7 @@ class TeacherAddTest extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getsubjectteacher',  {
+    axios.get('/subject/getsubjectteacher',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -94,7 +94,7 @@ class TeacherAddTest extends React.Component {
   }
   sendTest(e){
     const formData = `data=${JSON.stringify(this.state.testQuestions)}&subject_id=${this.state.subject_id}`;
-    axios.post('/api/addtest', formData,  {
+    axios.post('/test/addtest', formData,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',

@@ -50,7 +50,7 @@ class TeacherEditProfile extends React.Component {
     this.changeTeacher = this.changeTeacher.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getteacherprofileinfo?teacherId='+this.state.userId,  {
+    axios.get('/teacher/getteacherprofileinfo?teacherId='+this.state.userId,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -71,13 +71,13 @@ class TeacherEditProfile extends React.Component {
   editTeacherFunc(){
     event.preventDefault();
     if(this.state.filename.length>0){
-      var student_id = this.props.student._id
+      var teacher_id = this.state.teacher._id
       return new Promise((resolve, reject) => {
         let imageFormData = new FormData();
         imageFormData.append('imageFile', this.state.file);
         imageFormData.append('data', JSON.stringify(this.state.student));
         imageFormData.append('birthday', JSON.stringify(this.state.birthday));
-        axios.post('/api/editstudent?student_id=' + student_id, imageFormData, {
+        axios.post('/student/editteacher?teacher_id=' + teacher_id, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -88,8 +88,8 @@ class TeacherEditProfile extends React.Component {
           });
       });
     } else{
-      const formData = `data=${JSON.stringify(this.state.student)}&student_id=${this.props.student._id}&birthday=${this.state.birthday}`;
-      axios.post('/api/editstudent', formData, {
+      const formData = `data=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${this.state.teacher._id}&birthday=${this.state.birthday}`;
+      axios.post('/teacher/editteacher', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'}

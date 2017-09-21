@@ -64,7 +64,7 @@ class AdminEditSubjectModal extends React.Component {
   }
 
   getForSubjects(){
-    axios.get('/api/getforsubject',  {
+    axios.get('/subject/getforsubject',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -80,7 +80,7 @@ class AdminEditSubjectModal extends React.Component {
   }
 
   getTeachers(){
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -157,7 +157,7 @@ class AdminEditSubjectModal extends React.Component {
         imageFormData.append('data', JSON.stringify(this.state.subject));
         imageFormData.append('optional', JSON.stringify(this.state.optional));
         imageFormData.append('faculty_id', JSON.stringify(this.state.faculty_name));
-        axios.post('/api/editsubject?subject_id=' + subject_id, imageFormData, {
+        axios.post('/subject/editsubject?subject_id=' + subject_id, imageFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -169,7 +169,7 @@ class AdminEditSubjectModal extends React.Component {
       });
     } else{
       const formData = `data=${JSON.stringify(this.state.subject)}&subject_id=${this.props.subject._id}&optional=${this.state.optional}&faculty_id=${this.state.faculty_name}`;
-      axios.post('/api/editsubject', formData, {
+      axios.post('/subject/editsubject', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'}
@@ -248,7 +248,7 @@ class AdminEditSubjectModal extends React.Component {
 
   deleteSubject(){
     const formData = `subject_id=${this.props.subject._id}`;
-    axios.post('/api/deletesubject', formData, {
+    axios.post('/subject/deletesubject', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

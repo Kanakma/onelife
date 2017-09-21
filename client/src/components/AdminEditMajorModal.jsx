@@ -21,7 +21,7 @@ class AdminEditMajorModal extends React.Component {
     this.deleteMajor=this.deleteMajor.bind(this);
   };
   componentDidMount() {
-    axios.get('/api/getdepartments',  {
+    axios.get('/department/getdepartments',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -39,7 +39,7 @@ class AdminEditMajorModal extends React.Component {
     const major_id = this.props.major._id;
     const old_depId = this.props.major.major_departmentId;
     const formData = `editedMajor=${JSON.stringify(this.state.editedMajor)}&major_id=${major_id}&old_depId=${old_depId}`;
-    axios.post('/api/editmajor', formData, {
+    axios.post('/major/editmajor', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -54,7 +54,7 @@ class AdminEditMajorModal extends React.Component {
     }else{
       var major_id = this.props.major._id;
       const formData = `major_id=${major_id}`;
-      axios.post('/api/deletemajor', formData, {
+      axios.post('/major/deletemajor', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
