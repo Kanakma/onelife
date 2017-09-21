@@ -59,8 +59,6 @@ const TinyLineChart = React.createClass({
   }
 })
 //pie chart credits
-
-
 //two area chart
 const data = [
       {name: 'Январь', Успеваемость: 90,Посещаемость: 53},
@@ -71,8 +69,6 @@ const data = [
       {name: 'Июнь', Успеваемость: 83, Посещаемость: 51 },
       {name: 'Сентябрь', Успеваемость: 70, Посещаемость: 75 },
 ];
-
-
 const SimpleAreaChart = React.createClass({
   render () {
     return (
@@ -92,9 +88,6 @@ const SimpleAreaChart = React.createClass({
 //gpa pie chart
 const data_gpa = [{name: 'Group A', value: 80}, {name: 'Group B', value: 20}];
 const COLORS1 = ['#e14e50', '#d9d9d9'];
-
-
-
 const SimplePieChart1 = React.createClass({
   render () {
     return (
@@ -112,8 +105,7 @@ const SimplePieChart1 = React.createClass({
             data.map((entry, index) => <Cell key={index} fill={COLORS1[index % COLORS1.length]}/>)
           }
         </Pie>
-               <Tooltip/>
-
+        <Tooltip/>
       </PieChart>
     );
   }
@@ -135,8 +127,7 @@ const SimplePieChart2 = React.createClass({
             data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
           }
         </Pie>
-               <Tooltip/>
-
+       <Tooltip/>
       </PieChart>
     );
   }
@@ -185,7 +176,6 @@ class StudentHome extends React.Component {
     this.context.router.history.push('/editstudentprofile', {userId: event.target.id})
   }
   render() {
-
     return (
     <div className="container clearfix" >
     <div className="page-wrapper">
@@ -193,13 +183,9 @@ class StudentHome extends React.Component {
         <h4>Главная студента</h4>
       </div>
       <div className="profile-heading1 text-center hidden-max-media hidden-mobile visible-middle">
-      <div className="university_logo">
-
-      </div>
-        <div className="profile-heading-name ">
-
-     КОЛЛЕДЖ
-           </div>
+        <div className="university_logo">
+        </div>
+        <div className="profile-heading-name ">КОЛЛЕДЖ</div>
         <div ></div>
       </div>
       <div className="page-content1">
@@ -220,13 +206,9 @@ class StudentHome extends React.Component {
           </div>
         </div>
         <div className="profile-heading1 text-center visible-max hidden-middle hidden-mobile hidden-ipad">
-        <div className="university_logo">
-
-        </div>
-          <div className="profile-heading-name ">
-
-       КОЛЛЕДЖ
-             </div>
+          <div className="university_logo">
+          </div>
+          <div className="profile-heading-name "> КОЛЛЕДЖ</div>
           <div ></div>
         </div>
         <div className=" col-md-4 visible-middle hidden-max-media">
@@ -247,46 +229,40 @@ class StudentHome extends React.Component {
         </div>
         <div className=" col-md-4 col-lg-3 hidden-middle hidden-ipad hidden-mobile visible-max">
           <div className="student_gpa_stat">
-          <div className="student_ocenka_stat">
-            <p className="student_gpa_title">Оценка (GPA)</p>
-            <div className="student_line">
-              <TinyLineChart />
+            <div className="student_ocenka_stat">
+              <p className="student_gpa_title">Оценка (GPA)</p>
+              <div className="student_line">
+                <TinyLineChart />
+              </div>
             </div>
-          </div>
             <div className="student_gparechart_stat">
-
-            <p className="student_max_score">Средний бал <br/>из максимальных 4.0</p>
-            <p className="student_gpa">{this.state.gpa}</p>
-            <div className="student_pie_chart">
-            <span className="student_total_gpa">{this.state.procent_gpa}</span>
-             <SimplePieChart1 />
-             </div>
-
+              <p className="student_max_score">Средний бал <br/>из максимальных 4.0</p>
+              <p className="student_gpa">{this.state.gpa}</p>
+              <div className="student_pie_chart">
+              <span className="student_total_gpa">{this.state.procent_gpa}</span>
+               <SimplePieChart1 />
+               </div>
             </div>
           </div>
         </div>
         <div className=" col-md-4 visible-middle hidden-max-media">
           <div className="student_gpa_stat">
-          <div className="student_ocenka_stat">
-            <p className="student_gpa_title">Оценка (GPA)</p>
-            <div className="student_line">
-              <TinyLineChart />
+            <div className="student_ocenka_stat">
+              <p className="student_gpa_title">Оценка (GPA)</p>
+              <div className="student_line">
+                <TinyLineChart />
+              </div>
             </div>
-          </div>
             <div className="student_gparechart_stat">
-
-            <p className="student_max_score">Средний бал <br/>из максимальных 4.0</p>
-            <p className="student_gpa">{this.state.gpa}</p>
-            <div className="student_pie_chart">
-            <span className="student_total_gpa">{this.state.procent_gpa}</span>
-             <SimplePieChart1 />
-             </div>
-
+              <p className="student_max_score">Средний бал <br/>из максимальных 4.0</p>
+              <p className="student_gpa">{this.state.gpa}</p>
+              <div className="student_pie_chart">
+                <span className="student_total_gpa">{this.state.procent_gpa}</span>
+                <SimplePieChart1 />
+               </div>
             </div>
           </div>
         </div>
-
-
         <div className=" col-md-4 visible-middle hidden-max-media">
           <div className="student_courses_stat ">
             <div className="student_credits_stat">
@@ -311,7 +287,6 @@ class StudentHome extends React.Component {
                 <p className="student_days_left">До конца учебного года осталось:</p>
                 <div className="student_count_days_left">
                   <span className="student_number">265</span><span className="student_days">дней</span>
-
                 </div>
                 <div style={{width: '90%'}}><Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" /></div>
                 <div className="student_progress_line">
@@ -321,17 +296,17 @@ class StudentHome extends React.Component {
           </div>
         </div>
         <div className="col-md-12 student_row hidden-max-media visible-middle hidden-mobile ">
-        <div className="student_attendance">
-        <div className="student_mixed_statistic">
-          <div className="student_mixed_title">Статистика успеваемости и посещения</div>
-          <div className="student_mixed_subtitle">За 2016 год</div>
-        </div>
-        <div className="stud_icons">
-         <img className="stud_img" src="./img/yellow1.png"/><span>Посещаемость</span>
-         <img className="stud_img" src="./img/blue1.png"/><span>Успеваемость</span>
-        </div>
-         <SimpleAreaChart />
-        </div>
+          <div className="student_attendance">
+            <div className="student_mixed_statistic">
+              <div className="student_mixed_title">Статистика успеваемости и посещения</div>
+              <div className="student_mixed_subtitle">За 2016 год</div>
+            </div>
+            <div className="stud_icons">
+             <img className="stud_img" src="./img/yellow1.png"/><span>Посещаемость</span>
+             <img className="stud_img" src="./img/blue1.png"/><span>Успеваемость</span>
+            </div>
+            <SimpleAreaChart />
+          </div>
         </div>
         <div className="hidden-middle visible-max col-lg-12" style={{padding: '0px'}}>
           <div className=" col-md-4 col-lg-4">
@@ -355,7 +330,6 @@ class StudentHome extends React.Component {
                   <p className="student_days_left">До конца учебного года осталось:</p>
                   <div className="student_count_days_left">
                     <span className="student_number">265</span><span className="student_days">дней</span>
-
                   </div>
                   <div style={{width: '90%'}}><Line1 percent="10" strokeWidth="1" trailWidth="1" trailColor="#D3D3D3" strokeColor="#f2b91d" /></div>
                   <div className="student_progress_line">
@@ -363,209 +337,175 @@ class StudentHome extends React.Component {
                 </div>
               </div>
             </div>
-            </div>
-
+          </div>
           <div className="col-md-12 col-lg-8">
-          <div className="student_attendance">
-          <div className="student_mixed_statistic">
-            <div className="student_mixed_title">Статистика успеваемости и посещения</div>
-            <div className="student_mixed_subtitle">За 2016 год</div>
+            <div className="student_attendance">
+              <div className="student_mixed_statistic">
+                <div className="student_mixed_title">Статистика успеваемости и посещения</div>
+                <div className="student_mixed_subtitle">За 2016 год</div>
+              </div>
+              <div className="stud_icons">
+               <img className="stud_img" src="./img/yellow1.png"/><span>Посещаемость</span>
+               <img className="stud_img" src="./img/blue1.png"/><span>Успеваемость</span>
+              </div>
+               <SimpleAreaChart />
+            </div>
           </div>
-          <div className="stud_icons">
-           <img className="stud_img" src="./img/yellow1.png"/><span>Посещаемость</span>
-           <img className="stud_img" src="./img/blue1.png"/><span>Успеваемость</span>
-          </div>
-           <SimpleAreaChart />
-          </div>
-          </div>
-
-
         </div>
-
-
-
-
-
-  <div id="main" className="visible-max visible-middle hidden-mobile visible-ipad" style={{marginBottom: '20px'}}>
-
-  <div >
-
-  <p className="student_today">Расписание на СЕГОДНЯ</p>
-
-
-<table className="zui-table zui-table-horizontal">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Время</th>
-            <th>Предмет</th>
-            <th>Преподаватель</th>
-            <th>Место</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>10:00-11:00</td>
-            <td>Математика</td>
-            <td>Оразмков В.Д.</td>
-            <td>497</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>10:00-11:00</td>
-            <td>Python I</td>
-            <td>Морозкина И.В.</td>
-            <td>473</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>10:00-11:00</td>
-            <td>UX/UI Design</td>
-            <td>Молдагулова А.Х.</td>
-            <td>295</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>10:00-11:00</td>
-            <td>Oracle</td>
-            <td>Кепимс В.Й.</td>
-            <td>700</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>10:00-11:00</td>
-            <td>SDP4</td>
-            <td>Булкина В.Ф.</td>
-            <td>300</td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-  </div>
-
-  <div >
-
-  <p className="student_today">Расписание на ЗАВТРА</p>
-
-
-<table className="zui-table zui-table-horizontal">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Время</th>
-            <th>Предмет</th>
-            <th>Преподаватель</th>
-            <th>Место</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>10:00-11:00</td>
-            <td>Математика</td>
-            <td>Оразмков В.Д.</td>
-            <td>497</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>10:00-11:00</td>
-            <td>Python I</td>
-            <td>Морозкина И.В.</td>
-            <td>473</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>10:00-11:00</td>
-            <td>UX/UI Design</td>
-            <td>Молдагулова А.Х.</td>
-            <td>295</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>10:00-11:00</td>
-            <td>Oracle</td>
-            <td>Кепимс В.Й.</td>
-            <td>700</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>10:00-11:00</td>
-            <td>SDP4</td>
-            <td>Булкина В.Ф.</td>
-            <td>300</td>
-        </tr>
-    </tbody>
-</table>
-
-
-  </div>
- </div>
-
-
-<div id="main_mob" className="hidden-middle hidden-max-media visible-mobile" >
-
-  <div className="hidden-middle hidden-max hidden-ipad" >
-
-  <p className="student_today">Расписание на СЕГОДНЯ</p>
-
-
-<table className="zui-table-mob zui-table-horizontal-mob">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Время</th>
-            <th>Предмет</th>
-            <th>Место</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>10:00-11:00</td>
-            <td>Математика</td>
-            <td>497</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>10:00-11:00</td>
-            <td>Python I</td>
-            <td>473</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>10:00-11:00</td>
-            <td>UX/UI Design</td>
-            <td>295</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>10:00-11:00</td>
-            <td>Oracle</td>
-            <td>700</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>10:00-11:00</td>
-            <td>SDP4</td>
-            <td>300</td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-  </div>
-  </div>
-
-
-
-
+        <div id="main" className="visible-max visible-middle hidden-mobile visible-ipad" style={{marginBottom: '20px'}}>
+          <div >
+            <p className="student_today">Расписание на СЕГОДНЯ</p>
+            <table className="zui-table zui-table-horizontal">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Время</th>
+                    <th>Предмет</th>
+                    <th>Преподаватель</th>
+                    <th>Место</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>10:00-11:00</td>
+                    <td>Математика</td>
+                    <td>Оразмков В.Д.</td>
+                    <td>497</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>10:00-11:00</td>
+                    <td>Python I</td>
+                    <td>Морозкина И.В.</td>
+                    <td>473</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>10:00-11:00</td>
+                    <td>UX/UI Design</td>
+                    <td>Молдагулова А.Х.</td>
+                    <td>295</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>10:00-11:00</td>
+                    <td>Oracle</td>
+                    <td>Кепимс В.Й.</td>
+                    <td>700</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>10:00-11:00</td>
+                    <td>SDP4</td>
+                    <td>Булкина В.Ф.</td>
+                    <td>300</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div >
+          <p className="student_today">Расписание на ЗАВТРА</p>
+          <table className="zui-table zui-table-horizontal">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Время</th>
+                    <th>Предмет</th>
+                    <th>Преподаватель</th>
+                    <th>Место</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>10:00-11:00</td>
+                    <td>Математика</td>
+                    <td>Оразмков В.Д.</td>
+                    <td>497</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>10:00-11:00</td>
+                    <td>Python I</td>
+                    <td>Морозкина И.В.</td>
+                    <td>473</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>10:00-11:00</td>
+                    <td>UX/UI Design</td>
+                    <td>Молдагулова А.Х.</td>
+                    <td>295</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>10:00-11:00</td>
+                    <td>Oracle</td>
+                    <td>Кепимс В.Й.</td>
+                    <td>700</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>10:00-11:00</td>
+                    <td>SDP4</td>
+                    <td>Булкина В.Ф.</td>
+                    <td>300</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="main_mob" className="hidden-middle hidden-max-media visible-mobile" >
+        <div className="hidden-middle hidden-max hidden-ipad" >
+          <p className="student_today">Расписание на СЕГОДНЯ</p>
+          <table className="zui-table-mob zui-table-horizontal-mob">
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Время</th>
+                      <th>Предмет</th>
+                      <th>Место</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>1</td>
+                      <td>10:00-11:00</td>
+                      <td>Математика</td>
+                      <td>497</td>
+                  </tr>
+                  <tr>
+                      <td>2</td>
+                      <td>10:00-11:00</td>
+                      <td>Python I</td>
+                      <td>473</td>
+                  </tr>
+                  <tr>
+                      <td>3</td>
+                      <td>10:00-11:00</td>
+                      <td>UX/UI Design</td>
+                      <td>295</td>
+                  </tr>
+                  <tr>
+                      <td>4</td>
+                      <td>10:00-11:00</td>
+                      <td>Oracle</td>
+                      <td>700</td>
+                  </tr>
+                  <tr>
+                      <td>5</td>
+                      <td>10:00-11:00</td>
+                      <td>SDP4</td>
+                      <td>300</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    </div>);
+  </div>
+</div>);
   }
 }
 StudentHome.contextTypes = {

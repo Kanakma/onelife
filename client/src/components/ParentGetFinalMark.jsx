@@ -34,55 +34,37 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-
-
-        if(Auth.isUserAuthenticated()){
-      var token = Auth.getToken();
-      var decoded = jwtDecode(token);
-      this.setState({
-        userId: decoded.sub
-      });
-      //console.log(decoded.sub,'suuub')
-      axios.get('/fmark/myfinalmarks?student_id='+decoded.sub,  {
-        responseType: 'json',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded'
-        }
-      })
-        .then(res => {
-          this.setState({
-            fm: res.data.fm,
-           final_gpa: res.data.final_gpa
-          });
+      if(Auth.isUserAuthenticated()){
+        var token = Auth.getToken();
+        var decoded = jwtDecode(token);
+        this.setState({
+          userId: decoded.sub
+        });
+        axios.get('/fmark/myfinalmarks?student_id='+decoded.sub,  {
+          responseType: 'json',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
         })
-
-
-}
-
+          .then(res => {
+            this.setState({
+              fm: res.data.fm,
+             final_gpa: res.data.final_gpa
+            });
+          })
+        }
   }
 
-
-
-
-
-
-
   render() {
- console.log(this.state.final_gpa)
     return (
-
       <div className="container clearfix">
-      <div className=" bg-title">
-        <h4>Моя Итоговая Ведомость</h4>
-
-      </div>
-      <div className="my-content  ">
-
-      <div className="table-responsive">
-
-
-          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
+        <div className=" bg-title">
+          <h4>Моя Итоговая Ведомость</h4>
+        </div>
+        <div className="my-content  ">
+          <div className="table-responsive">
+            <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+            <table id="myTable" className="table table-striped">
               <thead>
                   <tr>
                       <th>№</th>
@@ -95,7 +77,7 @@ class TeacherAddAttendance extends React.Component {
 
                   </tr>
               </thead>
-                <tbody>
+              <tbody>
               {this.state.fm.map((sub, s) =>
                 <tr key={s}>
                     <td>{s+1}</td>
@@ -104,9 +86,6 @@ class TeacherAddAttendance extends React.Component {
                     <td className="table-b-left">{sub.final_mark.rk2}</td>
                     <td className="table-b-left">{sub.final_mark.final_m}</td>
                     <td className="table-b-left">{sub.stud_final_mark.stud_final}</td>
-
-
-
                 </tr>
               )}
               </tbody>

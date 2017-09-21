@@ -138,11 +138,9 @@ class TeacherProfile extends React.Component {
                   <TeacherProfileNav teacher={this.state.teacher}/>
                 </div>
               </div>
-
-
-      </div>
-      </div>
-      </div>
+            </div>
+          </div>
+        </div>
       </div>);
   }
 }

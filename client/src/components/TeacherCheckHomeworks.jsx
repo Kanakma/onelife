@@ -189,7 +189,6 @@ class TeacherCheckHomeworks extends React.Component{
           }
         </div>
       </div>
-
     </div>);
   }
 }

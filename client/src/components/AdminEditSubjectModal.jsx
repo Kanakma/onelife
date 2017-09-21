@@ -289,9 +289,9 @@ class AdminEditSubjectModal extends React.Component {
       <div style={backdropStyle}>
         <div style={modalStyle}>
           <div>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+            <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+              X
+            </button>
             <form action="/subjects" onSubmit={this.editSubjectFunc}>
               <div className="form-group">
                   <label>Код предмета</label>
@@ -324,59 +324,59 @@ class AdminEditSubjectModal extends React.Component {
                 </div>
               </div>
               <div className="form-group row">
-              <div className="col-md-6">
-                <label>Факультет</label>
-                <select className="form-control" name="faculty_id" disabled={this.state.checkElective} onChange={this.changeFaculty}>
-                  <option value=''>Выберите факультета</option>
-                  <option value=' '>Без факультета</option>
-                  {this.state.faculties.map((faculty, f) =>
-                    <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
-                  )}
-                </select>
-                <span className="bar"></span>
-              </div>
-              <div className="col-md-6">
-                <label>Преподаватель</label>
-                <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
-                  <option value=''>Выберите преподавателя</option>
-                  {this.state.teachers.map((teacher, t) =>
-                    <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
-                  )}
-                </select>
-                <span className="bar"></span>
-              </div>
+                <div className="col-md-6">
+                  <label>Факультет</label>
+                  <select className="form-control" name="faculty_id" disabled={this.state.checkElective} onChange={this.changeFaculty}>
+                    <option value=''>Выберите факультета</option>
+                    <option value=' '>Без факультета</option>
+                    {this.state.faculties.map((faculty, f) =>
+                      <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
+                    )}
+                  </select>
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-6">
+                  <label>Преподаватель</label>
+                  <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
+                    <option value=''>Выберите преподавателя</option>
+                    {this.state.teachers.map((teacher, t) =>
+                      <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
+                    )}
+                  </select>
+                  <span className="bar"></span>
+                </div>
               </div>
               <div className="form-group row">
-                  <div className="col-md-3">
-                    <label>Период (месяц)</label>
-                    <input type="number" className="form-control" placeholder="Период"
-                           name="period" value={this.state.subject.period} onChange={this.changeSubject} />
-                    <span className="bar"></span>
-                  </div>
-                  <div className="col-md-3">
-                    <label>Курс</label>
-                    <input type="number" className="form-control" placeholder="Курс"
-                           name="course_number" value={this.state.subject.course_number} onChange={this.changeSubject} />
-                    <span className="bar"></span>
-                  </div>
-                  <div className="col-md-3">
-                    <label>Кредиты</label>
-                    <input type="number" className="form-control" placeholder="Кредиты"
-                           name="credit_number" value={this.state.subject.credit_number} onChange={this.changeSubject} />
-                    <span className="bar"></span>
-                  </div>
-                  <div className="col-md-3">
-                    <label>Количество студентов</label>
-                    <input type="number" className="form-control" placeholder="Количество студентов"
-                           name="max_students"
-                           value={this.state.subject.max_students}
-                           onChange={this.changeSubject}
-                           disabled={!this.state.optional} />
-                    <span className="bar"></span>
-                  </div>
+                <div className="col-md-3">
+                  <label>Период (месяц)</label>
+                  <input type="number" className="form-control" placeholder="Период"
+                         name="period" value={this.state.subject.period} onChange={this.changeSubject} />
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-3">
+                  <label>Курс</label>
+                  <input type="number" className="form-control" placeholder="Курс"
+                         name="course_number" value={this.state.subject.course_number} onChange={this.changeSubject} />
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-3">
+                  <label>Кредиты</label>
+                  <input type="number" className="form-control" placeholder="Кредиты"
+                         name="credit_number" value={this.state.subject.credit_number} onChange={this.changeSubject} />
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-3">
+                  <label>Количество студентов</label>
+                  <input type="number" className="form-control" placeholder="Количество студентов"
+                         name="max_students"
+                         value={this.state.subject.max_students}
+                         onChange={this.changeSubject}
+                         disabled={!this.state.optional} />
+                  <span className="bar"></span>
+                </div>
               </div>
               <div className="form-group">
-              <label>Изображение</label>
+                <label>Изображение</label>
                 <div className="fileinput input-group fileinput-new" data-provides="fileinput">
                     <div className="form-control" data-trigger="fileinput">
                     {this.state.filename.length > 0 ?(
@@ -402,12 +402,13 @@ class AdminEditSubjectModal extends React.Component {
               <div className="form-group">
                 <label>Описание</label><br/>
                 <textarea type="text"
-                             className="form-control"
-                             value={this.state.subject.description}
-                             name="description"
-                             onChange={this.changeSubject}
-                             placeholder="Введите описание предмета"
-                             rows="5"></textarea>
+                         className="form-control"
+                         value={this.state.subject.description}
+                         name="description"
+                         onChange={this.changeSubject}
+                         placeholder="Введите описание предмета"
+                         rows="5">
+                </textarea>
                 <span className="bar"></span>
               </div>
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">

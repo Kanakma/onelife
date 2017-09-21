@@ -41,13 +41,9 @@ class TeacherAddAttendance extends React.Component {
 
     this.updateMe = this.updateMe.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
-
-
   }
-
   componentDidMount() {
-
-        if(Auth.isUserAuthenticated()){
+    if(Auth.isUserAuthenticated()){
       var token = Auth.getToken();
       var decoded = jwtDecode(token);
       this.setState({
@@ -68,13 +64,8 @@ class TeacherAddAttendance extends React.Component {
           });
 
         });
-
-
   }
 }
-
-
-
  dateFormat(date){
     var fDate = new Date(date);
     var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
@@ -82,187 +73,143 @@ class TeacherAddAttendance extends React.Component {
     return m + "/" + d + "/" + fDate.getFullYear()
   }
 
-        updateMe(event){
+updateMe(event){
+   if(event.target.value.length > 0){
+        this.setState({
+          subject_id: event.target.value,
+          checkSubject: true,
+          message: '',
+          students: this.state.main_students.filter(function(student) {
+                                    return student.lastname.indexOf(event.target.value) > -1;
+                                })
+        })
+      const  userId =this.state.onestudent._id;
+      console.log(this.state.onestudent,'asdad')
+      const subjectId=event.target.value;
+      const formData=`userId=${userId}&subjectId=${event.target.value}`;
 
-         if(event.target.value.length > 0){
-              this.setState({
-                subject_id: event.target.value,
-                checkSubject: true,
-                message: '',
-                students: this.state.main_students.filter(function(student) {
-                                          return student.lastname.indexOf(event.target.value) > -1;
-                                      })
-              })
-            // console.log(this.state.userId, event.target.value)
-            const  userId =this.state.onestudent._id;
-            console.log(this.state.onestudent,'asdad')
-            const subjectId=event.target.value;
-            const formData=`userId=${userId}&subjectId=${event.target.value}`;
-
-            axios.post('/attendance/updatemyattendance', formData, {
-                    responseType: 'json',
-                    headers: {
-                      'Content-type': 'application/x-www-form-urlencoded'
-                    }
-            })
-              .then(res => {
-                this.setState({
-                  //subject_groups: res.data.subject_groups.groups
-                  attendance: res.data.attendance
-                });
-              });
-            } else {
-              this.setState({
-                subject_id: event.target.value,
-                checkSubject: false,
-                message: ''
-              })
-            }
-
-
-
-        }
-
-
-
-
-
+      axios.post('/attendance/updatemyattendance', formData, {
+              responseType: 'json',
+              headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+              }
+      })
+        .then(res => {
+          this.setState({
+            attendance: res.data.attendance
+          });
+        });
+      } else {
+        this.setState({
+          subject_id: event.target.value,
+          checkSubject: false,
+          message: ''
+        })
+      }
+}
 
   render() {
-
-
     return (
-
       <div className="container clearfix">
-      <div className=" bg-title">
-        <h4>Посещаемость</h4>
-        <h4> Вы принадлежите к группе {this.state.student.group_name}</h4>
-      </div>
-      <div className="my-content  ">
-
-      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-
-          <div className="form-group col-md-6">
-
-           <label className="teacher-choosed">Предмет</label>
+        <div className=" bg-title">
+          <h4>Посещаемость</h4>
+          <h4> Вы принадлежите к группе {this.state.student.group_name}</h4>
+        </div>
+        <div className="my-content  ">
+          <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
+            <div className="form-group col-md-6">
+              <label className="teacher-choosed">Предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
               <option value=''>предмет не выбран</option>
               {this.state.subject.map((sub, s) =>
                 <option key={s} value={sub._id}>{sub.subject_name}</option>
               )}
               </select>
-         </div>
-
-
-
-               <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped functional-table">
-              <thead>
-                  <tr>
-                      <th className="table-head-text">№</th>
-                      <th className="table-head-text table-b-left">ID</th>
-                      <th className="table-head-text table-b-left">ФИО</th>
-                      <th className="table-head-text table-b-left">Статус</th>
-                      <th className="table-head-text table-b-left">Дата</th>
-
-                  </tr>
-              </thead>
-                       {
-                this.state.attendance.length !=0 ?
-                ( <tbody>
-              {this.state.attendance.map((student, s) =>
-                <tr key={s}>
-                    <td>{s+1}</td>
-                    <td className="table-b-left">{student.student.user_id.username}</td>
-                    <td className="table-b-left">{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    <td className="table-b-left"> {student.stud_attendance}</td>
-                    <td className="table-b-left">{this.dateFormat(student.date)}</td>
-
-                </tr>
-              )}
-              </tbody>) :(
-              <tbody>
-                  <tr>
-                  <td>У вас пока нет посещаемости</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  </tr>
-                  </tbody>
-                )
-              }
-
-
-
-          </table>
-
-      </div>
-
-
-
-      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
-
-          <div className="form-group col-md-6">
-
-           <label>Выберите предмет</label>
-              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
-              <option value=''>предмет не выбран</option>
-              {this.state.subject.map((sub, s) =>
-                <option key={s} value={sub._id}>{sub.subject_name}</option>
-              )}
-              </select>
-         </div>
-
-
-
-               <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
-
-                       {
-                this.state.attendance.length !=0 ?
-                ( <tbody>
-              {this.state.attendance.map((student, s) =>
-                <div>
-                <tr key={s}>
-                    <td>{s+1}</td>
-
-                    </tr>
+            </div>
+            <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+              <table id="myTable" className="table table-striped functional-table">
+                <thead>
                     <tr>
-                    <td className="mobile-table">ID</td><td>{student.student.user_id.username}</td>
+                        <th className="table-head-text">№</th>
+                        <th className="table-head-text table-b-left">ID</th>
+                        <th className="table-head-text table-b-left">ФИО</th>
+                        <th className="table-head-text table-b-left">Статус</th>
+                        <th className="table-head-text table-b-left">Дата</th>
                     </tr>
-                    <tr>
-                    <td className="mobile-table">ФИО</td><td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
-                    </tr>
-                    <tr>
-                    <td className="mobile-table">Статус</td><td> {student.stud_attendance}</td>
-                    </tr>
-                    <tr>
-                    <td className="mobile-table">Дата</td><td>{this.dateFormat(student.date)}</td>
-                    </tr>
+                </thead>
+                {
+                  this.state.attendance.length !=0 ?
+                    ( <tbody>
+                      {this.state.attendance.map((student, s) =>
+                        <tr key={s}>
+                            <td>{s+1}</td>
+                            <td className="table-b-left">{student.student.user_id.username}</td>
+                            <td className="table-b-left">{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                            <td className="table-b-left"> {student.stud_attendance}</td>
+                            <td className="table-b-left">{this.dateFormat(student.date)}</td>
 
+                        </tr>
+                      )}
+                      </tbody>) :(
+                      <tbody>
+                          <tr>
+                          <td>У вас пока нет посещаемости</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          </tr>
+                      </tbody>
+                  )
+                }
+              </table>
+            </div>
+            <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+              <div className="form-group col-md-6">
+                  <label>Выберите предмет</label>
+                  <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateMe}>
+                  <option value=''>предмет не выбран</option>
+                  {this.state.subject.map((sub, s) =>
+                    <option key={s} value={sub._id}>{sub.subject_name}</option>
+                  )}
+                  </select>
                 </div>
-              )}
-              </tbody>) :(
-              <tbody>
-                  <tr>
-                  <td>У вас пока нет посещаемости</td>
-                  </tr>
-                  </tbody>
-                )
-              }
-
-
-
-          </table>
-
-      </div>
-
-
-
-
-      </div>
-      </div>);
+                <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+                <table id="myTable" className="table table-striped">
+                  {
+                    this.state.attendance.length !=0 ?
+                    ( <tbody>
+                      {this.state.attendance.map((student, s) =>
+                        <div>
+                          <tr key={s}>
+                            <td>{s+1}</td>
+                          </tr>
+                          <tr>
+                          <td className="mobile-table">ID</td><td>{student.student.user_id.username}</td>
+                          </tr>
+                          <tr>
+                          <td className="mobile-table">ФИО</td><td>{student.student.user_id.name}  {student.student.user_id.lastname}</td>
+                          </tr>
+                          <tr>
+                          <td className="mobile-table">Статус</td><td> {student.stud_attendance}</td>
+                          </tr>
+                          <tr>
+                          <td className="mobile-table">Дата</td><td>{this.dateFormat(student.date)}</td>
+                          </tr>
+                        </div>
+                      )}
+                      </tbody>) :(
+                      <tbody>
+                        <tr>
+                        <td>У вас пока нет посещаемости</td>
+                        </tr>
+                      </tbody>
+                      )
+                    }
+                </table>
+              </div>
+            </div>
+          </div>);
   }
 }
 

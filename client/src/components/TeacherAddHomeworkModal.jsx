@@ -152,60 +152,60 @@ class TeacherAddHomeworkModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-        <div className="row">
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
-            </div>
-          <div>
-          <form action="/teacheraddhomework" onSubmit={this.addHomework}  >
-            <div className="form-group col-md-6">
-              <label  className="teacher-choosed">Дата проведения пары</label>
-              <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} className="form-control mydatepicker"/>
-            </div>
-            <div className="form-group row">
-              <div className="col-md-6">
-                <label className="teacher-choosed">Дедлайн</label>
-                <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  className="form-control mydatepicker"/>
-              </div>
-            </div>
-            <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.description} placeholder="Опишите задание" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
-            </div>
-            <div  style={{textAlign: 'center'}}>
-              <label className="teacher-choosed">Выберите файл</label>
-            </div>
-            <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
-                <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                  </div>
-                ):(
-                  <span></span>
-                )}
-                </div>
-                <span className="input-group-addon btn btn-default btn-file">
-                {this.state.filename.length > 0 ?(
-                  <span className="fileinput-exists">Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
-                  <input type="hidden" value="" name="..."/>
-                  <input type="file" name="" onChange={this.changeFile} />
-                </span>
-            </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
-              Отправить задание
-              </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>
-              Отмена
-              </button>
-            </form>
+          <div className="row">
+            <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+              X
+            </button>
           </div>
-        </div>
+        <div>
+        <form action="/teacheraddhomework" onSubmit={this.addHomework}  >
+          <div className="form-group col-md-6">
+            <label  className="teacher-choosed">Дата проведения пары</label>
+            <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} className="form-control mydatepicker"/>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-6">
+              <label className="teacher-choosed">Дедлайн</label>
+              <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  className="form-control mydatepicker"/>
+            </div>
+          </div>
+          <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
+            <textarea maxLength="500" type="text" value={this.state.description} placeholder="Опишите задание" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
+          </div>
+          <div  style={{textAlign: 'center'}}>
+            <label className="teacher-choosed">Выберите файл</label>
+          </div>
+          <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
+              <div className="form-control" data-trigger="fileinput">
+              {this.state.filename.length > 0 ?(
+                <div>
+                  <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                  <span className="fileinput-filename">{this.state.filename}</span>
+                </div>
+              ):(
+                <span></span>
+              )}
+              </div>
+              <span className="input-group-addon btn btn-default btn-file">
+              {this.state.filename.length > 0 ?(
+                <span className="fileinput-exists">Изменить</span>
+              ):(
+                <span className="fileinput-new">Выбрать</span>
+              )}
+                <input type="hidden" value="" name="..."/>
+                <input type="file" name="" onChange={this.changeFile} />
+              </span>
+          </div>
+          <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
+          Отправить задание
+          </button>
+          <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>
+          Отмена
+          </button>
+        </form>
       </div>
+    </div>
+  </div>
     );
   }
 }

@@ -309,133 +309,133 @@ class AdminAddSubject extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className=" bg-title">
-        <h4>Добавить предмет</h4>
-      </div>
-      <div className="my-content" >
-      <div className = "table-responsive">
-      <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание предмета</h5>
-          {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
-          {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
-          <form action="/" onSubmit={this.addSubject}>
-            <div className="form-group">
-                <label>Код предмета</label>
-                <input type="text" className="form-control" placeholder="Код предмета"
-                     name="subject_code" value={this.state.subject.subject_code} onChange={this.changeSubject} />
-                <span className="bar"></span>
-            </div>
-            <div className="form-group">
-                <label>Название предмета</label>
-                <input type="text" className="form-control" placeholder="Название предмета"
-                     name="subject_name" value={this.state.subject.subject_name} onChange={this.changeSubject} />
-                <span className="bar"></span>
-            </div>
-            <div className="form-group row">
-              <div className="col-md-6">
-                <label>Тип</label>
-                <select className="form-control" value={this.state.typeValue} onChange={this.changeElective} style={{cursor: 'pointer'}}>
-                  <option value='Общеобразовательный'>Общеобразовательный</option>
-                  <option value='Специализированный'>Специализированный</option>
-                </select>
-                <span className="bar"></span>
-              </div>
-              <div className="col-md-6">
-                <label>Элективный</label>
-                <select className="form-control" name="optional" disabled={this.state.checkElective} value={this.state.optionalValue} onChange={this.changeOptional} style={{cursor: 'pointer'}}>
-                  <option value='Факультативный'>Факультативный</option>
-                  <option value='Обязательный'>Обязательный</option>
-                </select>
-                <span className="bar"></span>
-              </div>
-            </div>
-            <div className="form-group row">
-            <div className="col-md-6">
-              <select className="form-control" name="faculty_id" disabled={this.state.checkElective} value={this.state.faculty_name} onChange={this.changeFaculty}>
-                <option value=''>Факультет</option>
-                {this.state.faculties.map((faculty, f) =>
-                  <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
-                )}
-              </select>
-              <span className="bar"></span>
-            </div>
-            <div className="col-md-6">
-              <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
-                <option value=''>Преподаватель</option>
-                {this.state.teachers.map((teacher, t) =>
-                  <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
-                )}
-              </select>
-              <span className="bar"></span>
-            </div>
-            </div>
-            <div className="form-group row">
-                <div className="col-md-3">
-                  <label>Период (месяц)</label>
-                  <input type="number" className="form-control" placeholder="Период" min="0"
-                         name="period" value={this.state.subject.period} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-3">
-                  <label>Курс</label>
-                  <input type="number" className="form-control" placeholder="Курс" min="0"
-                         name="course_number" value={this.state.subject.course_number} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-3">
-                  <label>Кредиты</label>
-                  <input type="number" className="form-control" placeholder="Кредиты" min="0"
-                         name="credit_number" value={this.state.subject.credit_number} onChange={this.changeSubject} />
-                  <span className="bar"></span>
-                </div>
-                <div className="col-md-3">
-                  <label>Количество студентов</label>
-                  <input type="number" className="form-control" placeholder="Количество студентов" min="0"
-                         name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject}
-                         disabled={!this.state.optional} />
-                  <span className="bar"></span>
-                </div>
-            </div>
-            <div className="form-group">
-            <label>Изображение</label>
-              <div className="fileinput input-group fileinput-new" data-provides="fileinput">
-                  <div className="form-control" data-trigger="fileinput">
-                  {this.state.filename.length > 0 ?(
-                    <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                    </div>
-                  ):(
-                    <span></span>
-                  )}
-                  </div>
-                  <span className="input-group-addon btn btn-default btn-file">
-                  {this.state.filename.length > 0 ?(
-                    <span className="fileinput-exists">Изменить</span>
-                  ):(
-                    <span className="fileinput-new">Выбрать</span>
-                  )}
-                    <input type="hidden" value="" name="..."/>
-                    <input type="file" name="" onChange={this.changeImg} />
-                  </span>
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Описание</label><br/>
-              <textarea type="text"
-                           className="form-control"
-                           value={this.state.subject.description}
-                           name="description"
-                           onChange={this.changeSubject}
-                           placeholder="Введите описание предмета"
-                           rows="5"></textarea>
-              <span className="bar"></span>
-            </div>
-            <div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
-              <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
-            </div>
-          </form>
+        <div className=" bg-title">
+          <h4>Добавить предмет</h4>
         </div>
+        <div className="my-content" >
+          <div className = "table-responsive">
+            <h5 style={{marginBottom: '3%'}} className="text-uppercase">Описание предмета</h5>
+            {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
+            {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
+            <form action="/" onSubmit={this.addSubject}>
+              <div className="form-group">
+                  <label>Код предмета</label>
+                  <input type="text" className="form-control" placeholder="Код предмета"
+                       name="subject_code" value={this.state.subject.subject_code} onChange={this.changeSubject} />
+                  <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                  <label>Название предмета</label>
+                  <input type="text" className="form-control" placeholder="Название предмета"
+                       name="subject_name" value={this.state.subject.subject_name} onChange={this.changeSubject} />
+                  <span className="bar"></span>
+              </div>
+              <div className="form-group row">
+                <div className="col-md-6">
+                  <label>Тип</label>
+                  <select className="form-control" value={this.state.typeValue} onChange={this.changeElective} style={{cursor: 'pointer'}}>
+                    <option value='Общеобразовательный'>Общеобразовательный</option>
+                    <option value='Специализированный'>Специализированный</option>
+                  </select>
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-6">
+                  <label>Элективный</label>
+                  <select className="form-control" name="optional" disabled={this.state.checkElective} value={this.state.optionalValue} onChange={this.changeOptional} style={{cursor: 'pointer'}}>
+                    <option value='Факультативный'>Факультативный</option>
+                    <option value='Обязательный'>Обязательный</option>
+                  </select>
+                  <span className="bar"></span>
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="col-md-6">
+                  <select className="form-control" name="faculty_id" disabled={this.state.checkElective} value={this.state.faculty_name} onChange={this.changeFaculty}>
+                    <option value=''>Факультет</option>
+                    {this.state.faculties.map((faculty, f) =>
+                      <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
+                    )}
+                  </select>
+                  <span className="bar"></span>
+                </div>
+                <div className="col-md-6">
+                  <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
+                    <option value=''>Преподаватель</option>
+                    {this.state.teachers.map((teacher, t) =>
+                      <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
+                    )}
+                  </select>
+                  <span className="bar"></span>
+                </div>
+              </div>
+              <div className="form-group row">
+                  <div className="col-md-3">
+                    <label>Период (месяц)</label>
+                    <input type="number" className="form-control" placeholder="Период" min="0"
+                           name="period" value={this.state.subject.period} onChange={this.changeSubject} />
+                    <span className="bar"></span>
+                  </div>
+                  <div className="col-md-3">
+                    <label>Курс</label>
+                    <input type="number" className="form-control" placeholder="Курс" min="0"
+                           name="course_number" value={this.state.subject.course_number} onChange={this.changeSubject} />
+                    <span className="bar"></span>
+                  </div>
+                  <div className="col-md-3">
+                    <label>Кредиты</label>
+                    <input type="number" className="form-control" placeholder="Кредиты" min="0"
+                           name="credit_number" value={this.state.subject.credit_number} onChange={this.changeSubject} />
+                    <span className="bar"></span>
+                  </div>
+                  <div className="col-md-3">
+                    <label>Количество студентов</label>
+                    <input type="number" className="form-control" placeholder="Количество студентов" min="0"
+                           name="max_students" value={this.state.subject.max_students} onChange={this.changeSubject}
+                           disabled={!this.state.optional} />
+                    <span className="bar"></span>
+                  </div>
+              </div>
+              <div className="form-group">
+                <label>Изображение</label>
+                <div className="fileinput input-group fileinput-new" data-provides="fileinput">
+                    <div className="form-control" data-trigger="fileinput">
+                    {this.state.filename.length > 0 ?(
+                      <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                      </div>
+                    ):(
+                      <span></span>
+                    )}
+                    </div>
+                    <span className="input-group-addon btn btn-default btn-file">
+                    {this.state.filename.length > 0 ?(
+                      <span className="fileinput-exists">Изменить</span>
+                    ):(
+                      <span className="fileinput-new">Выбрать</span>
+                    )}
+                      <input type="hidden" value="" name="..."/>
+                      <input type="file" name="" onChange={this.changeImg} />
+                    </span>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Описание</label><br/>
+                <textarea type="text"
+                             className="form-control"
+                             value={this.state.subject.description}
+                             name="description"
+                             onChange={this.changeSubject}
+                             placeholder="Введите описание предмета"
+                             rows="5"></textarea>
+                <span className="bar"></span>
+              </div>
+              <div>
+                <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
+                <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>);
   }

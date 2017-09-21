@@ -319,10 +319,6 @@ class TeacherHomeworks extends React.Component{
             )
           }
         </div>
-
-
-
-
       </div>
       <TeacherEditHomeworkModal
         show={this.state.isOpen}

@@ -83,14 +83,12 @@ class AdminFAQ extends React.Component {
       </div>
       <div className=" my-content" >
         <div className="table-responsive">
-        {
+          {
             this.state.faqs.map((faq, f)=>
-              <div key={f}>{
-                
-              }
-              <button onClick={this.editToggleModal.bind(this, faq)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', float: 'right'}}>
-                  <i className="fa fa-pencil"></i>
-              </button>
+              <div key={f}>
+                <button onClick={this.editToggleModal.bind(this, faq)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', float: 'right'}}>
+                    <i className="fa fa-pencil"></i>
+                </button>
                 <h4>{faq.question}</h4>
                 <h5>{faq.answer}  {
                   faq.file?(
@@ -102,15 +100,16 @@ class AdminFAQ extends React.Component {
                   ):(
                     <span></span>
                   )
-                }</h5>
+                  }
+                </h5>
                 <br/>
                 <hr/>
               </div>
             )
           }
-        <div className="row" style={{textAlign: 'center'}}>
-          <button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.toggleModal}>Добавить</button>
-        </div>
+          <div className="row" style={{textAlign: 'center'}}>
+            <button className="btn btn-success" style={{paddingLeft: '1%', paddingRight: '1%'}} onClick={this.toggleModal}>Добавить</button>
+          </div>
         </div>
       </div>
       <AdminAddFaqModal

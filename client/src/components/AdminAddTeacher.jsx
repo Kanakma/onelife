@@ -206,157 +206,157 @@ class AdminAddTeacher extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Добавить преподавателя</h4>
-      </div>
-      <div className="my-content " >
-      <div className = "table-responsive">
-      <h5 style={{marginBottom: '3%'}} className="text-uppercase">Основная информация</h5>
-        {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
-        {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
-        <form action="/"  onSubmit={this.addTeacher}>
-          <div className="form-group">
-          <label>Имя преподавателя</label>
-            <input type="text" className="form-control" placeholder="Введите имя преподавателя"
-                  name="name"
-                  onChange={this.changeTeacher}
-                  value={this.state.teacher.name} />
-            <span className="bar"></span>
-          </div>
-          <div className="form-group">
-          <label>Фамилия преподавателя</label>
-            <input type="text" className="form-control" placeholder="Введите фамилию преподавателя"
-                  name="lastname"
-                  onChange={this.changeTeacher}
-                  value={this.state.teacher.lastname} />
-            <span className="bar"></span>
-          </div>
-          <div className="form-group">
-          <label>ИИН</label>
-            <input type="text" className="form-control" placeholder="Введите ИИН"
-                  name="passport_id"
-                  onChange={this.changeTeacher}
-                  value={this.state.teacher.passport_id} />
-            <span className="bar"></span>
-          </div>
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label>Пол</label>
-              <select className="form-control" name="gender" value={this.state.teacher.gender} onChange={this.changeTeacher} style={{cursor: 'pointer'}}>
-                <option value="">Выберите пол</option>
-                <option value="Мужчина">Мужчина</option>
-                <option value="Женщина">Женщина</option>
-              </select>
-              <span className="bar"></span>
-            </div>
-            <div className="col-md-6">
-              <label>Степень</label>
-              <select className="form-control" name="degree" value={this.state.teacher.degree} onChange={this.changeTeacher}>
-                <option value="">Выберите степень</option>
-                <option value="Ассистент">Ассистент</option>
-                <option value="Лаборант">Лаборант</option>
-                <option value="Доктор">Доктор</option>
-                <option value="Профессор">Профессор</option>
-                <option value="Академик">Академик</option>
-              </select>
-              <span className="bar"></span>
-            </div>
-          </div>
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label>День рождения</label>
-              <DatePicker value={this.state.birthday} onChange={this.birthdayChange} className="form-control mydatepicker"/>
-            </div>
-            <div className="col-md-6">
-              <label>День начала работы</label>
-              <DatePicker value={this.state.entry_year} onChange={this.entry_yearChange}  className="form-control mydatepicker"/>
-            </div>
-          </div>
-          {this.state.faculties ? (
+        <div className="bg-title">
+          <h4>Добавить преподавателя</h4>
+        </div>
+        <div className="my-content " >
+        <div className = "table-responsive">
+          <h5 style={{marginBottom: '3%'}} className="text-uppercase">Основная информация</h5>
+          {this.state.message && <h5 style={{ fontSize: '14px', color: 'green' }}>{this.state.message}</h5>}
+          {this.state.errors.summary && <h5 style={{ fontSize: '14px', color: 'red' }}>{this.state.errors.summary}</h5>}
+          <form action="/"  onSubmit={this.addTeacher}>
             <div className="form-group">
-              <label>Факультет</label>
-              <select className="form-control" name="faculty_id" value={this.state.teacher.faculty_id} onChange={this.changeTeacher}>
-                <option value=''>Выберите факультет</option>
-                {this.state.faculties.map((faculty, f) =>
-                  <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
-                )}
-              </select>
+              <label>Имя преподавателя</label>
+              <input type="text" className="form-control" placeholder="Введите имя преподавателя"
+                    name="name"
+                    onChange={this.changeTeacher}
+                    value={this.state.teacher.name} />
               <span className="bar"></span>
             </div>
-            ) : (
             <div className="form-group">
-              <label>Факультет</label>
-              <select className="form-control" name="faculty_id" value={this.state.teacher.faculty_id} onChange={this.changeTeacher}>
-                <option value=''>Факультеты не добавлены</option>
-              </select>
+              <label>Фамилия преподавателя</label>
+              <input type="text" className="form-control" placeholder="Введите фамилию преподавателя"
+                    name="lastname"
+                    onChange={this.changeTeacher}
+                    value={this.state.teacher.lastname} />
               <span className="bar"></span>
             </div>
-            )}
-          <div className="form-group">
-          <label>Изображение преподавателя</label>
-            <div className="fileinput input-group fileinput-new" data-provides="fileinput">
-                <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
+            <div className="form-group">
+              <label>ИИН</label>
+              <input type="text" className="form-control" placeholder="Введите ИИН"
+                    name="passport_id"
+                    onChange={this.changeTeacher}
+                    value={this.state.teacher.passport_id} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group row">
+              <div className="col-md-6">
+                <label>Пол</label>
+                <select className="form-control" name="gender" value={this.state.teacher.gender} onChange={this.changeTeacher} style={{cursor: 'pointer'}}>
+                  <option value="">Выберите пол</option>
+                  <option value="Мужчина">Мужчина</option>
+                  <option value="Женщина">Женщина</option>
+                </select>
+                <span className="bar"></span>
+              </div>
+              <div className="col-md-6">
+                <label>Степень</label>
+                <select className="form-control" name="degree" value={this.state.teacher.degree} onChange={this.changeTeacher}>
+                  <option value="">Выберите степень</option>
+                  <option value="Ассистент">Ассистент</option>
+                  <option value="Лаборант">Лаборант</option>
+                  <option value="Доктор">Доктор</option>
+                  <option value="Профессор">Профессор</option>
+                  <option value="Академик">Академик</option>
+                </select>
+                <span className="bar"></span>
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col-md-6">
+                <label>День рождения</label>
+                <DatePicker value={this.state.birthday} onChange={this.birthdayChange} className="form-control mydatepicker"/>
+              </div>
+              <div className="col-md-6">
+                <label>День начала работы</label>
+                <DatePicker value={this.state.entry_year} onChange={this.entry_yearChange}  className="form-control mydatepicker"/>
+              </div>
+            </div>
+            {this.state.faculties ? (
+              <div className="form-group">
+                <label>Факультет</label>
+                <select className="form-control" name="faculty_id" value={this.state.teacher.faculty_id} onChange={this.changeTeacher}>
+                  <option value=''>Выберите факультет</option>
+                  {this.state.faculties.map((faculty, f) =>
+                    <option key={f} value={faculty._id}>{faculty.faculty_name}</option>
+                  )}
+                </select>
+                <span className="bar"></span>
+              </div>
+              ) : (
+              <div className="form-group">
+                <label>Факультет</label>
+                <select className="form-control" name="faculty_id" value={this.state.teacher.faculty_id} onChange={this.changeTeacher}>
+                  <option value=''>Факультеты не добавлены</option>
+                </select>
+                <span className="bar"></span>
+              </div>
+              )}
+            <div className="form-group">
+              <label>Изображение преподавателя</label>
+              <div className="fileinput input-group fileinput-new" data-provides="fileinput">
+                  <div className="form-control" data-trigger="fileinput">
+                  {this.state.filename.length > 0 ?(
+                    <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                    </div>
+                  ):(
+                    <span></span>
+                  )}
                   </div>
-                ):(
-                  <span></span>
-                )}
-                </div>
-                <span className="input-group-addon btn btn-default btn-file">
-                {this.state.filename.length > 0 ?(
-                  <span className="fileinput-exists">Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
-                  <input type="hidden" value="" name="..."/>
-                  <input type="file" name="" onChange={this.changeImg} />
-                </span>
+                  <span className="input-group-addon btn btn-default btn-file">
+                  {this.state.filename.length > 0 ?(
+                    <span className="fileinput-exists">Изменить</span>
+                  ):(
+                    <span className="fileinput-new">Выбрать</span>
+                  )}
+                    <input type="hidden" value="" name="..."/>
+                    <input type="file" name="" onChange={this.changeImg} />
+                  </span>
+              </div>
             </div>
-          </div>
-              <div className="form-group">
-                <label>E-mail</label>
-                <input type="email" className="form-control" placeholder="Введите E-mail"
-                      name="email"
-                      onChange={this.changeAccount}
-                      value={this.state.account.email} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>Телефон</label>
-                <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder="Введите номер телефона"
-                      name="phone"
-                      onChange={this.changeAccount}
-                      value={this.state.account.phone} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>Пароль</label>
-                <input type="password" className="form-control" placeholder="Введите пароль"
-                      name="password"
-                      onChange={this.changeAccount}
-                      value={this.state.account.password} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group">
-                <label>Подтверждение пароля</label>
-                <input type="password" className="form-control" placeholder="Повторите пароль"
-                      name="checkpassword"
-                      onChange={this.changeAccount}
-                      value={this.state.account.checkpassword} />
-                <span className="bar"></span>
-              </div>
-              <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
-                <p style={{color: 'red'}}>Пароли не совпадают</p>
-              </div>
-          <div>
-            <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
-            <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
-          </div>
-        </form>
-      </div>
+            <div className="form-group">
+              <label>E-mail</label>
+              <input type="email" className="form-control" placeholder="Введите E-mail"
+                    name="email"
+                    onChange={this.changeAccount}
+                    value={this.state.account.email} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group">
+              <label>Телефон</label>
+              <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder="Введите номер телефона"
+                    name="phone"
+                    onChange={this.changeAccount}
+                    value={this.state.account.phone} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group">
+              <label>Пароль</label>
+              <input type="password" className="form-control" placeholder="Введите пароль"
+                    name="password"
+                    onChange={this.changeAccount}
+                    value={this.state.account.password} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group">
+              <label>Подтверждение пароля</label>
+              <input type="password" className="form-control" placeholder="Повторите пароль"
+                    name="checkpassword"
+                    onChange={this.changeAccount}
+                    value={this.state.account.checkpassword} />
+              <span className="bar"></span>
+            </div>
+            <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+              <p style={{color: 'red'}}>Пароли не совпадают</p>
+            </div>
+            <div>
+              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent} style={{paddingLeft: '5%', paddingRight: '5%'}}>Добавить</button>
+              <button type="button" onClick={this.clearContent} className="btn btn-inverse waves-effect waves-light m-r-10" style={{paddingLeft: '5%', paddingRight: '5%'}}>Отмена</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>);
   }

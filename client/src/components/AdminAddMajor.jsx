@@ -172,16 +172,16 @@ class AdminAddMajor extends React.Component {
             </div>
           </div>
           ) : (
-           <div className="container clearfix">
-              <div className="bg-title">
-                <h4>Добавить специальность</h4>
-              </div>
-              <div className=" my-content">
-                <div className = "table-responsive">
-                  <h4>Нет кафедр. Добавьте кафедры</h4>
-                </div>
+         <div className="container clearfix">
+            <div className="bg-title">
+              <h4>Добавить специальность</h4>
+            </div>
+            <div className=" my-content">
+              <div className = "table-responsive">
+                <h4>Нет кафедр. Добавьте кафедры</h4>
               </div>
             </div>
+          </div>
           )
         }
       </div>

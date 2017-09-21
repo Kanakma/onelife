@@ -84,9 +84,7 @@ class TeacherAddAttendance extends React.Component {
 
   }
  updateStudents(event){
-     // console.log(event.target.value)
       if(event.target.value.length > 0){
-
       this.setState({
         group_name: event.target.value,
         checkSubject: true,
@@ -119,18 +117,11 @@ class TeacherAddAttendance extends React.Component {
       this.setState({
         attendances: res.data.attendances,
         message: res.data.message
-
       })
-
    })
-
-
-
-   }
-
+ }
 
 updateGroups(event){
-
  if(event.target.value.length > 0){
 
       this.setState({
@@ -160,148 +151,125 @@ updateGroups(event){
         });
       });
 }
-
-
   render() {
     return (
-
       <div className="container clearfix">
-      <div className=" bg-title">
-        <h4>Успеваемость</h4>
-
-      </div>
-      <div className="my-content  ">
-
-      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
+        <div className=" bg-title">
+          <h4>Успеваемость</h4>
+        </div>
+        <div className="my-content  ">
+          <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
             <div className="form-group col-md-6">
-
-
-           <label className="teacher-choosed">Предмет</label>
-              <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
-              <option value=''>предмет не выбран</option>
-              {this.state.subjects.map((subject, s) =>
-                <option key={s} value={subject._id}>{subject.subject_name}</option>
-              )}
-              </select>
-         </div>
-        <div className="form-group col-md-6">
-        <label className="teacher-choosed">Группа</label>
-               {
-          this.state.subject_groups.length!=0 ?
-          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
-          <option value=''>Выберите группу</option>
-          {this.state.subject_groups.map((group, s) =>
-            <option key={s} value={group._id}>{group.group_name}</option>
-          )}
-          </select>) :
-          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
-          <option value=''>групп не найдено</option>
-          </select>
-          )
-        }        </div>
-
+              <label className="teacher-choosed">Предмет</label>
+                <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
+                <option value=''>предмет не выбран</option>
+                {this.state.subjects.map((subject, s) =>
+                  <option key={s} value={subject._id}>{subject.subject_name}</option>
+                )}
+                </select>
+           </div>
+           <div className="form-group col-md-6">
+              <label className="teacher-choosed">Группа</label>
+              {
+                this.state.subject_groups.length!=0 ?
+                (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+                <option value=''>Выберите группу</option>
+                {this.state.subject_groups.map((group, s) =>
+                  <option key={s} value={group._id}>{group.group_name}</option>
+                )}
+                </select>) :
+                ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+                <option value=''>групп не найдено</option>
+                </select>
+                )
+              }
+          </div>
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped functional-table">
-              <thead>
-                  <tr>
-                      <th className="table-head-text">№</th>
-                      <th className="table-head-text table-b-left">ID</th>
-                      <th className="table-head-text table-b-left">ФИО</th>
-                      <th className="table-head-text table-b-left">РК1</th>
-                      <th className="table-head-text table-b-left">РК2</th>
-                      <th className="table-head-text table-b-left">Сессия</th>
-                      <th className="table-head-text table-b-left">Итог</th>
-
+            <table id="myTable" className="table table-striped functional-table">
+                <thead>
+                    <tr>
+                        <th className="table-head-text">№</th>
+                        <th className="table-head-text table-b-left">ID</th>
+                        <th className="table-head-text table-b-left">ФИО</th>
+                        <th className="table-head-text table-b-left">РК1</th>
+                        <th className="table-head-text table-b-left">РК2</th>
+                        <th className="table-head-text table-b-left">Сессия</th>
+                        <th className="table-head-text table-b-left">Итог</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {this.state.attendances.map((student, s) =>
+                  <tr key={s}>
+                      <td>{s+1}</td>
+                      <td className="table-b-left">{student.student.user_id.username}</td>
+                      <td className="table-b-left">{student.student.user_id.name} {student.student.user_id.lastname}</td>
+                      <td className="table-b-left">{student.final_mark.rk1}</td>
+                      <td className="table-b-left">{student.final_mark.rk2}</td>
+                      <td className="table-b-left">{student.final_mark.final_m}</td>
+                      <td className="table-b-left">{student.stud_final_mark.stud_final}</td>
                   </tr>
-              </thead>
-                <tbody>
-              {this.state.attendances.map((student, s) =>
-                <tr key={s}>
-                    <td>{s+1}</td>
-                    <td className="table-b-left">{student.student.user_id.username}</td>
-                    <td className="table-b-left">{student.student.user_id.name} {student.student.user_id.lastname}</td>
-                    <td className="table-b-left">{student.final_mark.rk1}</td>
-                    <td className="table-b-left">{student.final_mark.rk2}</td>
-                    <td className="table-b-left">{student.final_mark.final_m}</td>
-                    <td className="table-b-left">{student.stud_final_mark.stud_final}</td>
-
-
-
-                </tr>
-              )}
-              </tbody>
-
-          </table>
-
-      </div>
-
-
-
-
-
-      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
-            <div className="form-group col-md-6">
-
-
-           <label className="teacher-choosed">Выберите предмет</label>
+                )}
+                </tbody>
+            </table>
+        </div>
+        <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+          <div className="form-group col-md-6">
+             <label className="teacher-choosed">Выберите предмет</label>
               <select className="form-control " name="subject_id" value={this.state.subject_id} onChange={this.updateGroups}>
               <option value=''>предмет не выбран</option>
               {this.state.subjects.map((subject, s) =>
                 <option key={s} value={subject._id}>{subject.subject_name}</option>
               )}
               </select>
-         </div>
-        <div className="form-group col-md-6">
-        <label  className="teacher-choosed">Выберите предмет</label>
-               {
-          this.state.subject_groups.length!=0 ?
-          (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
-          <option value=''>Выберите группу</option>
-          {this.state.subject_groups.map((group, s) =>
-            <option key={s} value={group._id}>{group.group_name}</option>
-          )}
-          </select>) :
-          ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
-          <option value=''>групп не найдено</option>
-          </select>
-          )
-        }        </div>
-
-          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped">
-
-                <tbody>
-              {this.state.attendances.map((student, s) =>
-                <div>
-                <tr key={s}>
-                    <td>{s+1}</td></tr>
+           </div>
+          <div className="form-group col-md-6">
+            <label  className="teacher-choosed">Выберите предмет</label>
+              {
+                this.state.subject_groups.length!=0 ?
+                (     <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+                <option value=''>Выберите группу</option>
+                {this.state.subject_groups.map((group, s) =>
+                  <option key={s} value={group._id}>{group.group_name}</option>
+                )}
+                </select>) :
+                ( <select className="form-control " name="group_name" value={this.state.group_name} onChange={this.updateStudents}>
+                <option value=''>групп не найдено</option>
+                </select>
+                )
+              }
+           </div>
+            <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+            <table id="myTable" className="table table-striped">
+              <tbody>
+                {this.state.attendances.map((student, s) =>
+                  <div>
+                    <tr key={s}>
+                        <td>{s+1}</td></tr>
                     <tr>
-                    <td className="mobile-table">Имя</td><td>{student.student.user_id.username}</td></tr>
+                        <td className="mobile-table">Имя</td><td>{student.student.user_id.username}</td>
+                    </tr>
                     <tr>
-                    <td className="mobile-table">Фамилия</td><td>{student.student.user_id.name} {student.student.user_id.lastname}</td></tr>
+                        <td className="mobile-table">Фамилия</td><td>{student.student.user_id.name} {student.student.user_id.lastname}</td>
+                    </tr>
                     <tr>
-
-                    <td className="mobile-table">РК1</td><td>{student.final_mark.rk1}</td></tr>
+                        <td className="mobile-table">РК1</td><td>{student.final_mark.rk1}</td>
+                    </tr>
                     <tr>
-                    <td className="mobile-table">РК2</td><td>{student.final_mark.rk2}</td></tr>
+                        <td className="mobile-table">РК2</td><td>{student.final_mark.rk2}</td>
+                    </tr>
                     <tr>
-                    <td className="mobile-table">Сессия</td><td>{student.final_mark.final_m}</td></tr>
+                        <td className="mobile-table">Сессия</td><td>{student.final_mark.final_m}</td>
+                    </tr>
                     <tr>
-                    <td className="mobile-table">Итог</td><td>{student.stud_final_mark.stud_final}</td>
-
-
-
-                </tr>
-                </div>
-              )}
-              </tbody>
-
+                        <td className="mobile-table">Итог</td><td>{student.stud_final_mark.stud_final}</td>
+                    </tr>
+                  </div>
+                )}
+                </tbody>
           </table>
-
+        </div>
       </div>
-
-      </div>
-      </div>);
+    </div>);
   }
 }
 

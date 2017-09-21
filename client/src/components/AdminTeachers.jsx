@@ -87,47 +87,46 @@ class AdminTeachers extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-          <div className="bg-title"  style={{display: 'flex'}}>
-            <h4 style={{width: '70%'}}>Все преподаватели</h4>
-            <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
-          </div>
-      <div className="my-content" hidden={this.state.checkFilter}>
-      <div className="row hidden-max-media visible-middle visible-ipad visible-mobile" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
-        {this.state.teachers ? (
+        <div className="bg-title"  style={{display: 'flex'}}>
+          <h4 style={{width: '70%'}}>Все преподаватели</h4>
+          <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
+        </div>
+        <div className="my-content" hidden={this.state.checkFilter}>
+        <div className="row hidden-max-media visible-middle visible-ipad visible-mobile" style={{marginRight: '-7.5px', marginLeft: '-7.5px'}}>
+          {this.state.teachers ? (
             this.state.teachers.map((teacher, index) =>{
               return (
                 <div key={index} className="col-md-4 col-sm-6 " style={{padding: '0px 7.5px'}}>
                   <div className="white-box teacherInfo">
-                      <div className="row">
-                      {
-                        teacher.img!='default.jpg' ? (
-                          <div className="col-md-4 col-sm-4 text-center">
-                              <img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/>
-                              <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
-                          </div>
-                          ):(
-                          <div className="col-md-4 col-sm-4 text-center">
-                              <img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/>
-                              <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
-                          </div>
-                          )
+                    <div className="row">
+                      {teacher.img!='default.jpg' ? (
+                        <div className="col-md-4 col-sm-4 text-center">
+                            <img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/>
+                            <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
+                        </div>
+                        ):(
+                        <div className="col-md-4 col-sm-4 text-center">
+                            <img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/>
+                            <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
+                        </div>
+                        )
                       }
-                          <div className="col-md-8 col-sm-8">
-                                <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
-                              <small>{teacher.degree}</small>
-                              <address>
-                                Факультет: {teacher.faculty_name}<br/>
-                                Пользователь: {teacher.username}
-                                <br/>
-                                <abbr title="Email">E:</abbr> {teacher.email}
-                                <br/>
-                                <abbr title="Phone">P:</abbr> {teacher.phone}
-                              </address>
-                              <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
-                              </button>
-                          </div>
+                      <div className="col-md-8 col-sm-8">
+                            <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
+                          <small>{teacher.degree}</small>
+                          <address>
+                            Факультет: {teacher.faculty_name}<br/>
+                            Пользователь: {teacher.username}
+                            <br/>
+                            <abbr title="Email">E:</abbr> {teacher.email}
+                            <br/>
+                            <abbr title="Phone">P:</abbr> {teacher.phone}
+                          </address>
+                          <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                              <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
+                          </button>
                       </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -145,36 +144,35 @@ class AdminTeachers extends React.Component {
               return (
                 <div key={index} className="col-md-4 col-sm-6 col-lg-3" style={{padding: '0px 7.5px'}}>
                   <div className="white-box teacherInfo">
-                      <div className="row">
-                      {
-                        teacher.img!='default.jpg' ? (
-                          <div className="col-md-4 col-sm-4 text-center">
-                              <img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/>
-                              <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
-                          </div>
-                          ):(
-                          <div className="col-md-4 col-sm-4 text-center">
-                              <img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/>
-                              <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
-                          </div>
-                          )
+                    <div className="row">
+                      {teacher.img!='default.jpg' ? (
+                        <div className="col-md-4 col-sm-4 text-center">
+                            <img src={require("../../../public/teacher-img/"+teacher.img)} alt="user" className="img-circle img-responsive teacher-img"/>
+                            <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
+                        </div>
+                        ):(
+                        <div className="col-md-4 col-sm-4 text-center">
+                            <img src={require("../../../public/teacher-img/default.jpg")} alt="user" className="img-circle img-responsive teacher-img"/>
+                            <button id={teacher.teacher_id} onClick={this.openTeacherProfile} style={{background: 'white', border: 'none'}} >Подробнее</button>
+                        </div>
+                        )
                       }
-                          <div className="col-md-8 col-sm-8">
-                                <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
-                              <small>{teacher.degree}</small>
-                              <address>
-                                Факультет: {teacher.faculty_name}<br/>
-                                Пользователь: {teacher.username}
-                                <br/>
-                                <abbr title="Email">E:</abbr> {teacher.email}
-                                <br/>
-                                <abbr title="Phone">P:</abbr> {teacher.phone}
-                              </address>
-                              <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
-                                  <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
-                              </button>
-                          </div>
+                      <div className="col-md-8 col-sm-8">
+                            <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
+                          <small>{teacher.degree}</small>
+                          <address>
+                            Факультет: {teacher.faculty_name}<br/>
+                            Пользователь: {teacher.username}
+                            <br/>
+                            <abbr title="Email">E:</abbr> {teacher.email}
+                            <br/>
+                            <abbr title="Phone">P:</abbr> {teacher.phone}
+                          </address>
+                          <button onClick={this.toggleModal.bind(this, teacher)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
+                              <i style={{color: '#8c8c8c'}} className="fa fa-pencil" ></i>
+                          </button>
                       </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -185,14 +183,14 @@ class AdminTeachers extends React.Component {
               </div>
           )
         }
+        </div>
       </div>
-      </div>
-          <AdminEditTeacherModal
-            show={this.state.isOpen}
-            onClose={this.toggleModalClose}
-            teacher={this.state.teacher}
-          />
-      </div>);
+      <AdminEditTeacherModal
+        show={this.state.isOpen}
+        onClose={this.toggleModalClose}
+        teacher={this.state.teacher}
+      />
+    </div>);
   }
 }
 AdminTeachers.contextTypes = {

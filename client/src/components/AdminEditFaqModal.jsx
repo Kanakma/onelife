@@ -153,11 +153,11 @@ class AdminEditFaqModal extends React.Component {
       <div style={backdropStyle}>
         <div style={modalStyle}>
         <div className="row">
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
-            </div>
-          <div>
+          <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+            X
+          </button>
+        </div>
+        <div>
           <form action="/adminfaq" onSubmit={this.editFaq}  >
             <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
               <textarea maxLength="500" type="text" value={this.state.question} placeholder={this.props.faq.question} rows="3" className="faq-question" onChange={this.handleChange}>{this.props.faq.question}</textarea>
@@ -170,30 +170,30 @@ class AdminEditFaqModal extends React.Component {
             </div>
             <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
                 <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                  </div>
-                ):(
-                  <span></span>
-                )}
+                  {this.state.filename.length > 0 ?(
+                    <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                    </div>
+                  ):(
+                    <span></span>
+                  )}
                 </div>
                 <span className="input-group-addon btn btn-default btn-file">
-                {this.state.filename.length > 0 ?(
-                  <span className="fileinput-exists">Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
+                  {this.state.filename.length > 0 ?(
+                    <span className="fileinput-exists">Изменить</span>
+                  ):(
+                    <span className="fileinput-new">Выбрать</span>
+                  )}
                   <input type="hidden" value="" name="..."/>
                   <input type="file" name="" onChange={this.changeFile} />
                 </span>
-            </div>
+              </div>
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
-              Изменить
+                Изменить
               </button>
               <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteFaq}>
-              Удалить
+                Удалить
               </button>
             </form>
           </div>

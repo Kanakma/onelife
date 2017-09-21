@@ -91,9 +91,9 @@ class AdminEditAuditoryModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+          <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+            X
+          </button>
           <div>
             <form action="/auditories" onSubmit={this.editAuditoryFunc}>
               <div className="form-group">

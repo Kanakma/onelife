@@ -76,7 +76,6 @@ class TeacherAddHomework extends React.Component{
     return (
       <div className="container clearfix">
       <div className="bg-title" style={{paddingRight: '3%'}}>
-
         <div className="row">
           <div className="col-md-9">
             <h4>Добавить домашнее задание</h4>
