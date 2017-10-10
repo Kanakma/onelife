@@ -19,7 +19,7 @@ class AdminGroups extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getgroups',  {
+    axios.get('/group/getgroups',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -66,13 +66,13 @@ class AdminGroups extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" style={{display: 'flex'}}>
-        <h4 style={{width: '70%'}}>Все группы</h4>
-        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
-      </div>
-      <div className=" my-content" >
-      <div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped functional-table">
+        <div className="bg-title" style={{display: 'flex'}}>
+          <h4 style={{width: '70%'}}>Все группы</h4>
+          <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
+        </div>
+        <div className=" my-content" >
+          <div className="table-responsive  hidden-mobile visible-max visible-middle visible-ipad">
+            <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                     <th className="table-head-text">№</th>
@@ -196,7 +196,6 @@ class AdminGroups extends React.Component {
                 }
             </table>
           </div>
-
         </div>
         <AdminEditGroupModal
           show={this.state.isOpen}

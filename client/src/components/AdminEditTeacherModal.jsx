@@ -44,7 +44,7 @@ class AdminEditTeacherModal extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('/api/getfaculties',  {
+    axios.get('/faculty/getfaculties',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -73,7 +73,7 @@ class AdminEditTeacherModal extends React.Component {
     const birthday = this.state.birthday;
     const entry_year = this.state.entry_year;
     const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
-    axios.post('/api/editteacher', formData, {
+    axios.post('/teacher/editteacher', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -85,7 +85,7 @@ class AdminEditTeacherModal extends React.Component {
 
   deleteTeacher(){
     const formData = `teacher_id=${JSON.stringify(this.props.teacher.teacher_id)}`;
-    axios.post('/api/deleteteacher', formData, {
+    axios.post('/teacher/deleteteacher', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -99,7 +99,7 @@ class AdminEditTeacherModal extends React.Component {
     return new Promise((resolve, reject) => {
       let imageFormData = new FormData();
       imageFormData.append('imageFile', this.state.file);
-      axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
+      axios.post('/teacher/addteacherimg?teacher_id='+teacher_id, imageFormData, {
         responseType: 'json',
         headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -229,9 +229,9 @@ class AdminEditTeacherModal extends React.Component {
       <div style={backdropStyle}>
         <div style={modalStyle}>
           <div>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+            <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+              X
+            </button>
             <form action="/teachers" onSubmit={this.editTeacherFunc}>
               <div className="form-group">
                 <label>Имя</label>
@@ -311,7 +311,7 @@ class AdminEditTeacherModal extends React.Component {
                   </select>
                   <span className="bar"></span>
                 </div>
-                )}
+              )}
               <div className="form-group">
                 <label>E-mail</label>
                 <input type="email" className="form-control" placeholder={this.props.teacher.email}
@@ -319,7 +319,7 @@ class AdminEditTeacherModal extends React.Component {
                       onChange={this.changeTeacher}
                       value={this.state.editedTeacher.email} />
                 <span className="bar"></span>
-            </div>
+              </div>
               <div className="form-group">
                 <label>Телефон</label>
                 <InputElement mask="+7 (999) 999-99-99" className="form-control" placeholder={this.props.teacher.phone}
@@ -327,51 +327,51 @@ class AdminEditTeacherModal extends React.Component {
                       onChange={this.changeTeacher}
                       value={this.state.editedTeacher.phone} />
                 <span className="bar"></span>
-            </div>
-            <div className="form-group">
-              <label>Изображение преподавателя</label>
-              <div className="fileinput input-group fileinput-new" data-provides="fileinput">
-                  <div className="form-control" data-trigger="fileinput">
-                  {this.state.filename.length > 0 ?(
-                    <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                    </div>
-                  ):(
-                    <span></span>
-                  )}
-                  </div>
-                  <span className="input-group-addon btn btn-default btn-file">
-                  {this.state.filename.length > 0 ?(
-                    <span className="fileinput-exists">Изменить</span>
-                  ):(
-                    <span className="fileinput-new">Выбрать</span>
-                  )}
-                    <input type="hidden" value="" name="..."/>
-                    <input type="file" name="" onChange={this.changeImg} />
-                  </span>
               </div>
-            </div>
-            <div className="form-group">
-              <label>Пароль</label>
-              <input type="password" className="form-control" placeholder="Введите пароль"
-                    name="password"
-                    onChange={this.changeTeacher}
-                    value={this.state.editedTeacher.password}
-                     />
-              <span className="bar"></span>
-            </div>
-            <div className="form-group">
-              <label>Подтверждение пароля</label>
-              <input type="password" className="form-control" placeholder="Повторите пароль"
-                    name="checkpassword"
-                    onChange={this.changeTeacher}
-                    value={this.state.editedTeacher.checkpassword} />
-              <span className="bar"></span>
-            </div>
-            <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
-              <p style={{color: 'red'}}>Пароли не совпадают</p>
-            </div>
+              <div className="form-group">
+                <label>Изображение преподавателя</label>
+                <div className="fileinput input-group fileinput-new" data-provides="fileinput">
+                    <div className="form-control" data-trigger="fileinput">
+                    {this.state.filename.length > 0 ?(
+                      <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                      </div>
+                    ):(
+                      <span></span>
+                    )}
+                    </div>
+                    <span className="input-group-addon btn btn-default btn-file">
+                    {this.state.filename.length > 0 ?(
+                      <span className="fileinput-exists">Изменить</span>
+                    ):(
+                      <span className="fileinput-new">Выбрать</span>
+                    )}
+                      <input type="hidden" value="" name="..."/>
+                      <input type="file" name="" onChange={this.changeImg} />
+                    </span>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Пароль</label>
+                <input type="password" className="form-control" placeholder="Введите пароль"
+                      name="password"
+                      onChange={this.changeTeacher}
+                      value={this.state.editedTeacher.password}
+                       />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group">
+                <label>Подтверждение пароля</label>
+                <input type="password" className="form-control" placeholder="Повторите пароль"
+                      name="checkpassword"
+                      onChange={this.changeTeacher}
+                      value={this.state.editedTeacher.checkpassword} />
+                <span className="bar"></span>
+              </div>
+              <div className="form-group text-center"  id="wrongpass" style={{display: 'none'}}>
+                <p style={{color: 'red'}}>Пароли не совпадают</p>
+              </div>
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass}>
                 Сохранить изменения
               </button>

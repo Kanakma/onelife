@@ -20,7 +20,7 @@ class AdminMajors extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getmajors',  {
+    axios.get('/major/getmajors',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -66,13 +66,13 @@ class AdminMajors extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" style={{display: 'flex'}}>
-        <h4 style={{width: '70%'}}>Все специальности</h4>
-        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
-      </div>
-      <div className=" my-content" >
-      <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
-          <table id="myTable" className="table table-striped functional-table">
+        <div className="bg-title" style={{display: 'flex'}}>
+          <h4 style={{width: '70%'}}>Все специальности</h4>
+          <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
+        </div>
+        <div className=" my-content" >
+          <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
+            <table id="myTable" className="table table-striped functional-table">
               <thead>
                   <tr>
                       <th className="table-head-text">№</th>
@@ -82,14 +82,14 @@ class AdminMajors extends React.Component {
                       <th className="table-head-text table-b-left">Наименование групп специальностей</th>
                       <th className="hidden-ipad table-head-text table-b-left">Все группы</th>
                       <th className="table-head-text table-b-left">
-                          <center>
-                              Кол-во студентов
-                          </center>
+                        <center>
+                            Кол-во студентов
+                        </center>
                       </th>
                       <th className="table-head-text table-b-left">
                           <center>Опции</center>
                       </th>
-                  </tr>
+                    </tr>
               </thead>
               {
                 this.state.majors ? (

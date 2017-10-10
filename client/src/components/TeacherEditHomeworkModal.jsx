@@ -93,7 +93,7 @@ class TeacherEditHomeworkModal extends React.Component {
         fileFormData.append('description', this.state.description);
         fileFormData.append('subject_id', this.props.homework.subject_id);
         fileFormData.append('group_id', this.props.homework.group_id._id);
-        axios.post('/api/edithomework?filename='+this.state.filename, fileFormData, {
+        axios.post('/homework/edithomework?filename='+this.state.filename, fileFormData, {
           responseType: 'json',
           headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -108,7 +108,7 @@ class TeacherEditHomeworkModal extends React.Component {
       }
       else{
         const formData = `lessonDate=${this.state.lessonDate}&deadline=${this.state.deadline}&description=${this.state.description}&subject_id=${this.props.homework.subject_id}&group_id=${this.props.homework.group_id._id}`;
-        axios.post('/api/edithomework', formData, {
+        axios.post('/homework/edithomework', formData, {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'}
@@ -178,57 +178,57 @@ class TeacherEditHomeworkModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-        <div className="row">
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
-            </div>
+          <div className="row">
+            <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+              X
+            </button>
+          </div>
           <div>
-          <form action="/teacherhomeworks"  onSubmit={this.changeHomework}>
-            <div className="form-group col-md-6">
-              <label  className="teacher-choosed">Дата проведения пары</label>
-              <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} placeholder={this.dateFormat(this.props.homework.lessonDate)} className="form-control mydatepicker"/>
-            </div>
-            <div className="form-group row">
-              <div className="col-md-6">
-                <label className="teacher-choosed">Дедлайн</label>
-                <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  placeholder={this.dateFormat(this.props.homework.deadline)} className="form-control mydatepicker"/>
+            <form action="/teacherhomeworks"  onSubmit={this.changeHomework}>
+              <div className="form-group col-md-6">
+                <label  className="teacher-choosed">Дата проведения пары</label>
+                <DatePicker value={this.state.lessonDate} onChange={this.lessonChange} placeholder={this.dateFormat(this.props.homework.lessonDate)} className="form-control mydatepicker"/>
               </div>
-            </div>
-            <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.description} placeholder={this.props.homework.message} rows="6" className="homework-message" onChange={this.handleChange}></textarea>
-            </div>
-            <div  style={{textAlign: 'center'}}>
-              <label className="teacher-choosed">Выберите файл</label>
-            </div>
-            <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
-                <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                  </div>
-                ):(
-                  <span></span>
-                )}
+              <div className="form-group row">
+                <div className="col-md-6">
+                  <label className="teacher-choosed">Дедлайн</label>
+                  <DatePicker value={this.state.deadline} onChange={this.deadlineChange}  placeholder={this.dateFormat(this.props.homework.deadline)} className="form-control mydatepicker"/>
                 </div>
-                <span className="input-group-addon btn btn-default btn-file">
-                {this.props.homework.file.length > 0 ?(
-                  <span className="fileinput-exists" placeholder={this.props.homework.file}>Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
-                  <input type="hidden" value="" name="..."/>
-                  <input type="file" name="" onChange={this.changeFile} />
-                </span>
-            </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" >
-              Сохранить изменения
-              </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteHomework}>
-              Удалить домашнее задание
-              </button>
-            </form>
+              </div>
+              <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
+                <textarea maxLength="500" type="text" value={this.state.description} placeholder={this.props.homework.message} rows="6" className="homework-message" onChange={this.handleChange}></textarea>
+              </div>
+              <div  style={{textAlign: 'center'}}>
+                <label className="teacher-choosed">Выберите файл</label>
+              </div>
+              <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
+                  <div className="form-control" data-trigger="fileinput">
+                  {this.state.filename.length > 0 ?(
+                    <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                    </div>
+                  ):(
+                    <span></span>
+                  )}
+                  </div>
+                  <span className="input-group-addon btn btn-default btn-file">
+                  {this.props.homework.file.length > 0 ?(
+                    <span className="fileinput-exists" placeholder={this.props.homework.file}>Изменить</span>
+                  ):(
+                    <span className="fileinput-new">Выбрать</span>
+                  )}
+                    <input type="hidden" value="" name="..."/>
+                    <input type="file" name="" onChange={this.changeFile} />
+                  </span>
+              </div>
+                <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" >
+                Сохранить изменения
+                </button>
+                <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteHomework}>
+                Удалить домашнее задание
+                </button>
+              </form>
           </div>
         </div>
       </div>

@@ -943,8 +943,10 @@ ul.hr li {
   width: 300px;
     height: 150px;
 }*/
-.recharts-legend-wrapper{
-  top: 60px !important;
+.recharts-legend-wrapper {
+    top: 360px !important;
+    right: 40px !important;
+    left: inherit !important;
 }
 .student-number{
   color: #000000;

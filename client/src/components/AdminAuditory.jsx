@@ -21,7 +21,7 @@ class AdminAuditory extends React.Component {
   }
 
   getAuditory(){
-    axios.get('/api/getauditories',  {
+    axios.get('/auditory/getauditories',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

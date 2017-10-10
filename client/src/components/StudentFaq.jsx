@@ -12,7 +12,7 @@ class StudentFaq extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentDidMount() {
-    axios.get('/api/getfaqs',  {
+    axios.get('/faq/getfaqs',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -44,37 +44,34 @@ class StudentFaq extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title" style={{display: 'flex'}}>
-        <h4 style={{width: '70%'}}>Вопросы/Ответы</h4>
-        <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
-      </div>
-      <div className=" my-content" >
-        <div className="table-responsive">
-        {
-            this.state.faqs.map((faq, f)=>
-              <div key={f}>{
-
-              }
-                <h4>{faq.question}</h4>
-                <h5>{faq.answer}  {
-                  faq.file?(
-                    <span>
-                      <a target="_blank" style={{ textDecoration: 'none'}} href={'/api/downloadfaq/'+faq.file+'?id='+faq._id}>
-                        <i className="fa fa-download" aria-hidden="true" style={{color: 'black'}}></i> {faq.file}
-                      </a>
-                    </span>
-                  ):(
-                    <span></span>
-                  )
-                }</h5>
-                <br/>
-                <hr/>
-              </div>
-            )
-          }
+        <div className="bg-title" style={{display: 'flex'}}>
+          <h4 style={{width: '70%'}}>Вопросы/Ответы</h4>
+          <div style={{width: '30%', display: 'flex'}}><h4>Поиск</h4><input onChange={this.handleSearch} className="adminsearch" type="search" placeholder=""/></div>
         </div>
-      </div>
-
+        <div className=" my-content" >
+          <div className="table-responsive">
+          {
+              this.state.faqs.map((faq, f)=>
+                <div key={f}>
+                  <h4>{faq.question}</h4>
+                  <h5>{faq.answer}  {
+                    faq.file?(
+                      <span>
+                        <a target="_blank" style={{ textDecoration: 'none'}} href={'/download/downloadfaq/'+faq.file+'?id='+faq._id}>
+                          <i className="fa fa-download" aria-hidden="true" style={{color: 'black'}}></i> {faq.file}
+                        </a>
+                      </span>
+                    ):(
+                      <span></span>
+                    )
+                  }</h5>
+                  <br/>
+                  <hr/>
+                </div>
+              )
+            }
+          </div>
+        </div>
       </div>);
   }
 }

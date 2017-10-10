@@ -40,7 +40,7 @@ class AdminEditParrentModal extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('/api/getstudents',  {
+    axios.get('/student/getstudents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -67,7 +67,7 @@ class AdminEditParrentModal extends React.Component {
     var parrent_id=this.props.parrent._id;
     const birthday = encodeURIComponent(this.state.birthday);
     const formData = `parrent=${JSON.stringify(this.state.parrent)}&birthday=${birthday}&account=${JSON.stringify(this.state.account)}&students=${JSON.stringify(this.state.value)}&parrent_id=${parrent_id}`;
-    axios.post('/api/editparrent', formData, {
+    axios.post('/parent/editparent', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -78,7 +78,7 @@ class AdminEditParrentModal extends React.Component {
   deleteParrent(){
     var parrent_id=this.props.parrent._id;
     const formData = `parrent_id=${parrent_id}`;
-    axios.post('/api/deleteparrent', formData, {
+    axios.post('/parent/deleteparent', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -274,7 +274,10 @@ class AdminEditParrentModal extends React.Component {
               <div className="form-group row">
                 <div className="col-md-6">
                   <label>Пол</label>
-                  <select className="form-control" name="gender" value={this.state.parrent.gender} onChange={this.changeParrent} style={{cursor: 'pointer'}}>
+                  <select className="form-control" name="gender"
+                          value={this.state.parrent.gender}
+                          onChange={this.changeParrent}
+                          style={{cursor: 'pointer'}}>
                     <option value="">Выберите пол</option>
                     <option value="Мужчина">Мужчина</option>
                     <option value="Женщина">Женщина</option>

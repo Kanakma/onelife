@@ -24,10 +24,10 @@ class AdminEditDepartmentModal extends React.Component {
     this.changeDepartment=this.changeDepartment.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
     this.deleteDepartment=this.deleteDepartment.bind(this);
-  }; 
+  };
 
   componentDidMount() {
-    axios.get('/api/getfaculties',  {
+    axios.get('/faculty/getfaculties',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -38,7 +38,7 @@ class AdminEditDepartmentModal extends React.Component {
           faculties: res.data.faculties
         });
       });
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -63,7 +63,7 @@ class AdminEditDepartmentModal extends React.Component {
     const department_id = this.props.department._id;
     const dep_odlFaculty = this.props.department.department_faculty;
     const formData = `department=${JSON.stringify(this.state.department)}&department_id=${department_id}&dep_odlFaculty=${dep_odlFaculty}`;
-    axios.post('/api/editdepartment', formData, {
+    axios.post('/department/editdepartment', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -77,7 +77,7 @@ class AdminEditDepartmentModal extends React.Component {
       alert("Вы не можете удалить кафедру пока не удалите или не переопределите все специальности департамента!")
     }else{
       const formData = `department_id=${JSON.stringify(this.props.department._id)}&faculty_id=${JSON.stringify(this.props.department.department_faculty)}`;
-      axios.post('/api/deletedepartment', formData, {
+      axios.post('/department/deletedepartment', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
@@ -97,7 +97,6 @@ class AdminEditDepartmentModal extends React.Component {
   }
 
   render(){
-        console.log(this.props.department)
 
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
@@ -130,9 +129,9 @@ class AdminEditDepartmentModal extends React.Component {
       <div style={backdropStyle}>
         <div style={modalStyle}>
           <div>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+            <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+              X
+            </button>
             <form action="/departments" onSubmit={this.editDepartmentFunc}>
               <div className="form-group">
                 <label>Название кафедры</label>

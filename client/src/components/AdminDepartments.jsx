@@ -17,7 +17,7 @@ class AdminDepartments extends React.Component {
       this.toggleModalClose = this.toggleModalClose.bind(this);
     }
     componentDidMount() {
-      axios.get('/api/getdepartments',  {
+      axios.get('/department/getdepartments',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -44,11 +44,11 @@ class AdminDepartments extends React.Component {
   render() {
     return (
       <div className="container clearfix">
-      <div className="bg-title">
-        <h4>Все кафедры</h4>
-      </div>
-      <div className="my-content" >
-        <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
+        <div className="bg-title">
+          <h4>Все кафедры</h4>
+        </div>
+        <div className="my-content" >
+          <div className="table-responsive hidden-mobile visible-max visible-middle visible-ipad">
             <table id="myTable" className="table table-striped functional-table">
                 <thead>
                     <tr>
@@ -69,7 +69,6 @@ class AdminDepartments extends React.Component {
                         </th>
                     </tr>
                 </thead>
-
                 {
                   this.state.departments ? (
                       this.state.departments.map((department, d) =>
@@ -118,8 +117,7 @@ class AdminDepartments extends React.Component {
                         </tr>
                       </tbody>
                     )
-
-  }
+                  }
             </table>
           </div>
           <div className="table-responsive visible-mobile hidden-max-media hidden-middle hidden-ipad">
@@ -189,7 +187,7 @@ class AdminDepartments extends React.Component {
                         </tbody>
                       )
 
-    }
+                    }
               </table>
             </div>
         </div>

@@ -27,7 +27,7 @@ class TeacherCheckHomeworks extends React.Component{
     this.getHomework();
   }
   getHomework(){
-    axios.get('/api/gethomework?homework_id='+this.state.homework_id,  {
+    axios.get('/homework/gethomework?homework_id='+this.state.homework_id,  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -56,7 +56,7 @@ class TeacherCheckHomeworks extends React.Component{
         status: decoded.userstatus,
         userId: decoded.sub
       });
-      axios.get('/api/getteachersubjects?teacherId='+decoded.sub,  {
+      axios.get('/subject/getteachersubjects?teacherId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -71,7 +71,7 @@ class TeacherCheckHomeworks extends React.Component{
   }
   sendMark(event){
     const formData = `homework_id=${this.state.homework_id}&marks=${JSON.stringify(this.state.marksforhomework)}&userId=${this.state.userId}`;
-    axios.post('/api/addmarksforhomework', formData, {
+    axios.post('/mark/addmarksforhomework', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -140,7 +140,7 @@ class TeacherCheckHomeworks extends React.Component{
                 <td>{a+1}</td>
                 <td className="table-b-left">{this.state.students_name[a]} {this.state.students_lastname[a]}</td>
                 {ans.answer_file?(
-                  <td className="table-b-left"><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
+                  <td className="table-b-left"><a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/download/downloadanswer/'+ans.answer_file+'?id='+ans._id+'&homework_id='+this.state.homework_id}>{ans.answer_file} <i className="fa fa-download" aria-hidden="true"></i></a></td>
                 ):(
                   <td className="table-b-left">Нет файлов</td>
                 )
@@ -189,7 +189,6 @@ class TeacherCheckHomeworks extends React.Component{
           }
         </div>
       </div>
-
     </div>);
   }
 }

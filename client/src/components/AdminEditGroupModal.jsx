@@ -24,7 +24,7 @@ class AdminEditGroupModal extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -35,7 +35,7 @@ class AdminEditGroupModal extends React.Component {
           teachers: res.data.allTchrs
         });
       });
-      axios.get('/api/getmajors',  {
+      axios.get('/major/getmajors',  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -52,7 +52,7 @@ class AdminEditGroupModal extends React.Component {
     event.preventDefault();
     const group_id = this.props.group._id;
     const formData = `editedGroup=${JSON.stringify(this.state.editedGroup)}&group_id=${group_id}`;
-    axios.post('/api/editgroup', formData, {
+    axios.post('/group/editgroup', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -66,7 +66,7 @@ class AdminEditGroupModal extends React.Component {
       alert("Вы не можете удалить группу пока не удалите или не переопределите всех студентов группы!")
     }else{
       const formData = `group_id=${JSON.stringify(this.props.group._id)}`;
-      axios.post('/api/deletegroup', formData, {
+      axios.post('/group/deletegroup', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -119,9 +119,9 @@ class AdminEditGroupModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+          <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+            X
+          </button>
           <div>
             <form action="/groups" onSubmit={this.editGroupFunc}>
               <div className="form-group">

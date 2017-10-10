@@ -34,7 +34,7 @@ class TeacherAddHomework extends React.Component{
         status: decoded.userstatus,
         userId: decoded.sub
       });
-      axios.get('/api/getteachersubjects?teacherId='+decoded.sub,  {
+      axios.get('/subject/getteachersubjects?teacherId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -76,7 +76,6 @@ class TeacherAddHomework extends React.Component{
     return (
       <div className="container clearfix">
       <div className="bg-title" style={{paddingRight: '3%'}}>
-
         <div className="row">
           <div className="col-md-9">
             <h4>Добавить домашнее задание</h4>

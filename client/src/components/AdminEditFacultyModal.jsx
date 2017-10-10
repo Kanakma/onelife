@@ -24,7 +24,7 @@ class AdminEditFacultyModal extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -41,7 +41,7 @@ class AdminEditFacultyModal extends React.Component {
     event.preventDefault();
     const faculty_id = this.props.faculty._id;
     const formData = `editedFaculty=${JSON.stringify(this.state.editedFaculty)}&faculty_id=${faculty_id}`;
-    axios.post('/api/editfaculty', formData, {
+    axios.post('/faculty/editfaculty', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -55,7 +55,7 @@ class AdminEditFacultyModal extends React.Component {
       alert("Вы не можете удалить факультет пока не удалите или не переопределите все кафедры факультета!")
     } else{
       const formData = `faculty_id=${JSON.stringify(this.props.faculty._id)}`;
-      axios.post('/api/deletefaculty', formData, {
+      axios.post('/faculty/deletefaculty', formData, {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
@@ -105,9 +105,9 @@ class AdminEditFacultyModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+          <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+            X
+          </button>
           <div>
             <form action="/faculties" onSubmit={this.editFacultyFunc}>
               <div className="form-group">

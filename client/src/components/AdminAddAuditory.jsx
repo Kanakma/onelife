@@ -39,7 +39,7 @@ class AdminAddAuditory extends React.Component {
   addAuditory(event){
     event.preventDefault()
     const formData = `auditory=${JSON.stringify(this.state.auditory)}`;
-    axios.post('/api/addauditory', formData, {
+    axios.post('/auditory/addauditory', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}

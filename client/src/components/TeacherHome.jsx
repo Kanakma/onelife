@@ -86,7 +86,7 @@ class TeacherHome extends React.Component {
       this.setState({
         userId: decoded.sub
       });
-      axios.get('/api/getteacherprofileinfo?teacherId='+decoded.sub,  {
+      axios.get('/teacher/getteacherprofileinfo?teacherId='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -99,7 +99,7 @@ class TeacherHome extends React.Component {
           });
         });
 
-        axios.get('/api/getteachersubjects?teacherId='+decoded.sub,  {
+        axios.get('/subject/getteachersubjects?teacherId='+decoded.sub,  {
           responseType: 'json',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -111,7 +111,7 @@ class TeacherHome extends React.Component {
             });
             this.creditsNumber();
           });
-          axios.get('/api/getmaxstudents?user_id='+decoded.sub,  {
+          axios.get('/dashboard/getmaxstudents?user_id='+decoded.sub,  {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'
@@ -124,7 +124,7 @@ class TeacherHome extends React.Component {
             });
 
     }
-    axios.get('/api/getstudents',  {
+    axios.get('/student/getstudents',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'

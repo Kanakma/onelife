@@ -154,67 +154,66 @@ class Base extends React.Component {
                   </div>
               </div>
             </nav>
-              <div className="row">
+            <div className="row">
               <div className="col-md-2 well-white">
-              <nav className="navbar">
-                <div className="navbar-header">
-                  <ul className="nav nav-stacked">
-                      <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
-                      <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Все предметы</Link></li>
-                      <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
-                          <i className="fa fa-file-text-o fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тест
-                          <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '90px'}} ></i></span>
-                          <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '85px'}} ></i></span>
-                          </Link>
-                          <ul className="nav" hidden={!this.state.checkStudent}>
-                            <li><Link to="/tests" className="waves-effect" style={{marginLeft: '35px'}}>Все тесты</Link></li>
-                            <li><Link to="/addtest" className="waves-effect" style={{marginLeft: '35px'}}>Добавить тест</Link></li>
-                          </ul>
-                      </li>
-                      <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
-                  </ul>
-                </div>
-              </nav>
-              </div>
+                <nav className="navbar">
+                  <div className="navbar-header">
+                    <ul className="nav nav-stacked">
+                        <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
+                        <li><Link to="/subjects" className="waves-effect"><i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Все предметы</Link></li>
+                        <li><Link to="#" className="waves-effect" name="student" onClick={this.changeHide}>
+                            <i className="fa fa-file-text-o fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тест
+                            <span hidden={this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg" aria-hidden="true" style={{marginLeft: '90px'}} ></i></span>
+                            <span hidden={!this.state.checkStudent} id="student" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg" aria-hidden="true" style={{marginLeft: '85px'}} ></i></span>
+                            </Link>
+                            <ul className="nav" hidden={!this.state.checkStudent}>
+                              <li><Link to="/tests" className="waves-effect" style={{marginLeft: '35px'}}>Все тесты</Link></li>
+                              <li><Link to="/addtest" className="waves-effect" style={{marginLeft: '35px'}}>Добавить тест</Link></li>
+                            </ul>
+                        </li>
+                        <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
+                    </ul>
+                  </div>
+                </nav>
               </div>
             </div>
+          </div>
           ) : (Auth.isUserAuthenticated() && (this.state.status == "student")) ?(
             <div>
-
             <nav className="navbar navbar-default m-b-0">
               <div className="navbar-header myheader">
-                  <div className="top-left-part"><Link to="/" className="logo">
+                <div className="top-left-part"><Link to="/" className="logo">
                   <b><img src={require("../../../public/static/img/ol_logo.svg")} height="50" style={{marginLeft: '20px'}} alt="home"/></b>
                       <span className="hidden-xs">
                           <strong></strong>
                       </span></Link>
-                  </div>
+                </div>
               </div>
             </nav>
             <div className="row">
-            <div className="col-md-2 well-white">
-            <nav className="navbar">
-              <div className="navbar-header">
-                <ul className="nav nav-stacked">
-                    <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
-                    <li><Link to="/subjects" className="waves-effect" name="subject">
-                        <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Предметы
-                        </Link>
-                    </li>
-                    <li><Link to="/tests" className="waves-effect">
-                        <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тесты
-                        </Link>
-                    </li>
-                    <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
-                </ul>
+              <div className="col-md-2 well-white">
+                <nav className="navbar">
+                  <div className="navbar-header">
+                    <ul className="nav nav-stacked">
+                        <li><Link to="/" className="waves-effect"><i className="fa fa-home fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Главная</Link></li>
+                        <li><Link to="/subjects" className="waves-effect" name="subject">
+                            <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Предметы
+                            </Link>
+                        </li>
+                        <li><Link to="/tests" className="waves-effect">
+                            <i className="fa fa-book fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Тесты
+                            </Link>
+                        </li>
+                        <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg" aria-hidden="true" style={{marginRight: '10px'}}></i>Выход</Link></li>
+                    </ul>
+                  </div>
+                </nav>
               </div>
-            </nav>
             </div>
-            </div>
-            </div>
+          </div>
           ):(
-            <div>
-            </div>
+          <div>
+        </div>
           )}
       </div>);
   }

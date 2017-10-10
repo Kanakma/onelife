@@ -11,7 +11,7 @@ class TeacherAddAttendance extends React.Component {
     super(props);
 
     this.state = {
-        groups: [],
+      groups: [],
       group_name:'',
       message: '',
       errors: {},
@@ -34,16 +34,13 @@ class TeacherAddAttendance extends React.Component {
   }
 
   componentDidMount() {
-
-
-        if(Auth.isUserAuthenticated()){
+    if(Auth.isUserAuthenticated()){
       var token = Auth.getToken();
       var decoded = jwtDecode(token);
       this.setState({
         userId: decoded.sub
       });
-      //console.log(decoded.sub,'suuub')
-      axios.get('/api/myfinalmarks?student_id='+decoded.sub,  {
+      axios.get('/fmark/myfinalmarks?student_id='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -55,94 +52,72 @@ class TeacherAddAttendance extends React.Component {
            final_gpa: res.data.final_gpa
           });
         })
-
-
-}
-
+      }
   }
-
   render() {
     return (
-
       <div className="container clearfix">
-      <div className=" bg-title">
-        <h4>Моя Итоговая Ведомость</h4>
+        <div className=" bg-title">
+          <h4>Моя Итоговая Ведомость</h4>
+        </div>
+        <div className="my-content  ">
+          <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
+              <p className="teacher-pages-title">Итоговые оценки</p>
+              <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+                    <table id="myTable" className="table table-striped functional-table">
+                  <thead>
+                      <tr>
+                          <th>№</th>
 
-      </div>
-      <div className="my-content  ">
+                          <th className="table-head-text ">Предмет</th>
+                          <th className="table-head-text table-b-left">РК1</th>
+                          <th className="table-head-text table-b-left">РК2</th>
+                          <th className="table-head-text table-b-left">Сессия</th>
+                          <th className="table-head-text table-b-left">Итог</th>
 
-      <div className="table-responsive hidden-mobile visible-max visible-ipad visible-middle">
-          <p className="teacher-pages-title">Итоговые оценки</p>
-          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped functional-table">
-              <thead>
-                  <tr>
-                      <th>№</th>
+                      </tr>
+                  </thead>
+                    <tbody>
+                  {this.state.fm.map((sub, s) =>
+                    <tr key={s}>
+                        <td>{s+1}</td>
+                        <td className="table-b-left">{sub.subject_name.subject_name} </td>
+                        <td className="table-b-left">{sub.final_mark.rk1}</td>
+                        <td className="table-b-left">{sub.final_mark.rk2}</td>
+                        <td className="table-b-left">{sub.final_mark.final_m}</td>
+                        <td className="table-b-left">{sub.stud_final_mark.stud_final}</td>
+                    </tr>
+                  )}
+                  </tbody>
 
-                      <th className="table-head-text ">Предмет</th>
-                      <th className="table-head-text table-b-left">РК1</th>
-                      <th className="table-head-text table-b-left">РК2</th>
-                      <th className="table-head-text table-b-left">Сессия</th>
-                      <th className="table-head-text table-b-left">Итог</th>
-
-                  </tr>
-              </thead>
+              </table>
+             <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
+          </div>
+          <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
+              <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
+              <table id="myTable" className="table table-striped functional-table">
                 <tbody>
-              {this.state.fm.map((sub, s) =>
-                <tr key={s}>
-                    <td>{s+1}</td>
-                    <td className="table-b-left">{sub.subject_name.subject_name} </td>
-                    <td className="table-b-left">{sub.final_mark.rk1}</td>
-                    <td className="table-b-left">{sub.final_mark.rk2}</td>
-                    <td className="table-b-left">{sub.final_mark.final_m}</td>
-                    <td className="table-b-left">{sub.stud_final_mark.stud_final}</td>
-
-
-
-                </tr>
-              )}
-              </tbody>
-
-          </table>
-         <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
-      </div>
-
-
-
-
-      <div className="table-responsive visible-mobile hidden-max-media hidden-ipad hidden-middle">
-
-
-          <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
-                <table id="myTable" className="table table-striped functional-table">
-
-                <tbody>
-              {this.state.fm.map((sub, s) =>
-                <div>
-                <tr key={s}>
-                    <td>{s+1}</td></tr>
-                    <tr>
-                    <td className="mobile-table">ФИО</td><td>{sub.subject_name.subject_name} </td></tr>
-                    <tr>
-                    <td className="mobile-table">РК1</td><td>{sub.final_mark.rk1}</td></tr>
-                    <tr>
-                    <td className="mobile-table">РК2</td><td>{sub.final_mark.rk2}</td></tr>
-                    <tr>
-                    <td className="mobile-table">Сессия</td><td>{sub.final_mark.final_m}</td></tr>
-                    <tr>
-                    <td className="mobile-table">Итог</td><td>{sub.stud_final_mark.stud_final}</td>
-
-
-
-                </tr>
-                </div>
-              )}
-              </tbody>
-
-          </table>
-         <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
-      </div>
-
+                  {this.state.fm.map((sub, s) =>
+                    <div>
+                    <tr key={s}>
+                        <td>{s+1}</td></tr>
+                        <tr>
+                        <td className="mobile-table">ФИО</td><td>{sub.subject_name.subject_name} </td></tr>
+                        <tr>
+                        <td className="mobile-table">РК1</td><td>{sub.final_mark.rk1}</td></tr>
+                        <tr>
+                        <td className="mobile-table">РК2</td><td>{sub.final_mark.rk2}</td></tr>
+                        <tr>
+                        <td className="mobile-table">Сессия</td><td>{sub.final_mark.final_m}</td></tr>
+                        <tr>
+                        <td className="mobile-table">Итог</td><td>{sub.stud_final_mark.stud_final}</td>
+                    </tr>
+                    </div>
+                  )}
+                </tbody>
+              </table>
+             <h5 style={{ fontSize: '14px', color: 'grey'}}>Мой текущий GPA: {this.state.final_gpa}</h5>
+          </div>
       </div>
       </div>);
   }

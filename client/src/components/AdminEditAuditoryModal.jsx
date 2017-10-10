@@ -24,7 +24,7 @@ class AdminEditAuditoryModal extends React.Component {
     event.preventDefault();
     const auditory_id = this.props.auditory._id;
     const formData = `auditory=${JSON.stringify(this.state.auditory)}&auditory_id=${auditory_id}`;
-    axios.post('/api/editauditory', formData, {
+    axios.post('/auditory/editauditory', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -39,7 +39,7 @@ class AdminEditAuditoryModal extends React.Component {
 
   deleteAuditory(){
     const formData = `auditory_id=${JSON.stringify(this.props.auditory._id)}`;
-    axios.post('/api/deleteauditory', formData, {
+    axios.post('/auditory/deleteauditory', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -91,9 +91,9 @@ class AdminEditAuditoryModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
+          <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+            X
+          </button>
           <div>
             <form action="/auditories" onSubmit={this.editAuditoryFunc}>
               <div className="form-group">

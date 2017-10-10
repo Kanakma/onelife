@@ -30,7 +30,7 @@ class AdminAddFaculty extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/getteachers',  {
+    axios.get('/teacher/getteachers',  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -93,7 +93,7 @@ class AdminAddFaculty extends React.Component {
   addFaculty(event){
     event.preventDefault();
     const formData = `faculty=${JSON.stringify(this.state.faculty)}&departments=${JSON.stringify(this.state.checked_departments)}`;
-    axios.post('/api/addfaculty', formData, {
+    axios.post('/faculty/addfaculty', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}

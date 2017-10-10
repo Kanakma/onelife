@@ -27,7 +27,7 @@ class TeacherProfile extends React.Component {
     this.toggleModalClose = this.toggleModalClose.bind(this);
   }
   componentDidMount() {
-      axios.get('/api/getoneteacher?teacherId='+this.state.teacherId,  {
+      axios.get('/teacher/getoneteacher?teacherId='+this.state.teacherId,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -138,11 +138,9 @@ class TeacherProfile extends React.Component {
                   <TeacherProfileNav teacher={this.state.teacher}/>
                 </div>
               </div>
-
-
-      </div>
-      </div>
-      </div>
+            </div>
+          </div>
+        </div>
       </div>);
   }
 }

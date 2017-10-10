@@ -118,7 +118,7 @@ class EditInfo extends React.Component{
     }
   }
   componentDidMount() {
-    axios.get('/api/getfaculties',  {
+    axios.get('/faculty/getfaculties',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -145,7 +145,7 @@ class EditInfo extends React.Component{
     const birthday = this.state.birthday;
     const entry_year = this.state.entry_year;
     const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
-    axios.post('/api/editteacher', formData, {
+    axios.post('/teacher/editteacher', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -157,7 +157,7 @@ class EditInfo extends React.Component{
 
   deleteTeacher(){
     const formData = `teacher_id=${JSON.stringify(this.props.teacher.teacher_id)}`;
-    axios.post('/api/deleteteacher', formData, {
+    axios.post('/teacher/deleteteacher', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
@@ -171,7 +171,7 @@ class EditInfo extends React.Component{
     return new Promise((resolve, reject) => {
       let imageFormData = new FormData();
       imageFormData.append('imageFile', this.state.file);
-      axios.post('/api/addteacherimg?teacher_id='+teacher_id, imageFormData, {
+      axios.post('/teacher/addteacherimg?teacher_id='+teacher_id, imageFormData, {
         responseType: 'json',
         headers: {
         'Content-type': 'application/x-www-form-urlencoded'

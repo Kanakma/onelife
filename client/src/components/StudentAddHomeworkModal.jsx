@@ -90,7 +90,7 @@ class StudentAddHomeworkModal extends React.Component {
           fileFormData.append('answer_message', this.state.answer_message);
           fileFormData.append('homework_id', this.props.homework._id);
           fileFormData.append('student_id', this.props.student_id);
-          axios.post('/api/addanswer?filename='+this.state.filename, fileFormData, {
+          axios.post('/homework/addanswer?filename='+this.state.filename, fileFormData, {
             responseType: 'json',
             headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -105,7 +105,7 @@ class StudentAddHomeworkModal extends React.Component {
         }
         else{
           const formData = `answer_message=${this.state.answer_message}&student_id=${this.props.student_id}&homework_id=${this.props.homework._id}`;
-          axios.post('/api/addanswer', formData, {
+          axios.post('/homework/addanswer', formData, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'}
@@ -126,10 +126,6 @@ class StudentAddHomeworkModal extends React.Component {
         })
       }
   render(){
-    // console.log(this.props.homework._id, 'kjdsgfgsdh')
-    // console.log(this.props.homework.answer)
-    // console.log(this.state.answer)
-    // Render nothing if the "show" prop is false
     this.show();
     if(!this.state.show) {
       return null;
@@ -160,65 +156,65 @@ class StudentAddHomeworkModal extends React.Component {
     return (
       <div style={backdropStyle}>
         <div style={modalStyle}>
-        <div className="row">
+          <div className="row">
               <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
                 X
               </button>
-            </div>
-          <div>
-          <form action="/" onSubmit={this.addHomework}  >
-          <div className="row" style={{textAlign: 'center'}}>
-          {this.props.homework.message?(
-            <div>
-              <h4>Ваше задание:</h4>
-              <p>{this.props.homework.message}</p>
-            </div>
-          ):(
-            <div></div>
-          )
-          }
-          {this.props.homework.file?(
-            <div className="row" style={{textAlign: 'center', margin: '20px 0'}}>
-              <i className="fa fa-download" aria-hidden="true"></i>
-              <a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/api/downloadhw/'+this.props.homework.file+'?id='+this.props.homework._id}>{this.props.homework.file} </a>
-            </div>
-          ):(
-            <div></div>
-          )
-          }
           </div>
-            <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.answer_message} placeholder="Напишите ответ" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
-            </div>
-            <div  style={{textAlign: 'center'}}>
-              <label>Выберите файл</label>
-            </div>
-            <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
-                <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                  </div>
-                ):(
-                  <span></span>
-                )}
+          <div>
+            <form action="/" onSubmit={this.addHomework}  >
+              <div className="row" style={{textAlign: 'center'}}>
+              {this.props.homework.message?(
+                <div>
+                  <h4>Ваше задание:</h4>
+                  <p>{this.props.homework.message}</p>
                 </div>
-                <span className="input-group-addon btn btn-default btn-file">
-                {this.state.filename.length > 0 ?(
-                  <span className="fileinput-exists">Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
-                  <input type="hidden" value="" name="..."/>
-                  <input type="file" name="" onChange={this.changeFile} />
-                </span>
-            </div>
+              ):(
+                <div></div>
+              )
+              }
+              {this.props.homework.file?(
+                <div className="row" style={{textAlign: 'center', margin: '20px 0'}}>
+                  <i className="fa fa-download" aria-hidden="true"></i>
+                  <a target="_blank" style={{color: 'black', textDecoration: 'none'}} href={'/download/downloadhw/'+this.props.homework.file+'?id='+this.props.homework._id}>{this.props.homework.file} </a>
+                </div>
+              ):(
+                <div></div>
+              )
+              }
+              </div>
+              <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
+                <textarea maxLength="500" type="text" value={this.state.answer_message} placeholder="Напишите ответ" rows="6" className="homework-message" onChange={this.handleChange}></textarea>
+              </div>
+              <div  style={{textAlign: 'center'}}>
+                <label>Выберите файл</label>
+              </div>
+              <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
+                  <div className="form-control" data-trigger="fileinput">
+                  {this.state.filename.length > 0 ?(
+                    <div>
+                      <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                      <span className="fileinput-filename">{this.state.filename}</span>
+                    </div>
+                  ):(
+                    <span></span>
+                  )}
+                  </div>
+                  <span className="input-group-addon btn btn-default btn-file">
+                  {this.state.filename.length > 0 ?(
+                    <span className="fileinput-exists">Изменить</span>
+                  ):(
+                    <span className="fileinput-new">Выбрать</span>
+                  )}
+                    <input type="hidden" value="" name="..."/>
+                    <input type="file" name="" onChange={this.changeFile} />
+                  </span>
+              </div>
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10">
-              Отправить задание
+                Отправить задание
               </button>
               <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>
-              Отмена
+                Отмена
               </button>
             </form>
           </div>

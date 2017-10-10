@@ -45,7 +45,7 @@ class AdminAddMajor extends React.Component {
     }
   }
   componentDidMount() {
-    axios.get('/api/getdepartments',  {
+    axios.get('/department/getdepartments',  {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -65,7 +65,7 @@ class AdminAddMajor extends React.Component {
     const major_group = encodeURIComponent(this.state.major.major_group);
     const major_department = encodeURIComponent(this.state.major.major_department);
     const formData = `major_name=${major_name}&major_code=${major_code}&major_group=${major_group}&major_department=${major_department}`;
-    axios.post('/api/addmajor', formData, {
+    axios.post('/major/addmajor', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}
@@ -172,16 +172,16 @@ class AdminAddMajor extends React.Component {
             </div>
           </div>
           ) : (
-           <div className="container clearfix">
-              <div className="bg-title">
-                <h4>Добавить специальность</h4>
-              </div>
-              <div className=" my-content">
-                <div className = "table-responsive">
-                  <h4>Нет кафедр. Добавьте кафедры</h4>
-                </div>
+         <div className="container clearfix">
+            <div className="bg-title">
+              <h4>Добавить специальность</h4>
+            </div>
+            <div className=" my-content">
+              <div className = "table-responsive">
+                <h4>Нет кафедр. Добавьте кафедры</h4>
               </div>
             </div>
+          </div>
           )
         }
       </div>

@@ -74,7 +74,7 @@ class AdminAddFaqModal extends React.Component {
           fileFormData.append('file', this.state.file);
           fileFormData.append('question', this.state.question);
           fileFormData.append('answer', this.state.answer);
-          axios.post('/api/addfaq?filename='+this.state.filename, fileFormData, {
+          axios.post('/faq/addfaq?filename='+this.state.filename, fileFormData, {
             responseType: 'json',
             headers: {
             'Content-type': 'application/x-www-form-urlencoded'
@@ -89,7 +89,7 @@ class AdminAddFaqModal extends React.Component {
         }
         else{
           const formData = `question=${this.state.question}&answer=${this.state.answer}`;
-          axios.post('/api/addfaq', formData, {
+          axios.post('/faq/addfaq', formData, {
             responseType: 'json',
             headers: {
               'Content-type': 'application/x-www-form-urlencoded'}
@@ -153,52 +153,52 @@ class AdminAddFaqModal extends React.Component {
       <div style={backdropStyle}>
         <div style={modalStyle}>
         <div className="row">
-              <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
-                X
-              </button>
-            </div>
-          <div>
-          <form action="/adminfaq" onSubmit={this.addFaq}  >
-            <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.question} placeholder="Напишите вопрос" rows="3" className="faq-question" onChange={this.handleChange}></textarea>
-            </div>
-            <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
-              <textarea maxLength="500" type="text" value={this.state.answer} placeholder="Напишите ответ" rows="6" className="faq-question" onChange={this.answerChange}></textarea>
-            </div>
-            <div  style={{textAlign: 'center'}}>
-              <label className="teacher-choosed">Выберите файл</label>
-            </div>
-            <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
-                <div className="form-control" data-trigger="fileinput">
-                {this.state.filename.length > 0 ?(
-                  <div>
-                    <i className="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span className="fileinput-filename">{this.state.filename}</span>
-                  </div>
-                ):(
-                  <span></span>
-                )}
-                </div>
-                <span className="input-group-addon btn btn-default btn-file">
-                {this.state.filename.length > 0 ?(
-                  <span className="fileinput-exists">Изменить</span>
-                ):(
-                  <span className="fileinput-new">Выбрать</span>
-                )}
-                  <input type="hidden" value="" name="..."/>
-                  <input type="file" name="" onChange={this.changeFile} />
-                </span>
-            </div>
-              <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent}>
-              Добавить
-              </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>
-              Отмена
-              </button>
-            </form>
-          </div>
+          <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
+            X
+          </button>
         </div>
+        <div>
+        <form action="/adminfaq" onSubmit={this.addFaq}  >
+          <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
+            <textarea maxLength="500" type="text" value={this.state.question} placeholder="Напишите вопрос" rows="3" className="faq-question" onChange={this.handleChange}></textarea>
+          </div>
+          <div className="row" style={{textAlign: 'center', marginBottom: '20px'}}>
+            <textarea maxLength="500" type="text" value={this.state.answer} placeholder="Напишите ответ" rows="6" className="faq-question" onChange={this.answerChange}></textarea>
+          </div>
+          <div  style={{textAlign: 'center'}}>
+            <label className="teacher-choosed">Выберите файл</label>
+          </div>
+          <div className="fileinput input-group fileinput-new homework-file" data-provides="fileinput" style={{marginBottom: '25px'}}>
+            <div className="form-control" data-trigger="fileinput">
+              {this.state.filename.length > 0 ?(
+                <div>
+                  <i className="glyphicon glyphicon-file fileinput-exists"></i>
+                  <span className="fileinput-filename">{this.state.filename}</span>
+                </div>
+              ):(
+                <span></span>
+              )}
+            </div>
+            <span className="input-group-addon btn btn-default btn-file">
+              {this.state.filename.length > 0 ?(
+                <span className="fileinput-exists">Изменить</span>
+              ):(
+                <span className="fileinput-new">Выбрать</span>
+              )}
+              <input type="hidden" value="" name="..."/>
+              <input type="file" name="" onChange={this.changeFile} />
+            </span>
+          </div>
+          <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkContent}>
+          Добавить
+          </button>
+          <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.clearContent}>
+          Отмена
+          </button>
+        </form>
       </div>
+    </div>
+  </div>
     );
   }
 }

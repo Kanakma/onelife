@@ -41,7 +41,7 @@ class AdminEditEmployeeModal extends React.Component {
   editEmployeeFunc(event){
     event.preventDefault();
     const formData = `data=${JSON.stringify(this.state.employee)}&birthday=${this.state.birthday}&date_of_id=${this.state.date_of_id}&nationality=${this.state.nationality}&employee_id=${this.props.employee._id}`;
-    axios.post('/api/editemployee', formData, {
+    axios.post('/employee/editemployee', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'}
@@ -54,7 +54,7 @@ class AdminEditEmployeeModal extends React.Component {
   deleteEmployee(){
     var employee_id = this.props.employee._id;
     const formData = `employee_id=${employee_id}`;
-    axios.post('/api/deleteemployee', formData, {
+    axios.post('/employee/deleteemployee', formData, {
       responseType: 'json',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
