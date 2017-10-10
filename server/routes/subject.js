@@ -9,6 +9,7 @@ var Student = require('../models/student')
 var Major = require('../models/major')
 var User = require('../models/user')
 var Homework = require('../models/homework')
+var Faculty = require('../models/faculty')
 
 var jwtDecode = require('jwt-decode')
 
@@ -363,7 +364,7 @@ router.get('/getonesubject', (req, res) => {
 		if(err) { console.log(err) }
 		else {
 					res.send({
-						subject: subject
+						subject: subjects
 					})
 		}
 	})

@@ -3,10 +3,13 @@ var router = express.Router()
 var Major = require('../models/major')
 var User = require('../models/user')
 var Student = require('../models/student')
+var FinalMark=require('../models/finalmark')
 var Group = require('../models/group')
+var Subject = require('../models/subject')
 const bcrypt = require('bcryptjs')
 let multiparty = require('multiparty')
 let fs = require('fs')
+
 
 router.get('/getstudentprofileinfo', (req, res) => {
   var userId = req.query.studentId;

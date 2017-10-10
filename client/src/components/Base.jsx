@@ -768,7 +768,7 @@ class Base extends React.Component {
                           </ul>
                       </li>
                       <li><Link to="#" className="waves-effect" name="employee" onClick={this.changeHide}>
-                          <i className="fa fa-ravelry fa-lg icons" aria-hidden="true" ></i>Сотрудники
+                          <i className="fa fa-ravelry fa-lg icons" aria-hidden="true" ></i><span id ="employee" onClick={this.changeHide} className="hidden-menu-style hide-menu ">Сотрудники</span>
                           <span hidden={this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           <span hidden={!this.state.checkEmployee} id="employee" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           </Link>
@@ -778,7 +778,7 @@ class Base extends React.Component {
                           </ul>
                       </li>
                       <li><Link to="#" className="waves-effect" name="candidate" onClick={this.changeHide}>
-                          <i className="fa fa-free-code-camp fa-lg icons" aria-hidden="true" ></i>Абитуриенты
+                          <i className="fa fa-free-code-camp fa-lg icons" aria-hidden="true" ></i><span id="candidate" onClick={this.changeHide} className="hidden-menu-style hide-menu ">Абитуриенты</span>
                           <span hidden={this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           <span hidden={!this.state.checkCandidate} id="candidate" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
 
@@ -789,7 +789,7 @@ class Base extends React.Component {
                           </ul>
                       </li>
                        <li><Link to="#" className="waves-effect" name="other" onClick={this.changeHide}>
-                          <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i>Другое
+                          <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i><span id="other" onClick={this.changeHide} className="hidden-menu-style hide-menu ">>Другое</span>
                           <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           </Link>
