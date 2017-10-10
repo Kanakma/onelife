@@ -658,7 +658,6 @@ class Base extends React.Component {
                 </div>
                 )
               }
-              // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
             </div>
           </nav>
           <div className="row">
@@ -827,7 +826,6 @@ class Base extends React.Component {
                 </div>
                 )
               }
-              // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
               </div>
             </nav>
               <div className="row">
@@ -914,7 +912,6 @@ class Base extends React.Component {
                   </div>
                   )
                 }
-                // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/> 
                 </div>
               </nav>
               <div className="row">
@@ -990,7 +987,6 @@ class Base extends React.Component {
                     </div>
                     )
                   }
-                  // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
                 </div>
               </nav>
               <div className="row">
@@ -1031,3 +1027,7 @@ class Base extends React.Component {
 }
 
 export default Base;
+                  // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
+                // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/> 
+              // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
+              // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
