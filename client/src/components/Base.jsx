@@ -827,7 +827,8 @@ class Base extends React.Component {
                 </div>
                 )
               }
-              // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>              </div>
+              // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>
+              </div>
             </nav>
               <div className="row">
                 <div className="well-white">
@@ -913,7 +914,8 @@ class Base extends React.Component {
                   </div>
                   )
                 }
-                // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/>              </div>
+                // <AlertList timeout={3000} alerts={this.state.notifications} onDismiss={this.onAlertDismissed}/> 
+                </div>
               </nav>
               <div className="row">
                 <div className="col-md-2 well-white">
