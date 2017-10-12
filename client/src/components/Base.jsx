@@ -789,7 +789,7 @@ class Base extends React.Component {
                           </ul>
                       </li>
                        <li><Link to="#" className="waves-effect" name="other" onClick={this.changeHide}>
-                          <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i><span id="other" onClick={this.changeHide} className="hidden-menu-style hide-menu ">>Другое</span>
+                          <i className="fa fa-paper-plane-o fa-lg icons" aria-hidden="true" ></i><span id="other" onClick={this.changeHide} className="hidden-menu-style hide-menu ">Другое</span>
                           <span hidden={this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-right fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           <span hidden={!this.state.checkOther} id="other" onClick={this.changeHide}><i className="fa fa-angle-down fa-lg pointer" aria-hidden="true" style={{marginLeft: '40px'}} ></i></span>
                           </Link>
