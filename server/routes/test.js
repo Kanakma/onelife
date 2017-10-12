@@ -3,6 +3,10 @@ var router = express.Router()
 var Quiz = require('../models/quiz')
 var QuizPoint = require('../models/quiz_point')
 var jwtDecode = require('jwt-decode')
+var User = require('../models/user')
+var Teacher = require('../models/teacher')
+var Student = require('../models/student')
+var Subject = require('../models/subject')
 
 
 router.get('/getonetest', (req, res) => {
