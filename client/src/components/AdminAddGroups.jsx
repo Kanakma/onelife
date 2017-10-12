@@ -116,6 +116,7 @@ addGroup(event){
     })
   }
   render() {
+    console.log(this.state.message);
     return (
       <div>
         {this.state.majors ?(

@@ -431,15 +431,18 @@ router.get('/getsubjectsofstudent', (req, res)=>{
                 Subject.find({groups: student.group_id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjectss){
                   if(err) console.log(err);
                   else{
-                    Subject.find({students: student._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjectsS){
-                              if(err) console.log(err);
-                              if(subjectsS){
-                                var newSubjects = subjectss.concat(subjectsS);
+										// console.log(subjectss, "ss");
+                    // Subject.find({students: student._id}).populate({path: 'teacher_id', populate: {path: 'user_id'}}).populate('faculty_id').exec(function(err, subjectsS){
+                              // if(err) console.log(err);
+                              // if(subjectsS){
+																// console.log(subjectsS[0].subject_name, "sS");
+                                // var newSubjects = subjectss.concat(subjectsS);
                                 res.send({
-                                  subjects: newSubjects
+                                  // subjects: newSubjects
+																	subjects: subjectss
                                 })
-                              }
-                            })
+                              // }
+                            // })
                   }
                 })
           }else {

@@ -70,7 +70,7 @@ router.post('/addgroup', (req, res) => {
 												}
 											})
 											res.send({
-												massage:"Группа создана!"
+												message:"Группа создана!"
 											})
 										}
 									})

@@ -217,6 +217,7 @@ router.post('/addteacher', (req, res) => {
 						  	newTeacher.save((err, teacher) => {
 								if (err) console.log(err)
 								else {
+									console.log("Пользователь добавлен");
 									res.send({
 										teacher: teacher,
 										message:'Пользователь добавлен!'

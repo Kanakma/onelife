@@ -92,9 +92,9 @@ class AdminAddTeacher extends React.Component {
           'Content-type': 'application/x-www-form-urlencoded'
           }
         })
-          .then(response => {
+          .then(res => {
               this.setState({
-                message: response.data.message,
+                message: res.data.message,
                 errors: {}
               })
               this.clearContent()
@@ -102,7 +102,7 @@ class AdminAddTeacher extends React.Component {
       })
     } else{
       this.setState({
-        message: response.data.message,
+        message: res.data.message,
         errors: {}
       })
       this.clearContent()

@@ -114,7 +114,7 @@ class AdminTeachers extends React.Component {
                       <div className="col-md-8 col-sm-8">
                             <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
                           <small>{teacher.degree}</small>
-                          <address>
+                          <address style={{wordBreak: 'break-word'}}>
                             Факультет: {teacher.faculty_name}<br/>
                             Пользователь: {teacher.username}
                             <br/>
