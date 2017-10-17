@@ -43,7 +43,7 @@ class TeacherAddAttendance extends React.Component {
         userId: decoded.sub
       });
       //console.log(decoded.sub,'suuub')
-      axios.get('/api/myfinalmarks?student_id='+decoded.sub,  {
+      axios.get('/api/mychildfinalmarks?parent_id='+decoded.sub,  {
         responseType: 'json',
         headers: {
           'Content-type': 'application/x-www-form-urlencoded'
@@ -68,7 +68,7 @@ class TeacherAddAttendance extends React.Component {
 
 
   render() {
- console.log(this.state.final_gpa)
+
     return (
 
       <div className="container clearfix">

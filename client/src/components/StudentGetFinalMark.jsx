@@ -86,7 +86,7 @@ class TeacherAddAttendance extends React.Component {
                       <th>РК2</th>
                       <th>Сессия</th>
                       <th>Итог</th>
-                      
+                      <th>Статус</th>    
                   </tr>
               </thead>
                 <tbody>
@@ -98,6 +98,7 @@ class TeacherAddAttendance extends React.Component {
                     <td>{sub.final_mark.rk2}</td>
                     <td>{sub.final_mark.final_m}</td>
                     <td>{sub.stud_final_mark.stud_final}</td>
+                    <td>{sub.subject_stat}</td>
                     
              
                     
@@ -132,11 +133,9 @@ class TeacherAddAttendance extends React.Component {
                     <tr>
                     <td className="mobile-table">Сессия</td><td>{sub.final_mark.final_m}</td></tr>
                     <tr>
-                    <td className="mobile-table">Итог</td><td>{sub.stud_final_mark.stud_final}</td>
-                    
-             
-                    
-                </tr>
+                    <td className="mobile-table">Итог</td><td>{sub.stud_final_mark.stud_final}</td></tr>
+                     <tr>
+                    <td className="mobile-table">Статус</td><td>{sub.subject_stat}</td></tr>
                 </div>
               )}
               </tbody>

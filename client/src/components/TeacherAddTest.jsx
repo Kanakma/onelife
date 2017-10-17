@@ -80,6 +80,9 @@ class TeacherAddTest extends React.Component {
   }
   addQuestion(e){
     var temp = this.state.testQuestion;
+    console.log(temp,'temp')
+    console.log(this.state.testQuestion,'question')
+     console.log(this.state.testQuestions,'question')
     this.setState({
       testQuestions: this.state.testQuestions.concat(temp),
       testQuestion: {

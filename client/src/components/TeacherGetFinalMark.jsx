@@ -25,13 +25,17 @@ class TeacherAddAttendance extends React.Component {
       checkAttendance: false,
       attendances: [],
       att_date:'',
-      subject_groups: []
+      subject_groups: [],
+      stud_stat:'',
+      stud_filter:''
     };
   
     this.updateStudents = this.updateStudents.bind(this);
     this.updateGroups = this.updateGroups.bind(this);
     this.changeDate=this.changeDate.bind(this);
     this.dateFormat=this.dateFormat.bind(this);
+    this.filterFinalMark=this.filterFinalMark.bind(this);
+    
   }
 
   componentDidMount() {
@@ -48,7 +52,32 @@ class TeacherAddAttendance extends React.Component {
       });
 
   }
+  filterFinalMark(event){
+     this.setState({
+        stud_stat:event.target.value
+     })
+     console.log(event.target.value,'vvv')
+    const  subject_id =this.state.subject_id;
+    const group_name=this.state.group_name;
+    const stud_stat=event.target.value;
+    const formData = `subject_id=${subject_id}&group_name=${group_name}&stud_stat=${stud_stat}`;
+       axios.post('/api/getfilterfinalmark',formData, {
+      responseType: 'json',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `bearer ${Auth.getToken()}`
+      }
+    })
+           .then(res=>{
+      this.setState({
+        attendances: res.data.attendances,
+        message: res.data.message
 
+      })
+
+   })
+
+  }
   dateFormat(date){
     var fDate = new Date(date);
     var m = ((fDate.getMonth() * 1 + 1) < 10) ? ("0" + (fDate.getMonth() * 1 + 1)) : (fDate.getMonth() * 1 + 1);
@@ -74,9 +103,7 @@ class TeacherAddAttendance extends React.Component {
    })
        .then(res=>{
       this.setState({
-        attendances: res.data.attendances,
-        message: res.data.message
-
+       stud_filter:res.data.stud_filter
       })
 
    })
@@ -106,11 +133,8 @@ class TeacherAddAttendance extends React.Component {
         
     const  subject_id =this.state.subject_id;
     const group_name=event.target.value;
-
-   
     const formData = `subject_id=${subject_id}&group_name=${group_name}`;
    axios.post('/api/updatestudentsforfinalmark', formData, {
-
     responseType: 'json',
     headers: {
           'Content-type': 'application/x-www-form-urlencoded'}
@@ -163,12 +187,13 @@ updateGroups(event){
  
 
   render() {
-console.log(this.state.attendances)
+    console.log(this.state.attendances,'aaa')
+
     return (
 
       <div className="container clearfix">
       <div className=" bg-title">
-        <h4>Вся Успеваемость</h4>
+        <h4>Вся Итоговая Успеваемость</h4>
 
       </div>
       <div className="my-content  ">
@@ -200,6 +225,16 @@ console.log(this.state.attendances)
           </select>
           )
         }        </div>
+        <div className="form-group col-md-6 col-md-offset-3">
+        <label>Фильтр</label>
+        <select className="form-control" onChange={this.filterFinalMark}>
+              <option value="">Не выбрано</option>
+              <option value="Cдано">Сдано</option>
+              <option value="Ретейк">Ретейк</option>
+        </select>
+
+        </div>
+
  
           <h5 style={{ fontSize: '14px', color: 'grey'}}>{this.state.message}</h5>
                 <table id="myTable" className="table table-striped">
@@ -212,6 +247,7 @@ console.log(this.state.attendances)
                       <th>РК2</th>
                       <th>Сессия</th>
                       <th>Итог</th>
+                      <th>Статус</th>
                       
                   </tr>
               </thead>
@@ -226,6 +262,7 @@ console.log(this.state.attendances)
                     <td>{student.final_mark.rk2}</td>
                     <td>{student.final_mark.final_m}</td>
                     <td>{student.stud_final_mark.stud_final}</td>
+                    <td>{student.subject_stat}</td>
                     
              
                     
@@ -289,11 +326,9 @@ console.log(this.state.attendances)
                     <tr>
                     <td className="mobile-table">Сессия</td><td>{student.final_mark.final_m}</td></tr>
                     <tr>
-                    <td className="mobile-table">Итог</td><td>{student.stud_final_mark.stud_final}</td>
-                    
-             
-                    
-                </tr>
+                    <td className="mobile-table">Итог</td><td>{student.stud_final_mark.stud_final}</td></tr>
+                    <tr>
+                    <td className="mobile-table">Cтатус</td><td>{student.subject_stat}</td></tr>
                 </div>
               )}
               </tbody>

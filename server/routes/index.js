@@ -26,8 +26,126 @@ let fs = require('fs')
 var async = require('async')
 var xl = require('excel4node')
 var path= require('path')
+var multer = require('multer');
+var aBot= require('node-telegram-bot-api');
+var token='416401421:AAHkbNRqre3lHDuOYmfDUzsxirXCYxuYKVQ';
+//var exceltojson = require("xls-to-json-lc");
+//var xlstojson = require("xls-to-json-lc");
+// var xlsxtojson = require("xlsx-to-json-lc");
+var bot= new aBot(token, {
+	polling:true
+});
+ var multer = require('multer');
+ // var xlstojson = require("xls-to-json-lc");
+//asdadad
+var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, './uploads/')
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+        }
+    });
+    var upload = multer({ //multer settings
+                    storage: storage
+                }).single('file');
+
+ /** API path that will upload the files */
+    router.post('/parseexcel', function(req, res) {
+    	var exceldoc=req.query.filename;
+    	console.log(exceldoc,'adasd')
 
 
+        var exceltojson;
+        upload(req,res,function(err){
+            if(err){
+                 //res.json({error_code:1,err_desc:err});
+                 console.log(err)
+                 return;
+            }
+            /** Multer gives us file info in req.file object */
+            if(!exceldoc){
+                //res.json({error_code:1,err_desc:"No file passed"});
+                console.log('no file')
+                exceltojson = xlstojson;
+                return;
+            }
+            /** Check the extension of the incoming file and 
+             *  use the appropriate module
+             */
+            // if(req.file.originalname.split('.')[req.file.originalname.split('.').length-1] === 'xlsx'){
+            //     exceltojson = xlsxtojson;
+            // } else {
+            //     exceltojson = xlstojson;
+            // }
+            //console.log(req.file.path);
+            var filepath='uploads/file-1505724829659.xls';
+
+
+            try {
+                exceltojson({
+                    "input": 'uploads/file-1505724829659.xls',
+                    output: "", //since we don't need output.json
+                    lowerCaseHeaders:true
+                }, function(err,result){
+                    if(err) {
+                        return res.json({error_code:1,err_desc:err, data: null});
+                    } 
+                    res.json({error_code:0,err_desc:null, data: result});
+                });
+            } catch (e){
+                res.json({error_code:1,err_desc:"Corupted excel file"});
+            }
+        })
+       
+    });
+
+//aaaaaaaaaa
+router.post('/parenttelegram', (req,res)=>{
+console.log('asdadad',parent_id)
+	var parent_id=req.body.parent_id;
+	var marktype=req.body.marktype;
+	var description=req.body.description;
+
+	Parrent.findOne({ user_id : parent_id
+     }).populate( {path: 'childs',
+     populate: {path:  'group_id user_id faculty_id' }}).populate('user_id').exec(function(err,parent){
+	if(err|| !parent){ 
+      Student.find({user_id:parent_id }).populate('user_id').exec(function(err,child){
+      	if(err) console.log(err)
+      		if(child){
+      			console.log(child)
+ 	bot.sendMessage(269010588,'ФИО ОТПРАВИТЕЛЯ(CТУДЕНТА): '+child[0].user_id.name+ ' '+child[0].user_id.lastname+'\nID СТУДЕНТА: '+child[0].user_id.username +'\nТИП СООБЩЕНИЯ:'+ marktype+'\nСООБЩЕНИЕ:' + description );
+     			res.send({
+			message:"Спасибо! Мы приняли вашу заявку."
+			})
+      		}
+      })
+
+		console.log('не найдено')}
+		if(parent){
+		parent.childs.forEach(function(i){
+	Student.findOne({_id : i._id}).populate('user_id').exec(function(err,child){
+		if(err) console.log(err)
+		if(child) {
+			bot.sendMessage(269010588,'ФИО ОТПРАВИТЕЛЯ(РОДИТЕЛЯ): '+parent.user_id.name+ ' '+parent.user_id.lastname+'\nСОТОВЫЙ РОДИТЕЛЯ: '+parent.phone+'\nФИО СТУДЕНТА: '+child.user_id.name+' '+child.user_id.lastname+'\nID СТУДЕНТА: '+child.user_id.username +'\nТИП СООБЩЕНИЯ:'+ marktype+'\nСООБЩЕНИЕ:' + description );
+	}
+	})
+})
+res.send({
+			message:"Спасибо! Мы приняли вашу заявку."
+			})
+
+  }
+ 	})
+ 
+
+
+
+	//bot.sendMessage(269010588,'Имя: '+parent_id);
+
+})
 function IndInObjArr(objArray, subj, inkey, sensetive) {
       var sens = ((typeof inkey) === "boolean") ? inkey : false;
       var found = false;
@@ -866,6 +984,25 @@ router.post('/addhomework', (req, res) => {
                   }
                 })
 	}
+
+});
+
+router.post('/excel', (req, res) => {
+  if(req.query.filename){
+      excel2json({
+    input:req.query.filename ,  // input directory  
+    output: "public/teacher-homeworks/ output.json "// output directory  
+   }, function(err, result) {
+    if(err) {
+      console.error(err);
+    } else {
+
+          
+
+      console.log(result);
+    }
+  });
+	} 
 
 });
 
@@ -2357,15 +2494,18 @@ router.get('/getteachersubjects', (req, res) => {
 				})
 				router.get('/getstudentprofileinfo', (req, res) => {
 					var userId = req.query.studentId;
-				//	console.log(userId)
+					// console.log(userId)
 							Student.findOne({user_id: userId}).populate('user_id').populate('major_id faculty_id group_id').exec(function(err, student){
 								if(err) { console.log(err) }
 								else {
 									var gpa=0;
 									FinalMark.findOne({student: student._id},(err,fm) => {
 										if(err) console.log(err)
+										// console.log(fm,'fm')
+										if(!fm){res.send({student:student})}
 											if(fm) 
-												if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
+
+												{if(fm.current_gpa.stud_gpa>93 && fm.current_gpa.stud_gpa<100){
 													var gpa='4.0'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
@@ -2375,7 +2515,7 @@ router.get('/getteachersubjects', (req, res) => {
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
 												} 
-												if(fm.current_gpa.stud_gpa>87 && fm.current_gpa.stud_gpa<89){
+												if(fm.current_gpa.stud_gpa>86 && fm.current_gpa.stud_gpa<89){
 													var gpa='3.3'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)
@@ -2419,7 +2559,7 @@ router.get('/getteachersubjects', (req, res) => {
 													var gpa='0.0'
 													var st=fm.current_gpa.stud_gpa
 													sendData(gpa,st)				
-												} 
+												} }
 													
 									})
 										
@@ -2432,18 +2572,81 @@ router.get('/getteachersubjects', (req, res) => {
 													})
 
 }
-	//console.log(gpa,'gpa')
-										// res.send({
-										// 	student: student,
-										// //	gpa: gpa
-										// })
+
 								}
 							})
-
-
-
-				//console.log('hi')
 						})
+
+
+
+
+router.get('/getstudentforparentprofileinfo', (req, res) => {
+	var new_par_stud=[]
+	var userId = req.query.studentId;
+		Parrent.findOne({ user_id : userId
+     }).populate( {path: 'childs',
+     populate: {path:'group_id user_id faculty_id' }}).populate('user_id').exec(function(err,parent){
+if(err) console.log('не найдено')
+ if(parent){
+
+ 		//console.log(parent.childs[0]._id,'000000')
+  		
+			FinalMark.find({student: parent.childs[0]._id}).populate({
+			  path: 'student ',
+			      populate: {
+			        path: 'user_id group_id',
+			        populate:{
+			        	path:'curator ',
+			        	populate:{
+			        		path:'user_id'
+			        	}
+			        }
+			      }
+		}).exec(function(err,par_stud){
+				  if (err) console.log(err)
+				    else  {
+				    		
+				    	if(par_stud.length!=0){
+				    		var pp=[]
+				    		pp.push(par_stud)
+							res.send({pp})
+				    	}
+				    	if(par_stud==0){
+
+console.log('adadad')
+Student.findOne({_id:parent.childs[0]._id}).populate({
+				    			path: 'user_id group_id',
+			        			populate:{
+						        	path:'curator ',
+						        	populate:{
+						        		path:'user_id'
+						        	}
+						        }
+				    		}).exec(function(err, par_stud){
+				    		if(err) console.log(err)
+			    			if(par_stud) {
+			    				var pp=[]
+			    				pp.push(par_stud)
+			    				console.log(pp,'pp')
+			    				res.send({pp})
+
+			    			}
+				    	})
+
+
+
+				
+										}
+        }
+								     })
+
+ 							
+
+
+
+  							}
+						})
+					})
 
 	router.get('/getoneteacher', (req, res) => {
 		var teacherId = req.query.teacherId;
@@ -3111,7 +3314,9 @@ var rk2= stud.stud_final_mark.stud_final+mark.stud_mark*0.3
 if(mark_type==="Сессия"){
 
 var sess= stud.stud_final_mark.stud_final+mark.stud_mark*0.4
-	              FinalMark.findOneAndUpdate({
+
+if(sess>=50){
+	 FinalMark.findOneAndUpdate({
               	 student:  mark.name,
               	 subject_name: subject_id,
 	  		 	 group_id: group_name,
@@ -3119,7 +3324,8 @@ var sess= stud.stud_final_mark.stud_final+mark.stud_mark*0.4
           {
           	$set : {
           		"final_mark.final_m": mark.stud_mark,
-          		"stud_final_mark.stud_final":sess
+          		"stud_final_mark.stud_final":sess,
+          		"subject_stat": "Cдано"
           	}
           },
           {
@@ -3130,6 +3336,27 @@ var sess= stud.stud_final_mark.stud_final+mark.stud_mark*0.4
           })
 
 
+} else{
+	 FinalMark.findOneAndUpdate({
+              	 student:  mark.name,
+              	 subject_name: subject_id,
+	  		 	 group_id: group_name,
+              } ,
+          {
+          	$set : {
+          		"final_mark.final_m": mark.stud_mark,
+          		"stud_final_mark.stud_final":sess,
+          		"subject_stat": "Ретейк"
+          	}
+          },
+          {
+          	upsert:true
+          }).exec( function(err,s) {
+          	if(err) console.log(err)
+          		else  console.log(s)
+          })
+	}
+	        
 }
 
 
@@ -3144,10 +3371,44 @@ var sess= stud.stud_final_mark.stud_final+mark.stud_mark*0.4
    })
 
 })
+router.post('/getfilterfinalmark',(req,res)=>{
+	var subject_id=req.body.subject_id;
+	var group_name=req.body.group_name;
+	var stud_stat=req.body.stud_stat;
+	console.log(subject_id,group_name,stud_stat)
+		 FinalMark.find({
+	 	subject_name:subject_id,
+    	group_id:group_name,
+    	subject_stat: stud_stat
+	 }).populate({
+    	path: 'student',
+    	populate: {
+    		path:'user_id'
+    	}
+    }).exec(function(err,attendances){
+    	if(err){
+    		res.status(500).send({err:err});
+    	} else {
+    		console.log(attendances.length)
+		 if(attendances.length!=0){
+console.log(attendances,'asdada')
+
+    			res.send({attendances:attendances})
+
+    		} else{
+    			res.send({
+    				attendances: attendances,
+    				message: 'Ничего не найдено'
+    			})
+
+    		}
+    	}
+    })
+})
 router.post('/updatestudentsforfinalmark', (req,res)=> {
 	 var subject_id=req.body.subject_id;
 	 var group_name=req.body.group_name;
-	 	 FinalMark.find({
+	 FinalMark.find({
 	 	subject_name:subject_id,
     	group_id:group_name
 	 }).populate({
@@ -3555,6 +3816,69 @@ router.get('/mychildgroup', (req,res)=> {
 		 })
 })
 
+router.get('/mychildfinalmarks', (req,res)=> {
+	var arr =[]
+var parent_id=req.query.parent_id
+
+	Parrent.findOne({
+		user_id:parent_id
+	}).exec(function(err, parent){
+		if(err) console.log(err);
+		else{
+	
+			parent.childs.forEach( function(p){
+				
+
+			FinalMark.find({student:p}).populate('subject_name ').exec(function(err,fm){
+				    if(err) console.log(err);
+				    else{
+				    						    	var arr=[]
+				    	var final_gpa=0
+				    	var promise = new Promise(function(resolve, reject) {
+				    	
+				    		fm.forEach(function(v,i){
+				    		arr.push(v)
+				    		i++
+				    		final_gpa+=v.stud_final_mark.stud_final
+				    		final_gpa=final_gpa/i
+
+				    		resolve('Success!');
+
+				    	})
+                             })
+
+				    	promise.then( function(){
+
+				    		fm.forEach(function(i){
+				    			
+			    		FinalMark.findOne({
+                			student:  i.student,
+                			subject_name: i.subject_name._id,
+        					group_id: i.group_id
+         				}).exec( function(err,s) {
+          					if(err) console.log(err)
+           					if(s){
+				            	s.current_gpa.stud_gpa=final_gpa;
+				            	s.save (function(err, saved){
+				            	if(err) console.log(err)		
+				            		})
+           					}
+         				 })
+
+				    	})
+				    		
+				    		res.send({fm:arr, final_gpa:final_gpa})
+				    	})  //end of then  
+				    }
+			})
+
+
+
+			})
+
+		}
+	})
+})
 router.get('/myfinalmarks', (req,res)=> {
 	var student_id=req.query.student_id
 	//console.log(student_id,'adasd')
@@ -3771,9 +4095,6 @@ Promise.all(promises).then(function(results) {
      		 			console.log(semesterMarks,'fullArray')
 
 })
-
- 		 		//	console.log(semesterMarks,'fullArray')
-
  	}
 
  })

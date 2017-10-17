@@ -16,8 +16,9 @@ const FinalMarkSchema = new mongoose.Schema({
 stud_final:Number
 	},
 	current_gpa:{
-		stud_gpa:Number
-	}
+		stud_gpa: {type: Number, default: '0.0'}
+	},
+	subject_stat: {type : String, default: 'Не выставлено'}
 })
 
 module.exports = mongoose.model('FinalMark', FinalMarkSchema);

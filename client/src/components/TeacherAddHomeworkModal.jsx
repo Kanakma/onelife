@@ -153,6 +153,9 @@ class TeacherAddHomeworkModal extends React.Component {
       <div style={backdropStyle}>
         <div style={modalStyle}>
         <div className="row">
+          <div className="bg-title" style={{marginLeft: '0px' }}>
+        <h4>Главная родителя</h4>
+      </div>
               <button className="btn btn-info waves-effect waves-light m-r-10" style={{float:"right"}} onClick={this.props.onClose}>
                 X
               </button>

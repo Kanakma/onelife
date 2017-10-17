@@ -526,6 +526,7 @@ class Base extends React.Component {
                       <ul className="nav" hidden={!this.state.checkStudent}>
                         <li><Link to="/students" className="waves-effect" style={{paddingLeft: '45px'}}>Все студенты</Link></li>
                         <li><Link to="/addstudents" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить студента</Link></li>
+                      <li><Link to="/admin_studexcel" className="waves-effect" style={{paddingLeft: '45px'}}>Добавить студента Excel</Link></li>
                       </ul>
                   </li>
                     <li><Link to="#" className="waves-effect" name="parrent" onClick={this.changeHide}>
@@ -726,6 +727,7 @@ class Base extends React.Component {
                           </Link></li>
                         <li><Link to="/parent_get_final_mark" className="waves-effect"><i className="fa fa-check-square-o fa-lg icons" aria-hidden="true" ></i>Итоговые Оценки</Link></li>
                         <li><Link to="/parent_attendance" className="waves-effect"><i className="fa fa-file-text-o fa-lg icons" aria-hidden="true" ></i><Link to="parent_attendance" className="hidden-menu-style hide-menu ">Посещаемость</Link></Link></li>
+                        <li><Link to="/parent_telegram" className="waves-effect"><i className="fa fa-mobile fa-lg icons" aria-hidden="true" ></i><Link to="parent_attendance" className="hidden-menu-style hide-menu ">Задать вопрос</Link></Link></li>
                         <li><Link to="/logout" className="waves-effect"><i className="fa fa-sign-out fa-lg icons" aria-hidden="true" ></i><span className="hidden-menu-style hide-menu ">Выход</span></Link></li>
                       </ul>
                     </div>

@@ -122,6 +122,19 @@ h5 {
  margin-left: -35px;*/
 
 }
+.moi_offset{
+  margin-left: 12.666667%;
+}
+.telegram_img{
+     /* width: 50px; */
+    z-index: 1000;
+    /* position: fixed; */
+    /* margin-right: 145px; */
+    position: fixed;
+    top: 85%;
+    right: 55px;
+    width: 65px;
+}
 .admin-home{
  width: 88%;
  background-color: #fff;

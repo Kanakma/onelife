@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import { Line as Line1,Circle } from 'rc-progress';
 import {LineChart, Line, Pie, Sector, Cell,PieChart, Legend, Tooltip,AreaChart, XAxis, YAxis, CartesianGrid, Area} from 'recharts';
-
+import AddTelegramReq from './AddTelegramReq.jsx';
 
 //SIMPLE PIE
 const data03 = [{name: 'Group A', value: 80}, {name: 'Group B', value: 20},
@@ -157,6 +157,19 @@ class StudentHome extends React.Component {
        img: '599c14d780239a46c51aa04b-default_avatar.png'
     },
     this.openProfile = this.openProfile.bind(this);
+       this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModalClose = this.toggleModalClose.bind(this);
+  }
+      toggleModal(faculty) {
+      this.setState({
+        isOpen: !this.state.isOpen
+  
+    });
+  }
+  toggleModalClose() {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
   }
   componentDidMount() {
     if(Auth.isUserAuthenticated()){
@@ -203,6 +216,9 @@ class StudentHome extends React.Component {
         <div ></div>
       </div>
       <div className="page-content1">
+        <div className="telegram_req"  onClick={this.toggleModal}>
+  <img  onClick={this.toggleModal} className="telegram_img" src={require("../../../public/static/img/plus.png")}/>
+      </div>
         <div className=" col-md-4 col-lg-3 hidden-ipad hidden-mobile hidden-middle visible-max">
           <div className="white-box text-center" style={{height: '388px'}}>
             <div style={{width: '100%'}}>
@@ -565,6 +581,11 @@ class StudentHome extends React.Component {
 
       </div>
     </div>
+               <AddTelegramReq
+          show={this.state.isOpen}
+          onClose={this.toggleModalClose}
+          userId={this.state.userId}
+        />
     </div>);
   }
 }

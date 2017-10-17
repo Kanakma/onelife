@@ -41,6 +41,13 @@ class AdminAddStudent extends React.Component {
       this.changeImg = this.changeImg.bind(this);
     }
     componentDidMount() {
+      //   axios.get('/api/parseexcel',  {
+      //   responseType: 'json',
+      //   headers: {
+      //     'Content-type': 'application/x-www-form-urlencoded'
+      //   }
+      // })
+
       axios.get('/api/getmajors',  {
         responseType: 'json',
         headers: {

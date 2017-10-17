@@ -143,7 +143,7 @@ class TeacherAddMark extends React.Component {
 
 
     const formData = `data=${JSON.stringify(this.state.marks)}&subject_id=${subject_id}&att_date=${att_date}&group_name=${group_name}&mark_type=${mark_type}`;
-
+console.log(formData)
    axios.post('/api/addfinalmark', formData, {
 
     responseType: 'json',

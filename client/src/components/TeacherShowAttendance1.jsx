@@ -162,7 +162,6 @@ updateGroups(event){
 
 
   render() {
-console.log(this.state.attendances,'adadads')
     return (
 
       <div className="container clearfix">
