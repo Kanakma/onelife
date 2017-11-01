@@ -63,6 +63,7 @@ import AdminEmployee from './components/AdminEmployee.jsx';
 import AdminAddCandidate from './components/AdminAddCandidate.jsx';
 import AdminCandidate from './components/AdminCandidate.jsx';
 import AdminNotifications from './components/AdminNotifications.jsx';
+import AdminParser from './components/AdminParser.jsx';
 import Auth from './modules/Auth';
 import TeacherCheckHomeworks from './components/TeacherCheckHomeworks.jsx';
 import AdminFAQ from './components/AdminFAQ.jsx';
@@ -135,6 +136,7 @@ ReactDom.render((
       <Route path="/student_get_final_mark" component={StudentGetFinalMark}/>
       <Route path="/parent_get_final_mark" component={ParentGetFinalMark}/>
       <Route path="/notifications" component={AdminNotifications}/>
+      <Route path="/parsers" component={AdminParser}/>
       <Route path="/adminfaq" component={AdminFAQ}/>
       <Route path="/studentfaq" component={StudentFaq}/>
       <Route path="/logout" render={() => { Auth.deauthenticateUser(); return <Redirect to="/"/>; } }/>

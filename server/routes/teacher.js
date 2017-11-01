@@ -14,9 +14,9 @@ router.get('/getteacherprofileinfo', (req, res) => {
 			Teacher.findOne({user_id: userId}).populate('user_id').exec(function(err, teacher){
 				if(err) { console.log(err) }
 				else {
-						res.send({
-							teacher: teacher
-						})
+					res.send({
+						teacher: teacher
+					})
 				}
 			})
 		})
@@ -72,15 +72,15 @@ router.post('/deleteteacher', (req, res) =>{
 
 //This route will load all teachers info
 router.get('/getteachers', (req, res) => {
-		getTeachers()
-		.then(function(teachers){
-			var arrayOfTeachers = teachFunction(teachers);
-			async.waterfall(arrayOfTeachers, function(err, allTchrs){
-				if(err) console.log("error");
-				res.status(200).send({allTchrs})
+	Teacher.find().populate('user_id faculty_id').exec(function(err, teachers){
+		if(err) console.log(err)
+		else {
+			res.send({
+				teachers: teachers
 			})
-		})
-});
+		}
+	})
+})
 
 // Func for collecting all teachers from DBs
 var getTeachers = function(){

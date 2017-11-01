@@ -94,10 +94,10 @@ class AdminStudents extends React.Component {
                             <div className="col-md-8 col-sm-8">
                               <h3 className="box-title m-b-0">{student.user_id.name} {student.user_id.lastname}</h3>
                               <address>
-                                Факультет: {student.faculty_id.faculty_name}<br/>
+                                Факультет: {student.faculty_id ? student.faculty_id.faculty_name : 'Нет факультета!'}<br/>
                                 Пользователь: {student.user_id.username}
                                 <br/>
-                                Группа: {student.group_id.group_name}
+                                Группа: {student.group_id ? student.group_id.group_name : 'Нет группы!'}
                                 <br/>
                               </address>
                               <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
@@ -137,10 +137,10 @@ class AdminStudents extends React.Component {
                                 <div className="col-md-8 col-sm-8">
                                   <h3 className="box-title m-b-0">{student.user_id.name} {student.user_id.lastname}</h3>
                                   <address>
-                                    Факультет: {student.faculty_id.faculty_name}<br/>
+                                    Факультет: {student.faculty_id ? student.faculty_id.faculty_name : 'Нет факультета!'}<br/>
                                     Пользователь: {student.user_id.username}
                                     <br/>
-                                    Группа: {student.group_id.group_name}
+                                    Группа: {student.group_id ? student.group_id.group_name : 'Нет группы!'}
                                     <br/>
                                   </address>
                                   <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>
@@ -180,10 +180,10 @@ class AdminStudents extends React.Component {
                                   <div className="col-md-8 col-sm-8">
                                     <h3 className="box-title m-b-0">{student.user_id.name} {student.user_id.lastname}</h3>
                                     <address>
-                                      Факультет: {student.faculty_id.faculty_name}<br/>
+                                      Факультет: {student.faculty_id ? student.faculty_id.faculty_name : 'Нет факультета!'}<br/>
                                       Пользователь: {student.user_id.username}
                                       <br/>
-                                      Группа: {student.group_id.group_name}
+                                      Группа: {student.group_id ? student.group_id.group_name : 'Нет группы!'}
                                       <br/>
                                     </address>
                                     <button onClick={this.toggleModal.bind(this, student)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}}>

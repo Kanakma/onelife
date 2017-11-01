@@ -96,7 +96,7 @@ class AdminSubjects extends React.Component {
                           <p><span><i className="fa fa-graduation-cap"></i>Предмет общеобразовательный</span></p>
                         )
                       }
-                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
+                      <p><span><i className="fa fa-user-o"></i> Преподаватель:{subject.teacher_id ? subject.teacher_id.user_id.name + ' ' + subject.teacher_id.user_id.lastname : 'Не назначен!'}</span></p>
                       <div>
                         <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                         <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
@@ -126,7 +126,7 @@ class AdminSubjects extends React.Component {
                           <p><span><i className="fa fa-graduation-cap"></i>Предмет общеобразовательный</span></p>
                         )
                       }
-                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
+                      <p><span><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id ? subject.teacher_id.user_id.name + ' ' + subject.teacher_id.user_id.lastname : 'Не назначен!'}</span></p>
                         <div>
                           <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white'}}>Подробнее</button>
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle m-t-10 pull-right edit-btn-moreinfo" style={{background: 'none'}} >
@@ -156,7 +156,7 @@ class AdminSubjects extends React.Component {
                           <p><span style={{fontSize: '12px'}}><i className="fa fa-graduation-cap"></i>Предмет общеобразовательный</span></p>
                         )
                       }
-                      <p><span style={{fontSize: '12px'}}><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id.user_id.name} {subject.teacher_id.user_id.lastname}</span></p>
+                      <p><span style={{fontSize: '12px'}}><i className="fa fa-user-o"></i> Преподаватель: {subject.teacher_id ? subject.teacher_id.user_id.name + ' ' + subject.teacher_id.user_id.lastname : 'Не назначен!'}</span></p>
                         <div>
                           <button onClick={this.openSubject} id={subject._id}  className="btn btn-success btn-rounded waves-effect waves-light " style={{color: 'white', fontSize: '9px'}}>Подробнее</button>
                           <button onClick={this.toggleModal.bind(this, subject)} className="btn btn-default btn-circle pull-right edit-btn-moreinfo" style={{background: 'none'}} >

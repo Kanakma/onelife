@@ -39,8 +39,8 @@ class AdminTeachers extends React.Component {
     })
       .then(res => {
         this.setState({
-          teachers: res.data.allTchrs,
-          allteachers: res.data.allTchrs
+          teachers: res.data.teachers,
+          allteachers: res.data.teachers
         });
       });
   }
@@ -115,8 +115,8 @@ class AdminTeachers extends React.Component {
                             <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
                           <small>{teacher.degree}</small>
                           <address style={{wordBreak: 'break-word'}}>
-                            Факультет: {teacher.faculty_name}<br/>
-                            Пользователь: {teacher.username}
+                            Факультет: {teacher.faculty_id ? teacher.faculty_id.faculty_name : 'Нет факультета!'}<br/>
+                            Пользователь: {teacher.user_id.username}
                             <br/>
                             <abbr title="Email">E:</abbr> {teacher.email}
                             <br/>
@@ -161,8 +161,8 @@ class AdminTeachers extends React.Component {
                             <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
                           <small>{teacher.degree}</small>
                           <address>
-                            Факультет: {teacher.faculty_name}<br/>
-                            Пользователь: {teacher.username}
+                            Факультет: {teacher.faculty_id ? teacher.faculty_id.faculty_name : 'Нет факультета!'}<br/>
+                            Пользователь: {teacher.user_id.username}
                             <br/>
                             <abbr title="Email">E:</abbr> {teacher.email}
                             <br/>
