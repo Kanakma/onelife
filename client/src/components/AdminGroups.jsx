@@ -101,7 +101,7 @@ class AdminGroups extends React.Component {
                           <td className="table-b-left">{group.major.major_name}</td>
                           <td className="table-b-left">{group.major.major_department.department_name}</td>
                           <td className="table-b-left" style={{textAlign: 'center'}}>{group.course_number}</td>
-                          <td className="table-b-left">{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
+                          <td className="table-b-left">{group.curator ? group.curator.user_id.name + ' ' + group.curator.user_id.lastname : 'Не назначен!'}</td>
                           <td style={{textAlign: 'center'}} className="table-b-left">{group.students.length}</td>
                           <td style={{padding: '10px 20px'}} className="table-b-left">
                             <button onClick={this.toggleModal.bind(this, group)} className="btn btn-default btn-circle edit-btn-moreinfo" style={{background: 'none', position: 'absolute'}}>
@@ -164,7 +164,7 @@ class AdminGroups extends React.Component {
                           </tr>
                           <tr>
                             <td className="mobile-table">Куратор</td>
-                            <td>{group.curator.user_id.name} {group.curator.user_id.lastname}</td>
+                            <td>{group.curator ? group.curator.user_id.name + ' ' + group.curator.user_id.lastname : 'Не назначен!'}</td>
                           </tr>
                           <tr>
                             <td className="mobile-table">Опции</td>

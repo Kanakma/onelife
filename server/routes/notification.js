@@ -3,6 +3,12 @@ var router = express.Router()
 var Notifications = require ('../models/notifications')
 var DamFunc = require('../../client/src/modules/AllDamFunc')
 var Student = require('../models/student')
+var multiparty = require('multiparty')
+var fs = require('fs')
+var xlsx = require('node-xlsx').default
+var User = require('../models/user')
+var Teacher = require('../models/teacher')
+const bcrypt = require('bcryptjs')
 
 router.post('/addeventnotification', (req, res)=>{
 	var notification = JSON.parse(req.body.notification)
@@ -131,7 +137,139 @@ router.post('/getallnotesforstudent', (req, res)=>{
 	})
 })
 
+router.post('/teachparser', (req, res)=>{
+	var form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+      var tempPath = files.file[0].path
+			var workSheetsFromBuffer = xlsx.parse(fs.readFileSync(tempPath))
+			var arrayOfTeachers = workSheetsFromBuffer[0].data
+			arrayOfTeachers.map(function(teacher, index){
+				if(index==0){
+				} else{
+					User.findOne({passport_id: teacher[3]}, (err, user)=>{
+						if(err){
+							console.log(err)
+						}	else if(user){
+							index++
+						} else{
+							// console.log(typeof teacher[6])
+							Teacher.find((err, teachers) => {
+								if(err) console.log(err)
+								else {
+									// console.log('159')
+									var userData = {
+										username: 20000+teachers.length,
+										password: bcrypt.hashSync('123456789', 10),
+										passport_id: teacher[3],
+										name: teacher[1],
+										lastname: teacher[0],
+										fathername:teacher[2],
+										birthday: new Date(teacher[4]),
+										status: 'teacher',
+										gender: teacher[5]
+									}
+									const newUser = new User(userData)
+								  	newUser.save((err, savedUser) => {
+									  if (err) console.log(err)
+										else {
+											var teacherData = {
+												user_id: savedUser._id,
+												university_code: '195',
+												entry_year: new Date(teacher[6]),
+												degree: teacher[7],
+												email:teacher[8],
+												phone:teacher[9]
+											}
+											const newTeacher = new Teacher(teacherData);
+										  	newTeacher.save((err, savedTeacher) => {
+												if (err) console.log(err)
+												else {
+													// console.log('187')
+													fs.unlink(tempPath, function(err){
+														if(!err){
+															res.send({
+																message:'Преподаватели успешно добавлены!'
+															})
+														}
+													})
+												}
+											})
+										}
+								  })
+								}
+							})
+						}
+					})
+				}
+			})
+    })
+})
 
-
+router.post('/studparser', (req, res)=>{
+	console.log('209')
+	var form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+      var tempPath = files.file[0].path
+			var workSheetsFromBuffer = xlsx.parse(fs.readFileSync(tempPath))
+			var arrayOfStudents = workSheetsFromBuffer[0].data
+			arrayOfStudents.map(function(student, index){
+				if(index==0){
+				} else{
+					User.findOne({passport_id: student[3]}, (err, user)=>{
+						if(err){
+							console.log(err)
+						}	else if(user){
+							index++
+						} else{
+							console.log('224')
+							Student.find((err, students) => {
+								if(err) console.log(err)
+								else{
+									var userData = {
+										username: 100001+students.length,
+										password: bcrypt.hashSync('123456789', 10),
+										passport_id: student[3],
+										name: student[1],
+										lastname: student[0],
+										fathername:student[2],
+										birthday: new Date(student[4]),
+										status: 'student',
+										gender: student[5]
+									}
+									const newUser = new User(userData)
+									newUser.save((err, savedUser) => {
+										if(err) console.log(err)
+										else {
+											var studentData = {
+												user_id: savedUser._id,
+												university_code: '195',
+												admission_year: new Date(student[6]),
+												email:student[7],
+												phone:student[8]
+											}
+											const newStudent = new Student(studentData)
+											newStudent.save((err, savedStudent) => {
+												if (err) console.log(err)
+												else {
+													// console.log('187')
+													fs.unlink(tempPath, function(err){
+														if(!err){
+															res.send({
+																message:'Студенты успешно добавлены!'
+															})
+														}
+													})
+												}
+											})
+										}
+									})
+								}	
+							})
+						}
+					})
+				}
+			})
+    })
+})
 
 module.exports = router;

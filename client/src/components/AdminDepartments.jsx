@@ -78,7 +78,7 @@ class AdminDepartments extends React.Component {
                           <td className="table-b-left">{department.department_code}</td>
                           <td className="table-b-left">{department.department_faculty.faculty_name}</td>
                           <td className="table-b-left">{department.department_name}</td>
-                          <td className="table-b-left">{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
+                          <td className="table-b-left">{department.department_director ? department.department_director.user_id.name + ' ' + department.department_director.user_id.lastname : 'Не назначен!'}</td>
                           <td className="table-b-left">{department.department_phone}</td>
                           <td className="table-b-left">{department.department_email}</td>
                           <td className="hidden-ipad table-b-left">
@@ -139,7 +139,7 @@ class AdminDepartments extends React.Component {
                             <td className="mobile-table">Кафедра</td><td>{department.department_name}</td>
                           </tr>
                           <tr>
-                            <td className="mobile-table">Зав. кафедры</td><td>{department.department_director.user_id.name} {department.department_director.user_id.lastname}</td>
+                            <td className="mobile-table">Зав. кафедры</td><td>{department.department_director ? department.department_director.user_id.name + ' ' + department.department_director.user_id.lastname : 'Не назначен!'}</td>
                           </tr>
                           <tr>
                             <td className="mobile-table">Телефон</td><td>{department.department_phone}</td>

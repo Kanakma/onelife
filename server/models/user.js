@@ -10,11 +10,12 @@ const UserSchema = new mongoose.Schema({
   passport_id: String,
   name: String,
   lastname: String,
+  fathername: String,
   birthday: Date,
   status: String,
   gender: String
 });
-
+ 
 UserSchema.methods.comparePassword = function comparePassword(password, callback) {
   bcrypt.compare(password, this.password, callback);
 };

@@ -51,5 +51,5 @@ app.get("/*", function(req, res) {
 
 
 app.listen(3009, () => {
-  console.log('Magic is happening on port 3000');
+  console.log('Magic is happening on port 3009');
 });

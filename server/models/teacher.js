@@ -7,7 +7,7 @@ const TeacherSchema = new mongoose.Schema({
     unique: true
   },
   university_code: String,
-  faculty_id: String,
+  faculty_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Faculty'},
   entry_year: Date,
   img: {
     type:String,
@@ -24,6 +24,6 @@ const TeacherSchema = new mongoose.Schema({
   },
   social: Array
 });
-
+ 
 
 module.exports = mongoose.model('Teacher', TeacherSchema);

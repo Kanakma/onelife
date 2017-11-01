@@ -795,6 +795,7 @@ class Base extends React.Component {
                           <ul className="nav" hidden={!this.state.checkOther}>
                             <li><Link to="/notifications" className="waves-effect" style={{paddingLeft: '45px'}}>Уведомления</Link></li>
                             <li><Link to="/reports" className="waves-effect" style={{paddingLeft: '45px'}}>Отчеты</Link></li>
+                            <li><Link to="/parsers" className="waves-effect" style={{paddingLeft: '45px'}}>Парсеры</Link></li>
                           </ul>
                       </li>
                       <li><Link to="/adminfaq" className="waves-effect" id="faq" onClick={this.changeHide}>  <i className="fa fa-question-circle-o fa-lg icons" aria-hidden="true" ></i><span className="hide-menu">FAQ</span></Link></li>
