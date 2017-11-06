@@ -160,42 +160,30 @@ router.post('/editmajor', (req, res) => {
 		}
 	})
 })
+
 //This route will delete major
 router.post('/deletemajor', (req, res) =>{
 	Major.findOneAndRemove({_id:req.body.major_id}, function(err, result){
 		if(err) console.log(err);
 	})
 })
+
 router.get('/count_majors',(req,res) =>{
-	var majNames = [];
-
-    var maj_id=[]
-     Student.aggregate(
-		{$group : {
-			 _id : "$major_id",
-			 count : {$sum : 1}
-		}}
-     	).exec(function(err,major){
-	    if(err){
-	     res.status(500).send({err: err});
-
-		} else {
-		    Major.find().exec(function(err, majors){
-	      	if(err) console.log(err);
-			if(majors){
-
-						majors.forEach(function(m,i){
-							var ind = DamFunc.IndInObjArr(major, m._id, '_id')
-							if(ind.length > 0){
-								//res.status(200).send({ })
-								majNames.push({name: m.major_name, value: major[ind[0]].count})
-							}
-						})
-						res.status(200).send({majNames:majNames})
-					}
-			})
-		}
-	})
+	var majNames = []
+  Major.find({}).populate('groups').exec(function(err, majors){
+  	if(err) console.log(err)
+  	if(majors){
+  		majors.map(function(major, ind){
+  			major.groups.map(function(group, index){
+					majNames.push({name: major.major_name, value: group.students.length})
+  			})
+  		})
+ 			res.status(200).send({majNames:majNames})
+  	} else{
+			majNames.push({name: "Нет", value: 0})
+  		res.status(200).send({majNames:majNames})
+  	}
+  })
 })
 
 module.exports = router;
