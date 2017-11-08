@@ -13,7 +13,6 @@ class AdminEditTeacherModal extends React.Component {
         name:'',
         lastname:'',
         passport_id:'',
-        birthday:'',
         entry_year:'',
         degree:'',
         email:'',
@@ -52,7 +51,7 @@ class AdminEditTeacherModal extends React.Component {
     })
       .then(res => {
         this.setState({
-          faculties: res.data.allFclts
+          faculties: res.data.faculties
         });
       });
   }
@@ -69,7 +68,7 @@ class AdminEditTeacherModal extends React.Component {
     if(this.state.filename.length>0){
       this.addImg();
     }
-    const teacher_id = this.props.teacher.teacher_id;
+    const teacher_id = this.props.teacher._id;
     const birthday = this.state.birthday;
     const entry_year = this.state.entry_year;
     const formData = `editedTeacher=${JSON.stringify(this.state.editedTeacher)}&teacher_id=${teacher_id}&birthday=${birthday}&entry_year=${entry_year}`;
@@ -84,7 +83,7 @@ class AdminEditTeacherModal extends React.Component {
 
 
   deleteTeacher(){
-    const formData = `teacher_id=${JSON.stringify(this.props.teacher.teacher_id)}`;
+    const formData = `teacher_id=${JSON.stringify(this.props.teacher._id)}`;
     axios.post('/teacher/deleteteacher', formData, {
       responseType: 'json',
       headers: {
@@ -95,7 +94,7 @@ class AdminEditTeacherModal extends React.Component {
   }
 
   addImg(){
-    var teacher_id = this.props.teacher.teacher_id;
+    var teacher_id = this.props.teacher._id;
     return new Promise((resolve, reject) => {
       let imageFormData = new FormData();
       imageFormData.append('imageFile', this.state.file);
@@ -198,7 +197,6 @@ class AdminEditTeacherModal extends React.Component {
     })
   }
   render(){
-
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
@@ -235,7 +233,7 @@ class AdminEditTeacherModal extends React.Component {
             <form action="/teachers" onSubmit={this.editTeacherFunc}>
               <div className="form-group">
                 <label>Имя</label>
-                <input type="text" className="form-control" placeholder={this.props.teacher.name}
+                <input type="text" className="form-control" placeholder={this.props.teacher.user_id.name}
                 name="name"
                 onChange={this.changeTeacher}
                 value={this.state.editedTeacher.name} />
@@ -243,7 +241,7 @@ class AdminEditTeacherModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>Фамилия</label>
-                <input type="text" className="form-control" placeholder={this.props.teacher.lastname}
+                <input type="text" className="form-control" placeholder={this.props.teacher.user_id.lastname}
                 name="lastname"
                 onChange={this.changeTeacher}
                 value={this.state.editedTeacher.lastname} />
@@ -251,7 +249,7 @@ class AdminEditTeacherModal extends React.Component {
               </div>
               <div className="form-group">
                 <label>ИИН</label>
-                <input type="text" className="form-control" placeholder={this.props.teacher.passport_id}
+                <input type="text" className="form-control" placeholder={this.props.teacher.user_id.passport_id}
                 name="passport_id"
                 onChange={this.changeTeacher}
                 value={this.state.editedTeacher.passport_id}/>

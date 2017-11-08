@@ -3,6 +3,7 @@ var router = express.Router()
 var Major = require('../models/major')
 var User = require('../models/user')
 var Student = require('../models/student')
+var StudentsCounters = require('../models/studentCounters')
 var FinalMark=require('../models/finalmark')
 var Group = require('../models/group')
 var Subject = require('../models/subject')
@@ -93,14 +94,14 @@ router.get('/getstudentprofileinfo', (req, res) => {
 
 router.post('/addstudent', (req, res) => {
   if(req.query.image){
-    Student.find((err, students) => {
+    StudentsCounters.find((err, students) => {
       if(err) { console.log(err) }
       else {
       let form = new multiparty.Form();
       form.parse(req, (err, fields, files) => {
         var tempPath = files.imageFile[0].path;
         var fileName = files.imageFile[0].originalFilename;
-        const number = 100001+students.length;
+        const number = 10000+students.length;
         let copyToPath = "public/student-img/" + number + '-' + fileName;
         fs.readFile(tempPath, (err, data) => {
           fs.writeFile(copyToPath, data, (err) => {
@@ -123,7 +124,7 @@ router.post('/addstudent', (req, res) => {
                     										if(err) console.log(err);
                     										if(group){
                     											var userData = {
-                    												username: 100001+students.length,
+                    												username: 10000+students.length,
                     												password: bcrypt.hashSync(info.password, 10),
                     												passport_id: info.passport_id.trim(),
                     												name: info.name.trim(),
@@ -155,6 +156,8 @@ router.post('/addstudent', (req, res) => {
                                                     group.save(function(err, savedGroup){
                                                       if(err) console.log(err);
                                                       else{
+                                                        var newCounter = new StudentsCounters();
+                                                        newCounter.save()   
                                                         res.send({
                                                           newStudent:newStudent,
                                                           message: 'Студент удачно добавлен'
@@ -191,14 +194,14 @@ router.post('/addstudent', (req, res) => {
         Major.findOne({_id:info.major_id}).populate('major_department').exec(function(err, major){
           if(err) console.log(err);
           if(major){
-            Student.find(function(err, students){
+            StudentsCounters.find(function(err, students){
               if(err) console.log(err);
               else{
                              Group.findOne({_id:info.group_id}, function(err, group){
                               if(err) console.log(err);
                               if(group){
                                 var userData = {
-                                  username: 100001+students.length,
+                                  username: 10000+students.length,
                                   password: bcrypt.hashSync(info.password, 10),
                                   passport_id: info.passport_id.trim(),
                                   name: info.name.trim(),
@@ -229,7 +232,8 @@ router.post('/addstudent', (req, res) => {
                                           group.save(function(err, savedGroup){
                                             if(err) console.log(err);
                                             else{
-                                                console.log(savedGroup)
+                                              var newCounter = new StudentsCounters();
+                                              newCounter.save()  
                                               res.send({
                                                 newStudent:newStudent,
                                                 message: 'Студент удачно добавлен'
@@ -255,11 +259,12 @@ router.post('/addstudent', (req, res) => {
 //this route will delete all student info
 router.post('/deletestudent', (req, res) =>{
 	Student.findOneAndRemove({_id:req.body.student_id}, function(err, removedStudent){
-		if(err)console.log(err);
-		if(removedStudent){
+		if(err){console.log(err);}
+		else{
 			User.findOneAndRemove({_id:removedStudent.user_id}, function(err, removedUser){
-				if(err) console.log(err);
-				if(removedUser){
+				if(err) {
+          console.log(err)
+        } else if(removedUser && removedStudent.group_id){
 					Group.findOne({_id:removedStudent.group_id}, function(err, group){
 						if(err) console.log(err)
 						if(group){
@@ -267,15 +272,14 @@ router.post('/deletestudent', (req, res) =>{
 							group.save(function(err, saved){
 								if(err) console.log(err)
 								if(saved){
-									res.send({
-										message:"Студент удален!"
-									})
+									res.status(200).send()
 								}
 							})
-
 						}
 					})
-				}
+				} else{
+          res.status(200).send()
+        }
 			})
 		}
 	})
@@ -283,100 +287,101 @@ router.post('/deletestudent', (req, res) =>{
 //this route will edit the student info
 router.post('/editstudent', (req, res) =>{
   var student_id = req.query.student_id
-	if(student_id){
+  if(student_id){
     let form = new multiparty.Form();
     form.parse(req, (err, fields, files) => {
-      var editedStudent = JSON.parse(fields.data);
-      var birthday = JSON.parse(fields.birthday);
-      var tempPath = files.imageFile[0].path;
-      var fileName = files.imageFile[0].originalFilename;
-			let copyToPath = "public/student-img/"  + fileName;
-			fs.readFile(tempPath, (err, data) => {
-				fs.writeFile(copyToPath, data, (err) => {
-					fs.unlink(tempPath, () => {
-						if(err) {
-							return res.status(401).end()
-						}
-						else {
-
-            Student.findOne({_id:student_id}).populate({path: 'major_id', populate: {path: 'major_department', populate: {path: 'department_faculty'}}}).populate('group_id').exec(function(err, student){
-              if(err) console.log(err);
-              else{
-            User.findOne({_id:student.user_id}, function(err, user){
-              if(err) console.log(err);
-              else{
-                if(editedStudent.major_id!=''){
-                  Major.findOne({_id: editedStudent.major_id}).populate({path: 'major_department', populate: {path: 'department_faculty'}}).exec(function(err, major){
-                    if(err) console.log(err);
-                    else{
-                      Group.findOne({_id: editedStudent.group_id}, function(err, group){
-                        if(err) console.log(err);
-                        else{
-                          Group.findOne({_id: student.group_id}).populate('students').exec(function(err, oldGroup){
-                            if(err) console.log(err);
-                            else{
-                              student.faculty_id = major.major_department.department_faculty;
-                              student.department_id = major.major_department;
-                              student.major_id = editedStudent.major_id;
-                              student.group_id = editedStudent.group_id;
+      if(err) {
+        console.log(err)
+      } else{
+        var editedStudent = JSON.parse(fields.data);
+        var birthday = JSON.parse(fields.birthday);
+        var tempPath = files.imageFile[0].path;
+        var fileName = files.imageFile[0].originalFilename;
+        let copyToPath = "public/student-img/" + fileName;
+        fs.readFile(tempPath, (err, data) => {
+          if(err) {
+            console.log(err)
+          } else{
+            fs.writeFile(copyToPath, data, (err) => {
+              if(err) {
+                console.log(err)
+              } else{
+                fs.unlink(tempPath, () => {
+                  Student.findOne({_id:student_id}).populate({path: 'major_id', populate: {path: 'major_department', populate: {path: 'department_faculty'}}}).populate('group_id').exec(function(err, student){
+                    if(err) {
+                      console.log(err)
+                    } else{
+                      if(student.group_id) {
+                        User.findOne({_id:student.user_id}, function(err, user){
+                          if(err) {
+                            console.log(err)
+                          } else{
+                            if(editedStudent.major_id!=''){
+                              Major.findOne({_id: editedStudent.major_id}).populate({path: 'major_department', populate: {path: 'department_faculty'}}).exec(function(err, major){
+                                if(err) {
+                                  console.log(err)
+                                } else{
+                                  Group.findOne({_id: editedStudent.group_id}, function(err, group){
+                                    if(err) {
+                                      console.log(err);
+                                    } else{
+                                      Group.findOne({_id: student.group_id}).populate('students').exec(function(err, oldGroup){
+                                        if(err) {
+                                          console.log(err);
+                                        } else{
+                                          student.faculty_id = major.major_department.department_faculty;
+                                          student.department_id = major.major_department;
+                                          student.major_id = editedStudent.major_id;
+                                          student.group_id = editedStudent.group_id;
+                                          student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                                          student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                                          student.img = fileName;
+                                          student.save(function(err, savedStudent){
+                                            if(err) console.log(err);
+                                            else{
+                                              group.students.push(savedStudent._id);
+                                              group.save(function(err, savedGroup){
+                                                if(err) console.log(err);
+                                                else{
+                                                  oldGroup.students.splice(oldGroup.students.indexOf(savedStudent._id), 1);
+                                                  oldGroup.save(function(err, changedGroup){
+                                                    if(err) console.log(err);
+                                                    else{
+                                                      user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                                                      user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                                                      user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                                                      user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                                                      user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                                                      user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                                                      user.save(function(err, savedUser){
+                                                        if(err) console.log(err);
+                                                        else{
+                                                          res.status(200).send({})
+                                                        }
+                                                      })
+                                                    }
+                                                  })
+                                                }
+                                              })
+                                            }
+                                          })
+                                        }
+                                      })
+                                    }
+                                  })
+                                }
+                              })
+                            } else {
+                              student.faculty_id = student.major_id.major_department.department_faculty;
+                              student.department_id = student.major_id.major_department;
+                              student.major_id =student.major_id;
+                              student.group_id = student.group_id;
                               student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
                               student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
                               student.img = fileName;
                               student.save(function(err, savedStudent){
                                 if(err) console.log(err);
                                 else{
-                                  group.students.push(savedStudent._id);
-                                  group.save(function(err, savedGroup){
-                                    if(err) console.log(err);
-                                    else{
-
-                                      oldGroup.students.splice(oldGroup.students.indexOf(savedStudent._id), 1);
-                                      oldGroup.save(function(err, changedGroup){
-                                        if(err) console.log(err);
-                                        else{
-
-                                          user.name = (editedStudent.name!='')?editedStudent.name:user.name;
-                                          user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
-                                          user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-                                          user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
-                                          user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
-                                          user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
-                                          user.save(function(err, savedUser){
-                                            if(err) console.log(err);
-                                            else{
-                                              res.status(200).send({})
-                                            }
-                                          })
-                                        }
-                                      })
-                                      // }
-                                      // })
-                                    }
-                                  })
-                                }
-                              })
-                            }
-                          })
-                        }
-                      })
-
-                    }
-                  })
-                }
-                // })
-                // }
-                else{
-
-                      student.faculty_id = student.major_id.major_department.department_faculty;
-                      student.department_id = student.major_id.major_department;
-                      student.major_id =student.major_id;
-                      student.group_id = student.group_id;
-                      student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
-                      student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
-                      student.img = fileName;
-                      student.save(function(err, savedStudent){
-                        if(err) console.log(err);
-                        else{
                                   user.name = (editedStudent.name!='')?editedStudent.name:user.name;
                                   user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
                                   user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
@@ -389,136 +394,258 @@ router.post('/editstudent', (req, res) =>{
                                       res.status(200).send({})
                                     }
                                   })
-
-                        }
-                      })
-
-                }
-              }
-              })
-              }
-              })
-        }
-				});
-			});
-		})
-
-// }
-// })
-// }
-// })
-})
-	} else{
-		var editedStudent = JSON.parse(req.body.data)
-		var birthday = req.body.birthday;
-		Student.findOne({_id: req.body.student_id}).populate({path: 'major_id', populate: {path: 'major_department', populate: {path: 'department_faculty'}}}).populate('group_id').exec(function(err, student){
-			if(err) console.log(err);
-			if(student){
-        if(editedStudent.major_id!=''){
-          Major.findOne({_id: editedStudent.major_id}).populate({path: 'major_department', populate: {path: 'department_faculty'}}).exec(function(err, major){
-            if(err) console.log(err);
-            else{
-              Group.findOne({_id: editedStudent.group_id}, function(err, group){
-                if(err) console.log(err);
-                else{
-                  Group.findOne({_id: student.group_id}).populate('students').exec(function(err, oldGroup){
-                    if(err) console.log(err);
-                    else{
-                      student.faculty_id = major.major_department.department_faculty;
-                      student.department_id = major.major_department;
-                      student.major_id = editedStudent.major_id;
-                      student.group_id = editedStudent.group_id;
-                      student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
-                      student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
-                      student.img = student.img;
-                      student.save(function(err, savedStudent){
-                        if(err) console.log(err)
-                        else{
-                          group.students.push(savedStudent._id);
-                          group.save(function(err, savedGroup){
-                            if(err) console.log(err);
-                            else{
-                              oldGroup.students.splice(oldGroup.students.indexOf(savedStudent._id), 1);
-                              oldGroup.save(function(err, changedGroup){
+                                }
+                              })
+                            }
+                          }  
+                        })
+                      } else{
+                        User.findOne({_id:student.user_id}, function(err, user){
+                          if(err) console.log(err);
+                          else{
+                            if(editedStudent.major_id!=''){
+                              Major.findOne({_id: editedStudent.major_id}).populate({path: 'major_department', populate: {path: 'department_faculty'}}).exec(function(err, major){
                                 if(err) console.log(err);
                                 else{
-
-                                  User.findOne({_id:student.user_id}, function(err, user){
+                                  Group.findOne({_id: editedStudent.group_id}, function(err, group){
                                     if(err) console.log(err);
                                     else{
-                                      user.name = (editedStudent.name!='')?editedStudent.name:user.name;
-                                      user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
-                                      user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-                                      user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
-                                      user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
-                                      user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
-                                      user.save(function(err, savedUser){
+                                      student.faculty_id = major.major_department.department_faculty;
+                                      student.department_id = major.major_department;
+                                      student.major_id = editedStudent.major_id;
+                                      student.group_id = editedStudent.group_id;
+                                      student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                                      student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                                      student.img = fileName;
+                                      student.save(function(err, savedStudent){
                                         if(err) console.log(err);
                                         else{
-                                          res.send({
-                                          	message: 'Отредактировано'
+                                          group.students.push(savedStudent._id);
+                                          group.save(function(err, savedGroup){
+                                            if(err) console.log(err);
+                                            else{
+                                              user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                                              user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                                              user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                                              user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                                              user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                                              user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                                              user.save(function(err, savedUser){
+                                                if(err) console.log(err);
+                                                else{
+                                                  res.status(200).send({})
+                                                }
+                                              })
+                                            }
                                           })
                                         }
                                       })
-
                                     }
                                   })
-
                                 }
                               })
-
+                            } else{
+                              student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                              student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                              student.img = fileName;
+                              student.save(function(err, savedStudent){
+                                if(err) console.log(err);
+                                else{
+                                  user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                                  user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                                  user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                                  user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                                  user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                                  user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                                  user.save(function(err, savedUser){
+                                    if(err) console.log(err);
+                                    else{
+                                      res.status(200).send({})
+                                    }
+                                  })
+                                }
+                              })
                             }
-                          })
-                        }
-                      })
+                          }
+                        })
+                      }
                     }
                   })
-                }
-              })
+                })
+              }
+            })
+          }
+        })
+      }
+    })
+  } else{
+    var editedStudent = JSON.parse(req.body.data)
+    Student.findOne({_id:req.body.student_id}).populate({path: 'major_id', populate: {path: 'major_department', populate: {path: 'department_faculty'}}}).populate('group_id').exec(function(err, student){
+      if(err) {
+        console.log(err)
+      } else{
+        if(student && student.group_id){
+          User.findOne({_id:student.user_id}, function(err, user){
+            if(err) {
+              console.log(err)
+            } else{
+              if(editedStudent.major_id!=''){
+                Major.findOne({_id: editedStudent.major_id}).populate({path: 'major_department', populate: {path: 'department_faculty'}}).exec(function(err, major){
+                  if(err) {
+                    console.log(err)
+                  } else{
+                    Group.findOne({_id: editedStudent.group_id}, function(err, group){
+                      if(err) {
+                        console.log(err);
+                      } else{
+                        Group.findOne({_id: student.group_id}).populate('students').exec(function(err, oldGroup){
+                          if(err) {
+                            console.log(err);
+                          } else{
+                            student.faculty_id = major.major_department.department_faculty;
+                            student.department_id = major.major_department;
+                            student.major_id = editedStudent.major_id;
+                            student.group_id = editedStudent.group_id;
+                            student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                            student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                            student.save(function(err, savedStudent){
+                              if(err) console.log(err);
+                              else{
+                                group.students.push(savedStudent._id);
+                                group.save(function(err, savedGroup){
+                                  if(err) console.log(err);
+                                  else{
+                                    oldGroup.students.splice(oldGroup.students.indexOf(savedStudent._id), 1);
+                                    oldGroup.save(function(err, changedGroup){
+                                      if(err) console.log(err);
+                                      else{
+                                        user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                                        user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                                        user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                                        user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                                        user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                                        user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                                        user.save(function(err, savedUser){
+                                          if(err) console.log(err);
+                                          else{
+                                            res.status(200).send({})
+                                          }
+                                        })
+                                      }
+                                    })
+                                  }
+                                })
+                              }
+                            })
+                          }
+                        })
+                      }
+                    })
+                  }
+                })
+              } else {
+                student.faculty_id = student.major_id.major_department.department_faculty;
+                student.department_id = student.major_id.major_department;
+                student.major_id =student.major_id;
+                student.group_id = student.group_id;
+                student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                student.img = fileName;
+                student.save(function(err, savedStudent){
+                  if(err) console.log(err);
+                  else{
+                    user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                    user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                    user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                    user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                    user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                    user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                    user.save(function(err, savedUser){
+                      if(err) console.log(err);
+                      else{
+                        res.status(200).send({})
+                      }
+                    })
+                  }
+                })
+              }
+            }  
+          })
+        } else{
+          User.findOne({_id:student.user_id}, function(err, user){
+            if(err) console.log(err);
+            else{
+              if(editedStudent.major_id!=''){
+                Major.findOne({_id: editedStudent.major_id}).populate({path: 'major_department', populate: {path: 'department_faculty'}}).exec(function(err, major){
+                  if(err) {
+                    console.log(err)
+                  } else{
+                    Group.findOne({_id: editedStudent.group_id}, function(err, group){
+                      if(err) {
+                        console.log(err);
+                      } else{
+                        student.faculty_id = major.major_department.department_faculty;
+                        student.department_id = major.major_department;
+                        student.major_id = editedStudent.major_id;
+                        student.group_id = editedStudent.group_id;
+                        student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                        student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                        student.save(function(err, savedStudent){
+                          if(err) console.log(err);
+                          else{
+                            group.students.push(savedStudent._id);
+                            group.save(function(err, savedGroup){
+                              if(err) console.log(err);
+                              else{
+                               user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                                user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                                user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                                user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                                user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                                user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                                user.save(function(err, savedUser){
+                                  if(err) console.log(err);
+                                  else{
+                                    res.status(200).send({})
+                                  }
+                                })
+                              }
+                            })
+                          }
+                        })
+                      }
+                    })
+                  }
+                })
+              } else {
+                student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
+                student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
+                student.save(function(err, savedStudent){
+                  if(err) console.log(err);
+                  else{
+                    user.name = (editedStudent.name!='')?editedStudent.name:user.name;
+                    user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
+                    user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
+                    user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
+                    user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
+                    user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
+                    user.save(function(err, savedUser){
+                      if(err) console.log(err);
+                      else{
+                        res.status(200).send({})
+                      }
+                    })
+                  }
+                })
+              }
             }
           })
-
-        }else{
-          student.faculty_id = student.major_id.major_department.department_faculty;
-          student.department_id = student.major_id.major_department;
-          student.major_id =student.major_id;
-          student.group_id =student.group_id;
-          student.admission_year = (editedStudent.admission_year!='')?editedStudent.admission_year:student.admission_year;
-          student.graduation_year = (editedStudent.graduation_year!='')?editedStudent.graduation_year:student.graduation_year;
-          student.img = student.img;
-          student.save(function(err, savedStudent){
-  					if(err) console.log(err)
-  					else{
-              User.findOne({_id:student.user_id}, function(err, user){
-                if(err) console.log(err);
-                else{
-                  user.name = (editedStudent.name!='')?editedStudent.name:user.name;
-                  user.lastname = (editedStudent.lastname!='')?editedStudent.lastname:user.lastname;
-                  user.birthday = (req.body.birthday!='')?req.body.birthday:user.birthday;
-                  user.gender = (editedStudent.gender!='')?editedStudent.gender:user.gender;
-                  user.passport_id = (editedStudent.passport_id!='')?editedStudent.passport_id:user.passport_id;
-                  user.password = (editedStudent.password!='')?bcrypt.hashSync(editedStudent.password, 10):user.password;
-                  user.save(function(err, savedUser){
-                    if(err) console.log(err);
-                    else{
-                      res.send({
-          							message: 'Отредактировано'
-          						})
-                    }
-                  })
-
-                }
-              })
-
-
-  					}
-  				})
         }
-
-			}
-		})
-	}
+      } 
+    })
+  }
 })
+
 router.get('/getstudents', (req, res) =>{
 	Student.find().populate('user_id faculty_id department_id major_id group_id').exec(function(err, students){
 		if(err) console.log(err);

@@ -88,7 +88,7 @@ class AdminEditSubjectModal extends React.Component {
     })
       .then(res => {
         this.setState({
-          teachers:res.data.allTchrs
+          teachers:res.data.teachers
         });
       });
   }
@@ -340,7 +340,7 @@ class AdminEditSubjectModal extends React.Component {
                   <select className="form-control" name="teacher_id" value={this.state.subject.teacher_id} onChange={this.changeSubject} disabled={this.state.checkTeacher}>
                     <option value=''>Выберите преподавателя</option>
                     {this.state.teachers.map((teacher, t) =>
-                      <option key={t} value={teacher.teacher_id}>{teacher.lastname} {teacher.name}</option>
+                      <option key={t} value={teacher._id}>{teacher.user_id.lastname} {teacher.user_id.name}</option>
                     )}
                   </select>
                   <span className="bar"></span>

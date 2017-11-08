@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Auth from '../modules/Auth'
 import axios from 'axios';
 import DatePicker from 'react-bootstrap-date-picker';
-
+ 
 class TeacherAddAttendance extends React.Component {
 
   constructor(props) {
@@ -44,6 +44,7 @@ class TeacherAddAttendance extends React.Component {
         'Authorization': `bearer ${Auth.getToken()}`
       }
     }) .then(res => {
+      console.log(res.data)
         this.setState({
           subjects: res.data.subjects
         });

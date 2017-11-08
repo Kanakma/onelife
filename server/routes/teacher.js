@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var User = require('../models/user')
 var Teacher = require('../models/teacher')
+var TeacherCounters = require('../models/teacherCounters')
 const bcrypt = require('bcryptjs')
 let multiparty = require('multiparty')
 let fs = require('fs')
@@ -22,6 +23,7 @@ router.get('/getteacherprofileinfo', (req, res) => {
 		})
 
 router.post('/editteacher', (req, res) =>{
+	// console.log(req.body)
 	const editedTeacher = JSON.parse(req.body.editedTeacher);
 	Teacher.findOne({_id:req.body.teacher_id}, function(err, teacher){
 		if(err) console.log(err);
@@ -82,100 +84,100 @@ router.get('/getteachers', (req, res) => {
 	})
 })
 
-// Func for collecting all teachers from DBs
-var getTeachers = function(){
-	return new Promise(function(resolve, reject){
-		return Teacher.find({}, function(err, teachers){
-			if (err) reject(err);
-			else if(teachers){
-				resolve(teachers);
-			}
-		})
-	})
-}
-// This func for iterating each element in teachers array
-var teachFunction = function(teachers){
-	return teachers.map(function(teacher){
-		var oneTchr = constructTeach(teacher);
-		return oneTchr;
-	})
-}
-// This func for defining each teachers' fields
-var constructTeach = function(teacher){
-	return function(allTchrs, callback){
-		var callBack = (typeof allTchrs === 'function') ? allTchrs : callback;
-		var allTchrs = (typeof allTchrs === 'function') ? [] : allTchrs;
-		var myTeacher = {
-			teacher_id:'',
-			username: '',
-			name: '',
-			lastname: '',
-			passport_id: '',
-			faculty_id: '',
-			faculty_name:'',
-			entry_year: '',
-			birthday:'',
-			email:'',
-			phone:'',
-			social:'',
-			gender:'',
-			img:'',
-			degree:''
-		}
-		User.findOne({_id:teacher.user_id}, function(err, user){
-			if(err) console.log(err);
-			if(user){
-				if(teacher.faculty_id!=''){
-					Faculty.findOne({_id:teacher.faculty_id}, function(err, faculty){
-						if(err) console.log(err);
-						if(faculty){
-							myTeacher = {
-								teacher_id:teacher._id,
-								username:user.username,
-								name: user.name,
-								lastname: user.lastname,
-								passport_id: user.passport_id,
-								faculty_id: teacher.faculty_id,
-								faculty_name:faculty.faculty_name,
-								entry_year: teacher.entry_year,
-								birthday: user.birthday,
-								email: teacher.email,
-								phone: teacher.phone,
-								social: teacher.social,
-								gender: user.gender,
-								img: teacher.img,
-								degree:teacher.degree
-							}
-							allTchrs.push(myTeacher);
-							callBack(null, allTchrs);
-						}
-					})
-				}
-				else{
-							myTeacher = {
-								teacher_id:teacher._id,
-								username:user.username,
-								name: user.name,
-								lastname: user.lastname,
-								passport_id: user.passport_id,
-								faculty_id: teacher.faculty_id,
-								faculty_name:'',
-								entry_year: teacher.entry_year,
-								birthday: user.birthday,
-								email: teacher.email,
-								phone: teacher.phone,
-								social: teacher.social,
-								gender: user.gender,
-								img: teacher.img,
-								degree:teacher.degree
-							}
-							allTchrs.push(myTeacher);
-							callBack(null, allTchrs);
-				}
-			}
-		})
-	}
-}
+// // Func for collecting all teachers from DBs
+// var getTeachers = function(){
+// 	return new Promise(function(resolve, reject){
+// 		return Teacher.find({}, function(err, teachers){
+// 			if (err) reject(err);
+// 			else if(teachers){
+// 				resolve(teachers);
+// 			}
+// 		})
+// 	})
+// }
+// // This func for iterating each element in teachers array
+// var teachFunction = function(teachers){
+// 	return teachers.map(function(teacher){
+// 		var oneTchr = constructTeach(teacher);
+// 		return oneTchr;
+// 	})
+// }
+// // This func for defining each teachers' fields
+// var constructTeach = function(teacher){
+// 	return function(allTchrs, callback){
+// 		var callBack = (typeof allTchrs === 'function') ? allTchrs : callback;
+// 		var allTchrs = (typeof allTchrs === 'function') ? [] : allTchrs;
+// 		var myTeacher = {
+// 			teacher_id:'',
+// 			username: '',
+// 			name: '',
+// 			lastname: '',
+// 			passport_id: '',
+// 			faculty_id: '',
+// 			faculty_name:'',
+// 			entry_year: '',
+// 			birthday:'',
+// 			email:'',
+// 			phone:'',
+// 			social:'',
+// 			gender:'',
+// 			img:'',
+// 			degree:''
+// 		}
+// 		User.findOne({_id:teacher.user_id}, function(err, user){
+// 			if(err) console.log(err);
+// 			if(user){
+// 				if(teacher.faculty_id!=''){
+// 					Faculty.findOne({_id:teacher.faculty_id}, function(err, faculty){
+// 						if(err) console.log(err);
+// 						if(faculty){
+// 							myTeacher = {
+// 								teacher_id:teacher._id,
+// 								username:user.username,
+// 								name: user.name,
+// 								lastname: user.lastname,
+// 								passport_id: user.passport_id,
+// 								faculty_id: teacher.faculty_id,
+// 								faculty_name:faculty.faculty_name,
+// 								entry_year: teacher.entry_year,
+// 								birthday: user.birthday,
+// 								email: teacher.email,
+// 								phone: teacher.phone,
+// 								social: teacher.social,
+// 								gender: user.gender,
+// 								img: teacher.img,
+// 								degree:teacher.degree
+// 							}
+// 							allTchrs.push(myTeacher);
+// 							callBack(null, allTchrs);
+// 						}
+// 					})
+// 				}
+// 				else{
+// 							myTeacher = {
+// 								teacher_id:teacher._id,
+// 								username:user.username,
+// 								name: user.name,
+// 								lastname: user.lastname,
+// 								passport_id: user.passport_id,
+// 								faculty_id: teacher.faculty_id,
+// 								faculty_name:'',
+// 								entry_year: teacher.entry_year,
+// 								birthday: user.birthday,
+// 								email: teacher.email,
+// 								phone: teacher.phone,
+// 								social: teacher.social,
+// 								gender: user.gender,
+// 								img: teacher.img,
+// 								degree:teacher.degree
+// 							}
+// 							allTchrs.push(myTeacher);
+// 							callBack(null, allTchrs);
+// 				}
+// 			}
+// 		})
+// 	}
+// }
 
 router.post('/addteacher', (req, res) => {
 	var t = JSON.parse(req.body.teacher);
@@ -187,7 +189,7 @@ router.post('/addteacher', (req, res) => {
 				message: 'Этот пользователь уже есть в списке'
 			})
 		} else {
-			Teacher.find((err, teachers) => {
+			TeacherCounters.find((err, teachers) => {
 				if(err) console.log(err)
 				else {
 					var userData = {
@@ -217,6 +219,8 @@ router.post('/addteacher', (req, res) => {
 						  	newTeacher.save((err, teacher) => {
 								if (err) console.log(err)
 								else {
+									var newCounter = new TeacherCounters();
+									newCounter.save()
 									console.log("Пользователь добавлен");
 									res.send({
 										teacher: teacher,
@@ -260,6 +264,7 @@ router.post('/addteacherimg', (req, res) => {
 		});
 	})
 })
+
 router.get('/getoneteacher', (req, res) => {
 	var teacherId = req.query.teacherId;
 	var myTeacher = {};

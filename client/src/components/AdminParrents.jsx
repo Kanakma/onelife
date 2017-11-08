@@ -121,6 +121,7 @@ class AdminParrents extends React.Component {
                     <tr>
                         <th className="table-head-text">№</th>
                         <th className="table-head-text table-b-left">ФИО</th>
+                        <th className="table-head-text table-b-left">UserName</th>
                         <th className="table-head-text table-b-left">Студент(ы)</th>
                         <th className="table-head-text table-b-left">Телефон</th>
                         <th className="table-head-text table-b-left">E-mail</th>
@@ -136,6 +137,7 @@ class AdminParrents extends React.Component {
                       <tr key={t}>
                           <td>{t+1}</td>
                           <td className="table-b-left">{parrent.user_id.name} {parrent.user_id.lastname}</td>
+                          <td className="table-b-left">{parrent.user_id.username}</td>
                           <td className="table-b-left">{parrent.childs.map((student, s)=>
                             <p key={s}>{student.user_id.name} {student.user_id.lastname}<br/></p>
                           )}</td>

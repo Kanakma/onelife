@@ -3,6 +3,7 @@ var router = express.Router()
 var User = require('../models/user')
 var Subject = require('../models/subject')
 var Parrent = require('../models/parrent')
+var ParrentCounters = require('../models/parrentCounters')
 var Student = require('../models/student')
 const bcrypt = require('bcryptjs')
 var DamFunc = require('../../client/src/modules/AllDamFunc')
@@ -50,7 +51,7 @@ router.post('/addparent',(req, res) =>{
 				message: 'Этот пользователь уже есть в списке'
 			})
 		} else {
-			Parrent.find((err, parents) =>{
+			ParrentCounters.find((err, parents) =>{
 				if(err) console.log(err);
 				else{
 					var userData = {
@@ -78,6 +79,8 @@ router.post('/addparent',(req, res) =>{
 							newParent.save(function(err, savedparrent){
 								if(err) console.log(err);
 								if(savedparrent){
+									var newCounter = new ParrentCounters();
+                  newCounter.save()  
 									res.send({
 										parent: savedparrent,
 										message:"Родитель сохранен успешно!",
@@ -129,6 +132,7 @@ router.post('/editparent', (req, res)=>{
 		}
 	})
 })
+
 //This route will get parrents
 router.get('/getparents', (req, res)=>{
 	Parrent.find({}).populate('user_id').populate({path:'childs', populate:{path:'user_id faculty_id department_id major_id'}}).exec((err, parrents)=>{
@@ -140,6 +144,7 @@ router.get('/getparents', (req, res)=>{
 		}
 	})
 })
+
 //This route will delete parent
 router.post('/deleteparent', (req, res)=>{
 	Parrent.findOneAndRemove({_id: req.body.parrent_id}, function(err, parrent){

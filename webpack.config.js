@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+    context: path.join(__dirname, '/client/src'),
     entry: path.join(__dirname, '/client/src/app.jsx'),
     output: {
         path: path.join(__dirname, '/client/build'),

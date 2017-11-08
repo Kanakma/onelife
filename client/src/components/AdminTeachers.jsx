@@ -112,7 +112,7 @@ class AdminTeachers extends React.Component {
                         )
                       }
                       <div className="col-md-8 col-sm-8">
-                            <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
+                          <h3 className="box-title m-b-0">{teacher.user_id.name} {teacher.user_id.lastname}</h3>
                           <small>{teacher.degree}</small>
                           <address style={{wordBreak: 'break-word'}}>
                             Факультет: {teacher.faculty_id ? teacher.faculty_id.faculty_name : 'Нет факультета!'}<br/>
@@ -158,7 +158,7 @@ class AdminTeachers extends React.Component {
                         )
                       }
                       <div className="col-md-8 col-sm-8">
-                            <h3 className="box-title m-b-0">{teacher.name} {teacher.lastname}</h3>
+                            <h3 className="box-title m-b-0">{teacher.user_id.name} {teacher.user_id.lastname}</h3>
                           <small>{teacher.degree}</small>
                           <address>
                             Факультет: {teacher.faculty_id ? teacher.faculty_id.faculty_name : 'Нет факультета!'}<br/>
