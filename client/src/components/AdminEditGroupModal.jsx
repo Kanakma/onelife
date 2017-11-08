@@ -32,7 +32,7 @@ class AdminEditGroupModal extends React.Component {
     })
       .then(res => {
         this.setState({
-          teachers: res.data.allTchrs
+          teachers: res.data.teachers
         });
       });
       axios.get('/major/getmajors',  {
@@ -156,7 +156,7 @@ class AdminEditGroupModal extends React.Component {
                       <select className="form-control" name="curator" value={this.state.editedGroup.curator} onChange={this.changeGroup}>
                         <option value=''>Выберите куратора группы</option>
                         {this.state.teachers.map((teacher, t) =>
-                            <option key={t} value={teacher.teacher_id}>{teacher.name} {teacher.lastname}</option>
+                            <option key={t} value={teacher._id}>{teacher.user_id.name} {teacher.user_id.lastname}</option>
                         )}
                       </select>
                       <span className="bar"></span>

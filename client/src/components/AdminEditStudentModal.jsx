@@ -88,8 +88,8 @@ class AdminEditStudentModal extends React.Component {
           'Content-type': 'application/x-www-form-urlencoded'}
       })
       .then(response => {
-        window.location.reload();
-      });
+        window.location.reload()
+      })
     }
   }
 
@@ -101,6 +101,9 @@ class AdminEditStudentModal extends React.Component {
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
       }
+    })
+    .then(res => {
+      window.location.reload();
     })
   }
 
@@ -377,7 +380,7 @@ class AdminEditStudentModal extends React.Component {
               <button type="submit" className="btn btn-info waves-effect waves-light m-r-10" disabled={!this.state.checkPass} >
                 Сохранить изменения
               </button>
-              <button className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteStudent}>
+              <button type="button" className="btn btn-info waves-effect waves-light m-r-10" onClick={this.deleteStudent}>
                 Удалить студента
               </button>
             </form>

@@ -21,9 +21,6 @@ class AddEventNotificationModal extends React.Component {
     this.dateChange=this.dateChange.bind(this);
     this.changeNotification=this.changeNotification.bind(this);
     this.checkContent=this.checkContent.bind(this);
-  };
-
-  componentDidMount() {
   }
 
   addNotification(){

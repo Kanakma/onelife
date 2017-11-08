@@ -29,4 +29,8 @@ module.exports.connect = (uri) => {
   require('./candidate')
   require('./notifications')
   require('./faq')
+  require('./teacherCounters')
+  require('./studentCounters')
+  require('./parrentCounters')
+
 };

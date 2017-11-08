@@ -286,7 +286,7 @@ optional: show position indicator in red
  overflow-y: hidden;
  background-color: white;
  margin-bottom: 15px;
- min-height: 350px !important;
+ min-height: 550px !important;
 }
 .table {
  margin-bottom: 10px;

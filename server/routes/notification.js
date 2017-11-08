@@ -3,11 +3,13 @@ var router = express.Router()
 var Notifications = require ('../models/notifications')
 var DamFunc = require('../../client/src/modules/AllDamFunc')
 var Student = require('../models/student')
+var StudentsCounters = require('../models/studentCounters')
 var multiparty = require('multiparty')
 var fs = require('fs')
 var xlsx = require('node-xlsx').default
 var User = require('../models/user')
 var Teacher = require('../models/teacher')
+var TeacherCounters = require('../models/teacherCounters')
 const bcrypt = require('bcryptjs')
 
 router.post('/addeventnotification', (req, res)=>{
@@ -143,9 +145,11 @@ router.post('/teachparser', (req, res)=>{
       var tempPath = files.file[0].path
 			var workSheetsFromBuffer = xlsx.parse(fs.readFileSync(tempPath))
 			var arrayOfTeachers = workSheetsFromBuffer[0].data
+
 			arrayOfTeachers.map(function(teacher, index){
 				if(index==0){
 				} else{
+					// console.log(teacher)
 					User.findOne({passport_id: teacher[3]}, (err, user)=>{
 						if(err){
 							console.log(err)
@@ -153,12 +157,13 @@ router.post('/teachparser', (req, res)=>{
 							index++
 						} else{
 							// console.log(typeof teacher[6])
-							Teacher.find((err, teachers) => {
+							TeacherCounters.find((err, counters) => {
 								if(err) console.log(err)
 								else {
+									// console.log(teachers)
 									// console.log('159')
 									var userData = {
-										username: 20000+teachers.length,
+										username: 20000+counters.length + index,
 										password: bcrypt.hashSync('123456789', 10),
 										passport_id: teacher[3],
 										name: teacher[1],
@@ -184,6 +189,8 @@ router.post('/teachparser', (req, res)=>{
 										  	newTeacher.save((err, savedTeacher) => {
 												if (err) console.log(err)
 												else {
+													var newCounter = new TeacherCounters();
+													newCounter.save()
 													// console.log('187')
 													fs.unlink(tempPath, function(err){
 														if(!err){
@@ -221,12 +228,13 @@ router.post('/studparser', (req, res)=>{
 						}	else if(user){
 							index++
 						} else{
-							console.log('224')
-							Student.find((err, students) => {
+							// console.log('224')
+							StudentsCounters.find((err, counters) => {
 								if(err) console.log(err)
 								else{
+									console.log(235)
 									var userData = {
-										username: 100001+students.length,
+										username: 10000 + counters.length + index,
 										password: bcrypt.hashSync('123456789', 10),
 										passport_id: student[3],
 										name: student[1],
@@ -251,6 +259,8 @@ router.post('/studparser', (req, res)=>{
 											newStudent.save((err, savedStudent) => {
 												if (err) console.log(err)
 												else {
+													var newCounter = new StudentsCounters();
+													newCounter.save()					
 													// console.log('187')
 													fs.unlink(tempPath, function(err){
 														if(!err){
